@@ -1,0 +1,13 @@
+{
+  "name": "spectest",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "spec dev src/",
+    "build": "spec compile src/ --output dist/",
+    "check": "spec check src/"
+  },
+  "devDependencies": {
+    "@spec/cli": "file:../spec/packages/cli"
+  }
+}
