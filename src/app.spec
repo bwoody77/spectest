@@ -70,21 +70,33 @@ surface StatsBar(total, done, inProgress, todo) {
   layout: horizontal, gap: spacing.4, align: center
 
   block {
+    padding: spacing.3
+    background: "#eef2ff"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "list", size: "18px", color: "#6366f1")
     text("Total: {total}") { style: type.label-md }
   }
   block {
+    padding: spacing.3
+    background: "#ecfdf5"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "check", size: "18px", color: "#10b981")
     text("Done: {done}") { style: type.label-md }
   }
   block {
+    padding: spacing.3
+    background: "#fffbeb"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "loader", size: "18px", color: "#f59e0b")
     text("In Progress: {inProgress}") { style: type.label-md }
   }
   block {
+    padding: spacing.3
+    background: "#f8fafc"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "circle", size: "18px", color: "#94a3b8")
     text("Todo: {todo}") { style: type.label-md }
@@ -121,8 +133,11 @@ surface TaskTable {
 
   // Filter bar
   block {
+    padding: spacing.3
+    background: "#f8fafc"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
-    text(taskCount) { style: type.body-sm }
+    text(taskCount) { style: type.body-sm, color: "#64748b" }
     Button(label: "All", variant: "secondary") {
       on click: setFilter("all")
     }
@@ -140,31 +155,48 @@ surface TaskTable {
   // Loading indicator
   block {
     visibility: tasksLoading
-    text("Loading tasks...") { style: type.body-sm }
+    padding: spacing.4
+    background: "#f0f9ff"
+    border-radius: radius.md
+    text("Loading tasks...") { style: type.body-sm, color: "#64748b" }
   }
 
   // Error display
   block {
     visibility: tasksError
+    padding: spacing.3
+    background: "#fef2f2"
+    border: "1px solid #fecaca"
+    border-radius: radius.md
     text("Failed to load tasks.") { style: type.body-sm, color: "red" }
   }
 
   // Task rows
   each filteredTasks as task, index {
     block {
+      padding: spacing.3
+      background: "#ffffff"
+      border: "1px solid #e2e8f0"
+      border-radius: radius.md
       layout: horizontal, gap: spacing.4, align: center
-      text("{index}") { style: type.label-xs }
-      text(task.title) { style: type.body-md }
+      text("{index}") { style: type.mono-sm, color: "#94a3b8" }
+      block {
+        layout: vertical, gap: spacing.1
+        text(task.title) { style: type.body-md, weight: 500 }
+        text(task.assignee) { style: type.body-sm, color: "#64748b" }
+      }
       StatusBadge(task.status)
       PriorityBadge(task.priority)
-      text(task.assignee) { style: type.body-sm }
     }
   }
 
   // Empty state
   block {
     visibility: hasNoResults
-    text("No tasks match the current filter.") { style: type.body-sm }
+    padding: spacing.4
+    background: "#f8fafc"
+    border-radius: radius.md
+    text("No tasks match the current filter.") { style: type.body-sm, color: "#64748b" }
   }
 }
 
@@ -233,6 +265,10 @@ surface TaskForm {
   // Success banner (shown above the form, dismissible)
   block {
     visibility: successVisible
+    padding: spacing.3
+    background: "#ecfdf5"
+    border: "1px solid #bbf7d0"
+    border-radius: radius.md
     layout: horizontal, gap: spacing.3, align: center
     Icon(name: "check", size: "20px", color: "#10b981")
     text("Task created successfully!") { style: type.body-md, color: "#10b981" }
@@ -332,6 +368,10 @@ surface TaskForm {
     // Error display
     block {
       visibility: hasError
+      padding: spacing.3
+      background: "#fef2f2"
+      border: "1px solid #fecaca"
+      border-radius: radius.md
       text(error) { style: type.body-sm, color: "red" }
     }
 
@@ -374,9 +414,12 @@ surface TaskDetail {
 
   block {
     visibility: !hasTask
+    padding: spacing.4
+    background: "#f8fafc"
+    border-radius: radius.md
     layout: vertical, gap: spacing.2, align: center
     Icon(name: "info", size: "24px", color: "#94a3b8")
-    text("Select a task to view details.") { style: type.body-sm }
+    text("Select a task to view details.") { style: type.body-sm, color: "#64748b" }
   }
 
   block {
@@ -390,23 +433,35 @@ surface TaskDetail {
     block {
       layout: horizontal, gap: spacing.4
       block {
+        padding: spacing.3
+        background: "#f8fafc"
+        border-radius: radius.md
         layout: vertical, gap: spacing.1
-        text("Status") { style: type.label-sm }
+        text("Status") { style: type.label-sm, color: "#64748b" }
         StatusBadge(taskStatus)
       }
       block {
+        padding: spacing.3
+        background: "#f8fafc"
+        border-radius: radius.md
         layout: vertical, gap: spacing.1
-        text("Priority") { style: type.label-sm }
+        text("Priority") { style: type.label-sm, color: "#64748b" }
         PriorityBadge(taskPriority)
       }
       block {
+        padding: spacing.3
+        background: "#f8fafc"
+        border-radius: radius.md
         layout: vertical, gap: spacing.1
-        text("Assignee") { style: type.label-sm }
+        text("Assignee") { style: type.label-sm, color: "#64748b" }
         text(taskAssignee) { style: type.body-md }
       }
       block {
+        padding: spacing.3
+        background: "#f8fafc"
+        border-radius: radius.md
         layout: vertical, gap: spacing.1
-        text("Created") { style: type.label-sm }
+        text("Created") { style: type.label-sm, color: "#64748b" }
         text(taskDate) { style: type.body-md }
       }
     }
@@ -608,6 +663,10 @@ surface App {
 
   // Header
   block {
+    padding: spacing.4
+    background: "#ffffff"
+    border: "1px solid #e2e8f0"
+    border-radius: radius.lg
     layout: horizontal, gap: spacing.4, align: center, justify: between
 
     block {
