@@ -55,9 +55,9 @@ source NotificationsAPI {
 
 component StatusBadge(status: string) {
   text(match status {
-    "todo" -> "Todo",
-    "in-progress" -> "In Progress",
-    "done" -> "Done",
+    "todo" -> "○ Todo",
+    "in-progress" -> "◐ In Progress",
+    "done" -> "● Done",
     _ -> "Unknown"
   }) { style: type.label-sm }
 }
@@ -68,10 +68,10 @@ component StatusBadge(status: string) {
 
 component PriorityBadge(priority: string) {
   text(match priority {
-    "low" -> "Low",
-    "medium" -> "Medium",
-    "high" -> "High",
-    "critical" -> "Critical",
+    "low" -> "▽ Low",
+    "medium" -> "◇ Medium",
+    "high" -> "△ High",
+    "critical" -> "▲ Critical",
     _ -> "—"
   }) { style: type.label-sm }
 }
@@ -82,10 +82,10 @@ component PriorityBadge(priority: string) {
 
 component SeverityBadge(severity: string) {
   text(match severity {
-    "info" -> "Info",
-    "success" -> "Success",
-    "warning" -> "Warning",
-    "error" -> "Error",
+    "info" -> "ⓘ Info",
+    "success" -> "✔ Success",
+    "warning" -> "⚠ Warning",
+    "error" -> "✖ Error",
     _ -> "Unknown"
   }) { style: type.label-sm }
 }
@@ -96,12 +96,12 @@ component SeverityBadge(severity: string) {
 
 component ActivityIcon(activityType: string) {
   text(match activityType {
-    "task_created" -> "+",
-    "task_completed" -> "✓",
-    "task_assigned" -> "→",
-    "comment" -> "💬",
-    "deploy" -> "↑",
-    _ -> "·"
+    "task_created" -> "New",
+    "task_completed" -> "Done",
+    "task_assigned" -> "Assigned",
+    "comment" -> "Comment",
+    "deploy" -> "Deploy",
+    _ -> "Event"
   }) { style: type.label-md }
 }
 
@@ -167,7 +167,7 @@ surface StatsBar(total, done, inProgress, todo, themePreset) {
     background: stat4Bg
     border-radius: cardRadius
     layout: horizontal, gap: statsGap, align: center
-    Icon(name: "circle", size: "18px", color: "#94a3b8")
+    Icon(name: "circle", size: "18px", color: "#64748b")
     text("Todo: {todo}") { style: type.label-md, color: textPrimary }
   }
 }
@@ -199,7 +199,7 @@ surface TaskTable(themePreset, selectedTask, view) {
     cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
     cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
     textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
 
   @actions {
@@ -320,7 +320,7 @@ surface TaskForm(themePreset) {
     cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
     cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
     textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
 
   @actions {
@@ -499,7 +499,7 @@ surface TaskDetail(themePreset, task, view) {
     cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
     cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
     textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
 
   @actions {
@@ -529,7 +529,7 @@ surface TaskDetail(themePreset, task, view) {
 
     text(detailHeading) { style: type.heading-md, color: textPrimary }
 
-    Image(src: "https://via.placeholder.com/64", alt: "Task icon", width: 64, height: 64)
+    Image(src: "https://via.placeholder.com/64", alt: "Placeholder thumbnail for the selected task", width: 64, height: 64)
 
     block {
       layout: horizontal, gap: cardGap
@@ -616,7 +616,9 @@ surface WizardStep1 {
 
   block {
     layout: horizontal, gap: spacing.3, justify: end
-    Button(label: "Next", variant: "primary")
+    Button(label: "Next", variant: "primary") {
+      on click: dispatch("next", {title: title})
+    }
   }
 }
 
@@ -661,8 +663,12 @@ surface WizardStep2 {
 
   block {
     layout: horizontal, gap: spacing.3, justify: end
-    Button(label: "Back", variant: "ghost")
-    Button(label: "Next", variant: "primary")
+    Button(label: "Back", variant: "ghost") {
+      on click: dispatch("back")
+    }
+    Button(label: "Next", variant: "primary") {
+      on click: dispatch("next")
+    }
   }
 }
 
@@ -692,8 +698,12 @@ surface WizardStep3 {
 
   block {
     layout: horizontal, gap: spacing.3, justify: end
-    Button(label: "Back", variant: "ghost")
-    Button(label: "Submit", variant: "primary", disabled: !confirmed)
+    Button(label: "Back", variant: "ghost") {
+      on click: dispatch("back")
+    }
+    Button(label: "Submit", variant: "primary", disabled: !confirmed) {
+      on click: dispatch("submit", {confirmed: confirmed})
+    }
   }
 }
 
@@ -752,7 +762,7 @@ surface TeamDirectory {
       on change(v): { roleFilter = v }
     }
 
-    text(userCount) { style: type.body-sm, color: "#64748b" }
+    text(userCount) { style: type.body-sm, color: "#475569" }
   }
 
   // Loading
@@ -761,7 +771,7 @@ surface TeamDirectory {
     padding: spacing.4
     background: "#f0f9ff"
     border-radius: radius.md
-    text("Loading team members...") { style: type.body-sm, color: "#64748b" }
+    text("Loading team members...") { style: type.body-sm, color: "#475569" }
   }
 
   // Error
@@ -791,8 +801,8 @@ surface TeamDirectory {
         block {
           layout: vertical, gap: spacing.1, align: center
           text(user.name) { style: type.body-md, weight: 600 }
-          text(user.role) { style: type.label-sm, color: "#64748b" }
-          text(user.email) { style: type.body-sm, color: "#94a3b8" }
+          text(user.role) { style: type.label-sm, color: "#475569" }
+          text(user.email) { style: type.body-sm, color: "#475569" }
         }
 
         block {
@@ -811,8 +821,8 @@ surface TeamDirectory {
     background: "#f8fafc"
     border-radius: radius.md
     layout: vertical, gap: spacing.2, align: center
-    Icon(name: "users", size: "24px", color: "#94a3b8")
-    text("No team members match your criteria.") { style: type.body-sm, color: "#64748b" }
+    Icon(name: "users", size: "24px", color: "#64748b")
+    text("No team members match your criteria.") { style: type.body-sm, color: "#475569" }
   }
 }
 
@@ -850,7 +860,7 @@ surface ActivityFeed {
     background: "#f8fafc"
     border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
-    text(activityCount) { style: type.body-sm, color: "#64748b" }
+    text(activityCount) { style: type.body-sm, color: "#475569" }
     Button(label: "All", variant: "secondary") {
       on click: setTypeFilter("all")
     }
@@ -873,7 +883,7 @@ surface ActivityFeed {
     border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "loader", size: "18px", color: "#6366f1")
-    text("Loading activity...") { style: type.body-sm, color: "#64748b" }
+    text("Loading activity...") { style: type.body-sm, color: "#475569" }
   }
 
   // Error
@@ -893,8 +903,8 @@ surface ActivityFeed {
     background: "#f8fafc"
     border-radius: radius.md
     layout: vertical, gap: spacing.2, align: center
-    Icon(name: "clock", size: "24px", color: "#94a3b8")
-    text("No activity events found.") { style: type.body-sm, color: "#64748b" }
+    Icon(name: "clock", size: "24px", color: "#64748b")
+    text("No activity events found.") { style: type.body-sm, color: "#475569" }
   }
 
   // Activity list
@@ -913,10 +923,10 @@ surface ActivityFeed {
         block {
           layout: horizontal, gap: spacing.2, align: center
           text(item.user) { style: type.label-md, weight: 600 }
-          text(item.type) { style: type.label-sm, color: "#94a3b8" }
+          text(item.type) { style: type.label-sm, color: "#475569" }
         }
         text(item.detail) { style: type.body-sm }
-        text(item.timestamp) { style: type.mono-sm, color: "#94a3b8" }
+        text(item.timestamp) { style: type.mono-sm, color: "#475569" }
       }
     }
   }
@@ -968,7 +978,7 @@ surface NotificationsPanel {
     background: "#f8fafc"
     border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
-    text("Severity:") { style: type.label-sm, color: "#64748b" }
+    text("Severity:") { style: type.label-sm, color: "#475569" }
     Button(label: "All", variant: "secondary") {
       on click: setSeverityFilter("all")
     }
@@ -992,7 +1002,7 @@ surface NotificationsPanel {
     padding: spacing.4
     background: "#f0f9ff"
     border-radius: radius.md
-    text("Loading notifications...") { style: type.body-sm, color: "#64748b" }
+    text("Loading notifications...") { style: type.body-sm, color: "#475569" }
   }
 
   // Error
@@ -1022,7 +1032,7 @@ surface NotificationsPanel {
         block {
           layout: horizontal, gap: spacing.2, align: center
           SeverityBadge(notif.severity)
-          text(notif.createdAt) { style: type.mono-sm, color: "#94a3b8" }
+          text(notif.createdAt) { style: type.mono-sm, color: "#475569" }
         }
       }
     }
@@ -1035,8 +1045,8 @@ surface NotificationsPanel {
     background: "#f8fafc"
     border-radius: radius.md
     layout: vertical, gap: spacing.2, align: center
-    Icon(name: "bell-off", size: "24px", color: "#94a3b8")
-    text("No notifications match your filters.") { style: type.body-sm, color: "#64748b" }
+    Icon(name: "bell-off", size: "24px", color: "#64748b")
+    text("No notifications match your filters.") { style: type.body-sm, color: "#475569" }
   }
 }
 
@@ -1097,7 +1107,7 @@ surface SettingsPanel {
   layout: vertical, gap: spacing.5
 
   text("Settings") { style: type.heading-lg }
-  text(settingsSummary) { style: type.body-sm, color: "#64748b" }
+  text(settingsSummary) { style: type.body-sm, color: "#475569" }
 
   // Success banner
   block {
@@ -1322,7 +1332,7 @@ surface AnalyticsView {
     border-radius: radius.md
     layout: horizontal, gap: spacing.2, align: center
     Icon(name: "loader", size: "18px", color: "#6366f1")
-    text("Loading analytics...") { style: type.body-sm, color: "#64748b" }
+    text("Loading analytics...") { style: type.body-sm, color: "#475569" }
   }
 
   // Key metric cards
@@ -1336,7 +1346,7 @@ surface AnalyticsView {
       layout: vertical, gap: spacing.2, align: center
       Icon(name: "list", size: "28px", color: "#6366f1")
       text("{total}") { style: type.heading-lg, color: "#6366f1" }
-      text("Total Tasks") { style: type.label-sm, color: "#64748b" }
+      text("Total Tasks") { style: type.label-sm, color: "#475569" }
     }
 
     block {
@@ -1346,7 +1356,7 @@ surface AnalyticsView {
       layout: vertical, gap: spacing.2, align: center
       Icon(name: "check", size: "28px", color: "#10b981")
       text("{done}") { style: type.heading-lg, color: "#10b981" }
-      text("Completed") { style: type.label-sm, color: "#64748b" }
+      text("Completed") { style: type.label-sm, color: "#475569" }
     }
 
     block {
@@ -1356,7 +1366,7 @@ surface AnalyticsView {
       layout: vertical, gap: spacing.2, align: center
       Icon(name: "loader", size: "28px", color: "#f59e0b")
       text("{inProgress}") { style: type.heading-lg, color: "#f59e0b" }
-      text("In Progress") { style: type.label-sm, color: "#64748b" }
+      text("In Progress") { style: type.label-sm, color: "#475569" }
     }
 
     block {
@@ -1364,9 +1374,9 @@ surface AnalyticsView {
       background: "#f8fafc"
       border-radius: radius.lg
       layout: vertical, gap: spacing.2, align: center
-      Icon(name: "circle", size: "28px", color: "#94a3b8")
-      text("{todo}") { style: type.heading-lg, color: "#94a3b8" }
-      text("Todo") { style: type.label-sm, color: "#64748b" }
+      Icon(name: "circle", size: "28px", color: "#64748b")
+      text("{todo}") { style: type.heading-lg, color: "#475569" }
+      text("Todo") { style: type.label-sm, color: "#475569" }
     }
   }
 
@@ -1403,8 +1413,8 @@ surface AnalyticsView {
       background: "#f8fafc"
       border-radius: radius.md
       layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "circle", size: "18px", color: "#94a3b8")
-      text(todoLabel) { style: type.body-md, color: "#94a3b8" }
+      Icon(name: "circle", size: "18px", color: "#64748b")
+      text(todoLabel) { style: type.body-md, color: "#475569" }
     }
   }
 
