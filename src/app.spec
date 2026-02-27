@@ -592,11 +592,12 @@ surface WizardStep1 {
   @state {
     title: ""
     assignee: ""
+    titleTouched: false
   }
 
   @computed {
     titleFilled: title != ""
-    showTitleError: title == ""
+    showTitleError: titleTouched && title == ""
   }
 
   @actions {
@@ -612,7 +613,10 @@ surface WizardStep1 {
   block {
     layout: vertical, gap: spacing.1
     Input(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
-      on change(v): { title = v }
+      on change(v): {
+        title = v
+        titleTouched = true
+      }
     }
     block {
       aria-live: "polite"
