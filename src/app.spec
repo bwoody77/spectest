@@ -216,6 +216,8 @@ surface TaskTable(themePreset, selectedTask, view) {
 
   // Filter bar
   block {
+    role: "toolbar"
+    aria-label: "Task filters"
     padding: padInner
     background: surfaceBg
     border-radius: cardRadius
@@ -237,6 +239,7 @@ surface TaskTable(themePreset, selectedTask, view) {
 
   // Loading indicator
   block {
+    aria-live: "polite"
     visibility: tasksLoading
     padding: padOuter
     background: surfaceBg
@@ -246,6 +249,7 @@ surface TaskTable(themePreset, selectedTask, view) {
 
   // Error display
   block {
+    aria-live: "assertive"
     visibility: tasksError
     padding: padInner
     background: "#fef2f2"
@@ -257,6 +261,8 @@ surface TaskTable(themePreset, selectedTask, view) {
   // Task rows
   each filteredTasks as task, index {
     block {
+      role: "button"
+      tabindex: "0"
       padding: padInner
       background: rowBg
       border: borderColor
@@ -276,6 +282,7 @@ surface TaskTable(themePreset, selectedTask, view) {
 
   // Empty state
   block {
+    aria-live: "polite"
     visibility: hasNoResults
     padding: padOuter
     background: surfaceBg
@@ -357,6 +364,7 @@ surface TaskForm(themePreset) {
 
   // Success banner (shown above the form, dismissible)
   block {
+    aria-live: "polite"
     visibility: successVisible
     padding: padInner
     background: "#ecfdf5"
@@ -383,6 +391,7 @@ surface TaskForm(themePreset) {
         on change(v): { title = v }
       }
       block {
+        aria-live: "polite"
         visibility: hasTitleError
         text(titleError) { style: type.body-sm, color: "red" }
       }
@@ -413,6 +422,7 @@ surface TaskForm(themePreset) {
           on change(v): { assignee = v }
         }
         block {
+          aria-live: "polite"
           visibility: hasAssigneeError
           text(assigneeError) { style: type.body-sm, color: "red" }
         }
@@ -460,6 +470,7 @@ surface TaskForm(themePreset) {
 
     // Error display
     block {
+      aria-live: "polite"
       visibility: hasError
       padding: padInner
       background: "#fef2f2"
@@ -585,6 +596,7 @@ surface WizardStep1 {
 
   @computed {
     titleFilled: title != ""
+    showTitleError: title == ""
   }
 
   @actions {
@@ -597,8 +609,16 @@ surface WizardStep1 {
   text("Step 1: Basic Info") { style: type.heading-md }
   text("Provide the core details for this task.") { style: type.body-sm }
 
-  Input(type: "text", label: "Title", value: title, placeholder: "Task title") {
-    on change(v): { title = v }
+  block {
+    layout: vertical, gap: spacing.1
+    Input(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
+      on change(v): { title = v }
+    }
+    block {
+      aria-live: "polite"
+      visibility: showTitleError
+      text("Title is required") { style: type.body-sm, color: "red" }
+    }
   }
 
   Select(
@@ -616,7 +636,7 @@ surface WizardStep1 {
 
   block {
     layout: horizontal, gap: spacing.3, justify: end
-    Button(label: "Next", variant: "primary") {
+    Button(label: "Next", variant: "primary", disabled: !titleFilled) {
       on click: dispatch("next", {title: title})
     }
   }
@@ -767,6 +787,7 @@ surface TeamDirectory {
 
   // Loading
   block {
+    aria-live: "polite"
     visibility: usersLoading
     padding: spacing.4
     background: "#f0f9ff"
@@ -776,6 +797,7 @@ surface TeamDirectory {
 
   // Error
   block {
+    aria-live: "assertive"
     visibility: usersError
     padding: spacing.3
     background: "#fef2f2"
@@ -816,6 +838,7 @@ surface TeamDirectory {
 
   // Empty state
   block {
+    aria-live: "polite"
     visibility: hasNoUsers
     padding: spacing.4
     background: "#f8fafc"
@@ -856,6 +879,8 @@ surface ActivityFeed {
 
   // Filter buttons
   block {
+    role: "toolbar"
+    aria-label: "Activity filters"
     padding: spacing.3
     background: "#f8fafc"
     border-radius: radius.md
@@ -877,6 +902,7 @@ surface ActivityFeed {
 
   // Loading
   block {
+    aria-live: "polite"
     visibility: activityItemsLoading
     padding: spacing.4
     background: "#f0f9ff"
@@ -888,6 +914,7 @@ surface ActivityFeed {
 
   // Error
   block {
+    aria-live: "assertive"
     visibility: activityItemsError
     padding: spacing.3
     background: "#fef2f2"
@@ -898,6 +925,7 @@ surface ActivityFeed {
 
   // Empty state
   block {
+    aria-live: "polite"
     visibility: hasNoActivity
     padding: spacing.4
     background: "#f8fafc"
@@ -964,6 +992,7 @@ surface NotificationsPanel {
 
   // Summary bar
   block {
+    aria-label: "Notification summary"
     padding: spacing.3
     background: "#eef2ff"
     border-radius: radius.md
@@ -974,6 +1003,8 @@ surface NotificationsPanel {
 
   // Filters
   block {
+    role: "toolbar"
+    aria-label: "Severity filters"
     padding: spacing.3
     background: "#f8fafc"
     border-radius: radius.md
@@ -998,6 +1029,7 @@ surface NotificationsPanel {
 
   // Loading
   block {
+    aria-live: "polite"
     visibility: notificationsLoading
     padding: spacing.4
     background: "#f0f9ff"
@@ -1007,6 +1039,7 @@ surface NotificationsPanel {
 
   // Error
   block {
+    aria-live: "assertive"
     visibility: notificationsError
     padding: spacing.3
     background: "#fef2f2"
@@ -1040,6 +1073,7 @@ surface NotificationsPanel {
 
   // Empty state
   block {
+    aria-live: "polite"
     visibility: hasNoNotifications
     padding: spacing.4
     background: "#f8fafc"
@@ -1111,6 +1145,7 @@ surface SettingsPanel {
 
   // Success banner
   block {
+    aria-live: "polite"
     visibility: savedVisible
     padding: spacing.3
     background: "#ecfdf5"
@@ -1143,6 +1178,7 @@ surface SettingsPanel {
           on change(v): { displayName = v }
         }
         block {
+          aria-live: "polite"
           visibility: hasNameError
           text(nameError) { style: type.body-sm, color: "red" }
         }
@@ -1154,6 +1190,7 @@ surface SettingsPanel {
           on change(v): { email = v }
         }
         block {
+          aria-live: "polite"
           visibility: hasEmailError
           text(emailError) { style: type.body-sm, color: "red" }
         }
@@ -1326,6 +1363,7 @@ surface AnalyticsView {
 
   // Loading
   block {
+    aria-live: "polite"
     visibility: statsLoading
     padding: spacing.4
     background: "#f0f9ff"
@@ -1581,6 +1619,7 @@ surface App {
 
   // Header
   block {
+    role: "banner"
     padding: padOuter
     background: headerBg
     border: headerBorder
@@ -1594,6 +1633,8 @@ surface App {
     }
 
     block {
+      role: "toolbar"
+      aria-label: "Theme selection"
       layout: horizontal, gap: spacing.2, align: center
       Button(label: "Enterprise", variant: "secondary") {
         on click: setThemePreset("enterprise")
@@ -1630,6 +1671,8 @@ surface App {
 
   // Dashboard view
   block {
+    role: "region"
+    aria-label: "Dashboard"
     visibility: showDashboard
     layout: vertical, gap: cardGap
     StatsBar(statsTotal, statsDone, statsInProgress, statsTodo, themePreset)
@@ -1638,48 +1681,64 @@ surface App {
 
   // Detail view
   block {
+    role: "region"
+    aria-label: "Task detail"
     visibility: showDetail
     TaskDetail(themePreset, selectedTask, view)
   }
 
   // Create view
   block {
+    role: "region"
+    aria-label: "Create task"
     visibility: showCreate
     TaskForm(themePreset)
   }
 
   // Wizard view
   block {
+    role: "region"
+    aria-label: "Task wizard"
     visibility: showWizard
     TaskWizard()
   }
 
   // Team view
   block {
+    role: "region"
+    aria-label: "Team directory"
     visibility: showTeam
     TeamDirectory()
   }
 
   // Activity view
   block {
+    role: "region"
+    aria-label: "Activity feed"
     visibility: showActivity
     ActivityFeed()
   }
 
   // Notifications view
   block {
+    role: "region"
+    aria-label: "Notifications"
     visibility: showNotifications
     NotificationsPanel()
   }
 
   // Settings view
   block {
+    role: "region"
+    aria-label: "Settings"
     visibility: showSettings
     SettingsPanel()
   }
 
   // Analytics view
   block {
+    role: "region"
+    aria-label: "Analytics"
     visibility: showAnalytics
     AnalyticsView()
   }
