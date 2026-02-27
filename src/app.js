@@ -1111,6 +1111,8 @@ export function createTasksAPI(params = {}) {
     endpoint: 'http://localhost:4000/api/tasks',
     method: 'GET',
     cacheTtl: 60000,
+    retryAttempts: 3,
+    retryStrategy: 'exponential',
     ...params,
   });
 }

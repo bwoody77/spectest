@@ -62,9 +62,10 @@ function readBody(req) {
   });
 }
 
-// Simulate network latency (200-500ms)
-function delay() {
-  return new Promise((r) => setTimeout(r, 200 + Math.random() * 300));
+// Simulate network latency (default 200-500ms, overridable via ?delay=ms)
+function delay(ms) {
+  const wait = ms != null ? ms : 200 + Math.random() * 300;
+  return new Promise((r) => setTimeout(r, wait));
 }
 
 // ---------------------------------------------------------------------------
@@ -80,27 +81,50 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  await delay();
-
   const url = new URL(req.url, 'http://localhost');
   const path = url.pathname;
   const method = req.method;
+
+  // --- Test simulation query params ---
+  const delayMs = url.searchParams.has('delay') ? parseInt(url.searchParams.get('delay'), 10) : undefined;
+  const shouldFail = url.searchParams.get('fail') === 'true';
+  const failRate = url.searchParams.has('failRate') ? parseFloat(url.searchParams.get('failRate')) : 0;
+
+  // Apply delay (custom or default 200-500ms)
+  await delay(delayMs);
+
+  // Forced failure
+  if (shouldFail) {
+    console.log(`${method} ${req.url} -> 500 (fail=true)`);
+    return json(res, { error: 'Simulated server error' }, 500);
+  }
+
+  // Random failure based on failRate
+  if (failRate > 0 && Math.random() < failRate) {
+    console.log(`${method} ${req.url} -> 500 (failRate=${failRate})`);
+    return json(res, { error: 'Random simulated failure' }, 500);
+  }
+
+  // --- Routing ---
 
   // GET /api/stats
   if (method === 'GET' && path === '/api/stats') {
     const done = tasks.filter(t => t.status === 'done').length;
     const inProgress = tasks.filter(t => t.status === 'in-progress').length;
     const todo = tasks.filter(t => t.status === 'todo').length;
+    console.log(`${method} ${req.url} -> 200`);
     return json(res, { total: tasks.length, done, inProgress, todo, users: users.length });
   }
 
   // GET /api/users
   if (method === 'GET' && path === '/api/users') {
+    console.log(`${method} ${req.url} -> 200`);
     return json(res, users);
   }
 
   // GET /api/tasks
   if (method === 'GET' && path === '/api/tasks') {
+    console.log(`${method} ${req.url} -> 200`);
     return json(res, tasks);
   }
 
@@ -108,6 +132,8 @@ const server = createServer(async (req, res) => {
   const taskMatch = path.match(/^\/api\/tasks\/(\d+)$/);
   if (method === 'GET' && taskMatch) {
     const task = tasks.find(t => t.id === parseInt(taskMatch[1]));
+    const status = task ? 200 : 404;
+    console.log(`${method} ${req.url} -> ${status}`);
     return task ? json(res, task) : json(res, { error: 'Not found' }, 404);
   }
 
@@ -123,26 +149,36 @@ const server = createServer(async (req, res) => {
       createdAt: new Date().toISOString().slice(0, 10),
     };
     tasks.push(task);
+    console.log(`${method} ${req.url} -> 201`);
     return json(res, task, 201);
   }
 
   // PUT /api/tasks/:id
   if (method === 'PUT' && taskMatch) {
     const task = tasks.find(t => t.id === parseInt(taskMatch[1]));
-    if (!task) return json(res, { error: 'Not found' }, 404);
+    if (!task) {
+      console.log(`${method} ${req.url} -> 404`);
+      return json(res, { error: 'Not found' }, 404);
+    }
     const body = await readBody(req);
     Object.assign(task, body);
+    console.log(`${method} ${req.url} -> 200`);
     return json(res, task);
   }
 
   // DELETE /api/tasks/:id
   if (method === 'DELETE' && taskMatch) {
     const idx = tasks.findIndex(t => t.id === parseInt(taskMatch[1]));
-    if (idx === -1) return json(res, { error: 'Not found' }, 404);
+    if (idx === -1) {
+      console.log(`${method} ${req.url} -> 404`);
+      return json(res, { error: 'Not found' }, 404);
+    }
     tasks.splice(idx, 1);
+    console.log(`${method} ${req.url} -> 200`);
     return json(res, { ok: true });
   }
 
+  console.log(`${method} ${req.url} -> 404`);
   json(res, { error: 'Not found' }, 404);
 });
 

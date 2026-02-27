@@ -18,9 +18,10 @@
 // Data sources
 
 source TasksAPI {
-  endpoint: "http://localhost:4000/api/tasks"
+  endpoint: "http://localhost:4000/api/tasks?failRate=0.6"
   method: GET
   cache: 1
+  retry: 3
 }
 
 source StatsAPI {
