@@ -20,7 +20,8 @@ export function mountStatusBadge(container, status) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  _t0.data = String((status === "todo" ? "Todo" : (status === "in-progress" ? "In Progress" : (status === "done" ? "Done" : "Unknown"))));
+  const _sig0 = computed(() => String((status() === "todo" ? "Todo" : (status() === "in-progress" ? "In Progress" : (status() === "done" ? "Done" : "Unknown")))), [status]);
+  bindText(_t0, _sig0);
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -38,7 +39,8 @@ export function mountPriorityBadge(container, priority) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  _t0.data = String((priority === "low" ? "Low" : (priority === "medium" ? "Medium" : (priority === "high" ? "High" : (priority === "critical" ? "Critical" : "—")))));
+  const _sig0 = computed(() => String((priority() === "low" ? "Low" : (priority() === "medium" ? "Medium" : (priority() === "high" ? "High" : (priority() === "critical" ? "Critical" : "—"))))), [priority]);
+  bindText(_t0, _sig0);
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -46,7 +48,81 @@ export function mountPriorityBadge(container, priority) {
   return () => _root.remove();
 }
 
-export function mountStatsBar(container, total, done, inProgress, todo) {
+export function mountSeverityBadge(container, severity) {
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  const _el0 = document.createElement('span');
+  _el0.style.fontSize = '11.2px';
+  _el0.style.fontWeight = '500';
+  _el0.style.lineHeight = '1.4';
+  const _t0 = document.createTextNode('');
+  const _sig0 = computed(() => String((severity() === "info" ? "Info" : (severity() === "success" ? "Success" : (severity() === "warning" ? "Warning" : (severity() === "error" ? "Error" : "Unknown"))))), [severity]);
+  bindText(_t0, _sig0);
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountActivityIcon(container, activityType) {
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  const _el0 = document.createElement('span');
+  _el0.style.fontSize = '14px';
+  _el0.style.fontWeight = '500';
+  _el0.style.lineHeight = '1.4';
+  const _t0 = document.createTextNode('');
+  const _sig0 = computed(() => String((activityType() === "task_created" ? "+" : (activityType() === "task_completed" ? "✓" : (activityType() === "task_assigned" ? "→" : (activityType() === "comment" ? "💬" : (activityType() === "deploy" ? "↑" : "·")))))), [activityType]);
+  bindText(_t0, _sig0);
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountUserAvatar(container, name, bgColor) {
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  const _el0 = document.createElement('div');
+  _el0.style.padding = '8px';
+  const _blockBg0 = computed(() => bgColor(), [bgColor]);
+  bindStyle(_el0, 'backgroundColor', _blockBg0);
+  _el0.style.borderRadius = '9999px';
+  _el0.style.display = 'flex';
+  _el0.style.flexDirection = 'row';
+  _el0.style.alignItems = 'center';
+  _el0.style.justifyContent = 'center';
+  const _el1 = document.createElement('span');
+  _el1.style.fontSize = '14px';
+  _el1.style.fontWeight = '500';
+  _el1.style.lineHeight = '1.4';
+  _el1.style.color = '#ffffff';
+  const _t0 = document.createTextNode('');
+  bindText(_t0, name);
+  _el1.appendChild(_t0);
+  _el0.appendChild(_el1);
+  _root.appendChild(_el0);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountStatsBar(container, total, done, inProgress, todo, themePreset) {
+  // @computed
+  const stat1Bg = computed(() => (themePreset() === "enterprise" ? "#dbeafe" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#dbeafe")))), [themePreset]);
+  const stat2Bg = computed(() => (themePreset() === "enterprise" ? "#d1fae5" : (themePreset() === "social" ? "#e9d5ff" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#fef08a" : "#d1fae5")))), [themePreset]);
+  const stat3Bg = computed(() => (themePreset() === "enterprise" ? "#fef3c7" : (themePreset() === "social" ? "#fae8ff" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#fed7aa" : "#fef3c7")))), [themePreset]);
+  const stat4Bg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ddd6fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#fecaca" : "#e2e8f0")))), [themePreset]);
+  const iconAccent = computed(() => (themePreset() === "enterprise" ? "#3b82f6" : (themePreset() === "social" ? "#8b5cf6" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#f97316" : "#3b82f6")))), [themePreset]);
+
   // DOM
   const _root = document.createElement('div');
   _root.style.color = '#202732';
@@ -57,25 +133,29 @@ export function mountStatsBar(container, total, done, inProgress, todo) {
   _root.style.alignItems = 'center';
   const _el0 = document.createElement('div');
   _el0.style.padding = '12px';
-  _el0.style.backgroundColor = '#eef2ff';
+  const _blockBg0 = computed(() => stat1Bg(), [stat1Bg]);
+  bindStyle(_el0, 'backgroundColor', _blockBg0);
   _el0.style.borderRadius = '8px';
   _el0.style.display = 'flex';
   _el0.style.flexDirection = 'row';
   _el0.style.gap = '8px';
   _el0.style.alignItems = 'center';
-  mountIcon(_el0, { name: "list", size: "18px", color: "#6366f1" });
+  const _hIcon1 = mountIcon(_el0, { name: "list", size: "18px", color: iconAccent() });
+  subscribe(iconAccent, (v) => { scheduleWrite(() => _hIcon1.update({ color: v })); });
   const _el1 = document.createElement('span');
   _el1.style.fontSize = '14px';
   _el1.style.fontWeight = '500';
   _el1.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  _t0.data = String(`Total: ${total}`);
+  const _sig2 = computed(() => String(`Total: ${total()}`), [total]);
+  bindText(_t0, _sig2);
   _el1.appendChild(_t0);
   _el0.appendChild(_el1);
   _root.appendChild(_el0);
   const _el2 = document.createElement('div');
   _el2.style.padding = '12px';
-  _el2.style.backgroundColor = '#ecfdf5';
+  const _blockBg3 = computed(() => stat2Bg(), [stat2Bg]);
+  bindStyle(_el2, 'backgroundColor', _blockBg3);
   _el2.style.borderRadius = '8px';
   _el2.style.display = 'flex';
   _el2.style.flexDirection = 'row';
@@ -87,13 +167,15 @@ export function mountStatsBar(container, total, done, inProgress, todo) {
   _el3.style.fontWeight = '500';
   _el3.style.lineHeight = '1.4';
   const _t1 = document.createTextNode('');
-  _t1.data = String(`Done: ${done}`);
+  const _sig4 = computed(() => String(`Done: ${done()}`), [done]);
+  bindText(_t1, _sig4);
   _el3.appendChild(_t1);
   _el2.appendChild(_el3);
   _root.appendChild(_el2);
   const _el4 = document.createElement('div');
   _el4.style.padding = '12px';
-  _el4.style.backgroundColor = '#fffbeb';
+  const _blockBg5 = computed(() => stat3Bg(), [stat3Bg]);
+  bindStyle(_el4, 'backgroundColor', _blockBg5);
   _el4.style.borderRadius = '8px';
   _el4.style.display = 'flex';
   _el4.style.flexDirection = 'row';
@@ -105,13 +187,15 @@ export function mountStatsBar(container, total, done, inProgress, todo) {
   _el5.style.fontWeight = '500';
   _el5.style.lineHeight = '1.4';
   const _t2 = document.createTextNode('');
-  _t2.data = String(`In Progress: ${inProgress}`);
+  const _sig6 = computed(() => String(`In Progress: ${inProgress()}`), [inProgress]);
+  bindText(_t2, _sig6);
   _el5.appendChild(_t2);
   _el4.appendChild(_el5);
   _root.appendChild(_el4);
   const _el6 = document.createElement('div');
   _el6.style.padding = '12px';
-  _el6.style.backgroundColor = '#f8fafc';
+  const _blockBg7 = computed(() => stat4Bg(), [stat4Bg]);
+  bindStyle(_el6, 'backgroundColor', _blockBg7);
   _el6.style.borderRadius = '8px';
   _el6.style.display = 'flex';
   _el6.style.flexDirection = 'row';
@@ -123,7 +207,8 @@ export function mountStatsBar(container, total, done, inProgress, todo) {
   _el7.style.fontWeight = '500';
   _el7.style.lineHeight = '1.4';
   const _t3 = document.createTextNode('');
-  _t3.data = String(`Todo: ${todo}`);
+  const _sig8 = computed(() => String(`Todo: ${todo()}`), [todo]);
+  bindText(_t3, _sig8);
   _el7.appendChild(_t3);
   _el6.appendChild(_el7);
   _root.appendChild(_el6);
@@ -132,7 +217,7 @@ export function mountStatsBar(container, total, done, inProgress, todo) {
   return () => _root.remove();
 }
 
-export function mountTaskTable(container) {
+export function mountTaskTable(container, themePreset) {
   // @state
   const filter = createSignal("all");
 
@@ -148,6 +233,9 @@ export function mountTaskTable(container) {
   const filteredTasks = computed(() => (filter() == "all" ? taskList() : taskList().filter((t) => t.status == filter())), [filter, taskList]);
   const taskCount = computed(() => `${filteredTasks().length} tasks`, [filteredTasks]);
   const hasNoResults = computed(() => filteredTasks().length == 0, [filteredTasks]);
+  const surfaceBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
+  const borderColor = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
+  const rowBg = computed(() => (themePreset() === "enterprise" ? "#f1f5f9" : (themePreset() === "social" ? "#f5f3ff" : (themePreset() === "minimal" ? "#ffffff" : (themePreset() === "playful" ? "#fff7ed" : "#f1f5f9")))), [themePreset]);
 
   // @actions
   function setFilter(f) {
@@ -171,7 +259,8 @@ export function mountTaskTable(container) {
   _root.appendChild(_el0);
   const _el1 = document.createElement('div');
   _el1.style.padding = '12px';
-  _el1.style.backgroundColor = '#f8fafc';
+  const _blockBg0 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el1, 'backgroundColor', _blockBg0);
   _el1.style.borderRadius = '8px';
   _el1.style.display = 'flex';
   _el1.style.flexDirection = 'row';
@@ -193,7 +282,8 @@ export function mountTaskTable(container) {
   _root.appendChild(_el1);
   const _el3 = document.createElement('div');
   _el3.style.padding = '16px';
-  _el3.style.backgroundColor = '#f0f9ff';
+  const _blockBg1 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el3, 'backgroundColor', _blockBg1);
   _el3.style.borderRadius = '8px';
   bindVisibility(_el3, tasksLoading);
   const _el4 = document.createElement('p');
@@ -227,8 +317,10 @@ export function mountTaskTable(container) {
     const _item = document.createElement('div');
     const _el7 = document.createElement('div');
     _el7.style.padding = '12px';
-    _el7.style.backgroundColor = '#ffffff';
-    _el7.style.border = '1px solid #e2e8f0';
+    const _blockBg2 = computed(() => rowBg(), [rowBg]);
+    bindStyle(_el7, 'backgroundColor', _blockBg2);
+    const _blockBorder3 = computed(() => borderColor(), [borderColor]);
+    bindStyle(_el7, 'border', _blockBorder3);
     _el7.style.borderRadius = '8px';
     _el7.style.display = 'flex';
     _el7.style.flexDirection = 'row';
@@ -275,7 +367,8 @@ export function mountTaskTable(container) {
   _root.appendChild(_list0);
   const _el12 = document.createElement('div');
   _el12.style.padding = '16px';
-  _el12.style.backgroundColor = '#f8fafc';
+  const _blockBg4 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el12, 'backgroundColor', _blockBg4);
   _el12.style.borderRadius = '8px';
   bindVisibility(_el12, hasNoResults);
   const _el13 = document.createElement('p');
@@ -293,7 +386,7 @@ export function mountTaskTable(container) {
   return () => _root.remove();
 }
 
-export function mountTaskForm(container) {
+export function mountTaskForm(container, themePreset) {
   // @state
   const title = createSignal("");
   const assignee = createSignal("");
@@ -315,6 +408,8 @@ export function mountTaskForm(container) {
   const hasError = computed(() => error() != "", [error]);
   const formSummary = computed(() => `Creating task: ${title()}`, [title]);
   const successVisible = computed(() => submitted(), [submitted]);
+  const formBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
+  const formBorder = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
 
   // @actions
   function setTitle(v) {
@@ -494,7 +589,7 @@ export function mountTaskForm(container) {
   return () => _root.remove();
 }
 
-export function mountTaskDetail(container) {
+export function mountTaskDetail(container, themePreset) {
   // @state
   const task = createSignal(null);
 
@@ -506,6 +601,8 @@ export function mountTaskDetail(container) {
   const taskPriority = computed(() => (task() != null ? task().priority : ""), [task]);
   const taskDate = computed(() => (task() != null ? task().createdAt : ""), [task]);
   const detailHeading = computed(() => `Task: ${taskTitle()}`, [taskTitle]);
+  const detailBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
+  const detailBorder = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
 
   // @actions
   function setTask(t) {
@@ -529,14 +626,15 @@ export function mountTaskDetail(container) {
   _root.appendChild(_el0);
   const _el1 = document.createElement('div');
   _el1.style.padding = '16px';
-  _el1.style.backgroundColor = '#f8fafc';
+  const _blockBg0 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el1, 'backgroundColor', _blockBg0);
   _el1.style.borderRadius = '8px';
   _el1.style.display = 'flex';
   _el1.style.flexDirection = 'column';
   _el1.style.gap = '8px';
   _el1.style.alignItems = 'center';
-  const _sig0 = computed(() => Boolean(!hasTask()), [hasTask]);
-  bindVisibility(_el1, _sig0);
+  const _sig1 = computed(() => Boolean(!hasTask()), [hasTask]);
+  bindVisibility(_el1, _sig1);
   mountIcon(_el1, { name: "info", size: "24px", color: "#94a3b8" });
   const _el2 = document.createElement('p');
   _el2.style.fontSize = '11.2px';
@@ -568,7 +666,8 @@ export function mountTaskDetail(container) {
   _el5.style.gap = '16px';
   const _el6 = document.createElement('div');
   _el6.style.padding = '12px';
-  _el6.style.backgroundColor = '#f8fafc';
+  const _blockBg2 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el6, 'backgroundColor', _blockBg2);
   _el6.style.borderRadius = '8px';
   _el6.style.display = 'flex';
   _el6.style.flexDirection = 'column';
@@ -582,11 +681,12 @@ export function mountTaskDetail(container) {
   _t3.data = String("Status");
   _el7.appendChild(_t3);
   _el6.appendChild(_el7);
-  mountStatusBadge(_el6, taskStatus());
+  mountStatusBadge(_el6, taskStatus);
   _el5.appendChild(_el6);
   const _el8 = document.createElement('div');
   _el8.style.padding = '12px';
-  _el8.style.backgroundColor = '#f8fafc';
+  const _blockBg3 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el8, 'backgroundColor', _blockBg3);
   _el8.style.borderRadius = '8px';
   _el8.style.display = 'flex';
   _el8.style.flexDirection = 'column';
@@ -600,11 +700,12 @@ export function mountTaskDetail(container) {
   _t4.data = String("Priority");
   _el9.appendChild(_t4);
   _el8.appendChild(_el9);
-  mountPriorityBadge(_el8, taskPriority());
+  mountPriorityBadge(_el8, taskPriority);
   _el5.appendChild(_el8);
   const _el10 = document.createElement('div');
   _el10.style.padding = '12px';
-  _el10.style.backgroundColor = '#f8fafc';
+  const _blockBg4 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el10, 'backgroundColor', _blockBg4);
   _el10.style.borderRadius = '8px';
   _el10.style.display = 'flex';
   _el10.style.flexDirection = 'column';
@@ -629,7 +730,8 @@ export function mountTaskDetail(container) {
   _el5.appendChild(_el10);
   const _el13 = document.createElement('div');
   _el13.style.padding = '12px';
-  _el13.style.backgroundColor = '#f8fafc';
+  const _blockBg5 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el13, 'backgroundColor', _blockBg5);
   _el13.style.borderRadius = '8px';
   _el13.style.display = 'flex';
   _el13.style.flexDirection = 'column';
@@ -844,9 +946,1247 @@ export function mountWizardStep3(container) {
   return () => _root.remove();
 }
 
+export function mountTeamDirectory(container) {
+  // @state
+  const search = createSignal("");
+  const roleFilter = createSignal("all");
+
+  // @source
+  const _src_users = createUsersAPI();
+  const users = _src_users.data;
+  const usersLoading = _src_users.loading;
+  const usersError = _src_users.error;
+  _src_users.fetch();
+
+  // @computed
+  const userList = computed(() => (users() != null ? users() : []), [users]);
+  const filteredUsers = computed(() => (roleFilter() == "all" ? userList() : userList().filter((u) => u.role == roleFilter())), [roleFilter, userList]);
+  const searchResults = computed(() => filteredUsers(), [filteredUsers]);
+  const userCount = computed(() => `${searchResults().length} members`, [searchResults]);
+  const hasNoUsers = computed(() => searchResults().length == 0, [searchResults]);
+
+  // @actions
+  function setSearch(v) {
+    search.set(v);
+  }
+  function setRoleFilter(v) {
+    roleFilter.set(v);
+  }
+
+  // DOM
+  const _root = document.createElement('form');
+  _root.setAttribute('novalidate', '');
+  _root.addEventListener('submit', (e) => e.preventDefault());
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  _root.style.display = 'flex';
+  _root.style.flexDirection = 'column';
+  _root.style.gap = '20px';
+  const _el0 = document.createElement('h2');
+  _el0.style.fontSize = '34.2px';
+  _el0.style.fontWeight = '700';
+  _el0.style.lineHeight = '1.2';
+  const _t0 = document.createTextNode('');
+  _t0.data = String("Team Directory");
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+  const _el1 = document.createElement('div');
+  _el1.style.padding = '12px';
+  _el1.style.backgroundColor = '#f8fafc';
+  _el1.style.borderRadius = '8px';
+  _el1.style.display = 'flex';
+  _el1.style.flexDirection = 'row';
+  _el1.style.gap = '12px';
+  _el1.style.alignItems = 'center';
+  const _hInput0 = mountInput(_el1, { onChange: (v) => { search.set(v); }, type: "text", label: "Search", value: search(), placeholder: "Search members..." });
+  subscribe(search, (v) => { scheduleWrite(() => _hInput0.update({ value: v })); });
+  const _hSelect1 = mountSelect(_el1, { onChange: (v) => { roleFilter.set(v); }, options: [{ value: "all", label: "All Roles" }, { value: "admin", label: "Admin" }, { value: "dev", label: "Developer" }, { value: "design", label: "Designer" }], value: roleFilter(), label: "Role" });
+  subscribe(roleFilter, (v) => { scheduleWrite(() => _hSelect1.update({ value: v })); });
+  const _el2 = document.createElement('p');
+  _el2.style.fontSize = '11.2px';
+  _el2.style.fontWeight = '400';
+  _el2.style.lineHeight = '1.5';
+  _el2.style.color = '#64748b';
+  const _t1 = document.createTextNode('');
+  bindText(_t1, userCount);
+  _el2.appendChild(_t1);
+  _el1.appendChild(_el2);
+  _root.appendChild(_el1);
+  const _el3 = document.createElement('div');
+  _el3.style.padding = '16px';
+  _el3.style.backgroundColor = '#f0f9ff';
+  _el3.style.borderRadius = '8px';
+  bindVisibility(_el3, usersLoading);
+  const _el4 = document.createElement('p');
+  _el4.style.fontSize = '11.2px';
+  _el4.style.fontWeight = '400';
+  _el4.style.lineHeight = '1.5';
+  _el4.style.color = '#64748b';
+  const _t2 = document.createTextNode('');
+  _t2.data = String("Loading team members...");
+  _el4.appendChild(_t2);
+  _el3.appendChild(_el4);
+  _root.appendChild(_el3);
+  const _el5 = document.createElement('div');
+  _el5.style.padding = '12px';
+  _el5.style.backgroundColor = '#fef2f2';
+  _el5.style.border = '1px solid #fecaca';
+  _el5.style.borderRadius = '8px';
+  bindVisibility(_el5, usersError);
+  const _el6 = document.createElement('p');
+  _el6.style.fontSize = '11.2px';
+  _el6.style.fontWeight = '400';
+  _el6.style.lineHeight = '1.5';
+  _el6.style.color = 'red';
+  const _t3 = document.createTextNode('');
+  _t3.data = String("Failed to load team directory.");
+  _el6.appendChild(_t3);
+  _el5.appendChild(_el6);
+  _root.appendChild(_el5);
+  const _el7 = document.createElement('div');
+  _el7.style.display = 'flex';
+  _el7.style.flexDirection = 'row';
+  _el7.style.gap = '16px';
+  const _list0 = document.createElement('div');
+  bindCollection(_list0, searchResults, (user, idx) => {
+    const _item = document.createElement('div');
+    const _el8 = document.createElement('div');
+    _el8.style.padding = '16px';
+    _el8.style.backgroundColor = '#ffffff';
+    _el8.style.border = '1px solid #e2e8f0';
+    _el8.style.borderRadius = '12px';
+    _el8.style.display = 'flex';
+    _el8.style.flexDirection = 'column';
+    _el8.style.gap = '12px';
+    _el8.style.alignItems = 'center';
+    mountUserAvatar(_el8, user.name, "#6366f1");
+    const _el9 = document.createElement('div');
+    _el9.style.display = 'flex';
+    _el9.style.flexDirection = 'column';
+    _el9.style.gap = '4px';
+    _el9.style.alignItems = 'center';
+    const _el10 = document.createElement('p');
+    _el10.style.fontSize = '14px';
+    _el10.style.fontWeight = '400';
+    _el10.style.lineHeight = '1.5';
+    _el10.style.fontWeight = '600';
+    const _t4 = document.createTextNode('');
+    _t4.data = String(user.name);
+    _el10.appendChild(_t4);
+    _el9.appendChild(_el10);
+    const _el11 = document.createElement('span');
+    _el11.style.fontSize = '11.2px';
+    _el11.style.fontWeight = '500';
+    _el11.style.lineHeight = '1.4';
+    _el11.style.color = '#64748b';
+    const _t5 = document.createTextNode('');
+    _t5.data = String(user.role);
+    _el11.appendChild(_t5);
+    _el9.appendChild(_el11);
+    const _el12 = document.createElement('p');
+    _el12.style.fontSize = '11.2px';
+    _el12.style.fontWeight = '400';
+    _el12.style.lineHeight = '1.5';
+    _el12.style.color = '#94a3b8';
+    const _t6 = document.createTextNode('');
+    _t6.data = String(user.email);
+    _el12.appendChild(_t6);
+    _el9.appendChild(_el12);
+    _el8.appendChild(_el9);
+    const _el13 = document.createElement('div');
+    _el13.style.display = 'flex';
+    _el13.style.flexDirection = 'row';
+    _el13.style.gap = '8px';
+    mountButton(_el13, { label: "Message", variant: "secondary" });
+    mountButton(_el13, { label: "Profile", variant: "ghost" });
+    _el8.appendChild(_el13);
+    _item.appendChild(_el8);
+    return _item;
+  });
+  _el7.appendChild(_list0);
+  _root.appendChild(_el7);
+  const _el14 = document.createElement('div');
+  _el14.style.padding = '16px';
+  _el14.style.backgroundColor = '#f8fafc';
+  _el14.style.borderRadius = '8px';
+  _el14.style.display = 'flex';
+  _el14.style.flexDirection = 'column';
+  _el14.style.gap = '8px';
+  _el14.style.alignItems = 'center';
+  bindVisibility(_el14, hasNoUsers);
+  mountIcon(_el14, { name: "users", size: "24px", color: "#94a3b8" });
+  const _el15 = document.createElement('p');
+  _el15.style.fontSize = '11.2px';
+  _el15.style.fontWeight = '400';
+  _el15.style.lineHeight = '1.5';
+  _el15.style.color = '#64748b';
+  const _t7 = document.createTextNode('');
+  _t7.data = String("No team members match your criteria.");
+  _el15.appendChild(_t7);
+  _el14.appendChild(_el15);
+  _root.appendChild(_el14);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountActivityFeed(container) {
+  // @state
+  const typeFilter = createSignal("all");
+
+  // @source
+  const _src_activityItems = createActivityAPI();
+  const activityItems = _src_activityItems.data;
+  const activityItemsLoading = _src_activityItems.loading;
+  const activityItemsError = _src_activityItems.error;
+  _src_activityItems.fetch();
+
+  // @computed
+  const allActivity = computed(() => (activityItems() != null ? activityItems() : []), [activityItems]);
+  const filteredActivity = computed(() => (typeFilter() == "all" ? allActivity() : allActivity().filter((a) => a.type == typeFilter())), [typeFilter, allActivity]);
+  const activityCount = computed(() => `${filteredActivity().length} events`, [filteredActivity]);
+  const hasNoActivity = computed(() => filteredActivity().length == 0, [filteredActivity]);
+
+  // @actions
+  function setTypeFilter(v) {
+    typeFilter.set(v);
+  }
+
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  _root.style.display = 'flex';
+  _root.style.flexDirection = 'column';
+  _root.style.gap = '20px';
+  const _el0 = document.createElement('h2');
+  _el0.style.fontSize = '34.2px';
+  _el0.style.fontWeight = '700';
+  _el0.style.lineHeight = '1.2';
+  const _t0 = document.createTextNode('');
+  _t0.data = String("Activity Feed");
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+  const _el1 = document.createElement('div');
+  _el1.style.padding = '12px';
+  _el1.style.backgroundColor = '#f8fafc';
+  _el1.style.borderRadius = '8px';
+  _el1.style.display = 'flex';
+  _el1.style.flexDirection = 'row';
+  _el1.style.gap = '8px';
+  _el1.style.alignItems = 'center';
+  const _el2 = document.createElement('p');
+  _el2.style.fontSize = '11.2px';
+  _el2.style.fontWeight = '400';
+  _el2.style.lineHeight = '1.5';
+  _el2.style.color = '#64748b';
+  const _t1 = document.createTextNode('');
+  bindText(_t1, activityCount);
+  _el2.appendChild(_t1);
+  _el1.appendChild(_el2);
+  mountButton(_el1, { onClick: () => { setTypeFilter("all"); }, label: "All", variant: "secondary" });
+  mountButton(_el1, { onClick: () => { setTypeFilter("task_created"); }, label: "Tasks", variant: "secondary" });
+  mountButton(_el1, { onClick: () => { setTypeFilter("comment"); }, label: "Comments", variant: "secondary" });
+  mountButton(_el1, { onClick: () => { setTypeFilter("deploy"); }, label: "Deploys", variant: "secondary" });
+  _root.appendChild(_el1);
+  const _el3 = document.createElement('div');
+  _el3.style.padding = '16px';
+  _el3.style.backgroundColor = '#f0f9ff';
+  _el3.style.borderRadius = '8px';
+  _el3.style.display = 'flex';
+  _el3.style.flexDirection = 'row';
+  _el3.style.gap = '8px';
+  _el3.style.alignItems = 'center';
+  bindVisibility(_el3, activityItemsLoading);
+  mountIcon(_el3, { name: "loader", size: "18px", color: "#6366f1" });
+  const _el4 = document.createElement('p');
+  _el4.style.fontSize = '11.2px';
+  _el4.style.fontWeight = '400';
+  _el4.style.lineHeight = '1.5';
+  _el4.style.color = '#64748b';
+  const _t2 = document.createTextNode('');
+  _t2.data = String("Loading activity...");
+  _el4.appendChild(_t2);
+  _el3.appendChild(_el4);
+  _root.appendChild(_el3);
+  const _el5 = document.createElement('div');
+  _el5.style.padding = '12px';
+  _el5.style.backgroundColor = '#fef2f2';
+  _el5.style.border = '1px solid #fecaca';
+  _el5.style.borderRadius = '8px';
+  bindVisibility(_el5, activityItemsError);
+  const _el6 = document.createElement('p');
+  _el6.style.fontSize = '11.2px';
+  _el6.style.fontWeight = '400';
+  _el6.style.lineHeight = '1.5';
+  _el6.style.color = 'red';
+  const _t3 = document.createTextNode('');
+  _t3.data = String("Failed to load activity feed.");
+  _el6.appendChild(_t3);
+  _el5.appendChild(_el6);
+  _root.appendChild(_el5);
+  const _el7 = document.createElement('div');
+  _el7.style.padding = '16px';
+  _el7.style.backgroundColor = '#f8fafc';
+  _el7.style.borderRadius = '8px';
+  _el7.style.display = 'flex';
+  _el7.style.flexDirection = 'column';
+  _el7.style.gap = '8px';
+  _el7.style.alignItems = 'center';
+  bindVisibility(_el7, hasNoActivity);
+  mountIcon(_el7, { name: "clock", size: "24px", color: "#94a3b8" });
+  const _el8 = document.createElement('p');
+  _el8.style.fontSize = '11.2px';
+  _el8.style.fontWeight = '400';
+  _el8.style.lineHeight = '1.5';
+  _el8.style.color = '#64748b';
+  const _t4 = document.createTextNode('');
+  _t4.data = String("No activity events found.");
+  _el8.appendChild(_t4);
+  _el7.appendChild(_el8);
+  _root.appendChild(_el7);
+  const _list0 = document.createElement('div');
+  bindCollection(_list0, filteredActivity, (item, idx) => {
+    const _item = document.createElement('div');
+    const _el9 = document.createElement('div');
+    _el9.style.padding = '12px';
+    _el9.style.backgroundColor = '#ffffff';
+    _el9.style.border = '1px solid #e2e8f0';
+    _el9.style.borderRadius = '8px';
+    _el9.style.display = 'flex';
+    _el9.style.flexDirection = 'row';
+    _el9.style.gap = '12px';
+    _el9.style.alignItems = 'center';
+    mountActivityIcon(_el9, item.type);
+    const _el10 = document.createElement('div');
+    _el10.style.display = 'flex';
+    _el10.style.flexDirection = 'column';
+    _el10.style.gap = '4px';
+    const _el11 = document.createElement('div');
+    _el11.style.display = 'flex';
+    _el11.style.flexDirection = 'row';
+    _el11.style.gap = '8px';
+    _el11.style.alignItems = 'center';
+    const _el12 = document.createElement('span');
+    _el12.style.fontSize = '14px';
+    _el12.style.fontWeight = '500';
+    _el12.style.lineHeight = '1.4';
+    _el12.style.fontWeight = '600';
+    const _t5 = document.createTextNode('');
+    _t5.data = String(item.user);
+    _el12.appendChild(_t5);
+    _el11.appendChild(_el12);
+    const _el13 = document.createElement('span');
+    _el13.style.fontSize = '11.2px';
+    _el13.style.fontWeight = '500';
+    _el13.style.lineHeight = '1.4';
+    _el13.style.color = '#94a3b8';
+    const _t6 = document.createTextNode('');
+    _t6.data = String(item.type);
+    _el13.appendChild(_t6);
+    _el11.appendChild(_el13);
+    _el10.appendChild(_el11);
+    const _el14 = document.createElement('p');
+    _el14.style.fontSize = '11.2px';
+    _el14.style.fontWeight = '400';
+    _el14.style.lineHeight = '1.5';
+    const _t7 = document.createTextNode('');
+    _t7.data = String(item.detail);
+    _el14.appendChild(_t7);
+    _el10.appendChild(_el14);
+    const _el15 = document.createElement('span');
+    _el15.style.fontSize = '11.2px';
+    _el15.style.fontWeight = '400';
+    _el15.style.lineHeight = '1.5';
+    _el15.style.fontFamily = "'Menlo', 'Consolas', monospace";
+    _el15.style.color = '#94a3b8';
+    const _t8 = document.createTextNode('');
+    _t8.data = String(item.timestamp);
+    _el15.appendChild(_t8);
+    _el10.appendChild(_el15);
+    _el9.appendChild(_el10);
+    _item.appendChild(_el9);
+    return _item;
+  });
+  _root.appendChild(_list0);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountNotificationsPanel(container) {
+  // @state
+  const severityFilter = createSignal("all");
+  const readFilter = createSignal("all");
+
+  // @source
+  const _src_notifications = createNotificationsAPI();
+  const notifications = _src_notifications.data;
+  const notificationsLoading = _src_notifications.loading;
+  const notificationsError = _src_notifications.error;
+  _src_notifications.fetch();
+
+  // @computed
+  const allNotifications = computed(() => (notifications() != null ? notifications() : []), [notifications]);
+  const filteredNotifications = computed(() => (severityFilter() == "all" ? allNotifications() : allNotifications().filter((n) => n.severity == severityFilter())), [severityFilter, allNotifications]);
+  const notifCount = computed(() => `${filteredNotifications().length} notifications`, [filteredNotifications]);
+  const hasNoNotifications = computed(() => filteredNotifications().length == 0, [filteredNotifications]);
+
+  // @actions
+  function setSeverityFilter(v) {
+    severityFilter.set(v);
+  }
+
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  _root.style.display = 'flex';
+  _root.style.flexDirection = 'column';
+  _root.style.gap = '20px';
+  const _el0 = document.createElement('h2');
+  _el0.style.fontSize = '34.2px';
+  _el0.style.fontWeight = '700';
+  _el0.style.lineHeight = '1.2';
+  const _t0 = document.createTextNode('');
+  _t0.data = String("Notifications");
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+  const _el1 = document.createElement('div');
+  _el1.style.padding = '12px';
+  _el1.style.backgroundColor = '#eef2ff';
+  _el1.style.borderRadius = '8px';
+  _el1.style.display = 'flex';
+  _el1.style.flexDirection = 'row';
+  _el1.style.gap = '16px';
+  _el1.style.alignItems = 'center';
+  mountIcon(_el1, { name: "bell", size: "20px", color: "#6366f1" });
+  const _el2 = document.createElement('p');
+  _el2.style.fontSize = '14px';
+  _el2.style.fontWeight = '400';
+  _el2.style.lineHeight = '1.5';
+  const _t1 = document.createTextNode('');
+  bindText(_t1, notifCount);
+  _el2.appendChild(_t1);
+  _el1.appendChild(_el2);
+  _root.appendChild(_el1);
+  const _el3 = document.createElement('div');
+  _el3.style.padding = '12px';
+  _el3.style.backgroundColor = '#f8fafc';
+  _el3.style.borderRadius = '8px';
+  _el3.style.display = 'flex';
+  _el3.style.flexDirection = 'row';
+  _el3.style.gap = '8px';
+  _el3.style.alignItems = 'center';
+  const _el4 = document.createElement('span');
+  _el4.style.fontSize = '11.2px';
+  _el4.style.fontWeight = '500';
+  _el4.style.lineHeight = '1.4';
+  _el4.style.color = '#64748b';
+  const _t2 = document.createTextNode('');
+  _t2.data = String("Severity:");
+  _el4.appendChild(_t2);
+  _el3.appendChild(_el4);
+  mountButton(_el3, { onClick: () => { setSeverityFilter("all"); }, label: "All", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setSeverityFilter("info"); }, label: "Info", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setSeverityFilter("success"); }, label: "Success", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setSeverityFilter("warning"); }, label: "Warning", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setSeverityFilter("error"); }, label: "Error", variant: "secondary" });
+  _root.appendChild(_el3);
+  const _el5 = document.createElement('div');
+  _el5.style.padding = '16px';
+  _el5.style.backgroundColor = '#f0f9ff';
+  _el5.style.borderRadius = '8px';
+  bindVisibility(_el5, notificationsLoading);
+  const _el6 = document.createElement('p');
+  _el6.style.fontSize = '11.2px';
+  _el6.style.fontWeight = '400';
+  _el6.style.lineHeight = '1.5';
+  _el6.style.color = '#64748b';
+  const _t3 = document.createTextNode('');
+  _t3.data = String("Loading notifications...");
+  _el6.appendChild(_t3);
+  _el5.appendChild(_el6);
+  _root.appendChild(_el5);
+  const _el7 = document.createElement('div');
+  _el7.style.padding = '12px';
+  _el7.style.backgroundColor = '#fef2f2';
+  _el7.style.border = '1px solid #fecaca';
+  _el7.style.borderRadius = '8px';
+  bindVisibility(_el7, notificationsError);
+  const _el8 = document.createElement('p');
+  _el8.style.fontSize = '11.2px';
+  _el8.style.fontWeight = '400';
+  _el8.style.lineHeight = '1.5';
+  _el8.style.color = 'red';
+  const _t4 = document.createTextNode('');
+  _t4.data = String("Failed to load notifications.");
+  _el8.appendChild(_t4);
+  _el7.appendChild(_el8);
+  _root.appendChild(_el7);
+  const _list0 = document.createElement('div');
+  bindCollection(_list0, filteredNotifications, (notif, idx) => {
+    const _item = document.createElement('div');
+    const _el9 = document.createElement('div');
+    _el9.style.padding = '12px';
+    _el9.style.backgroundColor = '#ffffff';
+    _el9.style.border = '1px solid #e2e8f0';
+    _el9.style.borderRadius = '8px';
+    _el9.style.display = 'flex';
+    _el9.style.flexDirection = 'row';
+    _el9.style.gap = '12px';
+    _el9.style.alignItems = 'center';
+    mountIcon(_el9, { name: "bell", size: "20px", color: "#6366f1" });
+    const _el10 = document.createElement('div');
+    _el10.style.display = 'flex';
+    _el10.style.flexDirection = 'column';
+    _el10.style.gap = '4px';
+    const _el11 = document.createElement('p');
+    _el11.style.fontSize = '14px';
+    _el11.style.fontWeight = '400';
+    _el11.style.lineHeight = '1.5';
+    const _t5 = document.createTextNode('');
+    _t5.data = String(notif.title);
+    _el11.appendChild(_t5);
+    _el10.appendChild(_el11);
+    const _el12 = document.createElement('div');
+    _el12.style.display = 'flex';
+    _el12.style.flexDirection = 'row';
+    _el12.style.gap = '8px';
+    _el12.style.alignItems = 'center';
+    mountSeverityBadge(_el12, notif.severity);
+    const _el13 = document.createElement('span');
+    _el13.style.fontSize = '11.2px';
+    _el13.style.fontWeight = '400';
+    _el13.style.lineHeight = '1.5';
+    _el13.style.fontFamily = "'Menlo', 'Consolas', monospace";
+    _el13.style.color = '#94a3b8';
+    const _t6 = document.createTextNode('');
+    _t6.data = String(notif.createdAt);
+    _el13.appendChild(_t6);
+    _el12.appendChild(_el13);
+    _el10.appendChild(_el12);
+    _el9.appendChild(_el10);
+    _item.appendChild(_el9);
+    return _item;
+  });
+  _root.appendChild(_list0);
+  const _el14 = document.createElement('div');
+  _el14.style.padding = '16px';
+  _el14.style.backgroundColor = '#f8fafc';
+  _el14.style.borderRadius = '8px';
+  _el14.style.display = 'flex';
+  _el14.style.flexDirection = 'column';
+  _el14.style.gap = '8px';
+  _el14.style.alignItems = 'center';
+  bindVisibility(_el14, hasNoNotifications);
+  mountIcon(_el14, { name: "bell-off", size: "24px", color: "#94a3b8" });
+  const _el15 = document.createElement('p');
+  _el15.style.fontSize = '11.2px';
+  _el15.style.fontWeight = '400';
+  _el15.style.lineHeight = '1.5';
+  _el15.style.color = '#64748b';
+  const _t7 = document.createTextNode('');
+  _t7.data = String("No notifications match your filters.");
+  _el15.appendChild(_t7);
+  _el14.appendChild(_el15);
+  _root.appendChild(_el14);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountSettingsPanel(container) {
+  // @state
+  const displayName = createSignal("Admin User");
+  const email = createSignal("admin@example.com");
+  const language = createSignal("en");
+  const timezone = createSignal("utc");
+  const emailNotifications = createSignal(true);
+  const pushNotifications = createSignal(false);
+  const weeklyDigest = createSignal(true);
+  const autoSave = createSignal(true);
+  const compactMode = createSignal(false);
+  const showAvatars = createSignal(true);
+  const itemsPerPage = createSignal("25");
+  const dateFormat = createSignal("iso");
+  const saved = createSignal(false);
+  const bio = createSignal("");
+
+  // @computed
+  const nameError = computed(() => (displayName() == "" ? "Display name is required" : ""), [displayName]);
+  const emailError = computed(() => (email() == "" ? "Email is required" : ""), [email]);
+  const hasNameError = computed(() => nameError() != "", [nameError]);
+  const hasEmailError = computed(() => emailError() != "", [emailError]);
+  const isValid = computed(() => nameError() == "" && emailError() == "", [nameError, emailError]);
+  const savedVisible = computed(() => saved(), [saved]);
+  const settingsSummary = computed(() => `Logged in as ${displayName()} (${email()})`, [displayName, email]);
+
+  // @actions
+  function setDisplayName(v) {
+    displayName.set(v);
+  }
+  function setEmail(v) {
+    email.set(v);
+  }
+  function setLanguage(v) {
+    language.set(v);
+  }
+  function setTimezone(v) {
+    timezone.set(v);
+  }
+  function setEmailNotifications(v) {
+    emailNotifications.set(v);
+  }
+  function setPushNotifications(v) {
+    pushNotifications.set(v);
+  }
+  function setWeeklyDigest(v) {
+    weeklyDigest.set(v);
+  }
+  function setAutoSave(v) {
+    autoSave.set(v);
+  }
+  function setCompactMode(v) {
+    compactMode.set(v);
+  }
+  function setShowAvatars(v) {
+    showAvatars.set(v);
+  }
+  function setItemsPerPage(v) {
+    itemsPerPage.set(v);
+  }
+  function setDateFormat(v) {
+    dateFormat.set(v);
+  }
+  function setBio(v) {
+    bio.set(v);
+  }
+  function saveSettings() {
+    if (isValid()) {
+    saved.set(true);
+  }
+  }
+  function dismissSaved() {
+    saved.set(false);
+  }
+
+  // DOM
+  const _root = document.createElement('form');
+  _root.setAttribute('novalidate', '');
+  _root.addEventListener('submit', (e) => e.preventDefault());
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  _root.style.display = 'flex';
+  _root.style.flexDirection = 'column';
+  _root.style.gap = '20px';
+  const _el0 = document.createElement('h2');
+  _el0.style.fontSize = '34.2px';
+  _el0.style.fontWeight = '700';
+  _el0.style.lineHeight = '1.2';
+  const _t0 = document.createTextNode('');
+  _t0.data = String("Settings");
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+  const _el1 = document.createElement('p');
+  _el1.style.fontSize = '11.2px';
+  _el1.style.fontWeight = '400';
+  _el1.style.lineHeight = '1.5';
+  _el1.style.color = '#64748b';
+  const _t1 = document.createTextNode('');
+  bindText(_t1, settingsSummary);
+  _el1.appendChild(_t1);
+  _root.appendChild(_el1);
+  const _el2 = document.createElement('div');
+  _el2.style.padding = '12px';
+  _el2.style.backgroundColor = '#ecfdf5';
+  _el2.style.border = '1px solid #bbf7d0';
+  _el2.style.borderRadius = '8px';
+  _el2.style.display = 'flex';
+  _el2.style.flexDirection = 'row';
+  _el2.style.gap = '12px';
+  _el2.style.alignItems = 'center';
+  bindVisibility(_el2, savedVisible);
+  mountIcon(_el2, { name: "check", size: "20px", color: "#10b981" });
+  const _el3 = document.createElement('p');
+  _el3.style.fontSize = '14px';
+  _el3.style.fontWeight = '400';
+  _el3.style.lineHeight = '1.5';
+  _el3.style.color = '#10b981';
+  const _t2 = document.createTextNode('');
+  _t2.data = String("Settings saved successfully!");
+  _el3.appendChild(_t2);
+  _el2.appendChild(_el3);
+  mountButton(_el2, { onClick: () => { dismissSaved(); }, label: "Dismiss", variant: "ghost" });
+  _root.appendChild(_el2);
+  const _el4 = document.createElement('div');
+  _el4.style.padding = '16px';
+  _el4.style.backgroundColor = '#ffffff';
+  _el4.style.border = '1px solid #e2e8f0';
+  _el4.style.borderRadius = '12px';
+  _el4.style.display = 'flex';
+  _el4.style.flexDirection = 'column';
+  _el4.style.gap = '16px';
+  const _el5 = document.createElement('h3');
+  _el5.style.fontSize = '27.3px';
+  _el5.style.fontWeight = '600';
+  _el5.style.lineHeight = '1.2';
+  const _t3 = document.createTextNode('');
+  _t3.data = String("Profile");
+  _el5.appendChild(_t3);
+  _el4.appendChild(_el5);
+  const _el6 = document.createElement('div');
+  _el6.style.display = 'flex';
+  _el6.style.flexDirection = 'row';
+  _el6.style.gap = '16px';
+  const _el7 = document.createElement('div');
+  _el7.style.display = 'flex';
+  _el7.style.flexDirection = 'column';
+  _el7.style.gap = '4px';
+  const _hInput0 = mountInput(_el7, { onChange: (v) => { displayName.set(v); }, type: "text", label: "Display Name", value: displayName(), placeholder: "Your name" });
+  subscribe(displayName, (v) => { scheduleWrite(() => _hInput0.update({ value: v })); });
+  const _el8 = document.createElement('div');
+  bindVisibility(_el8, hasNameError);
+  const _el9 = document.createElement('p');
+  _el9.style.fontSize = '11.2px';
+  _el9.style.fontWeight = '400';
+  _el9.style.lineHeight = '1.5';
+  _el9.style.color = 'red';
+  const _t4 = document.createTextNode('');
+  bindText(_t4, nameError);
+  _el9.appendChild(_t4);
+  _el8.appendChild(_el9);
+  _el7.appendChild(_el8);
+  _el6.appendChild(_el7);
+  const _el10 = document.createElement('div');
+  _el10.style.display = 'flex';
+  _el10.style.flexDirection = 'column';
+  _el10.style.gap = '4px';
+  const _hInput1 = mountInput(_el10, { onChange: (v) => { email.set(v); }, type: "text", label: "Email", value: email(), placeholder: "Your email" });
+  subscribe(email, (v) => { scheduleWrite(() => _hInput1.update({ value: v })); });
+  const _el11 = document.createElement('div');
+  bindVisibility(_el11, hasEmailError);
+  const _el12 = document.createElement('p');
+  _el12.style.fontSize = '11.2px';
+  _el12.style.fontWeight = '400';
+  _el12.style.lineHeight = '1.5';
+  _el12.style.color = 'red';
+  const _t5 = document.createTextNode('');
+  bindText(_t5, emailError);
+  _el12.appendChild(_t5);
+  _el11.appendChild(_el12);
+  _el10.appendChild(_el11);
+  _el6.appendChild(_el10);
+  _el4.appendChild(_el6);
+  const _hInput2 = mountInput(_el4, { onChange: (v) => { bio.set(v); }, type: "textarea", label: "Bio", value: bio(), placeholder: "Tell us about yourself..." });
+  subscribe(bio, (v) => { scheduleWrite(() => _hInput2.update({ value: v })); });
+  _root.appendChild(_el4);
+  const _el13 = document.createElement('div');
+  _el13.style.padding = '16px';
+  _el13.style.backgroundColor = '#ffffff';
+  _el13.style.border = '1px solid #e2e8f0';
+  _el13.style.borderRadius = '12px';
+  _el13.style.display = 'flex';
+  _el13.style.flexDirection = 'column';
+  _el13.style.gap = '16px';
+  const _el14 = document.createElement('h3');
+  _el14.style.fontSize = '27.3px';
+  _el14.style.fontWeight = '600';
+  _el14.style.lineHeight = '1.2';
+  const _t6 = document.createTextNode('');
+  _t6.data = String("Localization");
+  _el14.appendChild(_t6);
+  _el13.appendChild(_el14);
+  const _el15 = document.createElement('div');
+  _el15.style.display = 'flex';
+  _el15.style.flexDirection = 'row';
+  _el15.style.gap = '16px';
+  const _hSelect3 = mountSelect(_el15, { onChange: (v) => { language.set(v); }, options: [{ value: "en", label: "English" }, { value: "es", label: "Spanish" }, { value: "fr", label: "French" }, { value: "de", label: "German" }, { value: "ja", label: "Japanese" }], value: language(), label: "Language" });
+  subscribe(language, (v) => { scheduleWrite(() => _hSelect3.update({ value: v })); });
+  const _hSelect4 = mountSelect(_el15, { onChange: (v) => { timezone.set(v); }, options: [{ value: "utc", label: "UTC" }, { value: "est", label: "US Eastern" }, { value: "pst", label: "US Pacific" }, { value: "cet", label: "Central European" }, { value: "jst", label: "Japan Standard" }], value: timezone(), label: "Timezone" });
+  subscribe(timezone, (v) => { scheduleWrite(() => _hSelect4.update({ value: v })); });
+  const _hSelect5 = mountSelect(_el15, { onChange: (v) => { dateFormat.set(v); }, options: [{ value: "iso", label: "YYYY-MM-DD" }, { value: "us", label: "MM/DD/YYYY" }, { value: "eu", label: "DD/MM/YYYY" }], value: dateFormat(), label: "Date Format" });
+  subscribe(dateFormat, (v) => { scheduleWrite(() => _hSelect5.update({ value: v })); });
+  _el13.appendChild(_el15);
+  _root.appendChild(_el13);
+  const _el16 = document.createElement('div');
+  _el16.style.padding = '16px';
+  _el16.style.backgroundColor = '#ffffff';
+  _el16.style.border = '1px solid #e2e8f0';
+  _el16.style.borderRadius = '12px';
+  _el16.style.display = 'flex';
+  _el16.style.flexDirection = 'column';
+  _el16.style.gap = '16px';
+  const _el17 = document.createElement('h3');
+  _el17.style.fontSize = '27.3px';
+  _el17.style.fontWeight = '600';
+  _el17.style.lineHeight = '1.2';
+  const _t7 = document.createTextNode('');
+  _t7.data = String("Notifications");
+  _el17.appendChild(_t7);
+  _el16.appendChild(_el17);
+  const _hToggle6 = mountToggle(_el16, { onChange: (v) => { emailNotifications.set(v); }, checked: emailNotifications(), label: "Email notifications" });
+  subscribe(emailNotifications, (v) => { scheduleWrite(() => _hToggle6.update({ checked: v })); });
+  const _hToggle7 = mountToggle(_el16, { onChange: (v) => { pushNotifications.set(v); }, checked: pushNotifications(), label: "Push notifications" });
+  subscribe(pushNotifications, (v) => { scheduleWrite(() => _hToggle7.update({ checked: v })); });
+  const _hToggle8 = mountToggle(_el16, { onChange: (v) => { weeklyDigest.set(v); }, checked: weeklyDigest(), label: "Weekly digest email" });
+  subscribe(weeklyDigest, (v) => { scheduleWrite(() => _hToggle8.update({ checked: v })); });
+  _root.appendChild(_el16);
+  const _el18 = document.createElement('div');
+  _el18.style.padding = '16px';
+  _el18.style.backgroundColor = '#ffffff';
+  _el18.style.border = '1px solid #e2e8f0';
+  _el18.style.borderRadius = '12px';
+  _el18.style.display = 'flex';
+  _el18.style.flexDirection = 'column';
+  _el18.style.gap = '16px';
+  const _el19 = document.createElement('h3');
+  _el19.style.fontSize = '27.3px';
+  _el19.style.fontWeight = '600';
+  _el19.style.lineHeight = '1.2';
+  const _t8 = document.createTextNode('');
+  _t8.data = String("Display");
+  _el19.appendChild(_t8);
+  _el18.appendChild(_el19);
+  const _hToggle9 = mountToggle(_el18, { onChange: (v) => { autoSave.set(v); }, checked: autoSave(), label: "Auto-save changes" });
+  subscribe(autoSave, (v) => { scheduleWrite(() => _hToggle9.update({ checked: v })); });
+  const _hToggle10 = mountToggle(_el18, { onChange: (v) => { compactMode.set(v); }, checked: compactMode(), label: "Compact mode" });
+  subscribe(compactMode, (v) => { scheduleWrite(() => _hToggle10.update({ checked: v })); });
+  const _hToggle11 = mountToggle(_el18, { onChange: (v) => { showAvatars.set(v); }, checked: showAvatars(), label: "Show avatars" });
+  subscribe(showAvatars, (v) => { scheduleWrite(() => _hToggle11.update({ checked: v })); });
+  const _hSelect12 = mountSelect(_el18, { onChange: (v) => { itemsPerPage.set(v); }, options: [{ value: "10", label: "10 per page" }, { value: "25", label: "25 per page" }, { value: "50", label: "50 per page" }, { value: "100", label: "100 per page" }], value: itemsPerPage(), label: "Items per page" });
+  subscribe(itemsPerPage, (v) => { scheduleWrite(() => _hSelect12.update({ value: v })); });
+  _root.appendChild(_el18);
+  const _el20 = document.createElement('div');
+  _el20.style.display = 'flex';
+  _el20.style.flexDirection = 'row';
+  _el20.style.gap = '12px';
+  mountButton(_el20, { onClick: () => { saveSettings(); }, label: "Save Settings", variant: "primary" });
+  mountButton(_el20, { label: "Reset", variant: "ghost" });
+  _root.appendChild(_el20);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
+export function mountAnalyticsView(container) {
+  // @source
+  const _src_stats = createStatsAPI();
+  const stats = _src_stats.data;
+  const statsLoading = _src_stats.loading;
+  const statsError = _src_stats.error;
+  _src_stats.fetch();
+  const _src_tasks = createTasksAPI();
+  const tasks = _src_tasks.data;
+  const tasksLoading = _src_tasks.loading;
+  const tasksError = _src_tasks.error;
+  _src_tasks.fetch();
+
+  // @computed
+  const total = computed(() => (stats() != null ? stats().total : 0), [stats]);
+  const done = computed(() => (stats() != null ? stats().done : 0), [stats]);
+  const inProgress = computed(() => (stats() != null ? stats().inProgress : 0), [stats]);
+  const todo = computed(() => (stats() != null ? stats().todo : 0), [stats]);
+  const doneLabel = computed(() => `${done()} completed`, [done]);
+  const inProgressLabel = computed(() => `${inProgress()} in progress`, [inProgress]);
+  const todoLabel = computed(() => `${todo()} todo`, [todo]);
+  const taskList = computed(() => (tasks() != null ? tasks() : []), [tasks]);
+  const highCount = computed(() => taskList().filter((t) => t.priority == "high").length, [taskList]);
+  const mediumCount = computed(() => taskList().filter((t) => t.priority == "medium").length, [taskList]);
+  const lowCount = computed(() => taskList().filter((t) => t.priority == "low").length, [taskList]);
+  const highLabel = computed(() => `${highCount()} high priority`, [highCount]);
+  const mediumLabel = computed(() => `${mediumCount()} medium priority`, [mediumCount]);
+  const lowLabel = computed(() => `${lowCount()} low priority`, [lowCount]);
+  const aliceCount = computed(() => taskList().filter((t) => t.assignee == "Alice").length, [taskList]);
+  const bobCount = computed(() => taskList().filter((t) => t.assignee == "Bob").length, [taskList]);
+  const carolCount = computed(() => taskList().filter((t) => t.assignee == "Carol").length, [taskList]);
+  const aliceLabel = computed(() => `Alice: ${aliceCount()} tasks`, [aliceCount]);
+  const bobLabel = computed(() => `Bob: ${bobCount()} tasks`, [bobCount]);
+  const carolLabel = computed(() => `Carol: ${carolCount()} tasks`, [carolCount]);
+
+  // DOM
+  const _root = document.createElement('div');
+  _root.style.color = '#202732';
+  _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  _root.style.display = 'flex';
+  _root.style.flexDirection = 'column';
+  _root.style.gap = '24px';
+  const _el0 = document.createElement('h2');
+  _el0.style.fontSize = '34.2px';
+  _el0.style.fontWeight = '700';
+  _el0.style.lineHeight = '1.2';
+  const _t0 = document.createTextNode('');
+  _t0.data = String("Analytics");
+  _el0.appendChild(_t0);
+  _root.appendChild(_el0);
+  const _el1 = document.createElement('div');
+  _el1.style.padding = '16px';
+  _el1.style.backgroundColor = '#f0f9ff';
+  _el1.style.borderRadius = '8px';
+  _el1.style.display = 'flex';
+  _el1.style.flexDirection = 'row';
+  _el1.style.gap = '8px';
+  _el1.style.alignItems = 'center';
+  bindVisibility(_el1, statsLoading);
+  mountIcon(_el1, { name: "loader", size: "18px", color: "#6366f1" });
+  const _el2 = document.createElement('p');
+  _el2.style.fontSize = '11.2px';
+  _el2.style.fontWeight = '400';
+  _el2.style.lineHeight = '1.5';
+  _el2.style.color = '#64748b';
+  const _t1 = document.createTextNode('');
+  _t1.data = String("Loading analytics...");
+  _el2.appendChild(_t1);
+  _el1.appendChild(_el2);
+  _root.appendChild(_el1);
+  const _el3 = document.createElement('div');
+  _el3.style.display = 'flex';
+  _el3.style.flexDirection = 'row';
+  _el3.style.gap = '16px';
+  const _el4 = document.createElement('div');
+  _el4.style.padding = '16px';
+  _el4.style.backgroundColor = '#eef2ff';
+  _el4.style.borderRadius = '12px';
+  _el4.style.display = 'flex';
+  _el4.style.flexDirection = 'column';
+  _el4.style.gap = '8px';
+  _el4.style.alignItems = 'center';
+  mountIcon(_el4, { name: "list", size: "28px", color: "#6366f1" });
+  const _el5 = document.createElement('h2');
+  _el5.style.fontSize = '34.2px';
+  _el5.style.fontWeight = '700';
+  _el5.style.lineHeight = '1.2';
+  _el5.style.color = '#6366f1';
+  const _t2 = document.createTextNode('');
+  const _sig0 = computed(() => String(`${total()}`), [total]);
+  bindText(_t2, _sig0);
+  _el5.appendChild(_t2);
+  _el4.appendChild(_el5);
+  const _el6 = document.createElement('span');
+  _el6.style.fontSize = '11.2px';
+  _el6.style.fontWeight = '500';
+  _el6.style.lineHeight = '1.4';
+  _el6.style.color = '#64748b';
+  const _t3 = document.createTextNode('');
+  _t3.data = String("Total Tasks");
+  _el6.appendChild(_t3);
+  _el4.appendChild(_el6);
+  _el3.appendChild(_el4);
+  const _el7 = document.createElement('div');
+  _el7.style.padding = '16px';
+  _el7.style.backgroundColor = '#ecfdf5';
+  _el7.style.borderRadius = '12px';
+  _el7.style.display = 'flex';
+  _el7.style.flexDirection = 'column';
+  _el7.style.gap = '8px';
+  _el7.style.alignItems = 'center';
+  mountIcon(_el7, { name: "check", size: "28px", color: "#10b981" });
+  const _el8 = document.createElement('h2');
+  _el8.style.fontSize = '34.2px';
+  _el8.style.fontWeight = '700';
+  _el8.style.lineHeight = '1.2';
+  _el8.style.color = '#10b981';
+  const _t4 = document.createTextNode('');
+  const _sig1 = computed(() => String(`${done()}`), [done]);
+  bindText(_t4, _sig1);
+  _el8.appendChild(_t4);
+  _el7.appendChild(_el8);
+  const _el9 = document.createElement('span');
+  _el9.style.fontSize = '11.2px';
+  _el9.style.fontWeight = '500';
+  _el9.style.lineHeight = '1.4';
+  _el9.style.color = '#64748b';
+  const _t5 = document.createTextNode('');
+  _t5.data = String("Completed");
+  _el9.appendChild(_t5);
+  _el7.appendChild(_el9);
+  _el3.appendChild(_el7);
+  const _el10 = document.createElement('div');
+  _el10.style.padding = '16px';
+  _el10.style.backgroundColor = '#fffbeb';
+  _el10.style.borderRadius = '12px';
+  _el10.style.display = 'flex';
+  _el10.style.flexDirection = 'column';
+  _el10.style.gap = '8px';
+  _el10.style.alignItems = 'center';
+  mountIcon(_el10, { name: "loader", size: "28px", color: "#f59e0b" });
+  const _el11 = document.createElement('h2');
+  _el11.style.fontSize = '34.2px';
+  _el11.style.fontWeight = '700';
+  _el11.style.lineHeight = '1.2';
+  _el11.style.color = '#f59e0b';
+  const _t6 = document.createTextNode('');
+  const _sig2 = computed(() => String(`${inProgress()}`), [inProgress]);
+  bindText(_t6, _sig2);
+  _el11.appendChild(_t6);
+  _el10.appendChild(_el11);
+  const _el12 = document.createElement('span');
+  _el12.style.fontSize = '11.2px';
+  _el12.style.fontWeight = '500';
+  _el12.style.lineHeight = '1.4';
+  _el12.style.color = '#64748b';
+  const _t7 = document.createTextNode('');
+  _t7.data = String("In Progress");
+  _el12.appendChild(_t7);
+  _el10.appendChild(_el12);
+  _el3.appendChild(_el10);
+  const _el13 = document.createElement('div');
+  _el13.style.padding = '16px';
+  _el13.style.backgroundColor = '#f8fafc';
+  _el13.style.borderRadius = '12px';
+  _el13.style.display = 'flex';
+  _el13.style.flexDirection = 'column';
+  _el13.style.gap = '8px';
+  _el13.style.alignItems = 'center';
+  mountIcon(_el13, { name: "circle", size: "28px", color: "#94a3b8" });
+  const _el14 = document.createElement('h2');
+  _el14.style.fontSize = '34.2px';
+  _el14.style.fontWeight = '700';
+  _el14.style.lineHeight = '1.2';
+  _el14.style.color = '#94a3b8';
+  const _t8 = document.createTextNode('');
+  const _sig3 = computed(() => String(`${todo()}`), [todo]);
+  bindText(_t8, _sig3);
+  _el14.appendChild(_t8);
+  _el13.appendChild(_el14);
+  const _el15 = document.createElement('span');
+  _el15.style.fontSize = '11.2px';
+  _el15.style.fontWeight = '500';
+  _el15.style.lineHeight = '1.4';
+  _el15.style.color = '#64748b';
+  const _t9 = document.createTextNode('');
+  _t9.data = String("Todo");
+  _el15.appendChild(_t9);
+  _el13.appendChild(_el15);
+  _el3.appendChild(_el13);
+  _root.appendChild(_el3);
+  const _el16 = document.createElement('div');
+  _el16.style.padding = '16px';
+  _el16.style.backgroundColor = '#ffffff';
+  _el16.style.border = '1px solid #e2e8f0';
+  _el16.style.borderRadius = '12px';
+  _el16.style.display = 'flex';
+  _el16.style.flexDirection = 'column';
+  _el16.style.gap = '16px';
+  const _el17 = document.createElement('h3');
+  _el17.style.fontSize = '27.3px';
+  _el17.style.fontWeight = '600';
+  _el17.style.lineHeight = '1.2';
+  const _t10 = document.createTextNode('');
+  _t10.data = String("Status Breakdown");
+  _el17.appendChild(_t10);
+  _el16.appendChild(_el17);
+  const _el18 = document.createElement('div');
+  _el18.style.padding = '12px';
+  _el18.style.backgroundColor = '#ecfdf5';
+  _el18.style.borderRadius = '8px';
+  _el18.style.display = 'flex';
+  _el18.style.flexDirection = 'row';
+  _el18.style.gap = '8px';
+  _el18.style.alignItems = 'center';
+  mountIcon(_el18, { name: "check", size: "18px", color: "#10b981" });
+  const _el19 = document.createElement('p');
+  _el19.style.fontSize = '14px';
+  _el19.style.fontWeight = '400';
+  _el19.style.lineHeight = '1.5';
+  _el19.style.color = '#10b981';
+  const _t11 = document.createTextNode('');
+  bindText(_t11, doneLabel);
+  _el19.appendChild(_t11);
+  _el18.appendChild(_el19);
+  _el16.appendChild(_el18);
+  const _el20 = document.createElement('div');
+  _el20.style.padding = '12px';
+  _el20.style.backgroundColor = '#fffbeb';
+  _el20.style.borderRadius = '8px';
+  _el20.style.display = 'flex';
+  _el20.style.flexDirection = 'row';
+  _el20.style.gap = '8px';
+  _el20.style.alignItems = 'center';
+  mountIcon(_el20, { name: "loader", size: "18px", color: "#f59e0b" });
+  const _el21 = document.createElement('p');
+  _el21.style.fontSize = '14px';
+  _el21.style.fontWeight = '400';
+  _el21.style.lineHeight = '1.5';
+  _el21.style.color = '#f59e0b';
+  const _t12 = document.createTextNode('');
+  bindText(_t12, inProgressLabel);
+  _el21.appendChild(_t12);
+  _el20.appendChild(_el21);
+  _el16.appendChild(_el20);
+  const _el22 = document.createElement('div');
+  _el22.style.padding = '12px';
+  _el22.style.backgroundColor = '#f8fafc';
+  _el22.style.borderRadius = '8px';
+  _el22.style.display = 'flex';
+  _el22.style.flexDirection = 'row';
+  _el22.style.gap = '8px';
+  _el22.style.alignItems = 'center';
+  mountIcon(_el22, { name: "circle", size: "18px", color: "#94a3b8" });
+  const _el23 = document.createElement('p');
+  _el23.style.fontSize = '14px';
+  _el23.style.fontWeight = '400';
+  _el23.style.lineHeight = '1.5';
+  _el23.style.color = '#94a3b8';
+  const _t13 = document.createTextNode('');
+  bindText(_t13, todoLabel);
+  _el23.appendChild(_t13);
+  _el22.appendChild(_el23);
+  _el16.appendChild(_el22);
+  _root.appendChild(_el16);
+  const _el24 = document.createElement('div');
+  _el24.style.padding = '16px';
+  _el24.style.backgroundColor = '#ffffff';
+  _el24.style.border = '1px solid #e2e8f0';
+  _el24.style.borderRadius = '12px';
+  _el24.style.display = 'flex';
+  _el24.style.flexDirection = 'column';
+  _el24.style.gap = '16px';
+  const _el25 = document.createElement('h3');
+  _el25.style.fontSize = '27.3px';
+  _el25.style.fontWeight = '600';
+  _el25.style.lineHeight = '1.2';
+  const _t14 = document.createTextNode('');
+  _t14.data = String("Priority Breakdown");
+  _el25.appendChild(_t14);
+  _el24.appendChild(_el25);
+  const _el26 = document.createElement('div');
+  _el26.style.padding = '12px';
+  _el26.style.backgroundColor = '#fef2f2';
+  _el26.style.borderRadius = '8px';
+  _el26.style.display = 'flex';
+  _el26.style.flexDirection = 'row';
+  _el26.style.gap = '8px';
+  _el26.style.alignItems = 'center';
+  mountIcon(_el26, { name: "info", size: "18px", color: "#ef4444" });
+  const _el27 = document.createElement('p');
+  _el27.style.fontSize = '14px';
+  _el27.style.fontWeight = '400';
+  _el27.style.lineHeight = '1.5';
+  _el27.style.color = '#ef4444';
+  const _t15 = document.createTextNode('');
+  bindText(_t15, highLabel);
+  _el27.appendChild(_t15);
+  _el26.appendChild(_el27);
+  _el24.appendChild(_el26);
+  const _el28 = document.createElement('div');
+  _el28.style.padding = '12px';
+  _el28.style.backgroundColor = '#fffbeb';
+  _el28.style.borderRadius = '8px';
+  _el28.style.display = 'flex';
+  _el28.style.flexDirection = 'row';
+  _el28.style.gap = '8px';
+  _el28.style.alignItems = 'center';
+  mountIcon(_el28, { name: "info", size: "18px", color: "#f59e0b" });
+  const _el29 = document.createElement('p');
+  _el29.style.fontSize = '14px';
+  _el29.style.fontWeight = '400';
+  _el29.style.lineHeight = '1.5';
+  _el29.style.color = '#f59e0b';
+  const _t16 = document.createTextNode('');
+  bindText(_t16, mediumLabel);
+  _el29.appendChild(_t16);
+  _el28.appendChild(_el29);
+  _el24.appendChild(_el28);
+  const _el30 = document.createElement('div');
+  _el30.style.padding = '12px';
+  _el30.style.backgroundColor = '#ecfdf5';
+  _el30.style.borderRadius = '8px';
+  _el30.style.display = 'flex';
+  _el30.style.flexDirection = 'row';
+  _el30.style.gap = '8px';
+  _el30.style.alignItems = 'center';
+  mountIcon(_el30, { name: "info", size: "18px", color: "#10b981" });
+  const _el31 = document.createElement('p');
+  _el31.style.fontSize = '14px';
+  _el31.style.fontWeight = '400';
+  _el31.style.lineHeight = '1.5';
+  _el31.style.color = '#10b981';
+  const _t17 = document.createTextNode('');
+  bindText(_t17, lowLabel);
+  _el31.appendChild(_t17);
+  _el30.appendChild(_el31);
+  _el24.appendChild(_el30);
+  _root.appendChild(_el24);
+  const _el32 = document.createElement('div');
+  _el32.style.padding = '16px';
+  _el32.style.backgroundColor = '#ffffff';
+  _el32.style.border = '1px solid #e2e8f0';
+  _el32.style.borderRadius = '12px';
+  _el32.style.display = 'flex';
+  _el32.style.flexDirection = 'column';
+  _el32.style.gap = '16px';
+  const _el33 = document.createElement('h3');
+  _el33.style.fontSize = '27.3px';
+  _el33.style.fontWeight = '600';
+  _el33.style.lineHeight = '1.2';
+  const _t18 = document.createTextNode('');
+  _t18.data = String("Workload Distribution");
+  _el33.appendChild(_t18);
+  _el32.appendChild(_el33);
+  const _el34 = document.createElement('div');
+  _el34.style.padding = '12px';
+  _el34.style.backgroundColor = '#eef2ff';
+  _el34.style.borderRadius = '8px';
+  _el34.style.display = 'flex';
+  _el34.style.flexDirection = 'row';
+  _el34.style.gap = '8px';
+  _el34.style.alignItems = 'center';
+  mountIcon(_el34, { name: "user", size: "18px", color: "#6366f1" });
+  const _el35 = document.createElement('p');
+  _el35.style.fontSize = '14px';
+  _el35.style.fontWeight = '400';
+  _el35.style.lineHeight = '1.5';
+  const _t19 = document.createTextNode('');
+  bindText(_t19, aliceLabel);
+  _el35.appendChild(_t19);
+  _el34.appendChild(_el35);
+  _el32.appendChild(_el34);
+  const _el36 = document.createElement('div');
+  _el36.style.padding = '12px';
+  _el36.style.backgroundColor = '#ecfdf5';
+  _el36.style.borderRadius = '8px';
+  _el36.style.display = 'flex';
+  _el36.style.flexDirection = 'row';
+  _el36.style.gap = '8px';
+  _el36.style.alignItems = 'center';
+  mountIcon(_el36, { name: "user", size: "18px", color: "#10b981" });
+  const _el37 = document.createElement('p');
+  _el37.style.fontSize = '14px';
+  _el37.style.fontWeight = '400';
+  _el37.style.lineHeight = '1.5';
+  const _t20 = document.createTextNode('');
+  bindText(_t20, bobLabel);
+  _el37.appendChild(_t20);
+  _el36.appendChild(_el37);
+  _el32.appendChild(_el36);
+  const _el38 = document.createElement('div');
+  _el38.style.padding = '12px';
+  _el38.style.backgroundColor = '#fffbeb';
+  _el38.style.borderRadius = '8px';
+  _el38.style.display = 'flex';
+  _el38.style.flexDirection = 'row';
+  _el38.style.gap = '8px';
+  _el38.style.alignItems = 'center';
+  mountIcon(_el38, { name: "user", size: "18px", color: "#f59e0b" });
+  const _el39 = document.createElement('p');
+  _el39.style.fontSize = '14px';
+  _el39.style.fontWeight = '400';
+  _el39.style.lineHeight = '1.5';
+  const _t21 = document.createTextNode('');
+  bindText(_t21, carolLabel);
+  _el39.appendChild(_t21);
+  _el38.appendChild(_el39);
+  _el32.appendChild(_el38);
+  _root.appendChild(_el32);
+
+  container.appendChild(_root);
+  return () => _root.remove();
+}
+
 export function mountApp(container) {
   // @state
-  const theme = createSignal("light");
+  const themePreset = createSignal("enterprise");
   const view = createSignal("dashboard");
 
   // @source
@@ -857,29 +2197,34 @@ export function mountApp(container) {
   _src_stats.fetch();
 
   // @computed
-  const themeLabel = computed(() => (theme() == "light" ? "Dark Mode" : "Light Mode"), [theme]);
+  const headerBg = computed(() => (themePreset() === "enterprise" ? "#0f172a" : (themePreset() === "social" ? "#7c3aed" : (themePreset() === "minimal" ? "#ffffff" : (themePreset() === "playful" ? "#ea580c" : "#0f172a")))), [themePreset]);
+  const headerText = computed(() => (themePreset() === "enterprise" ? "#ffffff" : (themePreset() === "social" ? "#ffffff" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#ffffff" : "#ffffff")))), [themePreset]);
+  const accentColor = computed(() => (themePreset() === "enterprise" ? "#3b82f6" : (themePreset() === "social" ? "#8b5cf6" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#f97316" : "#3b82f6")))), [themePreset]);
   const showDashboard = computed(() => view() == "dashboard", [view]);
   const showDetail = computed(() => view() == "detail", [view]);
   const showCreate = computed(() => view() == "create", [view]);
   const showWizard = computed(() => view() == "wizard", [view]);
-  const viewTitle = computed(() => (view() === "dashboard" ? "Dashboard" : (view() === "detail" ? "Task Detail" : (view() === "create" ? "Create Task" : (view() === "wizard" ? "Task Wizard" : "Admin")))), [view]);
+  const showTeam = computed(() => view() == "team", [view]);
+  const showActivity = computed(() => view() == "activity", [view]);
+  const showNotifications = computed(() => view() == "notifications", [view]);
+  const showSettings = computed(() => view() == "settings", [view]);
+  const showAnalytics = computed(() => view() == "analytics", [view]);
+  const viewTitle = computed(() => (view() === "dashboard" ? "Dashboard" : (view() === "detail" ? "Task Detail" : (view() === "create" ? "Create Task" : (view() === "wizard" ? "Task Wizard" : (view() === "team" ? "Team" : (view() === "activity" ? "Activity" : (view() === "notifications" ? "Notifications" : (view() === "settings" ? "Settings" : (view() === "analytics" ? "Analytics" : "Admin"))))))))), [view]);
   const statsTotal = computed(() => (stats() != null ? stats().total : 0), [stats]);
   const statsDone = computed(() => (stats() != null ? stats().done : 0), [stats]);
   const statsInProgress = computed(() => (stats() != null ? stats().inProgress : 0), [stats]);
   const statsTodo = computed(() => (stats() != null ? stats().todo : 0), [stats]);
 
   // @actions
-  function toggleTheme() {
-    theme.set((theme() == "light" ? "dark" : "light"));
+  function setThemePreset(p) {
+    themePreset.set(p);
   }
   function setView(v) {
     view.set(v);
   }
 
   // DOM
-  const _root = document.createElement('form');
-  _root.setAttribute('novalidate', '');
-  _root.addEventListener('submit', (e) => e.preventDefault());
+  const _root = document.createElement('div');
   _root.setAttribute('role', 'main');
   _root.id = 'spec-main-content';
   const _skip = document.createElement('a');
@@ -890,15 +2235,15 @@ export function mountApp(container) {
   _skip.addEventListener('focus', () => { _skip.style.cssText = 'position:absolute;left:8px;top:8px;z-index:10000;padding:8px 16px;background:#fff;border:2px solid #6366f1;border-radius:4px;font-size:14px;color:#202732'; });
   _skip.addEventListener('blur', () => { _skip.style.cssText = 'position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10000'; });
   _root.prepend(_skip);
-  const _rootColor = computed(() => theme() === 'dark' ? '#eeeff1' : '#202732', [theme]);
-  bindStyle(_root, 'color', _rootColor);
+  _root.style.color = '#202732';
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'column';
   _root.style.gap = '24px';
   const _el0 = document.createElement('div');
   _el0.style.padding = '16px';
-  _el0.style.backgroundColor = '#ffffff';
+  const _blockBg0 = computed(() => headerBg(), [headerBg]);
+  bindStyle(_el0, 'backgroundColor', _blockBg0);
   _el0.style.border = '1px solid #e2e8f0';
   _el0.style.borderRadius = '12px';
   _el0.style.display = 'flex';
@@ -911,7 +2256,8 @@ export function mountApp(container) {
   _el1.style.flexDirection = 'row';
   _el1.style.gap = '12px';
   _el1.style.alignItems = 'center';
-  mountIcon(_el1, { name: "home", size: "22px", color: "#6366f1" });
+  const _hIcon1 = mountIcon(_el1, { name: "home", size: "22px", color: accentColor() });
+  subscribe(accentColor, (v) => { scheduleWrite(() => _hIcon1.update({ color: v })); });
   const _el2 = document.createElement('h2');
   _el2.style.fontSize = '34.2px';
   _el2.style.fontWeight = '700';
@@ -924,15 +2270,15 @@ export function mountApp(container) {
   const _el3 = document.createElement('div');
   _el3.style.display = 'flex';
   _el3.style.flexDirection = 'row';
-  _el3.style.gap = '12px';
+  _el3.style.gap = '8px';
   _el3.style.alignItems = 'center';
-  const _hToggle0 = mountToggle(_el3, { onChange: () => { toggleTheme(); }, checked: theme() == "dark", label: themeLabel() });
-  const _cpchecked1 = computed(() => theme() == "dark", [theme]);
-  subscribe(_cpchecked1, (v) => { scheduleWrite(() => _hToggle0.update({ checked: v })); });
-  subscribe(themeLabel, (v) => { scheduleWrite(() => _hToggle0.update({ label: v })); });
+  mountButton(_el3, { onClick: () => { setThemePreset("enterprise"); }, label: "Enterprise", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setThemePreset("social"); }, label: "Social", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setThemePreset("minimal"); }, label: "Minimal", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { setThemePreset("playful"); }, label: "Playful", variant: "secondary" });
   _el0.appendChild(_el3);
   _root.appendChild(_el0);
-  const _hTabs2 = mountTabs(_root, { onChange: (v) => { view.set(v); }, tabs: [{ id: "dashboard", label: "Dashboard" }, { id: "detail", label: "Detail" }, { id: "create", label: "New Task" }, { id: "wizard", label: "Wizard" }], activeTab: view() });
+  const _hTabs2 = mountTabs(_root, { onChange: (v) => { view.set(v); }, tabs: [{ id: "dashboard", label: "Dashboard" }, { id: "analytics", label: "Analytics" }, { id: "team", label: "Team" }, { id: "activity", label: "Activity" }, { id: "notifications", label: "Notifications" }, { id: "detail", label: "Detail" }, { id: "create", label: "New Task" }, { id: "wizard", label: "Wizard" }, { id: "settings", label: "Settings" }], activeTab: view() });
   subscribe(view, (v) => { scheduleWrite(() => _hTabs2.update({ activeTab: v })); });
   const _el4 = document.createElement('div');
   _el4.style.display = 'flex';
@@ -940,65 +2286,110 @@ export function mountApp(container) {
   _el4.style.gap = '24px';
   bindVisibility(_el4, showDashboard);
   const _el5 = document.createElement('div');
-  const _cardBg3 = computed(() => theme() === 'dark' ? '#3b4e68' : '#ffffff', [theme]);
-  bindStyle(_el5, 'backgroundColor', _cardBg3);
-  const _cardBorder4 = computed(() => theme() === 'dark' ? '1px solid #3b4e68' : '1px solid #dce0e5', [theme]);
-  bindStyle(_el5, 'border', _cardBorder4);
+  _el5.style.backgroundColor = '#ffffff';
+  _el5.style.border = '1px solid #dce0e5';
   _el5.style.padding = '16px';
   _el5.style.borderRadius = '8px';
   _el5.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountStatsBar(_el5, statsTotal(), statsDone(), statsInProgress(), statsTodo());
+  mountStatsBar(_el5, statsTotal, statsDone, statsInProgress, statsTodo, themePreset);
   _el4.appendChild(_el5);
   const _el6 = document.createElement('div');
-  const _cardBg5 = computed(() => theme() === 'dark' ? '#3b4e68' : '#ffffff', [theme]);
-  bindStyle(_el6, 'backgroundColor', _cardBg5);
-  const _cardBorder6 = computed(() => theme() === 'dark' ? '1px solid #3b4e68' : '1px solid #dce0e5', [theme]);
-  bindStyle(_el6, 'border', _cardBorder6);
+  _el6.style.backgroundColor = '#ffffff';
+  _el6.style.border = '1px solid #dce0e5';
   _el6.style.padding = '16px';
   _el6.style.borderRadius = '8px';
   _el6.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountTaskTable(_el6);
+  mountTaskTable(_el6, themePreset);
   _el4.appendChild(_el6);
   _root.appendChild(_el4);
   const _el7 = document.createElement('div');
   bindVisibility(_el7, showDetail);
   const _el8 = document.createElement('div');
-  const _cardBg7 = computed(() => theme() === 'dark' ? '#3b4e68' : '#ffffff', [theme]);
-  bindStyle(_el8, 'backgroundColor', _cardBg7);
-  const _cardBorder8 = computed(() => theme() === 'dark' ? '1px solid #3b4e68' : '1px solid #dce0e5', [theme]);
-  bindStyle(_el8, 'border', _cardBorder8);
+  _el8.style.backgroundColor = '#ffffff';
+  _el8.style.border = '1px solid #dce0e5';
   _el8.style.padding = '16px';
   _el8.style.borderRadius = '8px';
   _el8.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountTaskDetail(_el8);
+  mountTaskDetail(_el8, themePreset);
   _el7.appendChild(_el8);
   _root.appendChild(_el7);
   const _el9 = document.createElement('div');
   bindVisibility(_el9, showCreate);
   const _el10 = document.createElement('div');
-  const _cardBg9 = computed(() => theme() === 'dark' ? '#3b4e68' : '#ffffff', [theme]);
-  bindStyle(_el10, 'backgroundColor', _cardBg9);
-  const _cardBorder10 = computed(() => theme() === 'dark' ? '1px solid #3b4e68' : '1px solid #dce0e5', [theme]);
-  bindStyle(_el10, 'border', _cardBorder10);
+  _el10.style.backgroundColor = '#ffffff';
+  _el10.style.border = '1px solid #dce0e5';
   _el10.style.padding = '16px';
   _el10.style.borderRadius = '8px';
   _el10.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountTaskForm(_el10);
+  mountTaskForm(_el10, themePreset);
   _el9.appendChild(_el10);
   _root.appendChild(_el9);
   const _el11 = document.createElement('div');
   bindVisibility(_el11, showWizard);
   const _el12 = document.createElement('div');
-  const _cardBg11 = computed(() => theme() === 'dark' ? '#3b4e68' : '#ffffff', [theme]);
-  bindStyle(_el12, 'backgroundColor', _cardBg11);
-  const _cardBorder12 = computed(() => theme() === 'dark' ? '1px solid #3b4e68' : '1px solid #dce0e5', [theme]);
-  bindStyle(_el12, 'border', _cardBorder12);
+  _el12.style.backgroundColor = '#ffffff';
+  _el12.style.border = '1px solid #dce0e5';
   _el12.style.padding = '16px';
   _el12.style.borderRadius = '8px';
   _el12.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
   mountTaskWizard(_el12);
   _el11.appendChild(_el12);
   _root.appendChild(_el11);
+  const _el13 = document.createElement('div');
+  bindVisibility(_el13, showTeam);
+  const _el14 = document.createElement('div');
+  _el14.style.backgroundColor = '#ffffff';
+  _el14.style.border = '1px solid #dce0e5';
+  _el14.style.padding = '16px';
+  _el14.style.borderRadius = '8px';
+  _el14.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
+  mountTeamDirectory(_el14);
+  _el13.appendChild(_el14);
+  _root.appendChild(_el13);
+  const _el15 = document.createElement('div');
+  bindVisibility(_el15, showActivity);
+  const _el16 = document.createElement('div');
+  _el16.style.backgroundColor = '#ffffff';
+  _el16.style.border = '1px solid #dce0e5';
+  _el16.style.padding = '16px';
+  _el16.style.borderRadius = '8px';
+  _el16.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
+  mountActivityFeed(_el16);
+  _el15.appendChild(_el16);
+  _root.appendChild(_el15);
+  const _el17 = document.createElement('div');
+  bindVisibility(_el17, showNotifications);
+  const _el18 = document.createElement('div');
+  _el18.style.backgroundColor = '#ffffff';
+  _el18.style.border = '1px solid #dce0e5';
+  _el18.style.padding = '16px';
+  _el18.style.borderRadius = '8px';
+  _el18.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
+  mountNotificationsPanel(_el18);
+  _el17.appendChild(_el18);
+  _root.appendChild(_el17);
+  const _el19 = document.createElement('div');
+  bindVisibility(_el19, showSettings);
+  const _el20 = document.createElement('div');
+  _el20.style.backgroundColor = '#ffffff';
+  _el20.style.border = '1px solid #dce0e5';
+  _el20.style.padding = '16px';
+  _el20.style.borderRadius = '8px';
+  _el20.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
+  mountSettingsPanel(_el20);
+  _el19.appendChild(_el20);
+  _root.appendChild(_el19);
+  const _el21 = document.createElement('div');
+  bindVisibility(_el21, showAnalytics);
+  const _el22 = document.createElement('div');
+  _el22.style.backgroundColor = '#ffffff';
+  _el22.style.border = '1px solid #dce0e5';
+  _el22.style.padding = '16px';
+  _el22.style.borderRadius = '8px';
+  _el22.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
+  mountAnalyticsView(_el22);
+  _el21.appendChild(_el22);
+  _root.appendChild(_el21);
 
   container.appendChild(_root);
   return () => _root.remove();
@@ -1108,7 +2499,7 @@ export function mountTaskWizard(container, options = {}) {
 
 export function createTasksAPI(params = {}) {
   return createSource({
-    endpoint: 'http://localhost:4000/api/tasks',
+    endpoint: 'http://localhost:4000/api/tasks?failRate=0.6',
     method: 'GET',
     cacheTtl: 60000,
     retryAttempts: 3,
@@ -1131,6 +2522,26 @@ export function createUsersAPI(params = {}) {
     endpoint: 'http://localhost:4000/api/users',
     method: 'GET',
     cacheTtl: 300000,
+    ...params,
+  });
+}
+
+export function createActivityAPI(params = {}) {
+  return createSource({
+    endpoint: 'http://localhost:4000/api/activity',
+    method: 'GET',
+    cacheTtl: 120000,
+    ...params,
+  });
+}
+
+export function createNotificationsAPI(params = {}) {
+  return createSource({
+    endpoint: 'http://localhost:4000/api/notifications',
+    method: 'GET',
+    cacheTtl: 120000,
+    retryAttempts: 2,
+    retryStrategy: 'exponential',
     ...params,
   });
 }

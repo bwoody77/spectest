@@ -19,7 +19,31 @@ import { createServer } from 'node:http';
 // In-memory data store
 // ---------------------------------------------------------------------------
 
+let nextNotificationId = 8;
 let nextTaskId = 6;
+
+const notifications = [
+  { id: 1, title: 'Deployment succeeded',       severity: 'success', read: true,  createdAt: '2026-02-26T09:00:00Z' },
+  { id: 2, title: 'Build failed on main',       severity: 'error',   read: false, createdAt: '2026-02-26T08:45:00Z' },
+  { id: 3, title: 'PR #42 awaiting review',     severity: 'warning', read: false, createdAt: '2026-02-25T16:30:00Z' },
+  { id: 4, title: 'New team member joined',      severity: 'info',    read: true,  createdAt: '2026-02-25T14:00:00Z' },
+  { id: 5, title: 'Security patch available',    severity: 'warning', read: false, createdAt: '2026-02-25T11:00:00Z' },
+  { id: 6, title: 'Database backup completed',   severity: 'success', read: true,  createdAt: '2026-02-24T22:00:00Z' },
+  { id: 7, title: 'Rate limit threshold reached',severity: 'error',   read: false, createdAt: '2026-02-24T18:30:00Z' },
+];
+
+const activity = [
+  { id: 1, type: 'task_created',   user: 'Alice', detail: 'Created "Set up project scaffolding"', timestamp: '2026-02-26T09:15:00Z' },
+  { id: 2, type: 'task_completed', user: 'Alice', detail: 'Completed "Set up project scaffolding"', timestamp: '2026-02-26T09:10:00Z' },
+  { id: 3, type: 'comment',        user: 'Bob',   detail: 'Commented on "Implement auth flow"',    timestamp: '2026-02-26T08:50:00Z' },
+  { id: 4, type: 'task_assigned',  user: 'Carol', detail: 'Assigned to "Design dashboard layout"', timestamp: '2026-02-25T17:00:00Z' },
+  { id: 5, type: 'deploy',         user: 'Alice', detail: 'Deployed v1.2.0 to staging',            timestamp: '2026-02-25T15:30:00Z' },
+  { id: 6, type: 'task_created',   user: 'Bob',   detail: 'Created "Write API integration tests"', timestamp: '2026-02-25T14:20:00Z' },
+  { id: 7, type: 'comment',        user: 'Carol', detail: 'Commented on "Deploy to staging"',      timestamp: '2026-02-25T12:00:00Z' },
+  { id: 8, type: 'task_assigned',  user: 'Alice', detail: 'Assigned to "Deploy to staging"',       timestamp: '2026-02-25T10:00:00Z' },
+  { id: 9, type: 'deploy',         user: 'Bob',   detail: 'Deployed v1.1.0 to production',         timestamp: '2026-02-24T20:00:00Z' },
+  { id: 10, type: 'task_completed', user: 'Carol', detail: 'Completed "Design dashboard layout"',  timestamp: '2026-02-24T18:00:00Z' },
+];
 
 const tasks = [
   { id: 1, title: 'Set up project scaffolding',   status: 'done',        assignee: 'Alice',   priority: 'high',   createdAt: '2026-02-20' },
@@ -106,6 +130,28 @@ const server = createServer(async (req, res) => {
   }
 
   // --- Routing ---
+
+  // GET /api/activity
+  if (method === 'GET' && path === '/api/activity') {
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, activity);
+  }
+
+  // GET /api/notifications
+  if (method === 'GET' && path === '/api/notifications') {
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, notifications);
+  }
+
+  // PUT /api/notifications/:id/read
+  const notifMatch = path.match(/^\/api\/notifications\/(\d+)\/read$/);
+  if (method === 'PUT' && notifMatch) {
+    const notif = notifications.find(n => n.id === parseInt(notifMatch[1]));
+    if (!notif) return json(res, { error: 'Not found' }, 404);
+    notif.read = true;
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, notif);
+  }
 
   // GET /api/stats
   if (method === 'GET' && path === '/api/stats') {
