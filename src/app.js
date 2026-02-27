@@ -20,8 +20,7 @@ export function mountStatusBadge(container, status) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  const _sig0 = computed(() => String((status() === "todo" ? "Todo" : (status() === "in-progress" ? "In Progress" : (status() === "done" ? "Done" : "Unknown")))), [status]);
-  bindText(_t0, _sig0);
+  _t0.data = String((status === "todo" ? "Todo" : (status === "in-progress" ? "In Progress" : (status === "done" ? "Done" : "Unknown"))));
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -39,8 +38,7 @@ export function mountPriorityBadge(container, priority) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  const _sig0 = computed(() => String((priority() === "low" ? "Low" : (priority() === "medium" ? "Medium" : (priority() === "high" ? "High" : (priority() === "critical" ? "Critical" : "—"))))), [priority]);
-  bindText(_t0, _sig0);
+  _t0.data = String((priority === "low" ? "Low" : (priority === "medium" ? "Medium" : (priority === "high" ? "High" : (priority === "critical" ? "Critical" : "—")))));
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -58,8 +56,7 @@ export function mountSeverityBadge(container, severity) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  const _sig0 = computed(() => String((severity() === "info" ? "Info" : (severity() === "success" ? "Success" : (severity() === "warning" ? "Warning" : (severity() === "error" ? "Error" : "Unknown"))))), [severity]);
-  bindText(_t0, _sig0);
+  _t0.data = String((severity === "info" ? "Info" : (severity === "success" ? "Success" : (severity === "warning" ? "Warning" : (severity === "error" ? "Error" : "Unknown")))));
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -77,8 +74,7 @@ export function mountActivityIcon(container, activityType) {
   _el0.style.fontWeight = '500';
   _el0.style.lineHeight = '1.4';
   const _t0 = document.createTextNode('');
-  const _sig0 = computed(() => String((activityType() === "task_created" ? "+" : (activityType() === "task_completed" ? "✓" : (activityType() === "task_assigned" ? "→" : (activityType() === "comment" ? "💬" : (activityType() === "deploy" ? "↑" : "·")))))), [activityType]);
-  bindText(_t0, _sig0);
+  _t0.data = String((activityType === "task_created" ? "+" : (activityType === "task_completed" ? "✓" : (activityType === "task_assigned" ? "→" : (activityType === "comment" ? "💬" : (activityType === "deploy" ? "↑" : "·"))))));
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
 
@@ -93,8 +89,6 @@ export function mountUserAvatar(container, name, bgColor) {
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   const _el0 = document.createElement('div');
   _el0.style.padding = '8px';
-  const _blockBg0 = computed(() => bgColor(), [bgColor]);
-  bindStyle(_el0, 'backgroundColor', _blockBg0);
   _el0.style.borderRadius = '9999px';
   _el0.style.display = 'flex';
   _el0.style.flexDirection = 'row';
@@ -106,7 +100,7 @@ export function mountUserAvatar(container, name, bgColor) {
   _el1.style.lineHeight = '1.4';
   _el1.style.color = '#ffffff';
   const _t0 = document.createTextNode('');
-  bindText(_t0, name);
+  _t0.data = String(name);
   _el1.appendChild(_t0);
   _el0.appendChild(_el1);
   _root.appendChild(_el0);
@@ -122,6 +116,10 @@ export function mountStatsBar(container, total, done, inProgress, todo, themePre
   const stat3Bg = computed(() => (themePreset() === "enterprise" ? "#fef3c7" : (themePreset() === "social" ? "#fae8ff" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#fed7aa" : "#fef3c7")))), [themePreset]);
   const stat4Bg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ddd6fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#fecaca" : "#e2e8f0")))), [themePreset]);
   const iconAccent = computed(() => (themePreset() === "enterprise" ? "#3b82f6" : (themePreset() === "social" ? "#8b5cf6" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#f97316" : "#3b82f6")))), [themePreset]);
+  const padInner = computed(() => (themePreset() === "enterprise" ? "6px 10px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "16px" : "12px")))), [themePreset]);
+  const cardRadius = computed(() => (themePreset() === "enterprise" ? "2px" : (themePreset() === "social" ? "20px" : (themePreset() === "minimal" ? "0px" : (themePreset() === "playful" ? "16px" : "8px")))), [themePreset]);
+  const statsGap = computed(() => (themePreset() === "enterprise" ? "8px" : (themePreset() === "social" ? "16px" : (themePreset() === "minimal" ? "24px" : (themePreset() === "playful" ? "16px" : "12px")))), [themePreset]);
+  const textPrimary = computed(() => (themePreset() === "enterprise" ? "#1e293b" : (themePreset() === "social" ? "#581c87" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#7c2d12" : "#1e293b")))), [themePreset]);
 
   // DOM
   const _root = document.createElement('div');
@@ -129,16 +127,16 @@ export function mountStatsBar(container, total, done, inProgress, todo, themePre
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'row';
-  _root.style.gap = '16px';
+  bindStyle(_root, 'gap', statsGap);
   _root.style.alignItems = 'center';
   const _el0 = document.createElement('div');
-  _el0.style.padding = '12px';
+  bindStyle(_el0, 'padding', padInner);
   const _blockBg0 = computed(() => stat1Bg(), [stat1Bg]);
   bindStyle(_el0, 'backgroundColor', _blockBg0);
-  _el0.style.borderRadius = '8px';
+  bindStyle(_el0, 'borderRadius', cardRadius);
   _el0.style.display = 'flex';
   _el0.style.flexDirection = 'row';
-  _el0.style.gap = '8px';
+  bindStyle(_el0, 'gap', statsGap);
   _el0.style.alignItems = 'center';
   const _hIcon1 = mountIcon(_el0, { name: "list", size: "18px", color: iconAccent() });
   subscribe(iconAccent, (v) => { scheduleWrite(() => _hIcon1.update({ color: v })); });
@@ -146,69 +144,77 @@ export function mountStatsBar(container, total, done, inProgress, todo, themePre
   _el1.style.fontSize = '14px';
   _el1.style.fontWeight = '500';
   _el1.style.lineHeight = '1.4';
+  const _textColor2 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el1, 'color', _textColor2);
   const _t0 = document.createTextNode('');
-  const _sig2 = computed(() => String(`Total: ${total()}`), [total]);
-  bindText(_t0, _sig2);
+  const _sig3 = computed(() => String(`Total: ${total()}`), [total]);
+  bindText(_t0, _sig3);
   _el1.appendChild(_t0);
   _el0.appendChild(_el1);
   _root.appendChild(_el0);
   const _el2 = document.createElement('div');
-  _el2.style.padding = '12px';
-  const _blockBg3 = computed(() => stat2Bg(), [stat2Bg]);
-  bindStyle(_el2, 'backgroundColor', _blockBg3);
-  _el2.style.borderRadius = '8px';
+  bindStyle(_el2, 'padding', padInner);
+  const _blockBg4 = computed(() => stat2Bg(), [stat2Bg]);
+  bindStyle(_el2, 'backgroundColor', _blockBg4);
+  bindStyle(_el2, 'borderRadius', cardRadius);
   _el2.style.display = 'flex';
   _el2.style.flexDirection = 'row';
-  _el2.style.gap = '8px';
+  bindStyle(_el2, 'gap', statsGap);
   _el2.style.alignItems = 'center';
   mountIcon(_el2, { name: "check", size: "18px", color: "#10b981" });
   const _el3 = document.createElement('span');
   _el3.style.fontSize = '14px';
   _el3.style.fontWeight = '500';
   _el3.style.lineHeight = '1.4';
+  const _textColor5 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el3, 'color', _textColor5);
   const _t1 = document.createTextNode('');
-  const _sig4 = computed(() => String(`Done: ${done()}`), [done]);
-  bindText(_t1, _sig4);
+  const _sig6 = computed(() => String(`Done: ${done()}`), [done]);
+  bindText(_t1, _sig6);
   _el3.appendChild(_t1);
   _el2.appendChild(_el3);
   _root.appendChild(_el2);
   const _el4 = document.createElement('div');
-  _el4.style.padding = '12px';
-  const _blockBg5 = computed(() => stat3Bg(), [stat3Bg]);
-  bindStyle(_el4, 'backgroundColor', _blockBg5);
-  _el4.style.borderRadius = '8px';
+  bindStyle(_el4, 'padding', padInner);
+  const _blockBg7 = computed(() => stat3Bg(), [stat3Bg]);
+  bindStyle(_el4, 'backgroundColor', _blockBg7);
+  bindStyle(_el4, 'borderRadius', cardRadius);
   _el4.style.display = 'flex';
   _el4.style.flexDirection = 'row';
-  _el4.style.gap = '8px';
+  bindStyle(_el4, 'gap', statsGap);
   _el4.style.alignItems = 'center';
   mountIcon(_el4, { name: "loader", size: "18px", color: "#f59e0b" });
   const _el5 = document.createElement('span');
   _el5.style.fontSize = '14px';
   _el5.style.fontWeight = '500';
   _el5.style.lineHeight = '1.4';
+  const _textColor8 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el5, 'color', _textColor8);
   const _t2 = document.createTextNode('');
-  const _sig6 = computed(() => String(`In Progress: ${inProgress()}`), [inProgress]);
-  bindText(_t2, _sig6);
+  const _sig9 = computed(() => String(`In Progress: ${inProgress()}`), [inProgress]);
+  bindText(_t2, _sig9);
   _el5.appendChild(_t2);
   _el4.appendChild(_el5);
   _root.appendChild(_el4);
   const _el6 = document.createElement('div');
-  _el6.style.padding = '12px';
-  const _blockBg7 = computed(() => stat4Bg(), [stat4Bg]);
-  bindStyle(_el6, 'backgroundColor', _blockBg7);
-  _el6.style.borderRadius = '8px';
+  bindStyle(_el6, 'padding', padInner);
+  const _blockBg10 = computed(() => stat4Bg(), [stat4Bg]);
+  bindStyle(_el6, 'backgroundColor', _blockBg10);
+  bindStyle(_el6, 'borderRadius', cardRadius);
   _el6.style.display = 'flex';
   _el6.style.flexDirection = 'row';
-  _el6.style.gap = '8px';
+  bindStyle(_el6, 'gap', statsGap);
   _el6.style.alignItems = 'center';
   mountIcon(_el6, { name: "circle", size: "18px", color: "#94a3b8" });
   const _el7 = document.createElement('span');
   _el7.style.fontSize = '14px';
   _el7.style.fontWeight = '500';
   _el7.style.lineHeight = '1.4';
+  const _textColor11 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el7, 'color', _textColor11);
   const _t3 = document.createTextNode('');
-  const _sig8 = computed(() => String(`Todo: ${todo()}`), [todo]);
-  bindText(_t3, _sig8);
+  const _sig12 = computed(() => String(`Todo: ${todo()}`), [todo]);
+  bindText(_t3, _sig12);
   _el7.appendChild(_t3);
   _el6.appendChild(_el7);
   _root.appendChild(_el6);
@@ -217,7 +223,7 @@ export function mountStatsBar(container, total, done, inProgress, todo, themePre
   return () => _root.remove();
 }
 
-export function mountTaskTable(container, themePreset) {
+export function mountTaskTable(container, themePreset, selectedTask, view) {
   // @state
   const filter = createSignal("all");
 
@@ -236,10 +242,20 @@ export function mountTaskTable(container, themePreset) {
   const surfaceBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
   const borderColor = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
   const rowBg = computed(() => (themePreset() === "enterprise" ? "#f1f5f9" : (themePreset() === "social" ? "#f5f3ff" : (themePreset() === "minimal" ? "#ffffff" : (themePreset() === "playful" ? "#fff7ed" : "#f1f5f9")))), [themePreset]);
+  const padOuter = computed(() => (themePreset() === "enterprise" ? "8px 12px" : (themePreset() === "social" ? "16px" : (themePreset() === "minimal" ? "24px 32px" : (themePreset() === "playful" ? "20px" : "16px")))), [themePreset]);
+  const padInner = computed(() => (themePreset() === "enterprise" ? "6px 10px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "16px" : "12px")))), [themePreset]);
+  const cardRadius = computed(() => (themePreset() === "enterprise" ? "2px" : (themePreset() === "social" ? "20px" : (themePreset() === "minimal" ? "0px" : (themePreset() === "playful" ? "16px" : "8px")))), [themePreset]);
+  const cardGap = computed(() => (themePreset() === "enterprise" ? "6px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "14px" : "12px")))), [themePreset]);
+  const textPrimary = computed(() => (themePreset() === "enterprise" ? "#1e293b" : (themePreset() === "social" ? "#581c87" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#7c2d12" : "#1e293b")))), [themePreset]);
+  const textMuted = computed(() => (themePreset() === "enterprise" ? "#475569" : (themePreset() === "social" ? "#7c3aed" : (themePreset() === "minimal" ? "#6b7280" : (themePreset() === "playful" ? "#ea580c" : "#64748b")))), [themePreset]);
 
   // @actions
   function setFilter(f) {
     filter.set(f);
+  }
+  function selectTask(t) {
+    selectedTask.set(t);
+    view.set("detail");
   }
 
   // DOM
@@ -248,29 +264,32 @@ export function mountTaskTable(container, themePreset) {
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'column';
-  _root.style.gap = '16px';
+  bindStyle(_root, 'gap', cardGap);
   const _el0 = document.createElement('h3');
   _el0.style.fontSize = '27.3px';
   _el0.style.fontWeight = '600';
   _el0.style.lineHeight = '1.2';
+  const _textColor0 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el0, 'color', _textColor0);
   const _t0 = document.createTextNode('');
   _t0.data = String("Tasks");
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
   const _el1 = document.createElement('div');
-  _el1.style.padding = '12px';
-  const _blockBg0 = computed(() => surfaceBg(), [surfaceBg]);
-  bindStyle(_el1, 'backgroundColor', _blockBg0);
-  _el1.style.borderRadius = '8px';
+  bindStyle(_el1, 'padding', padInner);
+  const _blockBg1 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el1, 'backgroundColor', _blockBg1);
+  bindStyle(_el1, 'borderRadius', cardRadius);
   _el1.style.display = 'flex';
   _el1.style.flexDirection = 'row';
-  _el1.style.gap = '8px';
+  bindStyle(_el1, 'gap', cardGap);
   _el1.style.alignItems = 'center';
   const _el2 = document.createElement('p');
   _el2.style.fontSize = '11.2px';
   _el2.style.fontWeight = '400';
   _el2.style.lineHeight = '1.5';
-  _el2.style.color = '#64748b';
+  const _textColor2 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el2, 'color', _textColor2);
   const _t1 = document.createTextNode('');
   bindText(_t1, taskCount);
   _el2.appendChild(_t1);
@@ -281,26 +300,27 @@ export function mountTaskTable(container, themePreset) {
   mountButton(_el1, { onClick: () => { setFilter("done"); }, label: "Done", variant: "secondary" });
   _root.appendChild(_el1);
   const _el3 = document.createElement('div');
-  _el3.style.padding = '16px';
-  const _blockBg1 = computed(() => surfaceBg(), [surfaceBg]);
-  bindStyle(_el3, 'backgroundColor', _blockBg1);
-  _el3.style.borderRadius = '8px';
+  bindStyle(_el3, 'padding', padOuter);
+  const _blockBg3 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el3, 'backgroundColor', _blockBg3);
+  bindStyle(_el3, 'borderRadius', cardRadius);
   bindVisibility(_el3, tasksLoading);
   const _el4 = document.createElement('p');
   _el4.style.fontSize = '11.2px';
   _el4.style.fontWeight = '400';
   _el4.style.lineHeight = '1.5';
-  _el4.style.color = '#64748b';
+  const _textColor4 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el4, 'color', _textColor4);
   const _t2 = document.createTextNode('');
   _t2.data = String("Loading tasks...");
   _el4.appendChild(_t2);
   _el3.appendChild(_el4);
   _root.appendChild(_el3);
   const _el5 = document.createElement('div');
-  _el5.style.padding = '12px';
+  bindStyle(_el5, 'padding', padInner);
   _el5.style.backgroundColor = '#fef2f2';
   _el5.style.border = '1px solid #fecaca';
-  _el5.style.borderRadius = '8px';
+  bindStyle(_el5, 'borderRadius', cardRadius);
   bindVisibility(_el5, tasksError);
   const _el6 = document.createElement('p');
   _el6.style.fontSize = '11.2px';
@@ -316,22 +336,27 @@ export function mountTaskTable(container, themePreset) {
   bindCollection(_list0, filteredTasks, (task, index) => {
     const _item = document.createElement('div');
     const _el7 = document.createElement('div');
-    _el7.style.padding = '12px';
-    const _blockBg2 = computed(() => rowBg(), [rowBg]);
-    bindStyle(_el7, 'backgroundColor', _blockBg2);
-    const _blockBorder3 = computed(() => borderColor(), [borderColor]);
-    bindStyle(_el7, 'border', _blockBorder3);
-    _el7.style.borderRadius = '8px';
+    bindStyle(_el7, 'padding', padInner);
+    const _blockBg5 = computed(() => rowBg(), [rowBg]);
+    bindStyle(_el7, 'backgroundColor', _blockBg5);
+    const _blockBorder6 = computed(() => borderColor(), [borderColor]);
+    bindStyle(_el7, 'border', _blockBorder6);
+    bindStyle(_el7, 'borderRadius', cardRadius);
     _el7.style.display = 'flex';
     _el7.style.flexDirection = 'row';
-    _el7.style.gap = '16px';
+    bindStyle(_el7, 'gap', cardGap);
     _el7.style.alignItems = 'center';
+    _el7.style.cursor = 'pointer';
+    _el7.addEventListener('click', (_e) => {
+      selectTask(task);
+    });
     const _el8 = document.createElement('span');
     _el8.style.fontSize = '11.2px';
     _el8.style.fontWeight = '400';
     _el8.style.lineHeight = '1.5';
     _el8.style.fontFamily = "'Menlo', 'Consolas', monospace";
-    _el8.style.color = '#94a3b8';
+    const _textColor7 = computed(() => textMuted(), [textMuted]);
+    bindStyle(_el8, 'color', _textColor7);
     const _t4 = document.createTextNode('');
     _t4.data = String(`${index}`);
     _el8.appendChild(_t4);
@@ -339,11 +364,13 @@ export function mountTaskTable(container, themePreset) {
     const _el9 = document.createElement('div');
     _el9.style.display = 'flex';
     _el9.style.flexDirection = 'column';
-    _el9.style.gap = '4px';
+    bindStyle(_el9, 'gap', cardGap);
     const _el10 = document.createElement('p');
     _el10.style.fontSize = '14px';
     _el10.style.fontWeight = '400';
     _el10.style.lineHeight = '1.5';
+    const _textColor8 = computed(() => textPrimary(), [textPrimary]);
+    bindStyle(_el10, 'color', _textColor8);
     _el10.style.fontWeight = '500';
     const _t5 = document.createTextNode('');
     _t5.data = String(task.title);
@@ -353,7 +380,8 @@ export function mountTaskTable(container, themePreset) {
     _el11.style.fontSize = '11.2px';
     _el11.style.fontWeight = '400';
     _el11.style.lineHeight = '1.5';
-    _el11.style.color = '#64748b';
+    const _textColor9 = computed(() => textMuted(), [textMuted]);
+    bindStyle(_el11, 'color', _textColor9);
     const _t6 = document.createTextNode('');
     _t6.data = String(task.assignee);
     _el11.appendChild(_t6);
@@ -366,16 +394,17 @@ export function mountTaskTable(container, themePreset) {
   });
   _root.appendChild(_list0);
   const _el12 = document.createElement('div');
-  _el12.style.padding = '16px';
-  const _blockBg4 = computed(() => surfaceBg(), [surfaceBg]);
-  bindStyle(_el12, 'backgroundColor', _blockBg4);
-  _el12.style.borderRadius = '8px';
+  bindStyle(_el12, 'padding', padOuter);
+  const _blockBg10 = computed(() => surfaceBg(), [surfaceBg]);
+  bindStyle(_el12, 'backgroundColor', _blockBg10);
+  bindStyle(_el12, 'borderRadius', cardRadius);
   bindVisibility(_el12, hasNoResults);
   const _el13 = document.createElement('p');
   _el13.style.fontSize = '11.2px';
   _el13.style.fontWeight = '400';
   _el13.style.lineHeight = '1.5';
-  _el13.style.color = '#64748b';
+  const _textColor11 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el13, 'color', _textColor11);
   const _t7 = document.createTextNode('');
   _t7.data = String("No tasks match the current filter.");
   _el13.appendChild(_t7);
@@ -410,6 +439,12 @@ export function mountTaskForm(container, themePreset) {
   const successVisible = computed(() => submitted(), [submitted]);
   const formBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
   const formBorder = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
+  const padOuter = computed(() => (themePreset() === "enterprise" ? "8px 12px" : (themePreset() === "social" ? "16px" : (themePreset() === "minimal" ? "24px 32px" : (themePreset() === "playful" ? "20px" : "16px")))), [themePreset]);
+  const padInner = computed(() => (themePreset() === "enterprise" ? "6px 10px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "16px" : "12px")))), [themePreset]);
+  const cardRadius = computed(() => (themePreset() === "enterprise" ? "2px" : (themePreset() === "social" ? "20px" : (themePreset() === "minimal" ? "0px" : (themePreset() === "playful" ? "16px" : "8px")))), [themePreset]);
+  const cardGap = computed(() => (themePreset() === "enterprise" ? "6px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "14px" : "12px")))), [themePreset]);
+  const textPrimary = computed(() => (themePreset() === "enterprise" ? "#1e293b" : (themePreset() === "social" ? "#581c87" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#7c2d12" : "#1e293b")))), [themePreset]);
+  const textMuted = computed(() => (themePreset() === "enterprise" ? "#475569" : (themePreset() === "social" ? "#7c3aed" : (themePreset() === "minimal" ? "#6b7280" : (themePreset() === "playful" ? "#ea580c" : "#64748b")))), [themePreset]);
 
   // @actions
   function setTitle(v) {
@@ -458,23 +493,25 @@ export function mountTaskForm(container, themePreset) {
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'column';
-  _root.style.gap = '20px';
+  bindStyle(_root, 'gap', cardGap);
   const _el0 = document.createElement('h2');
   _el0.style.fontSize = '34.2px';
   _el0.style.fontWeight = '700';
   _el0.style.lineHeight = '1.2';
+  const _textColor0 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el0, 'color', _textColor0);
   const _t0 = document.createTextNode('');
   _t0.data = String("Create New Task");
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
   const _el1 = document.createElement('div');
-  _el1.style.padding = '12px';
+  bindStyle(_el1, 'padding', padInner);
   _el1.style.backgroundColor = '#ecfdf5';
   _el1.style.border = '1px solid #bbf7d0';
-  _el1.style.borderRadius = '8px';
+  bindStyle(_el1, 'borderRadius', cardRadius);
   _el1.style.display = 'flex';
   _el1.style.flexDirection = 'row';
-  _el1.style.gap = '12px';
+  bindStyle(_el1, 'gap', cardGap);
   _el1.style.alignItems = 'center';
   bindVisibility(_el1, successVisible);
   mountIcon(_el1, { name: "check", size: "20px", color: "#10b981" });
@@ -492,11 +529,13 @@ export function mountTaskForm(container, themePreset) {
   const _el3 = document.createElement('div');
   _el3.style.display = 'flex';
   _el3.style.flexDirection = 'column';
-  _el3.style.gap = '16px';
+  bindStyle(_el3, 'gap', cardGap);
   const _el4 = document.createElement('p');
   _el4.style.fontSize = '11.2px';
   _el4.style.fontWeight = '400';
   _el4.style.lineHeight = '1.5';
+  const _textColor1 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el4, 'color', _textColor1);
   const _t2 = document.createTextNode('');
   bindText(_t2, formSummary);
   _el4.appendChild(_t2);
@@ -505,9 +544,9 @@ export function mountTaskForm(container, themePreset) {
   _el5.style.display = 'flex';
   _el5.style.flexDirection = 'column';
   _el5.style.gap = '4px';
-  const _hInput0 = mountInput(_el5, { onChange: (v) => { title.set(v); }, type: "text", label: "Title", value: title(), placeholder: "Enter task title", error: hasTitleError() });
-  subscribe(title, (v) => { scheduleWrite(() => _hInput0.update({ value: v })); });
-  subscribe(hasTitleError, (v) => { scheduleWrite(() => _hInput0.update({ error: v })); });
+  const _hInput2 = mountInput(_el5, { onChange: (v) => { title.set(v); }, type: "text", label: "Title", value: title(), placeholder: "Enter task title", error: hasTitleError() });
+  subscribe(title, (v) => { scheduleWrite(() => _hInput2.update({ value: v })); });
+  subscribe(hasTitleError, (v) => { scheduleWrite(() => _hInput2.update({ error: v })); });
   const _el6 = document.createElement('div');
   bindVisibility(_el6, hasTitleError);
   const _el7 = document.createElement('p');
@@ -521,8 +560,8 @@ export function mountTaskForm(container, themePreset) {
   _el6.appendChild(_el7);
   _el5.appendChild(_el6);
   _el3.appendChild(_el5);
-  const _hInput1 = mountInput(_el3, { onChange: (v) => { notes.set(v); }, type: "textarea", label: "Notes", value: notes(), placeholder: "Optional notes..." });
-  subscribe(notes, (v) => { scheduleWrite(() => _hInput1.update({ value: v })); });
+  const _hInput3 = mountInput(_el3, { onChange: (v) => { notes.set(v); }, type: "textarea", label: "Notes", value: notes(), placeholder: "Optional notes..." });
+  subscribe(notes, (v) => { scheduleWrite(() => _hInput3.update({ value: v })); });
   const _el8 = document.createElement('div');
   _el8.style.display = 'flex';
   _el8.style.flexDirection = 'row';
@@ -531,9 +570,9 @@ export function mountTaskForm(container, themePreset) {
   _el9.style.display = 'flex';
   _el9.style.flexDirection = 'column';
   _el9.style.gap = '4px';
-  const _hSelect2 = mountSelect(_el9, { onChange: (v) => { assignee.set(v); }, options: [{ value: "alice", label: "Alice" }, { value: "bob", label: "Bob" }, { value: "carol", label: "Carol" }], value: assignee(), placeholder: "Select assignee", label: "Assignee", error: hasAssigneeError() });
-  subscribe(assignee, (v) => { scheduleWrite(() => _hSelect2.update({ value: v })); });
-  subscribe(hasAssigneeError, (v) => { scheduleWrite(() => _hSelect2.update({ error: v })); });
+  const _hSelect4 = mountSelect(_el9, { onChange: (v) => { assignee.set(v); }, options: [{ value: "alice", label: "Alice" }, { value: "bob", label: "Bob" }, { value: "carol", label: "Carol" }], value: assignee(), placeholder: "Select assignee", label: "Assignee", error: hasAssigneeError() });
+  subscribe(assignee, (v) => { scheduleWrite(() => _hSelect4.update({ value: v })); });
+  subscribe(hasAssigneeError, (v) => { scheduleWrite(() => _hSelect4.update({ error: v })); });
   const _el10 = document.createElement('div');
   bindVisibility(_el10, hasAssigneeError);
   const _el11 = document.createElement('p');
@@ -547,25 +586,25 @@ export function mountTaskForm(container, themePreset) {
   _el10.appendChild(_el11);
   _el9.appendChild(_el10);
   _el8.appendChild(_el9);
-  const _hSelect3 = mountSelect(_el8, { onChange: (v) => { priority.set(v); }, options: [{ value: "low", label: "Low" }, { value: "medium", label: "Medium" }, { value: "high", label: "High" }, { value: "critical", label: "Critical" }], value: priority(), label: "Priority" });
-  subscribe(priority, (v) => { scheduleWrite(() => _hSelect3.update({ value: v })); });
+  const _hSelect5 = mountSelect(_el8, { onChange: (v) => { priority.set(v); }, options: [{ value: "low", label: "Low" }, { value: "medium", label: "Medium" }, { value: "high", label: "High" }, { value: "critical", label: "Critical" }], value: priority(), label: "Priority" });
+  subscribe(priority, (v) => { scheduleWrite(() => _hSelect5.update({ value: v })); });
   _el3.appendChild(_el8);
   const _el12 = document.createElement('div');
   _el12.style.display = 'flex';
   _el12.style.flexDirection = 'row';
   _el12.style.gap = '16px';
-  const _hSelect4 = mountSelect(_el12, { onChange: (v) => { status.set(v); }, options: [{ value: "todo", label: "Todo" }, { value: "in-progress", label: "In Progress" }, { value: "done", label: "Done" }], value: status(), label: "Status" });
-  subscribe(status, (v) => { scheduleWrite(() => _hSelect4.update({ value: v })); });
-  const _hDatePicker5 = mountDatePicker(_el12, { onChange: (v) => { dueDate.set(v); }, value: dueDate(), label: "Due Date", placeholder: "Pick a date" });
-  subscribe(dueDate, (v) => { scheduleWrite(() => _hDatePicker5.update({ value: v })); });
+  const _hSelect6 = mountSelect(_el12, { onChange: (v) => { status.set(v); }, options: [{ value: "todo", label: "Todo" }, { value: "in-progress", label: "In Progress" }, { value: "done", label: "Done" }], value: status(), label: "Status" });
+  subscribe(status, (v) => { scheduleWrite(() => _hSelect6.update({ value: v })); });
+  const _hDatePicker7 = mountDatePicker(_el12, { onChange: (v) => { dueDate.set(v); }, value: dueDate(), label: "Due Date", placeholder: "Pick a date" });
+  subscribe(dueDate, (v) => { scheduleWrite(() => _hDatePicker7.update({ value: v })); });
   _el3.appendChild(_el12);
-  const _hCheckbox6 = mountCheckbox(_el3, { onChange: (v) => { urgent.set(v); }, label: "Mark as urgent", checked: urgent() });
-  subscribe(urgent, (v) => { scheduleWrite(() => _hCheckbox6.update({ checked: v })); });
+  const _hCheckbox8 = mountCheckbox(_el3, { onChange: (v) => { urgent.set(v); }, label: "Mark as urgent", checked: urgent() });
+  subscribe(urgent, (v) => { scheduleWrite(() => _hCheckbox8.update({ checked: v })); });
   const _el13 = document.createElement('div');
-  _el13.style.padding = '12px';
+  bindStyle(_el13, 'padding', padInner);
   _el13.style.backgroundColor = '#fef2f2';
   _el13.style.border = '1px solid #fecaca';
-  _el13.style.borderRadius = '8px';
+  bindStyle(_el13, 'borderRadius', cardRadius);
   bindVisibility(_el13, hasError);
   const _el14 = document.createElement('p');
   _el14.style.fontSize = '11.2px';
@@ -580,7 +619,7 @@ export function mountTaskForm(container, themePreset) {
   const _el15 = document.createElement('div');
   _el15.style.display = 'flex';
   _el15.style.flexDirection = 'row';
-  _el15.style.gap = '12px';
+  bindStyle(_el15, 'gap', cardGap);
   mountButton(_el15, { onClick: () => { submitForm(); }, label: "Create Task", variant: "primary" });
   _el3.appendChild(_el15);
   _root.appendChild(_el3);
@@ -589,10 +628,7 @@ export function mountTaskForm(container, themePreset) {
   return () => _root.remove();
 }
 
-export function mountTaskDetail(container, themePreset) {
-  // @state
-  const task = createSignal(null);
-
+export function mountTaskDetail(container, themePreset, task, view) {
   // @computed
   const hasTask = computed(() => task() != null, [task]);
   const taskTitle = computed(() => (task() != null ? task().title : ""), [task]);
@@ -603,10 +639,17 @@ export function mountTaskDetail(container, themePreset) {
   const detailHeading = computed(() => `Task: ${taskTitle()}`, [taskTitle]);
   const detailBg = computed(() => (themePreset() === "enterprise" ? "#e2e8f0" : (themePreset() === "social" ? "#ede9fe" : (themePreset() === "minimal" ? "#f5f5f5" : (themePreset() === "playful" ? "#ffedd5" : "#e2e8f0")))), [themePreset]);
   const detailBorder = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #a78bfa" : (themePreset() === "minimal" ? "1px solid #d4d4d4" : (themePreset() === "playful" ? "1px solid #fb923c" : "1px solid #94a3b8")))), [themePreset]);
+  const padOuter = computed(() => (themePreset() === "enterprise" ? "8px 12px" : (themePreset() === "social" ? "16px" : (themePreset() === "minimal" ? "24px 32px" : (themePreset() === "playful" ? "20px" : "16px")))), [themePreset]);
+  const padInner = computed(() => (themePreset() === "enterprise" ? "6px 10px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "16px" : "12px")))), [themePreset]);
+  const cardRadius = computed(() => (themePreset() === "enterprise" ? "2px" : (themePreset() === "social" ? "20px" : (themePreset() === "minimal" ? "0px" : (themePreset() === "playful" ? "16px" : "8px")))), [themePreset]);
+  const cardGap = computed(() => (themePreset() === "enterprise" ? "6px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "14px" : "12px")))), [themePreset]);
+  const textPrimary = computed(() => (themePreset() === "enterprise" ? "#1e293b" : (themePreset() === "social" ? "#581c87" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#7c2d12" : "#1e293b")))), [themePreset]);
+  const textMuted = computed(() => (themePreset() === "enterprise" ? "#475569" : (themePreset() === "social" ? "#7c3aed" : (themePreset() === "minimal" ? "#6b7280" : (themePreset() === "playful" ? "#ea580c" : "#64748b")))), [themePreset]);
 
   // @actions
-  function setTask(t) {
-    task.set(t);
+  function goBack() {
+    task.set(null);
+    view.set("dashboard");
   }
 
   // DOM
@@ -615,32 +658,36 @@ export function mountTaskDetail(container, themePreset) {
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'column';
-  _root.style.gap = '16px';
+  bindStyle(_root, 'gap', cardGap);
   const _el0 = document.createElement('h2');
   _el0.style.fontSize = '34.2px';
   _el0.style.fontWeight = '700';
   _el0.style.lineHeight = '1.2';
+  const _textColor0 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el0, 'color', _textColor0);
   const _t0 = document.createTextNode('');
   _t0.data = String("Task Detail");
   _el0.appendChild(_t0);
   _root.appendChild(_el0);
   const _el1 = document.createElement('div');
-  _el1.style.padding = '16px';
-  const _blockBg0 = computed(() => detailBg(), [detailBg]);
-  bindStyle(_el1, 'backgroundColor', _blockBg0);
-  _el1.style.borderRadius = '8px';
+  bindStyle(_el1, 'padding', padOuter);
+  const _blockBg1 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el1, 'backgroundColor', _blockBg1);
+  bindStyle(_el1, 'borderRadius', cardRadius);
   _el1.style.display = 'flex';
   _el1.style.flexDirection = 'column';
-  _el1.style.gap = '8px';
+  bindStyle(_el1, 'gap', cardGap);
   _el1.style.alignItems = 'center';
-  const _sig1 = computed(() => Boolean(!hasTask()), [hasTask]);
-  bindVisibility(_el1, _sig1);
-  mountIcon(_el1, { name: "info", size: "24px", color: "#94a3b8" });
+  const _sig2 = computed(() => Boolean(!hasTask()), [hasTask]);
+  bindVisibility(_el1, _sig2);
+  const _hIcon3 = mountIcon(_el1, { name: "info", size: "24px", color: textMuted() });
+  subscribe(textMuted, (v) => { scheduleWrite(() => _hIcon3.update({ color: v })); });
   const _el2 = document.createElement('p');
   _el2.style.fontSize = '11.2px';
   _el2.style.fontWeight = '400';
   _el2.style.lineHeight = '1.5';
-  _el2.style.color = '#64748b';
+  const _textColor4 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el2, 'color', _textColor4);
   const _t1 = document.createTextNode('');
   _t1.data = String("Select a task to view details.");
   _el2.appendChild(_t1);
@@ -649,12 +696,14 @@ export function mountTaskDetail(container, themePreset) {
   const _el3 = document.createElement('div');
   _el3.style.display = 'flex';
   _el3.style.flexDirection = 'column';
-  _el3.style.gap = '16px';
+  bindStyle(_el3, 'gap', cardGap);
   bindVisibility(_el3, hasTask);
   const _el4 = document.createElement('h3');
   _el4.style.fontSize = '27.3px';
   _el4.style.fontWeight = '600';
   _el4.style.lineHeight = '1.2';
+  const _textColor5 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el4, 'color', _textColor5);
   const _t2 = document.createTextNode('');
   bindText(_t2, detailHeading);
   _el4.appendChild(_t2);
@@ -663,58 +712,61 @@ export function mountTaskDetail(container, themePreset) {
   const _el5 = document.createElement('div');
   _el5.style.display = 'flex';
   _el5.style.flexDirection = 'row';
-  _el5.style.gap = '16px';
+  bindStyle(_el5, 'gap', cardGap);
   const _el6 = document.createElement('div');
-  _el6.style.padding = '12px';
-  const _blockBg2 = computed(() => detailBg(), [detailBg]);
-  bindStyle(_el6, 'backgroundColor', _blockBg2);
-  _el6.style.borderRadius = '8px';
+  bindStyle(_el6, 'padding', padInner);
+  const _blockBg6 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el6, 'backgroundColor', _blockBg6);
+  bindStyle(_el6, 'borderRadius', cardRadius);
   _el6.style.display = 'flex';
   _el6.style.flexDirection = 'column';
-  _el6.style.gap = '4px';
+  bindStyle(_el6, 'gap', cardGap);
   const _el7 = document.createElement('span');
   _el7.style.fontSize = '11.2px';
   _el7.style.fontWeight = '500';
   _el7.style.lineHeight = '1.4';
-  _el7.style.color = '#64748b';
+  const _textColor7 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el7, 'color', _textColor7);
   const _t3 = document.createTextNode('');
   _t3.data = String("Status");
   _el7.appendChild(_t3);
   _el6.appendChild(_el7);
-  mountStatusBadge(_el6, taskStatus);
+  mountStatusBadge(_el6, taskStatus());
   _el5.appendChild(_el6);
   const _el8 = document.createElement('div');
-  _el8.style.padding = '12px';
-  const _blockBg3 = computed(() => detailBg(), [detailBg]);
-  bindStyle(_el8, 'backgroundColor', _blockBg3);
-  _el8.style.borderRadius = '8px';
+  bindStyle(_el8, 'padding', padInner);
+  const _blockBg8 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el8, 'backgroundColor', _blockBg8);
+  bindStyle(_el8, 'borderRadius', cardRadius);
   _el8.style.display = 'flex';
   _el8.style.flexDirection = 'column';
-  _el8.style.gap = '4px';
+  bindStyle(_el8, 'gap', cardGap);
   const _el9 = document.createElement('span');
   _el9.style.fontSize = '11.2px';
   _el9.style.fontWeight = '500';
   _el9.style.lineHeight = '1.4';
-  _el9.style.color = '#64748b';
+  const _textColor9 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el9, 'color', _textColor9);
   const _t4 = document.createTextNode('');
   _t4.data = String("Priority");
   _el9.appendChild(_t4);
   _el8.appendChild(_el9);
-  mountPriorityBadge(_el8, taskPriority);
+  mountPriorityBadge(_el8, taskPriority());
   _el5.appendChild(_el8);
   const _el10 = document.createElement('div');
-  _el10.style.padding = '12px';
-  const _blockBg4 = computed(() => detailBg(), [detailBg]);
-  bindStyle(_el10, 'backgroundColor', _blockBg4);
-  _el10.style.borderRadius = '8px';
+  bindStyle(_el10, 'padding', padInner);
+  const _blockBg10 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el10, 'backgroundColor', _blockBg10);
+  bindStyle(_el10, 'borderRadius', cardRadius);
   _el10.style.display = 'flex';
   _el10.style.flexDirection = 'column';
-  _el10.style.gap = '4px';
+  bindStyle(_el10, 'gap', cardGap);
   const _el11 = document.createElement('span');
   _el11.style.fontSize = '11.2px';
   _el11.style.fontWeight = '500';
   _el11.style.lineHeight = '1.4';
-  _el11.style.color = '#64748b';
+  const _textColor11 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el11, 'color', _textColor11);
   const _t5 = document.createTextNode('');
   _t5.data = String("Assignee");
   _el11.appendChild(_t5);
@@ -723,24 +775,27 @@ export function mountTaskDetail(container, themePreset) {
   _el12.style.fontSize = '14px';
   _el12.style.fontWeight = '400';
   _el12.style.lineHeight = '1.5';
+  const _textColor12 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el12, 'color', _textColor12);
   const _t6 = document.createTextNode('');
   bindText(_t6, taskAssignee);
   _el12.appendChild(_t6);
   _el10.appendChild(_el12);
   _el5.appendChild(_el10);
   const _el13 = document.createElement('div');
-  _el13.style.padding = '12px';
-  const _blockBg5 = computed(() => detailBg(), [detailBg]);
-  bindStyle(_el13, 'backgroundColor', _blockBg5);
-  _el13.style.borderRadius = '8px';
+  bindStyle(_el13, 'padding', padInner);
+  const _blockBg13 = computed(() => detailBg(), [detailBg]);
+  bindStyle(_el13, 'backgroundColor', _blockBg13);
+  bindStyle(_el13, 'borderRadius', cardRadius);
   _el13.style.display = 'flex';
   _el13.style.flexDirection = 'column';
-  _el13.style.gap = '4px';
+  bindStyle(_el13, 'gap', cardGap);
   const _el14 = document.createElement('span');
   _el14.style.fontSize = '11.2px';
   _el14.style.fontWeight = '500';
   _el14.style.lineHeight = '1.4';
-  _el14.style.color = '#64748b';
+  const _textColor14 = computed(() => textMuted(), [textMuted]);
+  bindStyle(_el14, 'color', _textColor14);
   const _t7 = document.createTextNode('');
   _t7.data = String("Created");
   _el14.appendChild(_t7);
@@ -749,13 +804,15 @@ export function mountTaskDetail(container, themePreset) {
   _el15.style.fontSize = '14px';
   _el15.style.fontWeight = '400';
   _el15.style.lineHeight = '1.5';
+  const _textColor15 = computed(() => textPrimary(), [textPrimary]);
+  bindStyle(_el15, 'color', _textColor15);
   const _t8 = document.createTextNode('');
   bindText(_t8, taskDate);
   _el15.appendChild(_t8);
   _el13.appendChild(_el15);
   _el5.appendChild(_el13);
   _el3.appendChild(_el5);
-  mountButton(_el3, { onClick: () => { setTask(null); }, label: "Back", variant: "secondary" });
+  mountButton(_el3, { onClick: () => { goBack(); }, label: "Back", variant: "secondary" });
   _root.appendChild(_el3);
 
   container.appendChild(_root);
@@ -2188,6 +2245,7 @@ export function mountApp(container) {
   // @state
   const themePreset = createSignal("enterprise");
   const view = createSignal("dashboard");
+  const selectedTask = createSignal(null);
 
   // @source
   const _src_stats = createStatsAPI();
@@ -2200,6 +2258,10 @@ export function mountApp(container) {
   const headerBg = computed(() => (themePreset() === "enterprise" ? "#0f172a" : (themePreset() === "social" ? "#7c3aed" : (themePreset() === "minimal" ? "#ffffff" : (themePreset() === "playful" ? "#ea580c" : "#0f172a")))), [themePreset]);
   const headerText = computed(() => (themePreset() === "enterprise" ? "#ffffff" : (themePreset() === "social" ? "#ffffff" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#ffffff" : "#ffffff")))), [themePreset]);
   const accentColor = computed(() => (themePreset() === "enterprise" ? "#3b82f6" : (themePreset() === "social" ? "#8b5cf6" : (themePreset() === "minimal" ? "#0f172a" : (themePreset() === "playful" ? "#f97316" : "#3b82f6")))), [themePreset]);
+  const headerBorder = computed(() => (themePreset() === "enterprise" ? "1px solid #94a3b8" : (themePreset() === "social" ? "1px solid #c4b5fd" : (themePreset() === "minimal" ? "1px solid #e5e7eb" : (themePreset() === "playful" ? "2px solid #fdba74" : "1px solid #e2e8f0")))), [themePreset]);
+  const padOuter = computed(() => (themePreset() === "enterprise" ? "8px 12px" : (themePreset() === "social" ? "16px" : (themePreset() === "minimal" ? "24px 32px" : (themePreset() === "playful" ? "20px" : "16px")))), [themePreset]);
+  const cardRadius = computed(() => (themePreset() === "enterprise" ? "2px" : (themePreset() === "social" ? "20px" : (themePreset() === "minimal" ? "0px" : (themePreset() === "playful" ? "16px" : "8px")))), [themePreset]);
+  const cardGap = computed(() => (themePreset() === "enterprise" ? "6px" : (themePreset() === "social" ? "12px" : (themePreset() === "minimal" ? "20px" : (themePreset() === "playful" ? "14px" : "12px")))), [themePreset]);
   const showDashboard = computed(() => view() == "dashboard", [view]);
   const showDetail = computed(() => view() == "detail", [view]);
   const showCreate = computed(() => view() == "create", [view]);
@@ -2239,13 +2301,14 @@ export function mountApp(container) {
   _root.style.fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   _root.style.display = 'flex';
   _root.style.flexDirection = 'column';
-  _root.style.gap = '24px';
+  bindStyle(_root, 'gap', cardGap);
   const _el0 = document.createElement('div');
-  _el0.style.padding = '16px';
+  bindStyle(_el0, 'padding', padOuter);
   const _blockBg0 = computed(() => headerBg(), [headerBg]);
   bindStyle(_el0, 'backgroundColor', _blockBg0);
-  _el0.style.border = '1px solid #e2e8f0';
-  _el0.style.borderRadius = '12px';
+  const _blockBorder1 = computed(() => headerBorder(), [headerBorder]);
+  bindStyle(_el0, 'border', _blockBorder1);
+  bindStyle(_el0, 'borderRadius', cardRadius);
   _el0.style.display = 'flex';
   _el0.style.flexDirection = 'row';
   _el0.style.gap = '16px';
@@ -2256,12 +2319,14 @@ export function mountApp(container) {
   _el1.style.flexDirection = 'row';
   _el1.style.gap = '12px';
   _el1.style.alignItems = 'center';
-  const _hIcon1 = mountIcon(_el1, { name: "home", size: "22px", color: accentColor() });
-  subscribe(accentColor, (v) => { scheduleWrite(() => _hIcon1.update({ color: v })); });
+  const _hIcon2 = mountIcon(_el1, { name: "home", size: "22px", color: accentColor() });
+  subscribe(accentColor, (v) => { scheduleWrite(() => _hIcon2.update({ color: v })); });
   const _el2 = document.createElement('h2');
   _el2.style.fontSize = '34.2px';
   _el2.style.fontWeight = '700';
   _el2.style.lineHeight = '1.2';
+  const _textColor3 = computed(() => headerText(), [headerText]);
+  bindStyle(_el2, 'color', _textColor3);
   const _t0 = document.createTextNode('');
   bindText(_t0, viewTitle);
   _el2.appendChild(_t0);
@@ -2278,12 +2343,12 @@ export function mountApp(container) {
   mountButton(_el3, { onClick: () => { setThemePreset("playful"); }, label: "Playful", variant: "secondary" });
   _el0.appendChild(_el3);
   _root.appendChild(_el0);
-  const _hTabs2 = mountTabs(_root, { onChange: (v) => { view.set(v); }, tabs: [{ id: "dashboard", label: "Dashboard" }, { id: "analytics", label: "Analytics" }, { id: "team", label: "Team" }, { id: "activity", label: "Activity" }, { id: "notifications", label: "Notifications" }, { id: "detail", label: "Detail" }, { id: "create", label: "New Task" }, { id: "wizard", label: "Wizard" }, { id: "settings", label: "Settings" }], activeTab: view() });
-  subscribe(view, (v) => { scheduleWrite(() => _hTabs2.update({ activeTab: v })); });
+  const _hTabs4 = mountTabs(_root, { onChange: (v) => { view.set(v); }, tabs: [{ id: "dashboard", label: "Dashboard" }, { id: "analytics", label: "Analytics" }, { id: "team", label: "Team" }, { id: "activity", label: "Activity" }, { id: "notifications", label: "Notifications" }, { id: "detail", label: "Detail" }, { id: "create", label: "New Task" }, { id: "wizard", label: "Wizard" }, { id: "settings", label: "Settings" }], activeTab: view() });
+  subscribe(view, (v) => { scheduleWrite(() => _hTabs4.update({ activeTab: v })); });
   const _el4 = document.createElement('div');
   _el4.style.display = 'flex';
   _el4.style.flexDirection = 'column';
-  _el4.style.gap = '24px';
+  bindStyle(_el4, 'gap', cardGap);
   bindVisibility(_el4, showDashboard);
   const _el5 = document.createElement('div');
   _el5.style.backgroundColor = '#ffffff';
@@ -2299,7 +2364,7 @@ export function mountApp(container) {
   _el6.style.padding = '16px';
   _el6.style.borderRadius = '8px';
   _el6.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountTaskTable(_el6, themePreset);
+  mountTaskTable(_el6, themePreset, selectedTask, view);
   _el4.appendChild(_el6);
   _root.appendChild(_el4);
   const _el7 = document.createElement('div');
@@ -2310,7 +2375,7 @@ export function mountApp(container) {
   _el8.style.padding = '16px';
   _el8.style.borderRadius = '8px';
   _el8.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)';
-  mountTaskDetail(_el8, themePreset);
+  mountTaskDetail(_el8, themePreset, selectedTask, view);
   _el7.appendChild(_el8);
   _root.appendChild(_el7);
   const _el9 = document.createElement('div');
@@ -2499,7 +2564,7 @@ export function mountTaskWizard(container, options = {}) {
 
 export function createTasksAPI(params = {}) {
   return createSource({
-    endpoint: 'http://localhost:4000/api/tasks?failRate=0.6',
+    endpoint: 'http://localhost:4000/api/tasks',
     method: 'GET',
     cacheTtl: 60000,
     retryAttempts: 3,

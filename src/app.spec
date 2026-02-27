@@ -18,7 +18,7 @@
 // Data sources
 
 source TasksAPI {
-  endpoint: "http://localhost:4000/api/tasks?failRate=0.6"
+  endpoint: "http://localhost:4000/api/tasks"
   method: GET
   cache: 1
   retry: 3
@@ -130,41 +130,45 @@ surface StatsBar(total, done, inProgress, todo, themePreset) {
     stat3Bg: match themePreset { "enterprise" -> "#fef3c7", "social" -> "#fae8ff", "minimal" -> "#f5f5f5", "playful" -> "#fed7aa", _ -> "#fef3c7" }
     stat4Bg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ddd6fe", "minimal" -> "#f5f5f5", "playful" -> "#fecaca", _ -> "#e2e8f0" }
     iconAccent: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
+    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
+    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
+    statsGap: match themePreset { "enterprise" -> "8px", "social" -> "16px", "minimal" -> "24px", "playful" -> "16px", _ -> "12px" }
+    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
   }
 
-  layout: horizontal, gap: spacing.4, align: center
+  layout: horizontal, gap: statsGap, align: center
 
   block {
-    padding: spacing.3
+    padding: padInner
     background: stat1Bg
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
+    border-radius: cardRadius
+    layout: horizontal, gap: statsGap, align: center
     Icon(name: "list", size: "18px", color: iconAccent)
-    text("Total: {total}") { style: type.label-md }
+    text("Total: {total}") { style: type.label-md, color: textPrimary }
   }
   block {
-    padding: spacing.3
+    padding: padInner
     background: stat2Bg
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
+    border-radius: cardRadius
+    layout: horizontal, gap: statsGap, align: center
     Icon(name: "check", size: "18px", color: "#10b981")
-    text("Done: {done}") { style: type.label-md }
+    text("Done: {done}") { style: type.label-md, color: textPrimary }
   }
   block {
-    padding: spacing.3
+    padding: padInner
     background: stat3Bg
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
+    border-radius: cardRadius
+    layout: horizontal, gap: statsGap, align: center
     Icon(name: "loader", size: "18px", color: "#f59e0b")
-    text("In Progress: {inProgress}") { style: type.label-md }
+    text("In Progress: {inProgress}") { style: type.label-md, color: textPrimary }
   }
   block {
-    padding: spacing.3
+    padding: padInner
     background: stat4Bg
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
+    border-radius: cardRadius
+    layout: horizontal, gap: statsGap, align: center
     Icon(name: "circle", size: "18px", color: "#94a3b8")
-    text("Todo: {todo}") { style: type.label-md }
+    text("Todo: {todo}") { style: type.label-md, color: textPrimary }
   }
 }
 
@@ -172,7 +176,7 @@ surface StatsBar(total, done, inProgress, todo, themePreset) {
 // Surface: TaskTable — filterable list with Buttons, each+index, components
 // ---------------------------------------------------------------------------
 
-surface TaskTable(themePreset) {
+surface TaskTable(themePreset, selectedTask, view) {
   @state {
     filter: "all"
   }
@@ -190,23 +194,33 @@ surface TaskTable(themePreset) {
     surfaceBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
     borderColor: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
     rowBg: match themePreset { "enterprise" -> "#f1f5f9", "social" -> "#f5f3ff", "minimal" -> "#ffffff", "playful" -> "#fff7ed", _ -> "#f1f5f9" }
+    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
+    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
+    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
+    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
   }
 
   @actions {
     setFilter(f) { filter = f }
+    selectTask(t) {
+      selectedTask = t
+      view = "detail"
+    }
   }
 
-  layout: vertical, gap: spacing.4
+  layout: vertical, gap: cardGap
 
-  text("Tasks") { style: type.heading-md }
+  text("Tasks") { style: type.heading-md, color: textPrimary }
 
   // Filter bar
   block {
-    padding: spacing.3
+    padding: padInner
     background: surfaceBg
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
-    text(taskCount) { style: type.body-sm, color: "#64748b" }
+    border-radius: cardRadius
+    layout: horizontal, gap: cardGap, align: center
+    text(taskCount) { style: type.body-sm, color: textMuted }
     Button(label: "All", variant: "secondary") {
       on click: setFilter("all")
     }
@@ -224,35 +238,36 @@ surface TaskTable(themePreset) {
   // Loading indicator
   block {
     visibility: tasksLoading
-    padding: spacing.4
+    padding: padOuter
     background: surfaceBg
-    border-radius: radius.md
-    text("Loading tasks...") { style: type.body-sm, color: "#64748b" }
+    border-radius: cardRadius
+    text("Loading tasks...") { style: type.body-sm, color: textMuted }
   }
 
   // Error display
   block {
     visibility: tasksError
-    padding: spacing.3
+    padding: padInner
     background: "#fef2f2"
     border: "1px solid #fecaca"
-    border-radius: radius.md
+    border-radius: cardRadius
     text("Failed to load tasks.") { style: type.body-sm, color: "red" }
   }
 
   // Task rows
   each filteredTasks as task, index {
     block {
-      padding: spacing.3
+      padding: padInner
       background: rowBg
       border: borderColor
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.4, align: center
-      text("{index}") { style: type.mono-sm, color: "#94a3b8" }
+      border-radius: cardRadius
+      layout: horizontal, gap: cardGap, align: center
+      on click: selectTask(task)
+      text("{index}") { style: type.mono-sm, color: textMuted }
       block {
-        layout: vertical, gap: spacing.1
-        text(task.title) { style: type.body-md, weight: 500 }
-        text(task.assignee) { style: type.body-sm, color: "#64748b" }
+        layout: vertical, gap: cardGap
+        text(task.title) { style: type.body-md, weight: 500, color: textPrimary }
+        text(task.assignee) { style: type.body-sm, color: textMuted }
       }
       StatusBadge(task.status)
       PriorityBadge(task.priority)
@@ -262,10 +277,10 @@ surface TaskTable(themePreset) {
   // Empty state
   block {
     visibility: hasNoResults
-    padding: spacing.4
+    padding: padOuter
     background: surfaceBg
-    border-radius: radius.md
-    text("No tasks match the current filter.") { style: type.body-sm, color: "#64748b" }
+    border-radius: cardRadius
+    text("No tasks match the current filter.") { style: type.body-sm, color: textMuted }
   }
 }
 
@@ -300,6 +315,12 @@ surface TaskForm(themePreset) {
 
     formBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
     formBorder: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
+    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
+    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
+    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
+    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
   }
 
   @actions {
@@ -330,18 +351,18 @@ surface TaskForm(themePreset) {
     }
   }
 
-  layout: vertical, gap: spacing.5
+  layout: vertical, gap: cardGap
 
-  text("Create New Task") { style: type.heading-lg }
+  text("Create New Task") { style: type.heading-lg, color: textPrimary }
 
   // Success banner (shown above the form, dismissible)
   block {
     visibility: successVisible
-    padding: spacing.3
+    padding: padInner
     background: "#ecfdf5"
     border: "1px solid #bbf7d0"
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.3, align: center
+    border-radius: cardRadius
+    layout: horizontal, gap: cardGap, align: center
     Icon(name: "check", size: "20px", color: "#10b981")
     text("Task created successfully!") { style: type.body-md, color: "#10b981" }
     Button(label: "Dismiss", variant: "ghost") {
@@ -351,9 +372,9 @@ surface TaskForm(themePreset) {
 
   // Form (always visible so inputs retain their DOM state)
   block {
-    layout: vertical, gap: spacing.4
+    layout: vertical, gap: cardGap
 
-    text(formSummary) { style: type.body-sm }
+    text(formSummary) { style: type.body-sm, color: textMuted }
 
     // Title
     block {
@@ -440,16 +461,16 @@ surface TaskForm(themePreset) {
     // Error display
     block {
       visibility: hasError
-      padding: spacing.3
+      padding: padInner
       background: "#fef2f2"
       border: "1px solid #fecaca"
-      border-radius: radius.md
+      border-radius: cardRadius
       text(error) { style: type.body-sm, color: "red" }
     }
 
     // Buttons
     block {
-      layout: horizontal, gap: spacing.3
+      layout: horizontal, gap: cardGap
       Button(label: "Create Task", variant: "primary") {
         on click: submitForm()
       }
@@ -461,11 +482,7 @@ surface TaskForm(themePreset) {
 // Surface: TaskDetail — detail view with Image, StatusBadge, PriorityBadge
 // ---------------------------------------------------------------------------
 
-surface TaskDetail(themePreset) {
-  @state {
-    task: null
-  }
-
+surface TaskDetail(themePreset, task, view) {
   @computed {
     hasTask: task != null
     taskTitle: task != null ? task.title : ""
@@ -477,72 +494,81 @@ surface TaskDetail(themePreset) {
 
     detailBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
     detailBorder: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
+    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
+    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
+    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
+    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
+    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#64748b" }
   }
 
   @actions {
-    setTask(t) { task = t }
+    goBack() {
+      task = null
+      view = "dashboard"
+    }
   }
 
-  layout: vertical, gap: spacing.4
+  layout: vertical, gap: cardGap
 
-  text("Task Detail") { style: type.heading-lg }
+  text("Task Detail") { style: type.heading-lg, color: textPrimary }
 
   block {
     visibility: !hasTask
-    padding: spacing.4
+    padding: padOuter
     background: detailBg
-    border-radius: radius.md
-    layout: vertical, gap: spacing.2, align: center
-    Icon(name: "info", size: "24px", color: "#94a3b8")
-    text("Select a task to view details.") { style: type.body-sm, color: "#64748b" }
+    border-radius: cardRadius
+    layout: vertical, gap: cardGap, align: center
+    Icon(name: "info", size: "24px", color: textMuted)
+    text("Select a task to view details.") { style: type.body-sm, color: textMuted }
   }
 
   block {
     visibility: hasTask
-    layout: vertical, gap: spacing.4
+    layout: vertical, gap: cardGap
 
-    text(detailHeading) { style: type.heading-md }
+    text(detailHeading) { style: type.heading-md, color: textPrimary }
 
     Image(src: "https://via.placeholder.com/64", alt: "Task icon", width: 64, height: 64)
 
     block {
-      layout: horizontal, gap: spacing.4
+      layout: horizontal, gap: cardGap
       block {
-        padding: spacing.3
+        padding: padInner
         background: detailBg
-        border-radius: radius.md
-        layout: vertical, gap: spacing.1
-        text("Status") { style: type.label-sm, color: "#64748b" }
+        border-radius: cardRadius
+        layout: vertical, gap: cardGap
+        text("Status") { style: type.label-sm, color: textMuted }
         StatusBadge(taskStatus)
       }
       block {
-        padding: spacing.3
+        padding: padInner
         background: detailBg
-        border-radius: radius.md
-        layout: vertical, gap: spacing.1
-        text("Priority") { style: type.label-sm, color: "#64748b" }
+        border-radius: cardRadius
+        layout: vertical, gap: cardGap
+        text("Priority") { style: type.label-sm, color: textMuted }
         PriorityBadge(taskPriority)
       }
       block {
-        padding: spacing.3
+        padding: padInner
         background: detailBg
-        border-radius: radius.md
-        layout: vertical, gap: spacing.1
-        text("Assignee") { style: type.label-sm, color: "#64748b" }
-        text(taskAssignee) { style: type.body-md }
+        border-radius: cardRadius
+        layout: vertical, gap: cardGap
+        text("Assignee") { style: type.label-sm, color: textMuted }
+        text(taskAssignee) { style: type.body-md, color: textPrimary }
       }
       block {
-        padding: spacing.3
+        padding: padInner
         background: detailBg
-        border-radius: radius.md
-        layout: vertical, gap: spacing.1
-        text("Created") { style: type.label-sm, color: "#64748b" }
-        text(taskDate) { style: type.body-md }
+        border-radius: cardRadius
+        layout: vertical, gap: cardGap
+        text("Created") { style: type.label-sm, color: textMuted }
+        text(taskDate) { style: type.body-md, color: textPrimary }
       }
     }
 
     Button(label: "Back", variant: "secondary") {
-      on click: setTask(null)
+      on click: goBack()
     }
   }
 }
@@ -1492,6 +1518,7 @@ surface App {
   @state {
     themePreset: "enterprise"
     view: "dashboard"
+    selectedTask: null
   }
 
   @source {
@@ -1503,6 +1530,10 @@ surface App {
     headerBg: match themePreset { "enterprise" -> "#0f172a", "social" -> "#7c3aed", "minimal" -> "#ffffff", "playful" -> "#ea580c", _ -> "#0f172a" }
     headerText: match themePreset { "enterprise" -> "#ffffff", "social" -> "#ffffff", "minimal" -> "#0f172a", "playful" -> "#ffffff", _ -> "#ffffff" }
     accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
+    headerBorder: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #c4b5fd", "minimal" -> "1px solid #e5e7eb", "playful" -> "2px solid #fdba74", _ -> "1px solid #e2e8f0" }
+    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
+    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
 
     showDashboard: view == "dashboard"
     showDetail: view == "detail"
@@ -1536,14 +1567,14 @@ surface App {
     setView(v) { view = v }
   }
 
-  layout: vertical, gap: spacing.6
+  layout: vertical, gap: cardGap
 
   // Header
   block {
-    padding: spacing.4
+    padding: padOuter
     background: headerBg
-    border: "1px solid #e2e8f0"
-    border-radius: radius.lg
+    border: headerBorder
+    border-radius: cardRadius
     layout: horizontal, gap: spacing.4, align: center, justify: between
 
     block {
@@ -1590,15 +1621,15 @@ surface App {
   // Dashboard view
   block {
     visibility: showDashboard
-    layout: vertical, gap: spacing.6
+    layout: vertical, gap: cardGap
     StatsBar(statsTotal, statsDone, statsInProgress, statsTodo, themePreset)
-    TaskTable(themePreset)
+    TaskTable(themePreset, selectedTask, view)
   }
 
   // Detail view
   block {
     visibility: showDetail
-    TaskDetail(themePreset)
+    TaskDetail(themePreset, selectedTask, view)
   }
 
   // Create view
