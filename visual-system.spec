@@ -1,9 +1,7 @@
 // Design tokens — baseline visual system + theme overrides
 //
-// This is the canonical design token file for the project.
-// Currently inlined in app.spec (the compiler uses whichever file
-// contains the @visual-system block). When the import system supports
-// @visual-system and @theme, app.spec can import from here instead.
+// Canonical design token file. Imported by app.spec via bare import:
+//   @import "../visual-system.spec"
 
 @visual-system {
   spacing: 4px-unit
