@@ -1,290 +1,665 @@
-// ============================================================================
-// Spec Test App — exercises state, bindings, actions, each, visibility,
-// computed, blocks, layout, and event handlers across multiple surfaces.
-// ============================================================================
+// ---------------------------------------------------------------------------
+// Gate #16 — Admin Dashboard
+// Exercises: sources, flows, forms, each, visibility, computed, actions,
+//            multi-surface composition, theme switching, Input, Select,
+//            DatePicker, Button, Toggle, Checkbox, Icon, Image,
+//            form validation, template strings, pipes, match expressions,
+//            guarded flow transitions, component declarations
+// ---------------------------------------------------------------------------
+
+@visual-system {
+  spacing: 4px-unit
+  type-scale: 1.25-ratio, base 14px
+  palette: slate(neutral), indigo(primary), red(danger), emerald(success), amber(warning)
+  radius: 6px(sm), 8px(md), 12px(lg), 9999px(full)
+  motion: 150ms ease(default), 300ms ease(slow)
+}
+
+// Data sources
+
+source TasksAPI {
+  endpoint: "http://localhost:4000/api/tasks"
+  method: GET
+  cache: 1
+}
+
+source StatsAPI {
+  endpoint: "http://localhost:4000/api/stats"
+  method: GET
+  cache: 1
+}
+
+source UsersAPI {
+  endpoint: "http://localhost:4000/api/users"
+  method: GET
+  cache: 5
+}
 
 // ---------------------------------------------------------------------------
-// Surface: Counter — state, computed, actions, visibility, click events
+// Component: StatusBadge — match expression for status
 // ---------------------------------------------------------------------------
-surface Counter() {
-  @state {
-    count: 0
-  }
 
-  @computed {
-    doubled: count * 2
-    isPositive: count > 0
-    isNegative: count < 0
-    label: count == 1 ? "click" : "clicks"
-  }
+component StatusBadge(status: string) {
+  text(match status {
+    "todo" -> "Todo",
+    "in-progress" -> "In Progress",
+    "done" -> "Done",
+    _ -> "Unknown"
+  }) { style: type.label-sm }
+}
 
-  @actions {
-    increment() { count = count + 1 }
-    decrement() { count = count - 1 }
-    reset() { count = 0 }
-    add(n) { count = count + n }
-  }
+// ---------------------------------------------------------------------------
+// Component: PriorityBadge — match expression for priority
+// ---------------------------------------------------------------------------
 
-  text("Counter") {
-    style: type.heading-md
-  }
+component PriorityBadge(priority: string) {
+  text(match priority {
+    "low" -> "Low",
+    "medium" -> "Medium",
+    "high" -> "High",
+    "critical" -> "Critical",
+    _ -> "—"
+  }) { style: type.label-sm }
+}
 
-  // Current count display
+// ---------------------------------------------------------------------------
+// Surface: StatsBar — metric cards with Icon + template strings
+// ---------------------------------------------------------------------------
+
+surface StatsBar(total, done, inProgress, todo) {
+  layout: horizontal, gap: spacing.4, align: center
+
   block {
     layout: horizontal, gap: spacing.2, align: center
-
-    text(count) {
-      style: type.display-md
-    }
-
-    text(label) {
-      style: type.body-md
-    }
+    Icon(name: "list", size: "18px", color: "#6366f1")
+    text("Total: {total}") { style: type.label-md }
   }
-
-  // Doubled display
   block {
-    layout: horizontal, gap: spacing.1, align: baseline
-
-    text(doubled) {
-      style: type.heading-sm
-    }
-
-    text("(doubled)") {
-      style: type.label-sm
-    }
+    layout: horizontal, gap: spacing.2, align: center
+    Icon(name: "check", size: "18px", color: "#10b981")
+    text("Done: {done}") { style: type.label-md }
   }
-
-  // Action buttons row
   block {
-    layout: horizontal, gap: spacing.2
-
-    block {
-      text("- 1") { style: type.label-md }
-      on click: decrement()
-    }
-
-    block {
-      text("+ 1") { style: type.label-md }
-      on click: increment()
-    }
-
-    block {
-      text("+ 5") { style: type.label-md }
-      on click: add(5)
-    }
-
-    block {
-      text("+ 10") { style: type.label-md }
-      on click: add(10)
-    }
+    layout: horizontal, gap: spacing.2, align: center
+    Icon(name: "loader", size: "18px", color: "#f59e0b")
+    text("In Progress: {inProgress}") { style: type.label-md }
   }
-
-  // Reset button — only visible when count != 0
   block {
-    text("Reset to zero") { style: type.label-md }
-    on click: reset()
-    visibility: count != 0
-  }
-
-  // Positive indicator — conditional visibility
-  block {
-    text("Count is positive") { style: type.body-sm }
-    visibility: isPositive
-  }
-
-  // Negative indicator — conditional visibility
-  block {
-    text("Count is negative") { style: type.body-sm }
-    visibility: isNegative
+    layout: horizontal, gap: spacing.2, align: center
+    Icon(name: "circle", size: "18px", color: "#94a3b8")
+    text("Todo: {todo}") { style: type.label-md }
   }
 }
 
 // ---------------------------------------------------------------------------
-// Surface: ItemList — each loops, visibility, nested blocks
+// Surface: TaskTable — filterable list with Buttons, each+index, components
 // ---------------------------------------------------------------------------
-surface ItemList() {
+
+surface TaskTable {
   @state {
-    items: [
-      { id: 1, text: "Learn the Spec language", done: false },
-      { id: 2, text: "Build a test app", done: true },
-      { id: 3, text: "Run spec dev", done: false },
-      { id: 4, text: "Validate hot reload", done: false },
-      { id: 5, text: "Cross-browser test", done: false }
-    ]
-    showCompleted: true
+    filter: "all"
+  }
+
+  @source {
+    tasks: TasksAPI
   }
 
   @computed {
-    totalCount: items.length
+    taskList: tasks != null ? tasks : []
+    filteredTasks: filter == "all" ? taskList : taskList.filter(t -> t.status == filter)
+    taskCount: "{filteredTasks.length} tasks"
+    hasNoResults: filteredTasks.length == 0
   }
 
   @actions {
-    toggleShowCompleted() {
-      showCompleted = !showCompleted
-    }
-  }
-
-  text("Checklist") {
-    style: type.heading-md
-  }
-
-  // Item count
-  block {
-    layout: horizontal, gap: spacing.1, align: baseline
-
-    text(totalCount) {
-      style: type.heading-sm
-    }
-
-    text("items total") {
-      style: type.body-sm
-    }
-  }
-
-  // Toggle completed visibility
-  block {
-    text("Toggle completed items") { style: type.label-md }
-    on click: toggleShowCompleted()
-  }
-
-  // Item list using each loop
-  block {
-    layout: vertical, gap: spacing.2
-
-    each items as item {
-      block {
-        layout: horizontal, gap: spacing.2, align: center
-
-        text(item.done ? "DONE" : "TODO") {
-          style: type.label-xs
-          weight: 700
-        }
-
-        text(item.text) {
-          style: type.body-md
-        }
-      }
-    }
-  }
-
-  // Show/hide completed status
-  block {
-    text("Completed items are visible") { style: type.label-sm }
-    visibility: showCompleted
-  }
-
-  block {
-    text("Completed items are hidden") { style: type.label-sm }
-    visibility: !showCompleted
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Surface: TabPanel — tab switching via state + visibility
-// ---------------------------------------------------------------------------
-surface TabPanel() {
-  @state {
-    activeTab: "overview"
-  }
-
-  @actions {
-    switchTab(tab) { activeTab = tab }
-  }
-
-  text("Tabbed Panel") {
-    style: type.heading-md
-  }
-
-  // Tab buttons
-  block {
-    layout: horizontal, gap: spacing.3
-
-    block {
-      text("Overview") { style: type.label-md }
-      on click: switchTab("overview")
-    }
-
-    block {
-      text("Details") { style: type.label-md }
-      on click: switchTab("details")
-    }
-
-    block {
-      text("Settings") { style: type.label-md }
-      on click: switchTab("settings")
-    }
-  }
-
-  // Active tab indicator
-  block {
-    layout: horizontal, gap: spacing.1, align: baseline
-
-    text("Active tab:") {
-      style: type.label-sm
-    }
-
-    text(activeTab) {
-      style: type.heading-xs
-    }
-  }
-
-  // Tab content — only one visible at a time
-  block {
-    text("This is the Overview panel. It shows a summary of your project status.") {
-      style: type.body-md
-    }
-    visibility: activeTab == "overview"
-  }
-
-  block {
-    layout: vertical, gap: spacing.2
-
-    text("Detail View") {
-      style: type.heading-sm
-    }
-
-    text("Here you would see detailed information about selected items.") {
-      style: type.body-md
-    }
-
-    text("This panel demonstrates multi-line content in a visibility-gated block.") {
-      style: type.body-sm
-    }
-
-    visibility: activeTab == "details"
-  }
-
-  block {
-    text("Settings panel — configure your preferences here.") {
-      style: type.body-md
-    }
-    visibility: activeTab == "settings"
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Surface: App — top-level composition
-// ---------------------------------------------------------------------------
-surface App() {
-  @state {
-    appReady: true
+    setFilter(f) { filter = f }
   }
 
   layout: vertical, gap: spacing.4
 
-  text("Spec Framework Test") {
-    style: type.heading-lg
-  }
+  text("Tasks") { style: type.heading-md }
 
-  // Ready indicator
+  // Filter bar
   block {
-    text("App loaded and reactive") { style: type.body-sm }
-    visibility: appReady
+    layout: horizontal, gap: spacing.2, align: center
+    text(taskCount) { style: type.body-sm }
+    Button(label: "All", variant: "secondary") {
+      on click: setFilter("all")
+    }
+    Button(label: "Todo", variant: "secondary") {
+      on click: setFilter("todo")
+    }
+    Button(label: "In Progress", variant: "secondary") {
+      on click: setFilter("in-progress")
+    }
+    Button(label: "Done", variant: "secondary") {
+      on click: setFilter("done")
+    }
   }
 
-  // Composed sections
-  Counter()
-  ItemList()
-  TabPanel()
+  // Loading indicator
+  block {
+    visibility: tasksLoading
+    text("Loading tasks...") { style: type.body-sm }
+  }
+
+  // Error display
+  block {
+    visibility: tasksError
+    text("Failed to load tasks.") { style: type.body-sm, color: "red" }
+  }
+
+  // Task rows
+  each filteredTasks as task, index {
+    block {
+      layout: horizontal, gap: spacing.4, align: center
+      text("{index}") { style: type.label-xs }
+      text(task.title) { style: type.body-md }
+      StatusBadge(task.status)
+      PriorityBadge(task.priority)
+      text(task.assignee) { style: type.body-sm }
+    }
+  }
+
+  // Empty state
+  block {
+    visibility: hasNoResults
+    text("No tasks match the current filter.") { style: type.body-sm }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Surface: TaskForm — form validation with Input, Select, DatePicker,
+//          Checkbox, Button, visibility, computed errors, template strings
+// ---------------------------------------------------------------------------
+
+surface TaskForm {
+  @state {
+    title: ""
+    assignee: ""
+    priority: "medium"
+    status: "todo"
+    dueDate: null
+    notes: ""
+    urgent: false
+    submitted: false
+    error: ""
+    touched: false
+  }
+
+  @computed {
+    titleError: title == "" ? "Title is required" : ""
+    assigneeError: assignee == "" ? "Assignee is required" : ""
+    hasTitleError: touched && titleError != ""
+    hasAssigneeError: touched && assigneeError != ""
+    isValid: titleError == "" && assigneeError == ""
+    hasError: error != ""
+    formSummary: "Creating task: {title}"
+    successVisible: submitted
+  }
+
+  @actions {
+    setTitle(v) {
+      title = v
+      touched = true
+    }
+    setAssignee(v) {
+      assignee = v
+      touched = true
+    }
+    setPriority(v) { priority = v }
+    setStatus(v) { status = v }
+    setDueDate(v) { dueDate = v }
+    setNotes(v) { notes = v }
+    setUrgent(v) { urgent = v }
+    setError(e) { error = e }
+    submitForm() {
+      touched = true
+      if isValid {
+        fetch("http://localhost:4000/api/tasks", {method: "POST", body: JSON.stringify({title: title, assignee: assignee, priority: priority, status: status})})
+        submitted = true
+        error = ""
+      }
+    }
+    dismissSuccess() {
+      submitted = false
+    }
+  }
+
+  layout: vertical, gap: spacing.5
+
+  text("Create New Task") { style: type.heading-lg }
+
+  // Success banner (shown above the form, dismissible)
+  block {
+    visibility: successVisible
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "check", size: "20px", color: "#10b981")
+    text("Task created successfully!") { style: type.body-md, color: "#10b981" }
+    Button(label: "Dismiss", variant: "ghost") {
+      on click: dismissSuccess()
+    }
+  }
+
+  // Form (always visible so inputs retain their DOM state)
+  block {
+    layout: vertical, gap: spacing.4
+
+    text(formSummary) { style: type.body-sm }
+
+    // Title
+    block {
+      layout: vertical, gap: spacing.1
+      Input(type: "text", label: "Title", value: title, placeholder: "Enter task title", error: hasTitleError) {
+        on change(v): { title = v }
+      }
+      block {
+        visibility: hasTitleError
+        text(titleError) { style: type.body-sm, color: "red" }
+      }
+    }
+
+    // Notes
+    Input(type: "textarea", label: "Notes", value: notes, placeholder: "Optional notes...") {
+      on change(v): { notes = v }
+    }
+
+    // Assignee + Priority (side by side)
+    block {
+      layout: horizontal, gap: spacing.4
+
+      block {
+        layout: vertical, gap: spacing.1
+        Select(
+          options: [
+            {value: "alice", label: "Alice"},
+            {value: "bob", label: "Bob"},
+            {value: "carol", label: "Carol"}
+          ],
+          value: assignee,
+          placeholder: "Select assignee",
+          label: "Assignee",
+          error: hasAssigneeError
+        ) {
+          on change(v): { assignee = v }
+        }
+        block {
+          visibility: hasAssigneeError
+          text(assigneeError) { style: type.body-sm, color: "red" }
+        }
+      }
+
+      Select(
+        options: [
+          {value: "low", label: "Low"},
+          {value: "medium", label: "Medium"},
+          {value: "high", label: "High"},
+          {value: "critical", label: "Critical"}
+        ],
+        value: priority,
+        label: "Priority"
+      ) {
+        on change(v): { priority = v }
+      }
+    }
+
+    // Status + Due Date (side by side)
+    block {
+      layout: horizontal, gap: spacing.4
+
+      Select(
+        options: [
+          {value: "todo", label: "Todo"},
+          {value: "in-progress", label: "In Progress"},
+          {value: "done", label: "Done"}
+        ],
+        value: status,
+        label: "Status"
+      ) {
+        on change(v): { status = v }
+      }
+
+      DatePicker(value: dueDate, label: "Due Date", placeholder: "Pick a date") {
+        on change(v): { dueDate = v }
+      }
+    }
+
+    // Urgent checkbox
+    Checkbox(label: "Mark as urgent", checked: urgent) {
+      on change(v): { urgent = v }
+    }
+
+    // Error display
+    block {
+      visibility: hasError
+      text(error) { style: type.body-sm, color: "red" }
+    }
+
+    // Buttons
+    block {
+      layout: horizontal, gap: spacing.3
+      Button(label: "Create Task", variant: "primary") {
+        on click: submitForm()
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Surface: TaskDetail — detail view with Image, StatusBadge, PriorityBadge
+// ---------------------------------------------------------------------------
+
+surface TaskDetail {
+  @state {
+    task: null
+  }
+
+  @computed {
+    hasTask: task != null
+    taskTitle: task != null ? task.title : ""
+    taskStatus: task != null ? task.status : ""
+    taskAssignee: task != null ? task.assignee : ""
+    taskPriority: task != null ? task.priority : ""
+    taskDate: task != null ? task.createdAt : ""
+    detailHeading: "Task: {taskTitle}"
+  }
+
+  @actions {
+    setTask(t) { task = t }
+  }
+
+  layout: vertical, gap: spacing.4
+
+  text("Task Detail") { style: type.heading-lg }
+
+  block {
+    visibility: !hasTask
+    layout: vertical, gap: spacing.2, align: center
+    Icon(name: "info", size: "24px", color: "#94a3b8")
+    text("Select a task to view details.") { style: type.body-sm }
+  }
+
+  block {
+    visibility: hasTask
+    layout: vertical, gap: spacing.4
+
+    text(detailHeading) { style: type.heading-md }
+
+    Image(src: "https://via.placeholder.com/64", alt: "Task icon", width: 64, height: 64)
+
+    block {
+      layout: horizontal, gap: spacing.4
+      block {
+        layout: vertical, gap: spacing.1
+        text("Status") { style: type.label-sm }
+        StatusBadge(taskStatus)
+      }
+      block {
+        layout: vertical, gap: spacing.1
+        text("Priority") { style: type.label-sm }
+        PriorityBadge(taskPriority)
+      }
+      block {
+        layout: vertical, gap: spacing.1
+        text("Assignee") { style: type.label-sm }
+        text(taskAssignee) { style: type.body-md }
+      }
+      block {
+        layout: vertical, gap: spacing.1
+        text("Created") { style: type.label-sm }
+        text(taskDate) { style: type.body-md }
+      }
+    }
+
+    Button(label: "Back", variant: "secondary") {
+      on click: setTask(null)
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Wizard surfaces — multi-step task creation
+// ---------------------------------------------------------------------------
+
+surface WizardStep1 {
+  @state {
+    title: ""
+    assignee: ""
+  }
+
+  @computed {
+    titleFilled: title != ""
+  }
+
+  @actions {
+    setTitle(v) { title = v }
+    setAssignee(v) { assignee = v }
+  }
+
+  layout: vertical, gap: spacing.5
+
+  text("Step 1: Basic Info") { style: type.heading-md }
+  text("Provide the core details for this task.") { style: type.body-sm }
+
+  Input(type: "text", label: "Title", value: title, placeholder: "Task title") {
+    on change(v): { title = v }
+  }
+
+  Select(
+    options: [
+      {value: "alice", label: "Alice"},
+      {value: "bob", label: "Bob"},
+      {value: "carol", label: "Carol"}
+    ],
+    value: assignee,
+    placeholder: "Choose assignee",
+    label: "Assignee"
+  ) {
+    on change(v): { assignee = v }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, justify: end
+    Button(label: "Next", variant: "primary")
+  }
+}
+
+surface WizardStep2 {
+  @state {
+    priority: "medium"
+    dueDate: null
+    autoAssign: false
+  }
+
+  @actions {
+    setPriority(v) { priority = v }
+    setDueDate(v) { dueDate = v }
+    setAutoAssign(v) { autoAssign = v }
+  }
+
+  layout: vertical, gap: spacing.5
+
+  text("Step 2: Options") { style: type.heading-md }
+  text("Configure priority, deadline, and assignment options.") { style: type.body-sm }
+
+  Select(
+    options: [
+      {value: "low", label: "Low"},
+      {value: "medium", label: "Medium"},
+      {value: "high", label: "High"},
+      {value: "critical", label: "Critical"}
+    ],
+    value: priority,
+    label: "Priority"
+  ) {
+    on change(v): { priority = v }
+  }
+
+  DatePicker(value: dueDate, label: "Due Date", placeholder: "Select deadline") {
+    on change(v): { dueDate = v }
+  }
+
+  Toggle(checked: autoAssign, label: "Auto-assign reviewer") {
+    on change(v): { autoAssign = v }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, justify: end
+    Button(label: "Back", variant: "ghost")
+    Button(label: "Next", variant: "primary")
+  }
+}
+
+surface WizardStep3 {
+  @state {
+    confirmed: false
+  }
+
+  @actions {
+    setConfirmed(v) { confirmed = v }
+  }
+
+  layout: vertical, gap: spacing.5
+
+  text("Step 3: Review & Confirm") { style: type.heading-md }
+  text("Please review your task details and confirm submission.") { style: type.body-sm }
+
+  block {
+    layout: horizontal, gap: spacing.2, align: center
+    Icon(name: "info", size: "18px", color: "#6366f1")
+    text("All fields can be edited later.") { style: type.body-sm }
+  }
+
+  Checkbox(label: "I confirm this task is correct", checked: confirmed) {
+    on change(v): { confirmed = v }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, justify: end
+    Button(label: "Back", variant: "ghost")
+    Button(label: "Submit", variant: "primary", disabled: !confirmed)
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Flow: TaskWizard — multi-step wizard with guards
+// ---------------------------------------------------------------------------
+
+flow TaskWizard {
+  state Info {
+    surface: WizardStep1
+    on next [guard: title != ""] -> Options
+  }
+  state Options {
+    surface: WizardStep2
+    on back -> Info
+    on next -> Review
+  }
+  state Review {
+    surface: WizardStep3
+    on back -> Options
+    on submit [guard: confirmed] -> Done
+  }
+  state Done {
+    surface: WizardStep3
+    on restart -> Info
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Surface: App — main shell (auto-mounted by dev server)
+// ---------------------------------------------------------------------------
+
+surface App {
+  @state {
+    theme: "light"
+    view: "dashboard"
+  }
+
+  @source {
+    stats: StatsAPI
+  }
+
+  @computed {
+    themeLabel: theme == "light" ? "Dark Mode" : "Light Mode"
+    showDashboard: view == "dashboard"
+    showDetail: view == "detail"
+    showCreate: view == "create"
+    showWizard: view == "wizard"
+    viewTitle: match view {
+      "dashboard" -> "Dashboard",
+      "detail" -> "Task Detail",
+      "create" -> "Create Task",
+      "wizard" -> "Task Wizard",
+      _ -> "Admin"
+    }
+    statsTotal: stats != null ? stats.total : 0
+    statsDone: stats != null ? stats.done : 0
+    statsInProgress: stats != null ? stats.inProgress : 0
+    statsTodo: stats != null ? stats.todo : 0
+  }
+
+  @actions {
+    toggleTheme() { theme = theme == "light" ? "dark" : "light" }
+    setView(v) { view = v }
+  }
+
+  layout: vertical, gap: spacing.6
+
+  // Header
+  block {
+    layout: horizontal, gap: spacing.4, align: center, justify: between
+
+    block {
+      layout: horizontal, gap: spacing.3, align: center
+      Icon(name: "home", size: "22px", color: "#6366f1")
+      text(viewTitle) { style: type.heading-lg }
+    }
+
+    block {
+      layout: horizontal, gap: spacing.3, align: center
+      Toggle(checked: theme == "dark", label: themeLabel) {
+        on change: toggleTheme()
+      }
+    }
+  }
+
+  // Navigation tabs
+  Tabs(
+    tabs: [
+      {id: "dashboard", label: "Dashboard"},
+      {id: "detail", label: "Detail"},
+      {id: "create", label: "New Task"},
+      {id: "wizard", label: "Wizard"}
+    ],
+    activeTab: view
+  ) {
+    on change(v): { view = v }
+  }
+
+  // Dashboard view
+  block {
+    visibility: showDashboard
+    layout: vertical, gap: spacing.6
+    StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
+    TaskTable()
+  }
+
+  // Detail view
+  block {
+    visibility: showDetail
+    TaskDetail()
+  }
+
+  // Create view
+  block {
+    visibility: showCreate
+    TaskForm()
+  }
+
+  // Wizard view
+  block {
+    visibility: showWizard
+    TaskWizard()
+  }
 }

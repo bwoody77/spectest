@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "api": "node server.mjs",
     "dev": "spec dev src/",
     "build": "spec compile src/ --output dist/",
     "check": "spec check src/"
