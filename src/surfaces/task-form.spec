@@ -1,4 +1,6 @@
-// TaskForm — form validation with Input, Select, DatePicker, Checkbox, Button, Popover
+// TaskForm — Enhanced for Gate #22
+// Uses: Alert (Issue #19), Progress (Issue #19), hover/focus states (Issue #53),
+//   transitions (Issue #52), shadows (Issue #54), individual borders (Issue #56)
 
 surface TaskForm(themePreset) {
   @state {
@@ -23,15 +25,12 @@ surface TaskForm(themePreset) {
     isValid: titleError == "" && assigneeError == ""
     hasError: error != ""
     isSubmitting: submitting
-    formSummary: "Creating task: {title}"
+    formSummary: title != "" ? "Creating: {title}" : "Fill in the form below"
     successVisible: submitted
 
-    formBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
-    formBorder: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
-    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
-    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
-    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
-    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
+    accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
+    cardRadius: match themePreset { "enterprise" -> "4px", "social" -> "16px", "minimal" -> "0px", "playful" -> "12px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "8px", "social" -> "14px", "minimal" -> "20px", "playful" -> "12px", _ -> "12px" }
     textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
     textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
@@ -50,7 +49,6 @@ surface TaskForm(themePreset) {
     setDueDate(v) { dueDate = v }
     setNotes(v) { notes = v }
     setUrgent(v) { urgent = v }
-    setError(e) { error = e }
     submitForm() {
       touched = true
       if isValid {
@@ -68,149 +66,143 @@ surface TaskForm(themePreset) {
 
   layout: vertical, gap: cardGap
 
+  // Header
   block {
-    layout: horizontal, gap: spacing.2, align: center
-    text("Create New Task") { style: type.heading-lg, color: textPrimary }
-    Popover(placement: "bottom", openOn: "click", text: "Fill in the required fields (Title and Assignee) then click Create Task. Priority defaults to Medium.") {
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "plus", size: "20px", color: accentColor)
+    text("Create New Task") { style: type.heading-lg, color: textPrimary, letter-spacing: "-0.01em" }
+    Popover(placement: "bottom", openOn: "click", text: "Fill in the required fields (Title and Assignee) then click Create Task.") {
       Icon(name: "info", size: "18px", color: textMuted)
     }
   }
 
-  // Success banner (shown above the form, dismissible)
+  text(formSummary) { style: type.body-sm, color: textMuted }
+
+  // Success Alert (Issue #19)
   block {
-    aria-live: "polite"
     visibility: successVisible
-    padding: padInner
-    background: "#ecfdf5"
-    border: "1px solid #bbf7d0"
-    border-radius: cardRadius
-    layout: horizontal, gap: cardGap, align: center
-    Icon(name: "check", size: "20px", color: "#10b981")
-    text("Task created successfully!") { style: type.body-md, color: palette.success.500 }
-    Button(label: "Dismiss", variant: "ghost") {
-      on click: dismissSuccess()
+    Alert(severity: "success", message: "Your new task has been added to the backlog.", title: "Task created!", dismissible: true) {
+      on dismiss: dismissSuccess()
     }
   }
 
-  // Form (always visible so inputs retain their DOM state)
+  // Error Alert (Issue #19)
   block {
-    layout: vertical, gap: cardGap
+    visibility: hasError
+    Alert(severity: "error", message: error, title: "Submission failed")
+  }
 
-    text(formSummary) { style: type.body-sm, color: textMuted }
-
-    // Title
+  // Form card with shadow and hover (Issue #53, #54)
+  Card() {
     block {
-      layout: vertical, gap: spacing.1
-      Input(type: "text", label: "Title", value: title, placeholder: "Enter task title", error: hasTitleError) {
-        on change(v): { title = v }
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      transition: "shadow 200ms ease"
+
+      on hover {
+        shadow: elevation.layered
       }
-      block {
-        aria-live: "polite"
-        visibility: hasTitleError
-        text(titleError) { style: type.body-sm, color: palette.danger.500 }
-      }
-    }
 
-    // Notes
-    Input(type: "textarea", label: "Notes", value: notes, placeholder: "Optional notes...") {
-      on change(v): { notes = v }
-    }
-
-    // Assignee + Priority (side by side)
-    block {
-      layout: horizontal, gap: spacing.4
-
+      // Title
       block {
         layout: vertical, gap: spacing.1
-        Select(
-          options: [
-            {value: "alice", label: "Alice"},
-            {value: "bob", label: "Bob"},
-            {value: "carol", label: "Carol"}
-          ],
-          value: assignee,
-          placeholder: "Select assignee",
-          label: "Assignee",
-          error: hasAssigneeError
-        ) {
-          on change(v): { assignee = v }
+        Input(type: "text", label: "Title", value: title, placeholder: "Enter task title", error: hasTitleError) {
+          on change(v): { title = v }
         }
         block {
-          aria-live: "polite"
-          visibility: hasAssigneeError
-          text(assigneeError) { style: type.body-sm, color: palette.danger.500 }
+          visibility: hasTitleError
+          text(titleError) { style: type.body-sm, color: palette.danger.500 }
         }
       }
 
-      Select(
-        options: [
-          {value: "low", label: "Low"},
-          {value: "medium", label: "Medium"},
-          {value: "high", label: "High"},
-          {value: "critical", label: "Critical"}
-        ],
-        value: priority,
-        label: "Priority"
-      ) {
-        on change(v): { priority = v }
-      }
-    }
-
-    // Status + Due Date (side by side)
-    block {
-      layout: horizontal, gap: spacing.4
-
-      Select(
-        options: [
-          {value: "todo", label: "Todo"},
-          {value: "in-progress", label: "In Progress"},
-          {value: "done", label: "Done"}
-        ],
-        value: status,
-        label: "Status"
-      ) {
-        on change(v): { status = v }
+      // Notes
+      Input(type: "textarea", label: "Notes", value: notes, placeholder: "Optional notes...") {
+        on change(v): { notes = v }
       }
 
-      DatePicker(value: dueDate, label: "Due Date", placeholder: "Pick a date") {
-        on change(v): { dueDate = v }
+      // Assignee + Priority (side by side with responsive grid, Issue #58)
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.1
+          Select(
+            options: [
+              {value: "alice", label: "Alice"},
+              {value: "bob", label: "Bob"},
+              {value: "carol", label: "Carol"}
+            ],
+            value: assignee,
+            placeholder: "Select assignee",
+            label: "Assignee",
+            error: hasAssigneeError
+          ) {
+            on change(v): { assignee = v }
+          }
+          block {
+            visibility: hasAssigneeError
+            text(assigneeError) { style: type.body-sm, color: palette.danger.500 }
+          }
+        }
+
+        Select(
+          options: [
+            {value: "low", label: "Low"},
+            {value: "medium", label: "Medium"},
+            {value: "high", label: "High"},
+            {value: "critical", label: "Critical"}
+          ],
+          value: priority,
+          label: "Priority"
+        ) {
+          on change(v): { priority = v }
+        }
       }
-    }
 
-    // Urgent checkbox
-    Checkbox(label: "Mark as urgent", checked: urgent) {
-      on change(v): { urgent = v }
-    }
+      // Status + Due Date (responsive grid)
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
 
-    // Error display
-    block {
-      aria-live: "polite"
-      visibility: hasError
-      padding: padInner
-      background: "#fef2f2"
-      border: "1px solid #fecaca"
-      border-radius: cardRadius
-      text(error) { style: type.body-sm, color: palette.danger.500 }
-    }
+        Select(
+          options: [
+            {value: "todo", label: "Todo"},
+            {value: "in-progress", label: "In Progress"},
+            {value: "done", label: "Done"}
+          ],
+          value: status,
+          label: "Status"
+        ) {
+          on change(v): { status = v }
+        }
 
-    // Submitting indicator
-    block {
-      aria-live: "polite"
-      visibility: isSubmitting
-      padding: padInner
-      background: "#eff6ff"
-      border: "1px solid #bfdbfe"
-      border-radius: cardRadius
-      layout: horizontal, gap: cardGap, align: center
-      Icon(name: "loader", size: "16px", color: "#3b82f6")
-      text("Submitting...") { style: type.body-sm, color: "#3b82f6" }
-    }
+        DatePicker(value: dueDate, label: "Due Date", placeholder: "Pick a date") {
+          on change(v): { dueDate = v }
+        }
+      }
 
-    // Buttons
-    block {
-      layout: horizontal, gap: cardGap
-      Button(label: "Create Task", variant: "primary") {
-        on click: submitForm()
+      // Urgent checkbox
+      Checkbox(label: "Mark as urgent", checked: urgent) {
+        on change(v): { urgent = v }
+      }
+
+      // Submitting progress (Issue #19)
+      block {
+        visibility: isSubmitting
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3
+        background: "#eff6ff"
+        border-radius: cardRadius
+        border-left: "3px solid #3b82f6"
+        Progress(value: 75, label: "Submitting...")
+      }
+
+      // Submit buttons
+      block {
+        layout: horizontal, gap: spacing.3
+        Button(label: "Create Task", variant: "primary") {
+          on click: submitForm()
+        }
+        Button(label: "Reset", variant: "ghost")
       }
     }
   }

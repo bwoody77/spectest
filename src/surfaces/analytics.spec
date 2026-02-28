@@ -1,4 +1,8 @@
-// AnalyticsView — charts, metrics, and progress indicators
+// AnalyticsView — Enhanced for Gate #22
+// Uses: Stat (Issue #17), Card (Issue #17), Progress (Issue #19),
+//   CSS Grid (Issue #51), responsive breakpoints (Issue #58),
+//   gradients (Issue #54), shadows (Issue #54), transforms (Issue #54),
+//   hover states (Issue #53), transitions (Issue #52), text styling (Issue #55)
 
 surface AnalyticsView {
   @source {
@@ -11,198 +15,286 @@ surface AnalyticsView {
     done: stats != null ? stats.done : 0
     inProgress: stats != null ? stats.inProgress : 0
     todo: stats != null ? stats.todo : 0
-    doneLabel: "{done} completed"
-    inProgressLabel: "{inProgress} in progress"
-    todoLabel: "{todo} todo"
+    donePercent: total > 0 ? (done * 100 / total) : 0
+    inProgressPercent: total > 0 ? (inProgress * 100 / total) : 0
+    todoPercent: total > 0 ? (todo * 100 / total) : 0
 
     taskList: tasks != null ? tasks : []
     highCount: taskList.filter(t -> t.priority == "high").length
     mediumCount: taskList.filter(t -> t.priority == "medium").length
     lowCount: taskList.filter(t -> t.priority == "low").length
-    highLabel: "{highCount} high priority"
-    mediumLabel: "{mediumCount} medium priority"
-    lowLabel: "{lowCount} low priority"
 
     aliceCount: taskList.filter(t -> t.assignee == "Alice").length
     bobCount: taskList.filter(t -> t.assignee == "Bob").length
     carolCount: taskList.filter(t -> t.assignee == "Carol").length
-    aliceLabel: "Alice: {aliceCount} tasks"
-    bobLabel: "Bob: {bobCount} tasks"
-    carolLabel: "Carol: {carolCount} tasks"
   }
 
   layout: vertical, gap: spacing.6
 
-  text("Analytics") { style: type.heading-lg }
-
-  // Loading
   block {
-    aria-live: "polite"
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "bar-chart", size: "20px", color: "#6366f1")
+    text("Analytics") { style: type.heading-lg, letter-spacing: "-0.02em" }
+  }
+
+  // Skeleton loading (Issue #19)
+  block {
     visibility: statsLoading
-    padding: spacing.4
-    background: "#f0f9ff"
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
-    Icon(name: "loader", size: "18px", color: "#6366f1")
-    text("Loading analytics...") { style: type.body-sm, color: semantic.text-secondary }
+    layout: grid, columns: responsive("1fr", md: "1fr 1fr", lg: "1fr 1fr 1fr 1fr"), gap: spacing.4
+    Skeleton(height: "100px", width: "100%")
+    Skeleton(height: "100px", width: "100%")
+    Skeleton(height: "100px", width: "100%")
+    Skeleton(height: "100px", width: "100%")
   }
 
-  // Key metric cards
+  // Key metric cards — CSS Grid (Issue #51) with responsive breakpoints (Issue #58)
   block {
-    layout: horizontal, gap: spacing.4
+    layout: grid, columns: responsive("1fr 1fr", lg: "1fr 1fr 1fr 1fr"), gap: spacing.4
 
-    block {
-      padding: spacing.4
-      background: "#eef2ff"
-      border-radius: radius.lg
-      layout: vertical, gap: spacing.2, align: center
-      Icon(name: "list", size: "28px", color: "#6366f1")
-      text("{total}") { style: type.heading-lg, color: palette.primary.500 }
-      text("Total Tasks") { style: type.label-sm, color: semantic.text-secondary }
+    Card() {
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, #eef2ff, #c7d2fe)"
+        border-radius: radius.lg
+        transition: "transform 200ms ease, shadow 200ms ease"
+        cursor: "pointer"
+        layout: vertical, gap: spacing.3, align: center
+
+        on hover {
+          transform: "translateY(-3px)"
+          shadow: elevation.floating
+        }
+
+        Icon(name: "list", size: "32px", color: "#6366f1")
+        Stat(value: "{total}", label: "Total Tasks")
+      }
     }
 
-    block {
-      padding: spacing.4
-      background: "#ecfdf5"
-      border-radius: radius.lg
-      layout: vertical, gap: spacing.2, align: center
-      Icon(name: "check", size: "28px", color: "#10b981")
-      text("{done}") { style: type.heading-lg, color: palette.success.500 }
-      text("Completed") { style: type.label-sm, color: semantic.text-secondary }
+    Card() {
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, #ecfdf5, #a7f3d0)"
+        border-radius: radius.lg
+        transition: "transform 200ms ease, shadow 200ms ease"
+        cursor: "pointer"
+        layout: vertical, gap: spacing.3, align: center
+
+        on hover {
+          transform: "translateY(-3px)"
+          shadow: elevation.floating
+        }
+
+        Icon(name: "check", size: "32px", color: "#10b981")
+        Stat(value: "{done}", label: "Completed")
+      }
     }
 
-    block {
-      padding: spacing.4
-      background: "#fffbeb"
-      border-radius: radius.lg
-      layout: vertical, gap: spacing.2, align: center
-      Icon(name: "loader", size: "28px", color: "#f59e0b")
-      text("{inProgress}") { style: type.heading-lg, color: palette.warning.500 }
-      text("In Progress") { style: type.label-sm, color: semantic.text-secondary }
+    Card() {
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, #fffbeb, #fde68a)"
+        border-radius: radius.lg
+        transition: "transform 200ms ease, shadow 200ms ease"
+        cursor: "pointer"
+        layout: vertical, gap: spacing.3, align: center
+
+        on hover {
+          transform: "translateY(-3px)"
+          shadow: elevation.floating
+        }
+
+        Icon(name: "loader", size: "32px", color: "#f59e0b")
+        Stat(value: "{inProgress}", label: "In Progress")
+      }
     }
 
-    block {
-      padding: spacing.4
-      background: palette.neutral.50
-      border-radius: radius.lg
-      layout: vertical, gap: spacing.2, align: center
-      Icon(name: "circle", size: "28px", color: "#64748b")
-      text("{todo}") { style: type.heading-lg, color: semantic.text-secondary }
-      text("Todo") { style: type.label-sm, color: semantic.text-secondary }
-    }
-  }
+    Card() {
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, #f8fafc, #cbd5e1)"
+        border-radius: radius.lg
+        transition: "transform 200ms ease, shadow 200ms ease"
+        cursor: "pointer"
+        layout: vertical, gap: spacing.3, align: center
 
-  // Status breakdown
-  block {
-    padding: spacing.4
-    background: "#ffffff"
-    border: "1px solid #e2e8f0"
-    border-radius: radius.lg
-    layout: vertical, gap: spacing.4
+        on hover {
+          transform: "translateY(-3px)"
+          shadow: elevation.floating
+        }
 
-    text("Status Breakdown") { style: type.heading-md }
-
-    block {
-      padding: spacing.3
-      background: "#ecfdf5"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "check", size: "18px", color: "#10b981")
-      text(doneLabel) { style: type.body-md, color: palette.success.500 }
-    }
-
-    block {
-      padding: spacing.3
-      background: "#fffbeb"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "loader", size: "18px", color: "#f59e0b")
-      text(inProgressLabel) { style: type.body-md, color: palette.warning.500 }
-    }
-
-    block {
-      padding: spacing.3
-      background: palette.neutral.50
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "circle", size: "18px", color: "#64748b")
-      text(todoLabel) { style: type.body-md, color: semantic.text-secondary }
+        Icon(name: "circle", size: "32px", color: "#64748b")
+        Stat(value: "{todo}", label: "Todo")
+      }
     }
   }
 
-  // Priority breakdown
+  // Breakdown sections — CSS Grid 2-column (Issue #51)
   block {
-    padding: spacing.4
-    background: "#ffffff"
-    border: "1px solid #e2e8f0"
-    border-radius: radius.lg
-    layout: vertical, gap: spacing.4
+    layout: grid, columns: responsive("1fr", lg: "1fr 1fr"), gap: spacing.5
 
-    text("Priority Breakdown") { style: type.heading-md }
+    // Status breakdown with Progress bars (Issue #19)
+    Card() {
+      block {
+        padding: spacing.5
+        layout: vertical, gap: spacing.4
 
-    block {
-      padding: spacing.3
-      background: "#fef2f2"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "info", size: "18px", color: "#ef4444")
-      text(highLabel) { style: type.body-md, color: palette.danger.500 }
+        text("Status Breakdown") { style: type.heading-md, letter-spacing: "-0.01em" }
+
+        block {
+          layout: vertical, gap: spacing.3
+
+          block {
+            layout: vertical, gap: spacing.2
+            block {
+              layout: horizontal, gap: spacing.2, align: center, justify: between
+              text("Completed") { style: type.label-sm, color: "#065f46", text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{done}") { style: type.label-md, weight: 700, color: "#10b981" }
+            }
+            Progress(value: donePercent, label: "done")
+          }
+
+          block {
+            layout: vertical, gap: spacing.2
+            block {
+              layout: horizontal, gap: spacing.2, align: center, justify: between
+              text("In Progress") { style: type.label-sm, color: "#92400e", text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{inProgress}") { style: type.label-md, weight: 700, color: "#f59e0b" }
+            }
+            Progress(value: inProgressPercent, label: "in progress")
+          }
+
+          block {
+            layout: vertical, gap: spacing.2
+            block {
+              layout: horizontal, gap: spacing.2, align: center, justify: between
+              text("Todo") { style: type.label-sm, color: "#334155", text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{todo}") { style: type.label-md, weight: 700, color: "#64748b" }
+            }
+            Progress(value: todoPercent, label: "todo")
+          }
+        }
+      }
     }
 
-    block {
-      padding: spacing.3
-      background: "#fffbeb"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "info", size: "18px", color: "#f59e0b")
-      text(mediumLabel) { style: type.body-md, color: palette.warning.500 }
-    }
+    // Priority breakdown
+    Card() {
+      block {
+        padding: spacing.5
+        layout: vertical, gap: spacing.4
 
-    block {
-      padding: spacing.3
-      background: "#ecfdf5"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "info", size: "18px", color: "#10b981")
-      text(lowLabel) { style: type.body-md, color: palette.success.500 }
+        text("Priority Breakdown") { style: type.heading-md, letter-spacing: "-0.01em" }
+
+        block {
+          layout: vertical, gap: spacing.3
+
+          block {
+            padding: spacing.3
+            background: "#fef2f2"
+            border-radius: radius.md
+            border-left: "3px solid #ef4444"
+            layout: horizontal, gap: spacing.3, align: center, justify: between
+            transition: "transform 150ms ease"
+            on hover {
+              transform: "translateX(4px)"
+            }
+            block {
+              layout: horizontal, gap: spacing.2, align: center
+              Icon(name: "alert-triangle", size: "18px", color: "#ef4444")
+              text("High Priority") { style: type.body-md, weight: 500 }
+            }
+            Badge(text: "{highCount}", variant: "error")
+          }
+
+          block {
+            padding: spacing.3
+            background: "#fffbeb"
+            border-radius: radius.md
+            border-left: "3px solid #f59e0b"
+            layout: horizontal, gap: spacing.3, align: center, justify: between
+            transition: "transform 150ms ease"
+            on hover {
+              transform: "translateX(4px)"
+            }
+            block {
+              layout: horizontal, gap: spacing.2, align: center
+              Icon(name: "info", size: "18px", color: "#f59e0b")
+              text("Medium Priority") { style: type.body-md, weight: 500 }
+            }
+            Badge(text: "{mediumCount}", variant: "warning")
+          }
+
+          block {
+            padding: spacing.3
+            background: "#ecfdf5"
+            border-radius: radius.md
+            border-left: "3px solid #10b981"
+            layout: horizontal, gap: spacing.3, align: center, justify: between
+            transition: "transform 150ms ease"
+            on hover {
+              transform: "translateX(4px)"
+            }
+            block {
+              layout: horizontal, gap: spacing.2, align: center
+              Icon(name: "check", size: "18px", color: "#10b981")
+              text("Low Priority") { style: type.body-md, weight: 500 }
+            }
+            Badge(text: "{lowCount}", variant: "success")
+          }
+        }
+      }
     }
   }
 
-  // Workload distribution
-  block {
-    padding: spacing.4
-    background: "#ffffff"
-    border: "1px solid #e2e8f0"
-    border-radius: radius.lg
-    layout: vertical, gap: spacing.4
-
-    text("Workload Distribution") { style: type.heading-md }
-
+  // Workload distribution — full width
+  Card() {
     block {
-      padding: spacing.3
-      background: "#eef2ff"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "user", size: "18px", color: "#6366f1")
-      text(aliceLabel) { style: type.body-md }
-    }
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
 
-    block {
-      padding: spacing.3
-      background: "#ecfdf5"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "user", size: "18px", color: "#10b981")
-      text(bobLabel) { style: type.body-md }
-    }
+      text("Workload Distribution") { style: type.heading-md, letter-spacing: "-0.01em" }
 
-    block {
-      padding: spacing.3
-      background: "#fffbeb"
-      border-radius: radius.md
-      layout: horizontal, gap: spacing.2, align: center
-      Icon(name: "user", size: "18px", color: "#f59e0b")
-      text(carolLabel) { style: type.body-md }
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr 1fr"), gap: spacing.4
+
+        block {
+          padding: spacing.4
+          background: "linear-gradient(135deg, #eef2ff, #e0e7ff)"
+          border-radius: radius.md
+          transition: "transform 200ms ease"
+          layout: vertical, gap: spacing.2, align: center
+          on hover {
+            transform: "scale(1.02)"
+          }
+          Icon(name: "user", size: "24px", color: "#6366f1")
+          Stat(value: "{aliceCount}", label: "Alice's tasks")
+        }
+
+        block {
+          padding: spacing.4
+          background: "linear-gradient(135deg, #ecfdf5, #d1fae5)"
+          border-radius: radius.md
+          transition: "transform 200ms ease"
+          layout: vertical, gap: spacing.2, align: center
+          on hover {
+            transform: "scale(1.02)"
+          }
+          Icon(name: "user", size: "24px", color: "#10b981")
+          Stat(value: "{bobCount}", label: "Bob's tasks")
+        }
+
+        block {
+          padding: spacing.4
+          background: "linear-gradient(135deg, #fffbeb, #fef3c7)"
+          border-radius: radius.md
+          transition: "transform 200ms ease"
+          layout: vertical, gap: spacing.2, align: center
+          on hover {
+            transform: "scale(1.02)"
+          }
+          Icon(name: "user", size: "24px", color: "#f59e0b")
+          Stat(value: "{carolCount}", label: "Carol's tasks")
+        }
+      }
     }
   }
 }

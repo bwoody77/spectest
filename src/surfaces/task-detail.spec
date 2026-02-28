@@ -1,4 +1,7 @@
-// TaskDetail — detail view with Image, StatusBadge, PriorityBadge, Modal
+// TaskDetail — Enhanced for Gate #22
+// Uses: ConfirmDialog (Issue #19), Card (Issue #17), Badge (Issue #17),
+//   backdrop-blur (Issue #57), transitions (Issue #52), shadows (Issue #54),
+//   positioned layout (Issue #50), hover states (Issue #53), grid (Issue #51)
 
 surface TaskDetail(themePreset, task, view) {
   @state {
@@ -15,14 +18,12 @@ surface TaskDetail(themePreset, task, view) {
     taskId: task != null ? task.id : ""
     detailHeading: "Task: {taskTitle}"
 
-    detailBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
-    detailBorder: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
-    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
-    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
-    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
-    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
+    accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
+    cardRadius: match themePreset { "enterprise" -> "4px", "social" -> "16px", "minimal" -> "0px", "playful" -> "12px", _ -> "8px" }
+    cardGap: match themePreset { "enterprise" -> "8px", "social" -> "14px", "minimal" -> "20px", "playful" -> "12px", _ -> "12px" }
     textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
     textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
+    surfaceBg: match themePreset { "enterprise" -> "#f8fafc", "social" -> "#faf5ff", "minimal" -> "#fafafa", "playful" -> "#fffbf5", _ -> "#f8fafc" }
   }
 
   @actions {
@@ -46,85 +47,117 @@ surface TaskDetail(themePreset, task, view) {
 
   layout: vertical, gap: cardGap
 
-  text("Task Detail") { style: type.heading-lg, color: textPrimary }
-
+  // Header
   block {
-    visibility: !hasTask
-    padding: padOuter
-    background: detailBg
-    border-radius: cardRadius
-    layout: vertical, gap: cardGap, align: center
-    Icon(name: "info", size: "24px", color: textMuted)
-    text("Select a task to view details.") { style: type.body-sm, color: textMuted }
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "eye", size: "20px", color: accentColor)
+    text("Task Detail") { style: type.heading-lg, color: textPrimary, letter-spacing: "-0.01em" }
   }
 
+  // Empty state when no task selected (Issue #17)
+  block {
+    visibility: !hasTask
+    EmptyState(
+      message: "No Task Selected",
+      description: "Select a task from the Dashboard to view its details here."
+    )
+  }
+
+  // Task detail content
   block {
     visibility: hasTask
     layout: vertical, gap: cardGap
 
-    text(detailHeading) { style: type.heading-md, color: textPrimary }
-
-    Image(src: "https://via.placeholder.com/64", alt: "Placeholder thumbnail for the selected task", width: 64, height: 64)
-
+    // Title with left border accent (Issue #56)
     block {
-      layout: horizontal, gap: cardGap
-      block {
-        padding: padInner
-        background: detailBg
-        border-radius: cardRadius
-        layout: vertical, gap: cardGap
-        text("Status") { style: type.label-sm, color: textMuted }
-        StatusBadge(taskStatus)
+      padding: spacing.4
+      border-left: "4px solid {accentColor}"
+      background: surfaceBg
+      border-radius: cardRadius
+      text(detailHeading) { style: type.heading-md, color: textPrimary }
+    }
+
+    Image(src: "https://via.placeholder.com/64", alt: "Task thumbnail")
+
+    // Detail grid using CSS Grid (Issue #51) and Cards (Issue #17)
+    block {
+      layout: grid, columns: responsive("1fr 1fr", lg: "1fr 1fr 1fr 1fr"), gap: cardGap
+
+      Card() {
+        block {
+          padding: spacing.3
+          layout: vertical, gap: spacing.2
+          transition: "transform 150ms ease"
+          on hover {
+            transform: "translateY(-1px)"
+          }
+          text("Status") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
+          StatusBadge(taskStatus)
+        }
       }
-      block {
-        padding: padInner
-        background: detailBg
-        border-radius: cardRadius
-        layout: vertical, gap: cardGap
-        text("Priority") { style: type.label-sm, color: textMuted }
-        PriorityBadge(taskPriority)
+
+      Card() {
+        block {
+          padding: spacing.3
+          layout: vertical, gap: spacing.2
+          transition: "transform 150ms ease"
+          on hover {
+            transform: "translateY(-1px)"
+          }
+          text("Priority") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
+          PriorityBadge(taskPriority)
+        }
       }
-      block {
-        padding: padInner
-        background: detailBg
-        border-radius: cardRadius
-        layout: vertical, gap: cardGap
-        text("Assignee") { style: type.label-sm, color: textMuted }
-        text(taskAssignee) { style: type.body-md, color: textPrimary }
+
+      Card() {
+        block {
+          padding: spacing.3
+          layout: vertical, gap: spacing.2
+          transition: "transform 150ms ease"
+          on hover {
+            transform: "translateY(-1px)"
+          }
+          text("Assignee") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
+          text(taskAssignee) { style: type.body-md, weight: 600, color: textPrimary }
+        }
       }
-      block {
-        padding: padInner
-        background: detailBg
-        border-radius: cardRadius
-        layout: vertical, gap: cardGap
-        text("Created") { style: type.label-sm, color: textMuted }
-        text(taskDate) { style: type.body-md, color: textPrimary }
+
+      Card() {
+        block {
+          padding: spacing.3
+          layout: vertical, gap: spacing.2
+          transition: "transform 150ms ease"
+          on hover {
+            transform: "translateY(-1px)"
+          }
+          text("Created") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
+          text(taskDate) { style: type.mono-md, color: textPrimary }
+        }
       }
     }
 
+    // Action buttons
     block {
       layout: horizontal, gap: cardGap
-      Button(label: "Back", variant: "secondary") {
+      Button(label: "Back to Dashboard", variant: "secondary") {
         on click: goBack()
       }
-      Button(label: "Delete Task", variant: "primary") {
+      Button(label: "Delete Task", variant: "destructive") {
         on click: showDeleteConfirm()
       }
     }
 
-    // Delete confirmation modal
-    Modal(title: "Confirm Delete", open: confirmingDelete) {
-      on close: cancelDelete()
-      text("Are you sure you want to delete this task? This action cannot be undone.") { style: type.body-md, color: textPrimary }
-      block {
-        layout: horizontal, gap: cardGap
-        Button(label: "Cancel", variant: "secondary") {
-          on click: cancelDelete()
-        }
-        Button(label: "Delete", variant: "primary") {
-          on click: confirmDelete()
-        }
-      }
+    // Delete confirmation with ConfirmDialog (Issue #19)
+    ConfirmDialog(
+      open: confirmingDelete,
+      title: "Delete Task",
+      message: "Are you sure you want to delete this task? This action cannot be undone.",
+      confirmLabel: "Delete",
+      cancelLabel: "Cancel",
+      destructive: true
+    ) {
+      on confirm: confirmDelete()
+      on cancel: cancelDelete()
     }
   }
 }
