@@ -14,6 +14,11 @@
  */
 
 import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ---------------------------------------------------------------------------
 // In-memory data store
@@ -199,6 +204,23 @@ const server = createServer(async (req, res) => {
   }
 
   // --- Routing ---
+
+  // GET /api/meta
+  if (method === 'GET' && path === '/api/meta') {
+    let versionData = {};
+    try {
+      const raw = await readFile(join(__dirname, 'version.json'), 'utf8');
+      versionData = JSON.parse(raw);
+    } catch {}
+    return json(res, {
+      app: 'spectest',
+      version: versionData.version || '0.0.0',
+      env: process.env.NODE_ENV || 'development',
+      buildDate: versionData.buildDate || null,
+      commit: versionData.commit || null,
+      frameworkVersions: versionData.frameworkVersions || {},
+    });
+  }
 
   // GET /api/activity
   if (method === 'GET' && path === '/api/activity') {
