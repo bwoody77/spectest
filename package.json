@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "api": "node server.mjs",
-    "dev": "spec dev src/",
-    "build": "spec compile src/ --output dist/",
-    "check": "spec check src/"
+    "dev": "node dev.mjs",
+    "build": "spec compile",
+    "check": "spec check"
   },
   "devDependencies": {
     "@spec/cli": "file:../spec/packages/cli"

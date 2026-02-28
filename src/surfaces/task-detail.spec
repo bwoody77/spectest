@@ -1,6 +1,10 @@
-// TaskDetail — detail view with Image, StatusBadge, PriorityBadge
+// TaskDetail — detail view with Image, StatusBadge, PriorityBadge, Modal
 
 surface TaskDetail(themePreset, task, view) {
+  @state {
+    confirmingDelete: false
+  }
+
   @computed {
     hasTask: task != null
     taskTitle: task != null ? task.title : ""
@@ -8,6 +12,7 @@ surface TaskDetail(themePreset, task, view) {
     taskAssignee: task != null ? task.assignee : ""
     taskPriority: task != null ? task.priority : ""
     taskDate: task != null ? task.createdAt : ""
+    taskId: task != null ? task.id : ""
     detailHeading: "Task: {taskTitle}"
 
     detailBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
@@ -22,6 +27,18 @@ surface TaskDetail(themePreset, task, view) {
 
   @actions {
     goBack() {
+      task = null
+      view = "dashboard"
+    }
+    showDeleteConfirm() {
+      confirmingDelete = true
+    }
+    cancelDelete() {
+      confirmingDelete = false
+    }
+    confirmDelete() {
+      fetch("http://localhost:4000/api/tasks/" + taskId, {method: "DELETE"})
+      confirmingDelete = false
       task = null
       view = "dashboard"
     }
@@ -85,8 +102,29 @@ surface TaskDetail(themePreset, task, view) {
       }
     }
 
-    Button(label: "Back", variant: "secondary") {
-      on click: goBack()
+    block {
+      layout: horizontal, gap: cardGap
+      Button(label: "Back", variant: "secondary") {
+        on click: goBack()
+      }
+      Button(label: "Delete Task", variant: "primary") {
+        on click: showDeleteConfirm()
+      }
+    }
+
+    // Delete confirmation modal
+    Modal(title: "Confirm Delete", open: confirmingDelete) {
+      on close: cancelDelete()
+      text("Are you sure you want to delete this task? This action cannot be undone.") { style: type.body-md, color: textPrimary }
+      block {
+        layout: horizontal, gap: cardGap
+        Button(label: "Cancel", variant: "secondary") {
+          on click: cancelDelete()
+        }
+        Button(label: "Delete", variant: "primary") {
+          on click: confirmDelete()
+        }
+      }
     }
   }
 }

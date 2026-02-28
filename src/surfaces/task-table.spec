@@ -1,4 +1,4 @@
-// TaskTable — filterable list with Buttons, each+index, components
+// TaskTable — filterable list with Buttons, each+index, components, Tooltip
 
 surface TaskTable(themePreset, selectedTask, view) {
   @state {
@@ -100,7 +100,9 @@ surface TaskTable(themePreset, selectedTask, view) {
         text(task.assignee) { style: type.body-sm, color: textMuted }
       }
       StatusBadge(task.status)
-      PriorityBadge(task.priority)
+      Tooltip(text: "Priority: {task.priority}") {
+        PriorityBadge(task.priority)
+      }
     }
   }
 

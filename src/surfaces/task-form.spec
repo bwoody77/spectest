@@ -1,4 +1,4 @@
-// TaskForm — form validation with Input, Select, DatePicker, Checkbox, Button
+// TaskForm — form validation with Input, Select, DatePicker, Checkbox, Button, Popover
 
 surface TaskForm(themePreset) {
   @state {
@@ -10,6 +10,7 @@ surface TaskForm(themePreset) {
     notes: ""
     urgent: false
     submitted: false
+    submitting: false
     error: ""
     touched: false
   }
@@ -21,6 +22,7 @@ surface TaskForm(themePreset) {
     hasAssigneeError: touched && assigneeError != ""
     isValid: titleError == "" && assigneeError == ""
     hasError: error != ""
+    isSubmitting: submitting
     formSummary: "Creating task: {title}"
     successVisible: submitted
 
@@ -52,8 +54,10 @@ surface TaskForm(themePreset) {
     submitForm() {
       touched = true
       if isValid {
+        submitting = true
         fetch("http://localhost:4000/api/tasks", {method: "POST", body: JSON.stringify({title: title, assignee: assignee, priority: priority, status: status})})
         submitted = true
+        submitting = false
         error = ""
       }
     }
@@ -64,7 +68,13 @@ surface TaskForm(themePreset) {
 
   layout: vertical, gap: cardGap
 
-  text("Create New Task") { style: type.heading-lg, color: textPrimary }
+  block {
+    layout: horizontal, gap: spacing.2, align: center
+    text("Create New Task") { style: type.heading-lg, color: textPrimary }
+    Popover(placement: "bottom", openOn: "click", text: "Fill in the required fields (Title and Assignee) then click Create Task. Priority defaults to Medium.") {
+      Icon(name: "info", size: "18px", color: textMuted)
+    }
+  }
 
   // Success banner (shown above the form, dismissible)
   block {
@@ -181,6 +191,19 @@ surface TaskForm(themePreset) {
       border: "1px solid #fecaca"
       border-radius: cardRadius
       text(error) { style: type.body-sm, color: palette.danger.500 }
+    }
+
+    // Submitting indicator
+    block {
+      aria-live: "polite"
+      visibility: isSubmitting
+      padding: padInner
+      background: "#eff6ff"
+      border: "1px solid #bfdbfe"
+      border-radius: cardRadius
+      layout: horizontal, gap: cardGap, align: center
+      Icon(name: "loader", size: "16px", color: "#3b82f6")
+      text("Submitting...") { style: type.body-sm, color: "#3b82f6" }
     }
 
     // Buttons

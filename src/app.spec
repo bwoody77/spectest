@@ -3,9 +3,20 @@
 // Exercises: sources, flows, forms, each, visibility, computed, actions,
 //            multi-surface composition, theme switching, Input, Select,
 //            DatePicker, Button, Toggle, Checkbox, Icon, Image,
+//            Modal, Tooltip, Popover (overlay components),
 //            form validation, template strings, pipes, match expressions,
 //            guarded flow transitions, component declarations,
 //            @import, @theme, @route, lazy mounting
+//
+// Performance (measured 2026-02-28):
+//   Bundle: 124 KB raw, ~17 KB gzipped (2,859 lines)
+//   Runtime: @spec/runtime ~48 KB total (all modules)
+//   Surfaces/components compiled: 18 mount functions
+//   Components used: 15 built-in (Input, Select, Button, DatePicker, Toggle,
+//     Checkbox, Icon, Image, Tabs, Modal, Tooltip, Popover, StatusBadge,
+//     PriorityBadge, SeverityBadge) + 5 declared components
+//
+// Known limitations: see KNOWN_LIMITATIONS.md
 // ---------------------------------------------------------------------------
 
 // Design tokens + theme presets (bare import — brings in @visual-system and @theme blocks)
