@@ -9,6 +9,7 @@ surface ThemePreview() {
     toggleChecked: false
     activeTab: "overview"
     stepperStep: 1
+    pickedDate: null
   }
 
   @computed {
@@ -24,6 +25,7 @@ surface ThemePreview() {
     setTab(id) { activeTab = id }
     nextStep() { stepperStep = stepperStep < 4 ? stepperStep + 1 : 1 }
     prevStep() { stepperStep = stepperStep > 1 ? stepperStep - 1 : 1 }
+    setDate(d) { pickedDate = d }
   }
 
   layout: vertical, gap: spacing.5
@@ -82,6 +84,10 @@ surface ThemePreview() {
           Input(type: "text", label: "With Value", value: "Hello World", placeholder: "Prefilled") {}
 
           Input(type: "text", label: "Error State", value: "bad input", error: true) {}
+
+          DatePicker(label: "Pick a Date", placeholder: "Choose date...") {
+            on change(d): setDate(d)
+          }
 
           Select(
             label: "Dropdown",
