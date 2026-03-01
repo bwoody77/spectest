@@ -130,7 +130,7 @@ surface DataGridDemo() {
   }
 
   // Product detail Drawer
-  Drawer(open: drawerOpen, side: "right") {
+  Drawer(open: drawerOpen, side: "right", size: "400px") {
     on close: closeDrawer()
 
     block {
