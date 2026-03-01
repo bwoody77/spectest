@@ -226,7 +226,7 @@ surface App {
         on click: toggleSidebar()
       }
 
-      Icon(name: "home", size: "22px", color: semantic.interactive)
+      Icon(name: "home", size: icon.lg, color: semantic.interactive)
       text("Spec Admin") {
         style: type.heading-lg
         color: semantic.text-primary

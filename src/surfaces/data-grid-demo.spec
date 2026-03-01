@@ -2,10 +2,12 @@
 // Also showcases: Issue #49 (sizing, cursor), #52 (transitions), #53 (hover states),
 //   #54 (shadows), #55 (text styling), #56 (individual borders)
 
-surface DataGridDemo(themePreset) {
+surface DataGridDemo() {
   @state {
     selectedProduct: null
     drawerOpen: false
+    page: 1
+    pageSize: 10
   }
 
   @source {
@@ -14,6 +16,7 @@ surface DataGridDemo(themePreset) {
 
   @computed {
     productList: products != null ? products : []
+    pagedProducts: productList.slice((page - 1) * pageSize, page * pageSize)
     productCount: "{productList.length} products"
     hasSelection: selectedProduct != null
     selectedName: selectedProduct != null ? selectedProduct.name : ""
@@ -24,13 +27,6 @@ surface DataGridDemo(themePreset) {
     selectedSku: selectedProduct != null ? selectedProduct.sku : ""
     selectedStatus: selectedProduct != null ? selectedProduct.status : ""
     stockWarning: selectedProduct != null ? selectedProduct.stock < 10 : false
-
-    surfaceBg: match themePreset { "enterprise" -> "#f8fafc", "social" -> "#faf5ff", "minimal" -> "#fafafa", "playful" -> "#fffbf5", _ -> "#f8fafc" }
-    cardBg: match themePreset { "enterprise" -> "#ffffff", "social" -> "#ffffff", "minimal" -> "#ffffff", "playful" -> "#ffffff", _ -> "#ffffff" }
-    accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
-    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
-    cardRadius: match themePreset { "enterprise" -> "4px", "social" -> "16px", "minimal" -> "0px", "playful" -> "12px", _ -> "8px" }
   }
 
   @actions {
@@ -41,32 +37,37 @@ surface DataGridDemo(themePreset) {
     closeDrawer() {
       drawerOpen = false
     }
+    setPage(p) { page = p }
+    setPageSize(s) {
+      pageSize = s
+      page = 1
+    }
   }
 
   layout: vertical, gap: spacing.5
 
-  // Header with gradient background (Issue #54)
+  // Header with gradient background
   block {
     padding: spacing.5
-    background: "linear-gradient(135deg, {accentColor}15, {accentColor}05)"
-    border-radius: cardRadius
-    border-bottom: "2px solid {accentColor}30"
+    background: gradient.header-accent
+    border-radius: radius.md
+    border-bottom: borders.section-accent
     layout: vertical, gap: spacing.3
 
     block {
       layout: horizontal, gap: spacing.3, align: center
-      Icon(name: "layout", size: "24px", color: accentColor)
+      Icon(name: "layout", size: icon.lg, color: semantic.interactive)
       text("Product Catalog") {
         style: type.heading-lg
-        color: textPrimary
+        color: semantic.text-primary
         letter-spacing: "-0.02em"
       }
     }
 
-    text(productCount) { style: type.body-sm, color: textMuted }
+    text(productCount) { style: type.body-sm, color: semantic.text-secondary }
   }
 
-  // Skeleton loading state (Issue #19)
+  // Skeleton loading state
   block {
     visibility: productsLoading
     layout: vertical, gap: spacing.3
@@ -74,27 +75,27 @@ surface DataGridDemo(themePreset) {
     Skeleton(height: "300px", width: "100%")
   }
 
-  // Error state with Alert (Issue #19)
+  // Error state with Alert
   block {
     visibility: productsError
     Alert(severity: "error", message: "The product catalog could not be loaded.", title: "Failed to load products")
   }
 
-  // DataGrid (Issue #17) — sorting, filtering, row selection
+  // DataGrid — sorting, filtering, row selection
   block {
     visibility: !productsLoading
-    background: cardBg
-    border-radius: cardRadius
+    background: semantic.surface-raised
+    border-radius: radius.md
     shadow: elevation.raised
     overflow: "hidden"
-    transition: "shadow 300ms ease"
+    transition: transition.shadow-slower
 
     on hover {
       shadow: elevation.layered
     }
 
     DataGrid(
-      rows: productList,
+      rows: pagedProducts,
       columns: [
         { key: "id", label: "ID", width: "60px", sortable: true },
         { key: "name", label: "Product Name", sortable: true, filterable: true },
@@ -111,20 +112,24 @@ surface DataGridDemo(themePreset) {
     }
   }
 
-  // Pagination (Issue #18)
+  // Pagination
   block {
     visibility: !productsLoading
     layout: horizontal, justify: center
     padding: spacing.3
     Pagination(
       total: productList.length,
-      pageSize: 10,
+      pageSize: pageSize,
+      page: page,
       showTotal: true,
       pageSizes: [5, 10, 20]
-    )
+    ) {
+      on change(p): { setPage(p) }
+      on pageSizeChange(s): { setPageSize(s) }
+    }
   }
 
-  // Product detail Drawer (Issue #17 Card, Issue #19 Alert, Issue #57 backdrop-blur)
+  // Product detail Drawer
   Drawer(open: drawerOpen, side: "right") {
     on close: closeDrawer()
 
@@ -132,20 +137,20 @@ surface DataGridDemo(themePreset) {
       layout: vertical, gap: spacing.4
       padding: spacing.4
 
-      // Product name with text styling (Issue #55)
+      // Product name with text styling
       text(selectedName) {
         style: type.heading-lg
-        color: textPrimary
+        color: semantic.text-primary
         letter-spacing: "-0.01em"
       }
 
-      // Stock warning Alert (Issue #19)
+      // Stock warning Alert
       block {
         visibility: stockWarning
         Alert(severity: "warning", message: "This product has fewer than 10 units remaining.", title: "Low Stock")
       }
 
-      // Detail cards using CSS Grid (Issue #51)
+      // Detail cards using CSS Grid
       block {
         layout: grid, columns: "1fr 1fr", gap: spacing.3
 
@@ -154,8 +159,8 @@ surface DataGridDemo(themePreset) {
           block {
             padding: spacing.3
             layout: vertical, gap: spacing.1
-            text("Category") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
-            text(selectedCategory) { style: type.body-md, weight: 600, color: textPrimary }
+            text("Category") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
+            text(selectedCategory) { style: type.body-md, weight: 600, color: semantic.text-primary }
           }
         }
 
@@ -164,8 +169,8 @@ surface DataGridDemo(themePreset) {
           block {
             padding: spacing.3
             layout: vertical, gap: spacing.1
-            text("Price") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
-            text(selectedPrice) { style: type.heading-md, color: accentColor }
+            text("Price") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
+            text(selectedPrice) { style: type.heading-md, color: semantic.interactive }
           }
         }
 
@@ -174,7 +179,7 @@ surface DataGridDemo(themePreset) {
           block {
             padding: spacing.3
             layout: vertical, gap: spacing.1
-            text("Stock") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
+            text("Stock") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
             Stat(value: "{selectedStock}", label: "units")
           }
         }
@@ -184,8 +189,8 @@ surface DataGridDemo(themePreset) {
           block {
             padding: spacing.3
             layout: vertical, gap: spacing.1
-            text("Rating") { style: type.label-sm, color: textMuted, text-transform: "uppercase", letter-spacing: "0.05em" }
-            text(selectedRating) { style: type.body-md, weight: 600, color: textPrimary }
+            text("Rating") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
+            text(selectedRating) { style: type.body-md, weight: 600, color: semantic.text-primary }
           }
         }
       }
@@ -193,13 +198,13 @@ surface DataGridDemo(themePreset) {
       // SKU and Status
       block {
         padding: spacing.3
-        background: surfaceBg
-        border-radius: cardRadius
+        background: semantic.surface
+        border-radius: radius.md
         layout: horizontal, gap: spacing.4, align: center
         block {
           layout: vertical, gap: spacing.1
-          text("SKU") { style: type.label-sm, color: textMuted }
-          text(selectedSku) { style: type.mono-md, color: textPrimary }
+          text("SKU") { style: type.label-sm, color: semantic.text-secondary }
+          text(selectedSku) { style: type.mono-md, color: semantic.text-primary }
         }
         Badge(text: selectedStatus, variant: "neutral")
       }

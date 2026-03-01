@@ -33,7 +33,7 @@ surface AnalyticsView {
 
   block {
     layout: horizontal, gap: spacing.3, align: center
-    Icon(name: "bar-chart", size: "20px", color: "#6366f1")
+    Icon(name: "bar-chart", size: icon.md, color: semantic.interactive)
     text("Analytics") { style: type.heading-lg, letter-spacing: "-0.02em" }
   }
 
@@ -54,18 +54,18 @@ surface AnalyticsView {
     Card() {
       block {
         padding: spacing.5
-        background: "linear-gradient(135deg, #eef2ff, #c7d2fe)"
+        background: gradient.stat-primary
         border-radius: radius.lg
-        transition: "transform 200ms ease, shadow 200ms ease"
+        transition: transition.card-lift
         cursor: "pointer"
         layout: vertical, gap: spacing.3, align: center
 
         on hover {
-          transform: "translateY(-3px)"
+          transform: transform.lift-md
           shadow: elevation.floating
         }
 
-        Icon(name: "list", size: "32px", color: "#6366f1")
+        Icon(name: "list", size: icon.xl, color: semantic.interactive)
         Stat(value: "{total}", label: "Total Tasks")
       }
     }
@@ -73,18 +73,18 @@ surface AnalyticsView {
     Card() {
       block {
         padding: spacing.5
-        background: "linear-gradient(135deg, #ecfdf5, #a7f3d0)"
+        background: gradient.stat-success
         border-radius: radius.lg
-        transition: "transform 200ms ease, shadow 200ms ease"
+        transition: transition.card-lift
         cursor: "pointer"
         layout: vertical, gap: spacing.3, align: center
 
         on hover {
-          transform: "translateY(-3px)"
+          transform: transform.lift-md
           shadow: elevation.floating
         }
 
-        Icon(name: "check", size: "32px", color: "#10b981")
+        Icon(name: "check", size: icon.xl, color: semantic.success)
         Stat(value: "{done}", label: "Completed")
       }
     }
@@ -92,18 +92,18 @@ surface AnalyticsView {
     Card() {
       block {
         padding: spacing.5
-        background: "linear-gradient(135deg, #fffbeb, #fde68a)"
+        background: gradient.stat-warning
         border-radius: radius.lg
-        transition: "transform 200ms ease, shadow 200ms ease"
+        transition: transition.card-lift
         cursor: "pointer"
         layout: vertical, gap: spacing.3, align: center
 
         on hover {
-          transform: "translateY(-3px)"
+          transform: transform.lift-md
           shadow: elevation.floating
         }
 
-        Icon(name: "loader", size: "32px", color: "#f59e0b")
+        Icon(name: "loader", size: icon.xl, color: semantic.warning)
         Stat(value: "{inProgress}", label: "In Progress")
       }
     }
@@ -111,18 +111,18 @@ surface AnalyticsView {
     Card() {
       block {
         padding: spacing.5
-        background: "linear-gradient(135deg, #f8fafc, #cbd5e1)"
+        background: gradient.stat-neutral
         border-radius: radius.lg
-        transition: "transform 200ms ease, shadow 200ms ease"
+        transition: transition.card-lift
         cursor: "pointer"
         layout: vertical, gap: spacing.3, align: center
 
         on hover {
-          transform: "translateY(-3px)"
+          transform: transform.lift-md
           shadow: elevation.floating
         }
 
-        Icon(name: "circle", size: "32px", color: "#64748b")
+        Icon(name: "circle", size: icon.xl, color: semantic.text-muted)
         Stat(value: "{todo}", label: "Todo")
       }
     }
@@ -147,8 +147,8 @@ surface AnalyticsView {
             layout: vertical, gap: spacing.2
             block {
               layout: horizontal, gap: spacing.2, align: center, justify: between
-              text("Completed") { style: type.label-sm, color: "#065f46", text-transform: "uppercase", letter-spacing: "0.05em" }
-              text("{done}") { style: type.label-md, weight: 700, color: "#10b981" }
+              text("Completed") { style: type.label-sm, color: semantic.success-text, text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{done}") { style: type.label-md, weight: 700, color: semantic.success }
             }
             Progress(value: donePercent, label: "done")
           }
@@ -157,8 +157,8 @@ surface AnalyticsView {
             layout: vertical, gap: spacing.2
             block {
               layout: horizontal, gap: spacing.2, align: center, justify: between
-              text("In Progress") { style: type.label-sm, color: "#92400e", text-transform: "uppercase", letter-spacing: "0.05em" }
-              text("{inProgress}") { style: type.label-md, weight: 700, color: "#f59e0b" }
+              text("In Progress") { style: type.label-sm, color: semantic.warning-text, text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{inProgress}") { style: type.label-md, weight: 700, color: semantic.warning }
             }
             Progress(value: inProgressPercent, label: "in progress")
           }
@@ -167,8 +167,8 @@ surface AnalyticsView {
             layout: vertical, gap: spacing.2
             block {
               layout: horizontal, gap: spacing.2, align: center, justify: between
-              text("Todo") { style: type.label-sm, color: "#334155", text-transform: "uppercase", letter-spacing: "0.05em" }
-              text("{todo}") { style: type.label-md, weight: 700, color: "#64748b" }
+              text("Todo") { style: type.label-sm, color: semantic.text-strong, text-transform: "uppercase", letter-spacing: "0.05em" }
+              text("{todo}") { style: type.label-md, weight: 700, color: semantic.text-muted }
             }
             Progress(value: todoPercent, label: "todo")
           }
@@ -189,17 +189,17 @@ surface AnalyticsView {
 
           block {
             padding: spacing.3
-            background: "#fef2f2"
+            background: semantic.error-bg
             border-radius: radius.md
-            border-left: "3px solid #ef4444"
+            border-left: borders.accent-error
             layout: horizontal, gap: spacing.3, align: center, justify: between
-            transition: "transform 150ms ease"
+            transition: transition.subtle
             on hover {
-              transform: "translateX(4px)"
+              transform: transform.nudge-right
             }
             block {
               layout: horizontal, gap: spacing.2, align: center
-              Icon(name: "alert-triangle", size: "18px", color: "#ef4444")
+              Icon(name: "alert-triangle", size: icon.sm, color: semantic.destructive)
               text("High Priority") { style: type.body-md, weight: 500 }
             }
             Badge(text: "{highCount}", variant: "error")
@@ -207,17 +207,17 @@ surface AnalyticsView {
 
           block {
             padding: spacing.3
-            background: "#fffbeb"
+            background: semantic.warning-light
             border-radius: radius.md
-            border-left: "3px solid #f59e0b"
+            border-left: borders.accent-warning
             layout: horizontal, gap: spacing.3, align: center, justify: between
-            transition: "transform 150ms ease"
+            transition: transition.subtle
             on hover {
-              transform: "translateX(4px)"
+              transform: transform.nudge-right
             }
             block {
               layout: horizontal, gap: spacing.2, align: center
-              Icon(name: "info", size: "18px", color: "#f59e0b")
+              Icon(name: "info", size: icon.sm, color: semantic.warning)
               text("Medium Priority") { style: type.body-md, weight: 500 }
             }
             Badge(text: "{mediumCount}", variant: "warning")
@@ -225,17 +225,17 @@ surface AnalyticsView {
 
           block {
             padding: spacing.3
-            background: "#ecfdf5"
+            background: semantic.success-light
             border-radius: radius.md
-            border-left: "3px solid #10b981"
+            border-left: borders.accent-success
             layout: horizontal, gap: spacing.3, align: center, justify: between
-            transition: "transform 150ms ease"
+            transition: transition.subtle
             on hover {
-              transform: "translateX(4px)"
+              transform: transform.nudge-right
             }
             block {
               layout: horizontal, gap: spacing.2, align: center
-              Icon(name: "check", size: "18px", color: "#10b981")
+              Icon(name: "check", size: icon.sm, color: semantic.success)
               text("Low Priority") { style: type.body-md, weight: 500 }
             }
             Badge(text: "{lowCount}", variant: "success")
@@ -258,40 +258,40 @@ surface AnalyticsView {
 
         block {
           padding: spacing.4
-          background: "linear-gradient(135deg, #eef2ff, #e0e7ff)"
+          background: gradient.stat-primary-subtle
           border-radius: radius.md
-          transition: "transform 200ms ease"
+          transition: transition.scale
           layout: vertical, gap: spacing.2, align: center
           on hover {
-            transform: "scale(1.02)"
+            transform: transform.grow-sm
           }
-          Icon(name: "user", size: "24px", color: "#6366f1")
+          Icon(name: "user", size: icon.lg, color: semantic.interactive)
           Stat(value: "{aliceCount}", label: "Alice's tasks")
         }
 
         block {
           padding: spacing.4
-          background: "linear-gradient(135deg, #ecfdf5, #d1fae5)"
+          background: gradient.stat-success-subtle
           border-radius: radius.md
-          transition: "transform 200ms ease"
+          transition: transition.scale
           layout: vertical, gap: spacing.2, align: center
           on hover {
-            transform: "scale(1.02)"
+            transform: transform.grow-sm
           }
-          Icon(name: "user", size: "24px", color: "#10b981")
+          Icon(name: "user", size: icon.lg, color: semantic.success)
           Stat(value: "{bobCount}", label: "Bob's tasks")
         }
 
         block {
           padding: spacing.4
-          background: "linear-gradient(135deg, #fffbeb, #fef3c7)"
+          background: gradient.stat-warning-subtle
           border-radius: radius.md
-          transition: "transform 200ms ease"
+          transition: transition.scale
           layout: vertical, gap: spacing.2, align: center
           on hover {
-            transform: "scale(1.02)"
+            transform: transform.grow-sm
           }
-          Icon(name: "user", size: "24px", color: "#f59e0b")
+          Icon(name: "user", size: icon.lg, color: semantic.warning)
           Stat(value: "{carolCount}", label: "Carol's tasks")
         }
       }

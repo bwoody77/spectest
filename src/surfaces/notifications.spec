@@ -1,4 +1,6 @@
-// NotificationsPanel — notification list with severity levels
+// NotificationsPanel — Enhanced for Gate #22
+// Uses: Alert (Issue #19), Badge (Issue #17), Card (Issue #17),
+//   hover states (Issue #53), transitions (Issue #52), text styling (Issue #55)
 
 surface NotificationsPanel {
   @source {
@@ -14,6 +16,9 @@ surface NotificationsPanel {
     allNotifications: notifications != null ? notifications : []
     filteredNotifications: severityFilter == "all" ? allNotifications : allNotifications.filter(n -> n.severity == severityFilter)
     notifCount: "{filteredNotifications.length} notifications"
+    unreadCount: allNotifications.filter(n -> !n.read).length
+    hasUnread: unreadCount > 0
+    unreadLabel: "{unreadCount} unread"
     hasNoNotifications: filteredNotifications.length == 0
   }
 
@@ -23,80 +28,102 @@ surface NotificationsPanel {
 
   layout: vertical, gap: spacing.5
 
-  text("Notifications") { style: type.heading-lg }
-
-  // Summary bar
   block {
-    aria-label: "Notification summary"
-    padding: spacing.3
-    background: "#eef2ff"
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.4, align: center
-    Icon(name: "bell", size: "20px", color: "#6366f1")
-    text(notifCount) { style: type.body-md }
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "bell", size: icon.md, color: semantic.interactive)
+    text("Notifications") { style: type.heading-lg, letter-spacing: "-0.01em" }
+    block {
+      visibility: hasUnread
+      Badge(text: unreadLabel, variant: "error")
+    }
+  }
+
+  // Summary banner with Alert (Issue #19)
+  block {
+    visibility: hasUnread
+    Alert(severity: "info", message: "Review your notifications below to stay up to date.", title: "You have unread notifications")
   }
 
   // Filters
-  block {
-    role: "toolbar"
-    aria-label: "Severity filters"
-    padding: spacing.3
-    background: palette.neutral.50
-    border-radius: radius.md
-    layout: horizontal, gap: spacing.2, align: center
-    text("Severity:") { style: type.label-sm, color: semantic.text-secondary }
-    Button(label: "All", variant: "secondary") {
-      on click: setSeverityFilter("all")
-    }
-    Button(label: "Info", variant: "secondary") {
-      on click: setSeverityFilter("info")
-    }
-    Button(label: "Success", variant: "secondary") {
-      on click: setSeverityFilter("success")
-    }
-    Button(label: "Warning", variant: "secondary") {
-      on click: setSeverityFilter("warning")
-    }
-    Button(label: "Error", variant: "secondary") {
-      on click: setSeverityFilter("error")
+  Card() {
+    block {
+      role: "toolbar"
+      aria-label: "Severity filters"
+      padding: spacing.3
+      layout: horizontal, gap: spacing.2, align: center
+      text("Filter:") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
+      Button(label: "All", variant: "secondary") {
+        on click: setSeverityFilter("all")
+      }
+      Button(label: "Info", variant: "secondary") {
+        on click: setSeverityFilter("info")
+      }
+      Button(label: "Success", variant: "secondary") {
+        on click: setSeverityFilter("success")
+      }
+      Button(label: "Warning", variant: "secondary") {
+        on click: setSeverityFilter("warning")
+      }
+      Button(label: "Error", variant: "secondary") {
+        on click: setSeverityFilter("error")
+      }
     }
   }
 
-  // Loading
+  // Skeleton loading (Issue #19)
   block {
-    aria-live: "polite"
     visibility: notificationsLoading
-    padding: spacing.4
-    background: "#f0f9ff"
-    border-radius: radius.md
-    text("Loading notifications...") { style: type.body-sm, color: semantic.text-secondary }
+    layout: vertical, gap: spacing.2
+    Skeleton(height: "56px", width: "100%")
+    Skeleton(height: "56px", width: "100%")
+    Skeleton(height: "56px", width: "100%")
+    Skeleton(height: "56px", width: "95%")
   }
 
   // Error
   block {
-    aria-live: "assertive"
     visibility: notificationsError
-    padding: spacing.3
-    background: "#fef2f2"
-    border: "1px solid #fecaca"
-    border-radius: radius.md
-    text("Failed to load notifications.") { style: type.body-sm, color: palette.danger.500 }
+    Alert(severity: "error", message: "Could not retrieve notifications from the server.", title: "Failed to load notifications")
   }
 
-  // Notification rows
+  // Notification rows with hover
   each filteredNotifications as notif, idx {
     block {
       padding: spacing.3
-      background: "#ffffff"
-      border: "1px solid #e2e8f0"
+      background: notif.read ? semantic.surface-raised : semantic.surface-unread
+      border: borders.default
+      border-left: notif.read ? borders.accent-none : borders.accent-interactive
       border-radius: radius.md
+      shadow: elevation.flat
+      cursor: "pointer"
+      transition: transition.interactive-full
       layout: horizontal, gap: spacing.3, align: center
 
-      Icon(name: "bell", size: "20px", color: "#6366f1")
+      on hover {
+        shadow: elevation.raised
+        background: semantic.surface
+        transform: transform.nudge-right-sm
+      }
+
+      Icon(
+        name: match notif.severity {
+          "success" -> "check",
+          "error" -> "alert-triangle",
+          "warning" -> "alert-triangle",
+          _ -> "info"
+        },
+        size: icon.md,
+        color: match notif.severity {
+          "success" -> semantic.success,
+          "error" -> semantic.destructive,
+          "warning" -> semantic.warning,
+          _ -> semantic.interactive
+        }
+      )
 
       block {
         layout: vertical, gap: spacing.1
-        text(notif.title) { style: type.body-md }
+        text(notif.title) { style: type.body-md, weight: notif.read ? 400 : 600 }
         block {
           layout: horizontal, gap: spacing.2, align: center
           SeverityBadge(notif.severity)
@@ -106,15 +133,12 @@ surface NotificationsPanel {
     }
   }
 
-  // Empty state
+  // Empty state (Issue #17)
   block {
-    aria-live: "polite"
     visibility: hasNoNotifications
-    padding: spacing.4
-    background: palette.neutral.50
-    border-radius: radius.md
-    layout: vertical, gap: spacing.2, align: center
-    Icon(name: "bell-off", size: "24px", color: "#64748b")
-    text("No notifications match your filters.") { style: type.body-sm, color: semantic.text-secondary }
+    EmptyState(
+      message: "No Notifications",
+      description: "No notifications match your current filter."
+    )
   }
 }

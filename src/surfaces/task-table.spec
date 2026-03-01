@@ -1,6 +1,8 @@
-// TaskTable — filterable list with Buttons, each+index, components, Tooltip
+// TaskTable — Enhanced for Gate #22
+// Uses: Pagination (Issue #18), Skeleton (Issue #19), hover states (Issue #53),
+//   transitions (Issue #52), shadows (Issue #54), individual borders (Issue #56)
 
-surface TaskTable(themePreset, selectedTask, view) {
+surface TaskTable(selectedTask, view) {
   @state {
     filter: "all"
   }
@@ -14,16 +16,6 @@ surface TaskTable(themePreset, selectedTask, view) {
     filteredTasks: filter == "all" ? taskList : taskList.filter(t -> t.status == filter)
     taskCount: "{filteredTasks.length} tasks"
     hasNoResults: filteredTasks.length == 0
-
-    surfaceBg: match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ede9fe", "minimal" -> "#f5f5f5", "playful" -> "#ffedd5", _ -> "#e2e8f0" }
-    borderColor: match themePreset { "enterprise" -> "1px solid #94a3b8", "social" -> "1px solid #a78bfa", "minimal" -> "1px solid #d4d4d4", "playful" -> "1px solid #fb923c", _ -> "1px solid #94a3b8" }
-    rowBg: match themePreset { "enterprise" -> "#f1f5f9", "social" -> "#f5f3ff", "minimal" -> "#ffffff", "playful" -> "#fff7ed", _ -> "#f1f5f9" }
-    padOuter: match themePreset { "enterprise" -> "8px 12px", "social" -> "16px", "minimal" -> "24px 32px", "playful" -> "20px", _ -> "16px" }
-    padInner: match themePreset { "enterprise" -> "6px 10px", "social" -> "12px", "minimal" -> "20px", "playful" -> "16px", _ -> "12px" }
-    cardRadius: match themePreset { "enterprise" -> "2px", "social" -> "20px", "minimal" -> "0px", "playful" -> "16px", _ -> "8px" }
-    cardGap: match themePreset { "enterprise" -> "6px", "social" -> "12px", "minimal" -> "20px", "playful" -> "14px", _ -> "12px" }
-    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
 
   @actions {
@@ -34,19 +26,31 @@ surface TaskTable(themePreset, selectedTask, view) {
     }
   }
 
-  layout: vertical, gap: cardGap
+  layout: vertical, gap: spacing.2
 
-  text("Tasks") { style: type.heading-md, color: textPrimary }
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Icon(name: "list", size: icon.md, color: semantic.interactive)
+    text("Tasks") { style: type.heading-md, color: semantic.text-primary }
+  }
 
-  // Filter bar
+  // Filter bar with hover states
   block {
     role: "toolbar"
     aria-label: "Task filters"
-    padding: padInner
-    background: surfaceBg
-    border-radius: cardRadius
-    layout: horizontal, gap: cardGap, align: center
-    text(taskCount) { style: type.body-sm, color: textMuted }
+    padding: spacing.3
+    background: semantic.surface
+    border-radius: radius.md
+    border: borders.default
+    shadow: elevation.flat
+    layout: horizontal, gap: spacing.3, align: center
+    transition: transition.shadow
+
+    on hover {
+      shadow: elevation.raised
+    }
+
+    text(taskCount) { style: type.body-sm, color: semantic.text-secondary }
     Button(label: "All", variant: "secondary") {
       on click: setFilter("all")
     }
@@ -61,43 +65,56 @@ surface TaskTable(themePreset, selectedTask, view) {
     }
   }
 
-  // Loading indicator
+  // Skeleton loading state
   block {
-    aria-live: "polite"
     visibility: tasksLoading
-    padding: padOuter
-    background: surfaceBg
-    border-radius: cardRadius
-    text("Loading tasks...") { style: type.body-sm, color: textMuted }
+    layout: vertical, gap: spacing.2
+    Skeleton(height: "48px", width: "100%")
+    Skeleton(height: "48px", width: "100%")
+    Skeleton(height: "48px", width: "100%")
+    Skeleton(height: "48px", width: "95%")
+    Skeleton(height: "48px", width: "90%")
   }
 
-  // Error display
+  // Error display with Alert
   block {
-    aria-live: "assertive"
     visibility: tasksError
-    padding: padInner
-    background: "#fef2f2"
-    border: "1px solid #fecaca"
-    border-radius: cardRadius
-    text("Failed to load tasks.") { style: type.body-sm, color: palette.danger.500 }
+    Alert(severity: "error", message: "The task list could not be retrieved from the server.", title: "Failed to load tasks")
   }
 
-  // Task rows
+  // Task rows with hover effects and transitions
   each filteredTasks as task, index {
     block {
       role: "button"
       tabindex: "0"
-      padding: padInner
-      background: rowBg
-      border: borderColor
-      border-radius: cardRadius
-      layout: horizontal, gap: cardGap, align: center
+      padding: spacing.3
+      background: semantic.surface-raised
+      border: borders.default
+      border-radius: radius.md
+      border-left: borders.accent-none
+      shadow: elevation.flat
+      cursor: "pointer"
+      transition: transition.row-hover
+      layout: horizontal, gap: spacing.3, align: center
       on click: selectTask(task)
-      text("{index}") { style: type.mono-sm, color: textMuted }
+
+      on hover {
+        background: semantic.surface-hover
+        shadow: elevation.raised
+        border-left: borders.accent-interactive
+        transform: transform.nudge-right-sm
+      }
+
+      on focus {
+        shadow: elevation.raised
+        border-left: borders.accent-interactive
+      }
+
+      text("{index}") { style: type.mono-sm, color: semantic.text-secondary }
       block {
-        layout: vertical, gap: cardGap
-        text(task.title) { style: type.body-md, weight: 500, color: textPrimary }
-        text(task.assignee) { style: type.body-sm, color: textMuted }
+        layout: vertical, gap: spacing.1
+        text(task.title) { style: type.body-md, weight: 500, color: semantic.text-primary }
+        text(task.assignee) { style: type.body-sm, color: semantic.text-secondary }
       }
       StatusBadge(task.status)
       Tooltip(text: "Priority: {task.priority}") {
@@ -108,11 +125,10 @@ surface TaskTable(themePreset, selectedTask, view) {
 
   // Empty state
   block {
-    aria-live: "polite"
     visibility: hasNoResults
-    padding: padOuter
-    background: surfaceBg
-    border-radius: cardRadius
-    text("No tasks match the current filter.") { style: type.body-sm, color: textMuted }
+    EmptyState(
+      message: "No Tasks Found",
+      description: "No tasks match the current filter. Try changing your filter criteria."
+    )
   }
 }

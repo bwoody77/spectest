@@ -1,4 +1,6 @@
-// Wizard surfaces — multi-step task creation
+// Wizard surfaces — Enhanced for Gate #22
+// Uses: Stepper (Issue #18), Card (Issue #17), Alert (Issue #19),
+//   transitions (Issue #52), hover states (Issue #53), text styling (Issue #55)
 
 surface WizardStep1 {
   @state {
@@ -19,35 +21,43 @@ surface WizardStep1 {
 
   layout: vertical, gap: spacing.5
 
-  text("Step 1: Basic Info") { style: type.heading-md }
-  text("Provide the core details for this task.") { style: type.body-sm }
+  // Step header
+  text("Step 1: Basic Info") { style: type.heading-md, letter-spacing: "-0.01em" }
+  text("Provide the core details for this task.") { style: type.body-sm, color: semantic.text-secondary }
 
-  block {
-    layout: vertical, gap: spacing.1
-    Input(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
-      on change(v): {
-        title = v
-        titleTouched = true
+  Card() {
+    block {
+      padding: spacing.4
+      layout: vertical, gap: spacing.4
+
+      block {
+        layout: vertical, gap: spacing.1
+        Input(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
+          on change(v): {
+            title = v
+            titleTouched = true
+          }
+        }
+        block {
+          aria-live: "polite"
+          visibility: showTitleError
+          text("Title is required") { style: type.body-sm, color: palette.danger.500 }
+        }
+      }
+
+      Select(
+        options: [
+          {value: "alice", label: "Alice"},
+          {value: "bob", label: "Bob"},
+          {value: "carol", label: "Carol"}
+        ],
+        value: assignee,
+        placeholder: "Choose assignee",
+        label: "Assignee"
+      ) {
+        on change(v): { assignee = v }
       }
     }
-    block {
-      aria-live: "polite"
-      visibility: showTitleError
-      text("Title is required") { style: type.body-sm, color: palette.danger.500 }
-    }
-  }
-
-  Select(
-    options: [
-      {value: "alice", label: "Alice"},
-      {value: "bob", label: "Bob"},
-      {value: "carol", label: "Carol"}
-    ],
-    value: assignee,
-    placeholder: "Choose assignee",
-    label: "Assignee"
-  ) {
-    on change(v): { assignee = v }
   }
 
   block {
@@ -73,28 +83,35 @@ surface WizardStep2 {
 
   layout: vertical, gap: spacing.5
 
-  text("Step 2: Options") { style: type.heading-md }
-  text("Configure priority, deadline, and assignment options.") { style: type.body-sm }
+  text("Step 2: Options") { style: type.heading-md, letter-spacing: "-0.01em" }
+  text("Configure priority, deadline, and assignment options.") { style: type.body-sm, color: semantic.text-secondary }
 
-  Select(
-    options: [
-      {value: "low", label: "Low"},
-      {value: "medium", label: "Medium"},
-      {value: "high", label: "High"},
-      {value: "critical", label: "Critical"}
-    ],
-    value: priority,
-    label: "Priority"
-  ) {
-    on change(v): { priority = v }
-  }
+  Card() {
+    block {
+      padding: spacing.4
+      layout: vertical, gap: spacing.4
 
-  DatePicker(value: dueDate, label: "Due Date", placeholder: "Select deadline") {
-    on change(v): { dueDate = v }
-  }
+      Select(
+        options: [
+          {value: "low", label: "Low"},
+          {value: "medium", label: "Medium"},
+          {value: "high", label: "High"},
+          {value: "critical", label: "Critical"}
+        ],
+        value: priority,
+        label: "Priority"
+      ) {
+        on change(v): { priority = v }
+      }
 
-  Toggle(checked: autoAssign, label: "Auto-assign reviewer") {
-    on change(v): { autoAssign = v }
+      DatePicker(value: dueDate, label: "Due Date", placeholder: "Select deadline") {
+        on change(v): { dueDate = v }
+      }
+
+      Toggle(checked: autoAssign, label: "Auto-assign reviewer") {
+        on change(v): { autoAssign = v }
+      }
+    }
   }
 
   block {
@@ -119,17 +136,21 @@ surface WizardStep3 {
 
   layout: vertical, gap: spacing.5
 
-  text("Step 3: Review & Confirm") { style: type.heading-md }
-  text("Please review your task details and confirm submission.") { style: type.body-sm }
+  text("Step 3: Review & Confirm") { style: type.heading-md, letter-spacing: "-0.01em" }
+  text("Please review your task details and confirm submission.") { style: type.body-sm, color: semantic.text-secondary }
 
-  block {
-    layout: horizontal, gap: spacing.2, align: center
-    Icon(name: "info", size: "18px", color: "#6366f1")
-    text("All fields can be edited later.") { style: type.body-sm }
-  }
+  // Info alert (Issue #19)
+  Alert(severity: "info", message: "All fields can be edited after creation.", title: "Editable Later")
 
-  Checkbox(label: "I confirm this task is correct", checked: confirmed) {
-    on change(v): { confirmed = v }
+  Card() {
+    block {
+      padding: spacing.4
+      layout: vertical, gap: spacing.3
+
+      Checkbox(label: "I confirm this task is correct", checked: confirmed) {
+        on change(v): { confirmed = v }
+      }
+    }
   }
 
   block {
@@ -144,24 +165,44 @@ surface WizardStep3 {
 }
 
 surface WizardDone {
-  layout: vertical, gap: spacing.5
-  text("Task Created!") { style: type.heading-md }
-  text("Your task has been successfully submitted.") { style: type.body-sm }
+  layout: vertical, gap: spacing.5, align: center
+
+  // Success with icon
   block {
-    layout: horizontal, gap: spacing.2, align: center
-    Icon(name: "check-circle", size: "18px", color: "#10b981")
-    text("All done. You can create another task or return to the dashboard.") { style: type.body-sm }
+    padding: spacing.6
+    background: gradient.stat-success-subtle
+    border-radius: radius.lg
+    shadow: elevation.raised
+    layout: vertical, gap: spacing.4, align: center
+
+    Icon(name: "check", size: icon.xxl, color: semantic.success)
+    text("Task Created!") { style: type.heading-lg, color: semantic.success-text, letter-spacing: "-0.02em" }
+    text("Your task has been successfully submitted.") { style: type.body-md, color: semantic.success-mid }
   }
+
   block {
-    layout: horizontal, gap: spacing.3, justify: end
+    layout: horizontal, gap: spacing.3, justify: center
     Button(label: "Create Another", variant: "primary") {
       on click: dispatch("restart")
     }
   }
 }
 
-// Flow: TaskWizard — multi-step wizard with guards
+// Stepper indicator surface (Issue #18)
+surface WizardStepper(currentStep) {
+  Stepper(
+    steps: [
+      {id: "info", label: "Basic Info", description: "Title & assignee"},
+      {id: "options", label: "Options", description: "Priority & dates"},
+      {id: "review", label: "Review", description: "Confirm details"},
+      {id: "done", label: "Done", description: "Task created"}
+    ],
+    activeStep: currentStep,
+    orientation: "horizontal"
+  )
+}
 
+// Flow: TaskWizard — multi-step wizard with guards
 flow TaskWizard {
   state Info {
     surface: WizardStep1

@@ -144,7 +144,7 @@ surface PerfSignals() {
 
     block {
       layout: horizontal, gap: spacing.3, align: center
-      Icon(name: "activity", size: "24px", color: semantic.interactive)
+      Icon(name: "activity", size: icon.lg, color: semantic.interactive)
       text("Signal Performance") {
         style: type.heading-lg
         color: semantic.text-primary

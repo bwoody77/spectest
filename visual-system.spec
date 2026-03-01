@@ -98,6 +98,14 @@
   transform.nudge-right-sm: "translateX(2px)"
   transform.grow-sm: "scale(1.02)"
 
+  // Icon sizes
+  icon.xs: "16px"
+  icon.sm: "18px"
+  icon.md: "20px"
+  icon.lg: "24px"
+  icon.xl: "32px"
+  icon.xxl: "48px"
+
   // Elevation
   elevation.flat: "none"
   elevation.raised: "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)"

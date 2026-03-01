@@ -13,7 +13,6 @@ surface PerfGrid() {
     rows: []
     sortTime: 0
     loadTime: 0
-    sortStart: 0
     isLoaded: false
     frameCount: 0
     fps: 0
@@ -50,17 +49,6 @@ surface PerfGrid() {
 
     setRowCount(n) {
       rowCount = n
-    }
-
-    markSortStart() {
-      sortStart = performance.now()
-    }
-
-    measureSortEnd() {
-      if (sortStart > 0) {
-        sortTime = performance.now() - sortStart
-        sortStart = 0
-      }
     }
 
     startFps() {
@@ -106,7 +94,7 @@ surface PerfGrid() {
 
     block {
       layout: horizontal, gap: spacing.3, align: center
-      Icon(name: "zap", size: "24px", color: semantic.interactive)
+      Icon(name: "zap", size: icon.lg, color: semantic.interactive)
       text("Grid Performance") {
         style: type.heading-lg
         color: semantic.text-primary
@@ -225,10 +213,11 @@ surface PerfGrid() {
       ],
       virtual: true,
       rowHeight: 40,
-      height: "500px"
+      height: "500px",
+      selection: "single"
     ) {
-      on sortChange: {
-        measureSortEnd()
+      on sort(e): {
+        sortTime = e.elapsed
       }
     }
   }

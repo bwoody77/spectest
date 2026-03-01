@@ -1,7 +1,7 @@
 // EditableGridDemo — Issue #20 EditableGrid: inline cell editing, validation, dirty tracking
 // Also showcases: Issue #19 (Toast, Alert, Progress), #53 (hover), #54 (shadows)
 
-surface EditableGridDemo(themePreset) {
+surface EditableGridDemo() {
   @state {
     hasChanges: false
     saveProgress: 0
@@ -18,12 +18,6 @@ surface EditableGridDemo(themePreset) {
     productCount: "{productList.length} products"
     canSave: hasChanges && !saving
     showSaved: saved
-
-    cardBg: match themePreset { "enterprise" -> "#ffffff", "social" -> "#ffffff", "minimal" -> "#ffffff", "playful" -> "#ffffff", _ -> "#ffffff" }
-    accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
-    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
-    cardRadius: match themePreset { "enterprise" -> "4px", "social" -> "16px", "minimal" -> "0px", "playful" -> "12px", _ -> "8px" }
   }
 
   @actions {
@@ -42,22 +36,22 @@ surface EditableGridDemo(themePreset) {
 
   layout: vertical, gap: spacing.5
 
-  // Header with gradient (Issue #54)
+  // Header with gradient
   block {
     padding: spacing.5
-    background: "linear-gradient(135deg, {accentColor}15, {accentColor}05)"
-    border-radius: cardRadius
-    border-bottom: "2px solid {accentColor}30"
+    background: gradient.header-accent
+    border-radius: radius.md
+    border-bottom: borders.section-accent
     layout: vertical, gap: spacing.3
 
     block {
       layout: horizontal, gap: spacing.3, align: center, justify: between
       block {
         layout: horizontal, gap: spacing.3, align: center
-        Icon(name: "edit", size: "24px", color: accentColor)
+        Icon(name: "edit", size: icon.lg, color: semantic.interactive)
         text("Editable Inventory") {
           style: type.heading-lg
-          color: textPrimary
+          color: semantic.text-primary
           letter-spacing: "-0.02em"
         }
       }
@@ -65,7 +59,7 @@ surface EditableGridDemo(themePreset) {
       block {
         layout: horizontal, gap: spacing.3, align: center
 
-        // Save progress (Issue #19)
+        // Save progress
         block {
           visibility: saving
           Progress(value: saveProgress, label: "Saving...")
@@ -77,30 +71,30 @@ surface EditableGridDemo(themePreset) {
       }
     }
 
-    // Dirty changes alert (Issue #19)
+    // Dirty changes alert
     block {
       visibility: hasChanges
       Alert(severity: "info", message: "You have modified cells. Click Save to persist.", title: "Unsaved changes")
     }
   }
 
-  // Save success toast (Issue #19)
+  // Save success toast
   block {
     visibility: showSaved
     padding: spacing.3
-    background: "#ecfdf5"
-    border: "1px solid #a7f3d0"
-    border-radius: cardRadius
+    background: semantic.success-light
+    border: borders.success
+    border-radius: radius.md
     shadow: elevation.raised
     layout: horizontal, gap: spacing.3, align: center
-    Icon(name: "check", size: "20px", color: "#10b981")
-    text("Changes saved successfully!") { style: type.body-md, color: "#065f46" }
+    Icon(name: "check", size: icon.md, color: semantic.success)
+    text("Changes saved successfully!") { style: type.body-md, color: semantic.success-text }
     Button(label: "Dismiss", variant: "ghost") {
       on click: dismissSaved()
     }
   }
 
-  // Skeleton loading (Issue #19)
+  // Skeleton loading
   block {
     visibility: productsLoading
     layout: vertical, gap: spacing.3
@@ -108,14 +102,14 @@ surface EditableGridDemo(themePreset) {
     Skeleton(height: "400px", width: "100%")
   }
 
-  // EditableGrid (Issue #20)
+  // EditableGrid
   block {
     visibility: !productsLoading
-    background: cardBg
-    border-radius: cardRadius
+    background: semantic.surface-raised
+    border-radius: radius.md
     shadow: elevation.raised
     overflow: "hidden"
-    transition: "shadow 300ms ease"
+    transition: transition.shadow-slower
 
     on hover {
       shadow: elevation.layered
@@ -134,41 +128,42 @@ surface EditableGridDemo(themePreset) {
         { key: "sku", label: "SKU", editable: false }
       ],
       saveMode: "batch",
-      undoDepth: 50
+      undoDepth: 50,
+      activation: "click"
     ) {
-      on cellChange(change): { markDirty() }
+      on cellEdit(e): { markDirty() }
     }
   }
 
-  // Instructions card (Issue #17 Card)
+  // Instructions card
   Card() {
     block {
       padding: spacing.4
       layout: vertical, gap: spacing.3
 
-      text("Editing Instructions") { style: type.heading-sm, color: textPrimary }
+      text("Editing Instructions") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
         layout: vertical, gap: spacing.2
         block {
           layout: horizontal, gap: spacing.2, align: center
-          Icon(name: "edit", size: "16px", color: textMuted)
-          text("Click any editable cell to start editing") { style: type.body-sm, color: textMuted }
+          Icon(name: "edit", size: icon.xs, color: semantic.text-secondary)
+          text("Click any editable cell to start editing") { style: type.body-sm, color: semantic.text-secondary }
         }
         block {
           layout: horizontal, gap: spacing.2, align: center
-          Icon(name: "arrow-right", size: "16px", color: textMuted)
-          text("Use Tab/Arrow keys to navigate between cells") { style: type.body-sm, color: textMuted }
+          Icon(name: "arrow-right", size: icon.xs, color: semantic.text-secondary)
+          text("Use Tab/Arrow keys to navigate between cells") { style: type.body-sm, color: semantic.text-secondary }
         }
         block {
           layout: horizontal, gap: spacing.2, align: center
-          Icon(name: "check", size: "16px", color: textMuted)
-          text("Modified cells show a blue indicator") { style: type.body-sm, color: textMuted }
+          Icon(name: "check", size: icon.xs, color: semantic.text-secondary)
+          text("Modified cells show a blue indicator") { style: type.body-sm, color: semantic.text-secondary }
         }
         block {
           layout: horizontal, gap: spacing.2, align: center
-          Icon(name: "arrow-left", size: "16px", color: textMuted)
-          text("Ctrl+Z to undo, Ctrl+Y to redo") { style: type.body-sm, color: textMuted }
+          Icon(name: "arrow-left", size: icon.xs, color: semantic.text-secondary)
+          text("Ctrl+Z to undo, Ctrl+Y to redo") { style: type.body-sm, color: semantic.text-secondary }
         }
       }
     }

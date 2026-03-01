@@ -2,7 +2,7 @@
 // Uses: Alert (Issue #19), Progress (Issue #19), hover/focus states (Issue #53),
 //   transitions (Issue #52), shadows (Issue #54), individual borders (Issue #56)
 
-surface TaskForm(themePreset) {
+surface TaskForm() {
   @state {
     title: ""
     assignee: ""
@@ -27,12 +27,6 @@ surface TaskForm(themePreset) {
     isSubmitting: submitting
     formSummary: title != "" ? "Creating: {title}" : "Fill in the form below"
     successVisible: submitted
-
-    accentColor: match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
-    cardRadius: match themePreset { "enterprise" -> "4px", "social" -> "16px", "minimal" -> "0px", "playful" -> "12px", _ -> "8px" }
-    cardGap: match themePreset { "enterprise" -> "8px", "social" -> "14px", "minimal" -> "20px", "playful" -> "12px", _ -> "12px" }
-    textPrimary: match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
   }
 
   @actions {
@@ -64,21 +58,21 @@ surface TaskForm(themePreset) {
     }
   }
 
-  layout: vertical, gap: cardGap
+  layout: vertical, gap: spacing.3
 
   // Header
   block {
     layout: horizontal, gap: spacing.3, align: center
-    Icon(name: "plus", size: "20px", color: accentColor)
-    text("Create New Task") { style: type.heading-lg, color: textPrimary, letter-spacing: "-0.01em" }
+    Icon(name: "plus", size: icon.md, color: semantic.interactive)
+    text("Create New Task") { style: type.heading-lg, color: semantic.text-primary, letter-spacing: "-0.01em" }
     Popover(placement: "bottom", openOn: "click", text: "Fill in the required fields (Title and Assignee) then click Create Task.") {
-      Icon(name: "info", size: "18px", color: textMuted)
+      Icon(name: "info", size: icon.sm, color: semantic.text-secondary)
     }
   }
 
-  text(formSummary) { style: type.body-sm, color: textMuted }
+  text(formSummary) { style: type.body-sm, color: semantic.text-secondary }
 
-  // Success Alert (Issue #19)
+  // Success Alert
   block {
     visibility: successVisible
     Alert(severity: "success", message: "Your new task has been added to the backlog.", title: "Task created!", dismissible: true) {
@@ -86,18 +80,18 @@ surface TaskForm(themePreset) {
     }
   }
 
-  // Error Alert (Issue #19)
+  // Error Alert
   block {
     visibility: hasError
     Alert(severity: "error", message: error, title: "Submission failed")
   }
 
-  // Form card with shadow and hover (Issue #53, #54)
+  // Form card with shadow and hover
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
-      transition: "shadow 200ms ease"
+      transition: transition.shadow-slow
 
       on hover {
         shadow: elevation.layered
@@ -120,7 +114,7 @@ surface TaskForm(themePreset) {
         on change(v): { notes = v }
       }
 
-      // Assignee + Priority (side by side with responsive grid, Issue #58)
+      // Assignee + Priority (side by side with responsive grid)
       block {
         layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
 
@@ -185,14 +179,14 @@ surface TaskForm(themePreset) {
         on change(v): { urgent = v }
       }
 
-      // Submitting progress (Issue #19)
+      // Submitting progress
       block {
         visibility: isSubmitting
         layout: horizontal, gap: spacing.3, align: center
         padding: spacing.3
-        background: "#eff6ff"
-        border-radius: cardRadius
-        border-left: "3px solid #3b82f6"
+        background: semantic.info-bg
+        border-radius: radius.md
+        border-left: borders.accent-interactive
         Progress(value: 75, label: "Submitting...")
       }
 
