@@ -236,6 +236,9 @@
   badge-neutral-bg: "#1e293b"
   badge-neutral-color: "#94a3b8"
   badge-neutral-border: "#334155"
+  // Progress
+  progress-trackBg: "#334155"
+  progress-fillBg: "#818cf8"
   // Scrollbar
   // Skeleton + Grid (dark surfaces)
   skeleton-bg: "#334155"
@@ -344,6 +347,9 @@
   grid-filterBorder: "#e0e0e0"
   grid-rowBorder: "#f5f5f5"
   grid-selectedBg: "#e3f2fd"
+  // Progress
+  progress-trackBg: "#e0e0e0"
+  progress-fillBg: "#1976d2"
   // Scrollbar
   scrollbar-color: "#bdbdbd #f5f5f5"
 }
@@ -453,6 +459,9 @@
   grid-filterBorder: "#e4e4e7"
   grid-rowBorder: "#f4f4f5"
   grid-selectedBg: "#f4f4f5"
+  // Progress
+  progress-trackBg: "#e4e4e7"
+  progress-fillBg: "#18181b"
   // Scrollbar
   scrollbar-color: "#d4d4d8 transparent"
 }
@@ -576,6 +585,9 @@
   gradient.stat-neutral: "linear-gradient(135deg, #fdf6ec, #e8d5b8)"
   gradient.stat-neutral-subtle: "linear-gradient(135deg, #fdf6ec, #f0e0cc)"
   gradient.header-accent: "linear-gradient(135deg, rgba(45,106,79,0.15), rgba(45,106,79,0.05))"
+  // Progress
+  progress-trackBg: "#e8d5b8"
+  progress-fillBg: "#2d6a4f"
   // Scrollbar
   // Skeleton + Grid (warm)
   skeleton-bg: "#e8d5b8"
@@ -802,6 +814,9 @@
   grid-filterBorder: "#dee2e6"
   grid-rowBorder: "#f8f9fa"
   grid-selectedBg: "#cfe2ff"
+  // Progress
+  progress-trackBg: "#dee2e6"
+  progress-fillBg: "#0d6efd"
   // Scrollbar
   scrollbar-color: "#adb5bd #f8f9fa"
 }
@@ -935,6 +950,9 @@
   alert-error-bg: "rgba(251,113,133,0.15)"
   alert-error-border: "rgba(251,113,133,0.4)"
   alert-error-text: "#ffffff"
+  // Progress
+  progress-trackBg: "rgba(255,255,255,0.15)"
+  progress-fillBg: "#a78bfa"
   // Scrollbar
   // Skeleton + Grid (glass surfaces)
   skeleton-bg: "rgba(255,255,255,0.15)"
