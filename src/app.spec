@@ -180,7 +180,6 @@ surface App {
     fullHeight: "100vh"
     headerPad: "10px 20px"
     breadcrumbPad: "8px 20px"
-    contentMinHeight: "calc(100vh - 100px)"
     fullWidth: "100%"
   }
 
@@ -205,7 +204,8 @@ surface App {
   // Root wrapper with dark mode (Issue #59) and full-height layout
   block {
     colorScheme: appColorScheme
-    min-height: fullHeight
+    height: fullHeight
+    overflow: hidden
     background: semantic.surface
     layout: vertical
 
@@ -291,8 +291,9 @@ surface App {
 
   // Main content area: Sidebar + content
   block {
+    grow: true
     layout: horizontal
-    min-height: contentMinHeight
+    overflow: hidden
 
     // Sidebar navigation (Issue #18)
     Sidebar(
@@ -335,6 +336,7 @@ surface App {
 
     // Main content area
     block {
+      grow: true
       padding: spacing.5
       background: semantic.surface
       layout: vertical, gap: spacing.5
