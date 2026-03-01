@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "api": "node server.mjs",
+    "start": "node scripts/start.js",
     "dev": "node dev.mjs",
     "dev:oldjs": "node dev.mjs --oldjs",
     "dev:prod": "node dev.mjs --prod",
