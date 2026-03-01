@@ -42,6 +42,16 @@
 @import { DataGridDemo } from "./surfaces/data-grid-demo.spec"
 @import { EditableGridDemo } from "./surfaces/editable-grid-demo.spec"
 @import { TreeDemo } from "./surfaces/tree-demo.spec"
+// @import { PerfGrid } from "./surfaces/perf-grid.spec"
+// @import { PerfSignals } from "./surfaces/perf-signals.spec"
+
+// Internationalization
+@i18n {
+  defaultLocale: "en"
+  locales: ["en", "es"]
+  fallback: "en"
+  translationDir: "./i18n"
+}
 
 // Data sources
 
@@ -101,6 +111,7 @@ surface App {
     sidebarCollapsed: false
     commandPaletteOpen: false
     darkMode: false
+    currentLocale: getCurrentLocale()
   }
 
   @source {
@@ -131,6 +142,8 @@ surface App {
     showDataGrid: view == "datagrid"
     showEditGrid: view == "editgrid"
     showTree: view == "categories"
+    showPerfGrid: view == "perfgrid"
+    showPerfSignals: view == "perfsignals"
 
     viewTitle: match view {
       "dashboard" -> "Dashboard",
@@ -145,6 +158,8 @@ surface App {
       "datagrid" -> "Product Catalog",
       "editgrid" -> "Editable Inventory",
       "categories" -> "Categories",
+      "perfgrid" -> "Grid Performance",
+      "perfsignals" -> "Signal Performance",
       _ -> "Admin"
     }
 
@@ -162,6 +177,8 @@ surface App {
       "datagrid" -> "Data",
       "editgrid" -> "Data",
       "categories" -> "Data",
+      "perfgrid" -> "Performance",
+      "perfsignals" -> "Performance",
       _ -> "Overview"
     }
 
@@ -190,6 +207,10 @@ surface App {
     navigateTo(v) {
       view = v
       commandPaletteOpen = false
+    }
+    setLocale(lang) {
+      currentLocale = lang
+      switchLocale(lang)
     }
   }
 
@@ -250,6 +271,17 @@ surface App {
         }
       }
 
+      // Language selector
+      block {
+        layout: horizontal, gap: spacing.1, align: center
+        Button(label: "EN", variant: currentLocale == "en" ? "primary" : "secondary") {
+          on click: setLocale("en")
+        }
+        Button(label: "ES", variant: currentLocale == "es" ? "primary" : "secondary") {
+          on click: setLocale("es")
+        }
+      }
+
       // Dark mode toggle (Issue #59)
       Button(label: darkModeLabel, variant: "ghost") {
         on click: toggleDarkMode()
@@ -306,6 +338,10 @@ surface App {
         {heading: "Monitoring", items: [
           {id: "activity", label: "Activity", icon: "clock"},
           {id: "notifications", label: "Notifications", icon: "bell"}
+        ]},
+        {heading: "Performance", items: [
+          {id: "perfgrid", label: "Grid 10K", icon: "zap"},
+          {id: "perfsignals", label: "Signal Test", icon: "activity"}
         ]},
         {heading: "System", items: [
           {id: "settings", label: "Settings", icon: "settings"}
@@ -424,6 +460,22 @@ surface App {
         visibility: showTree
         TreeDemo(themePreset)
       }
+
+      // Performance: Grid 10K
+      // block {
+      //   role: "region"
+      //   aria-label: "Grid performance"
+      //   visibility: showPerfGrid
+      //   PerfGrid()
+      // }
+
+      // // Performance: Signal throughput
+      // block {
+      //   role: "region"
+      //   aria-label: "Signal performance"
+      //   visibility: showPerfSignals
+      //   PerfSignals()
+      // }
     }
   }
 
@@ -441,6 +493,8 @@ surface App {
       {id: "datagrid", label: "Product Catalog", group: "Data", icon: "layout"},
       {id: "editgrid", label: "Editable Grid", group: "Data", icon: "edit"},
       {id: "categories", label: "Categories", group: "Data", icon: "list"},
+      {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
+      {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
       {id: "settings", label: "Settings", group: "System", icon: "settings"}
     ],
     placeholder: "Search views, actions..."
