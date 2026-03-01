@@ -105,12 +105,11 @@ source CategoriesAPI {
 
 surface App {
   @state {
-    themePreset: "enterprise"
+    themePreset: "default"
     view: "dashboard" @route
     selectedTask: null
     sidebarCollapsed: false
     commandPaletteOpen: false
-    darkMode: false
     currentLocale: getCurrentLocale()
   }
 
@@ -119,16 +118,6 @@ surface App {
   }
 
   @computed {
-    // Theme-derived colors (Issue #53 reactive)
-    headerBg: darkMode ? "#0f172a" : match themePreset { "enterprise" -> "#0f172a", "social" -> "#7c3aed", "minimal" -> "#ffffff", "playful" -> "#ea580c", _ -> "#0f172a" }
-    headerText: darkMode ? "#f1f5f9" : match themePreset { "enterprise" -> "#ffffff", "social" -> "#ffffff", "minimal" -> "#0f172a", "playful" -> "#ffffff", _ -> "#ffffff" }
-    accentColor: darkMode ? "#818cf8" : match themePreset { "enterprise" -> "#3b82f6", "social" -> "#8b5cf6", "minimal" -> "#0f172a", "playful" -> "#f97316", _ -> "#3b82f6" }
-    mainBg: darkMode ? "#020617" : match themePreset { "enterprise" -> "#f1f5f9", "social" -> "#f5f3ff", "minimal" -> "#ffffff", "playful" -> "#fff7ed", _ -> "#f1f5f9" }
-    contentBg: darkMode ? "#0f172a" : match themePreset { "enterprise" -> "#ffffff", "social" -> "#ffffff", "minimal" -> "#ffffff", "playful" -> "#ffffff", _ -> "#ffffff" }
-    borderColor: darkMode ? "#334155" : match themePreset { "enterprise" -> "#e2e8f0", "social" -> "#ddd6fe", "minimal" -> "#e5e7eb", "playful" -> "#fed7aa", _ -> "#e2e8f0" }
-    textPrimary: darkMode ? "#f1f5f9" : match themePreset { "enterprise" -> "#1e293b", "social" -> "#581c87", "minimal" -> "#0f172a", "playful" -> "#7c2d12", _ -> "#1e293b" }
-    textMuted: darkMode ? "#94a3b8" : match themePreset { "enterprise" -> "#475569", "social" -> "#7c3aed", "minimal" -> "#6b7280", "playful" -> "#ea580c", _ -> "#475569" }
-
     // View visibility flags
     showDashboard: view == "dashboard"
     showDetail: view == "detail"
@@ -187,9 +176,7 @@ surface App {
     statsInProgress: stats != null ? stats.inProgress : 0
     statsTodo: stats != null ? stats.todo : 0
 
-    darkModeIcon: darkMode ? "sun" : "moon"
-    darkModeLabel: darkMode ? "Light Mode" : "Dark Mode"
-    appColorScheme: darkMode ? "dark" : "light"
+    appColorScheme: themePreset == "dark" || themePreset == "midnight" ? "dark" : "light"
     fullHeight: "100vh"
     headerPad: "10px 20px"
     breadcrumbPad: "8px 20px"
@@ -201,7 +188,6 @@ surface App {
     setThemePreset(p) { themePreset = p }
     setView(v) { view = v }
     toggleSidebar() { sidebarCollapsed = !sidebarCollapsed }
-    toggleDarkMode() { darkMode = !darkMode }
     openCommandPalette() { commandPaletteOpen = true }
     closeCommandPalette() { commandPaletteOpen = false }
     navigateTo(v) {
@@ -220,15 +206,15 @@ surface App {
   block {
     colorScheme: appColorScheme
     min-height: fullHeight
-    background: mainBg
+    background: semantic.surface
     layout: vertical
 
   // Header bar (Issue #50, #54, #57)
   block {
     role: "banner"
     padding: headerPad
-    background: headerBg
-    border-bottom: "1px solid {borderColor}"
+    background: semantic.background
+    border-bottom: borders.default
     shadow: elevation.raised
     layout: horizontal, gap: spacing.4, align: center, justify: between
 
@@ -240,10 +226,10 @@ surface App {
         on click: toggleSidebar()
       }
 
-      Icon(name: "home", size: "22px", color: accentColor)
+      Icon(name: "home", size: "22px", color: semantic.interactive)
       text("Spec Admin") {
         style: type.heading-lg
-        color: headerText
+        color: semantic.text-primary
         letter-spacing: "-0.02em"
       }
     }
@@ -252,23 +238,21 @@ surface App {
     block {
       layout: horizontal, gap: spacing.3, align: center
 
-      // Theme buttons
-      block {
-        role: "toolbar"
-        aria-label: "Theme selection"
-        layout: horizontal, gap: spacing.1, align: center
-        Button(label: "Enterprise", variant: "secondary") {
-          on click: setThemePreset("enterprise")
-        }
-        Button(label: "Social", variant: "secondary") {
-          on click: setThemePreset("social")
-        }
-        Button(label: "Minimal", variant: "secondary") {
-          on click: setThemePreset("minimal")
-        }
-        Button(label: "Playful", variant: "secondary") {
-          on click: setThemePreset("playful")
-        }
+      // Theme selector
+      Select(
+        options: [
+          {value: "default", label: "Default"},
+          {value: "midnight", label: "Midnight"},
+          {value: "ember", label: "Ember"},
+          {value: "forest", label: "Forest"},
+          {value: "mono", label: "Mono"},
+          {value: "luxe", label: "Luxe"},
+          {value: "dark", label: "Dark"}
+        ],
+        value: themePreset,
+        label: "Theme"
+      ) {
+        on change(v): setThemePreset(v)
       }
 
       // Language selector
@@ -282,11 +266,6 @@ surface App {
         }
       }
 
-      // Dark mode toggle (Issue #59)
-      Button(label: darkModeLabel, variant: "ghost") {
-        on click: toggleDarkMode()
-      }
-
       // Command palette trigger (Issue #18)
       Button(label: "⌘K", variant: "ghost") {
         on click: openCommandPalette()
@@ -297,8 +276,8 @@ surface App {
   // Breadcrumb navigation (Issue #18)
   block {
     padding: breadcrumbPad
-    background: contentBg
-    border-bottom: "1px solid {borderColor}"
+    background: semantic.surface-raised
+    border-bottom: borders.default
     Breadcrumb(
       items: [
         {id: "dashboard", label: "Home"},
@@ -357,7 +336,7 @@ surface App {
     // Main content area
     block {
       padding: spacing.5
-      background: mainBg
+      background: semantic.surface
       layout: vertical, gap: spacing.5
       overflow: "auto"
       width: fullWidth
