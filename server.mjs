@@ -21,6 +21,75 @@ import { createServer } from 'node:http';
 
 let nextNotificationId = 8;
 let nextTaskId = 6;
+let nextProductId = 21;
+
+// ---------------------------------------------------------------------------
+// Products — for DataGrid / EditableGrid demos
+// ---------------------------------------------------------------------------
+
+const products = [
+  { id: 1,  name: 'Wireless Mouse',       category: 'Electronics', price: 29.99,  stock: 150,  status: 'active',       rating: 4.5, sku: 'WM-001' },
+  { id: 2,  name: 'Mechanical Keyboard',   category: 'Electronics', price: 89.99,  stock: 75,   status: 'active',       rating: 4.8, sku: 'MK-002' },
+  { id: 3,  name: 'USB-C Hub',            category: 'Electronics', price: 49.99,  stock: 200,  status: 'active',       rating: 4.2, sku: 'UH-003' },
+  { id: 4,  name: 'Monitor Stand',        category: 'Furniture',   price: 39.99,  stock: 0,    status: 'out-of-stock', rating: 4.0, sku: 'MS-004' },
+  { id: 5,  name: 'Desk Lamp',            category: 'Furniture',   price: 24.99,  stock: 120,  status: 'active',       rating: 4.3, sku: 'DL-005' },
+  { id: 6,  name: 'Webcam HD',            category: 'Electronics', price: 59.99,  stock: 45,   status: 'active',       rating: 4.1, sku: 'WC-006' },
+  { id: 7,  name: 'Noise-Cancel Headset', category: 'Audio',       price: 149.99, stock: 30,   status: 'active',       rating: 4.7, sku: 'NH-007' },
+  { id: 8,  name: 'Bluetooth Speaker',    category: 'Audio',       price: 34.99,  stock: 0,    status: 'discontinued', rating: 3.9, sku: 'BS-008' },
+  { id: 9,  name: 'Laptop Sleeve',        category: 'Accessories', price: 19.99,  stock: 300,  status: 'active',       rating: 4.4, sku: 'LS-009' },
+  { id: 10, name: 'Phone Stand',          category: 'Accessories', price: 14.99,  stock: 250,  status: 'active',       rating: 4.6, sku: 'PS-010' },
+  { id: 11, name: 'Cable Organizer',      category: 'Accessories', price: 9.99,   stock: 500,  status: 'active',       rating: 4.0, sku: 'CO-011' },
+  { id: 12, name: 'Ergonomic Chair',      category: 'Furniture',   price: 299.99, stock: 15,   status: 'active',       rating: 4.9, sku: 'EC-012' },
+  { id: 13, name: 'Standing Desk',        category: 'Furniture',   price: 449.99, stock: 8,    status: 'active',       rating: 4.7, sku: 'SD-013' },
+  { id: 14, name: 'Desk Mat XL',          category: 'Accessories', price: 22.99,  stock: 180,  status: 'active',       rating: 4.3, sku: 'DM-014' },
+  { id: 15, name: 'Wireless Charger',     category: 'Electronics', price: 29.99,  stock: 0,    status: 'out-of-stock', rating: 4.1, sku: 'WR-015' },
+  { id: 16, name: 'Studio Microphone',    category: 'Audio',       price: 129.99, stock: 25,   status: 'active',       rating: 4.6, sku: 'SM-016' },
+  { id: 17, name: 'Drawing Tablet',       category: 'Electronics', price: 199.99, stock: 40,   status: 'active',       rating: 4.5, sku: 'DT-017' },
+  { id: 18, name: 'Portable SSD 1TB',     category: 'Electronics', price: 79.99,  stock: 60,   status: 'active',       rating: 4.8, sku: 'SS-018' },
+  { id: 19, name: 'Earbuds Pro',          category: 'Audio',       price: 69.99,  stock: 90,   status: 'active',       rating: 4.4, sku: 'EP-019' },
+  { id: 20, name: 'Desk Shelf',           category: 'Furniture',   price: 54.99,  stock: 35,   status: 'active',       rating: 4.2, sku: 'DS-020' },
+];
+
+// ---------------------------------------------------------------------------
+// Categories — hierarchical tree data
+// ---------------------------------------------------------------------------
+
+const categories = [
+  { id: 'root-1', label: 'Electronics', icon: 'cpu', children: [
+    { id: 'elec-1', label: 'Computers', icon: 'monitor', children: [
+      { id: 'comp-1', label: 'Laptops', icon: 'laptop' },
+      { id: 'comp-2', label: 'Desktops', icon: 'monitor' },
+      { id: 'comp-3', label: 'Tablets', icon: 'tablet' },
+    ]},
+    { id: 'elec-2', label: 'Peripherals', icon: 'mouse', children: [
+      { id: 'peri-1', label: 'Keyboards', icon: 'keyboard' },
+      { id: 'peri-2', label: 'Mice', icon: 'mouse' },
+      { id: 'peri-3', label: 'Webcams', icon: 'camera' },
+    ]},
+    { id: 'elec-3', label: 'Storage', icon: 'hard-drive', children: [
+      { id: 'stor-1', label: 'SSDs', icon: 'zap' },
+      { id: 'stor-2', label: 'USB Drives', icon: 'usb' },
+    ]},
+  ]},
+  { id: 'root-2', label: 'Audio', icon: 'headphones', children: [
+    { id: 'aud-1', label: 'Headphones', icon: 'headphones' },
+    { id: 'aud-2', label: 'Speakers', icon: 'speaker' },
+    { id: 'aud-3', label: 'Microphones', icon: 'mic' },
+  ]},
+  { id: 'root-3', label: 'Furniture', icon: 'layout', children: [
+    { id: 'furn-1', label: 'Desks', icon: 'square', children: [
+      { id: 'desk-1', label: 'Standing Desks', icon: 'arrow-up' },
+      { id: 'desk-2', label: 'Sit-Down Desks', icon: 'minus' },
+    ]},
+    { id: 'furn-2', label: 'Chairs', icon: 'user' },
+    { id: 'furn-3', label: 'Lighting', icon: 'sun' },
+  ]},
+  { id: 'root-4', label: 'Accessories', icon: 'package', children: [
+    { id: 'acc-1', label: 'Cases & Sleeves', icon: 'briefcase' },
+    { id: 'acc-2', label: 'Stands & Mounts', icon: 'maximize' },
+    { id: 'acc-3', label: 'Cable Management', icon: 'link' },
+  ]},
+];
 
 const notifications = [
   { id: 1, title: 'Deployment succeeded',       severity: 'success', read: true,  createdAt: '2026-02-26T09:00:00Z' },
@@ -222,6 +291,89 @@ const server = createServer(async (req, res) => {
     tasks.splice(idx, 1);
     console.log(`${method} ${req.url} -> 200`);
     return json(res, { ok: true });
+  }
+
+  // GET /api/products/bulk?count=N
+  if (method === 'GET' && path === '/api/products/bulk') {
+    const count = parseInt(url.searchParams.get('count') || '10000', 10);
+    const cats = ['Electronics', 'Audio', 'Furniture', 'Accessories'];
+    const statuses = ['active', 'out-of-stock', 'discontinued'];
+    const bulk = Array.from({ length: count }, (_, i) => ({
+      id: i + 1,
+      name: `Product ${i + 1}`,
+      category: cats[i % cats.length],
+      price: +(Math.random() * 500 + 5).toFixed(2),
+      stock: Math.floor(Math.random() * 500),
+      status: statuses[i % statuses.length],
+      rating: +(Math.random() * 2 + 3).toFixed(1),
+      sku: `BLK-${String(i + 1).padStart(5, '0')}`,
+    }));
+    console.log(`${method} ${req.url} -> 200 (${count} products)`);
+    return json(res, bulk);
+  }
+
+  // GET /api/products
+  if (method === 'GET' && path === '/api/products') {
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, products);
+  }
+
+  // GET /api/products/:id
+  const productMatch = path.match(/^\/api\/products\/(\d+)$/);
+  if (method === 'GET' && productMatch) {
+    const product = products.find(p => p.id === parseInt(productMatch[1]));
+    const status = product ? 200 : 404;
+    console.log(`${method} ${req.url} -> ${status}`);
+    return product ? json(res, product) : json(res, { error: 'Not found' }, 404);
+  }
+
+  // PUT /api/products/:id
+  if (method === 'PUT' && productMatch) {
+    const product = products.find(p => p.id === parseInt(productMatch[1]));
+    if (!product) {
+      console.log(`${method} ${req.url} -> 404`);
+      return json(res, { error: 'Not found' }, 404);
+    }
+    const body = await readBody(req);
+    Object.assign(product, body);
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, product);
+  }
+
+  // POST /api/products
+  if (method === 'POST' && path === '/api/products') {
+    const body = await readBody(req);
+    const product = {
+      id: nextProductId++,
+      name: body.name || 'New Product',
+      category: body.category || 'Uncategorized',
+      price: body.price || 0,
+      stock: body.stock || 0,
+      status: body.status || 'active',
+      rating: body.rating || 0,
+      sku: body.sku || `NP-${nextProductId}`,
+    };
+    products.push(product);
+    console.log(`${method} ${req.url} -> 201`);
+    return json(res, product, 201);
+  }
+
+  // DELETE /api/products/:id
+  if (method === 'DELETE' && productMatch) {
+    const idx = products.findIndex(p => p.id === parseInt(productMatch[1]));
+    if (idx === -1) {
+      console.log(`${method} ${req.url} -> 404`);
+      return json(res, { error: 'Not found' }, 404);
+    }
+    products.splice(idx, 1);
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, { ok: true });
+  }
+
+  // GET /api/categories
+  if (method === 'GET' && path === '/api/categories') {
+    console.log(`${method} ${req.url} -> 200`);
+    return json(res, categories);
   }
 
   console.log(`${method} ${req.url} -> 404`);

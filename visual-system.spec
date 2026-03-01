@@ -1,9 +1,7 @@
-// Design tokens — baseline visual system + theme overrides
+// Design tokens — baseline visual system + 9 Ant Design-style themes
 //
 // Canonical design token file. Imported by app.spec via bare import:
 //   @import "../visual-system.spec"
-//
-// Gate #22 enhancements: elevation tokens, dark theme, border tokens
 
 @visual-system {
   spacing: 4px-unit
@@ -30,53 +28,53 @@
   semantic.border-strong: "#92a2b9"
 
   // Semantic colors — interactive
-  semantic.interactive: "#1418eb"
-  semantic.interactive-hover: "#1013bc"
-  semantic.interactive-active: "#0d0f96"
-  semantic.focus-ring: "#a8a9e6"
-  semantic.info-bg: "#f6f6f9"
+  semantic.interactive: "#1677ff"
+  semantic.interactive-hover: "#0958d9"
+  semantic.interactive-active: "#003eb3"
+  semantic.focus-ring: "#91caff"
+  semantic.info-bg: "#e6f4ff"
 
   // Semantic colors — destructive/error
-  semantic.destructive: "#db2424"
-  semantic.destructive-hover: "#af1d1d"
-  semantic.error: "#af1d1d"
-  semantic.error-bg: "#f9f6f6"
+  semantic.destructive: "#ff4d4f"
+  semantic.destructive-hover: "#cf1322"
+  semantic.error: "#cf1322"
+  semantic.error-bg: "#fff2f0"
 
   // Semantic colors — success
-  semantic.success: "#33cc99"
-  semantic.success-light: "#f6f8f8"
-  semantic.success-muted: "#ecf3f1"
-  semantic.success-text: "#1c5e48"
-  semantic.success-mid: "#218362"
+  semantic.success: "#52c41a"
+  semantic.success-light: "#f6ffed"
+  semantic.success-muted: "#d9f7be"
+  semantic.success-text: "#135200"
+  semantic.success-mid: "#389e0d"
 
   // Semantic colors — warning
-  semantic.warning: "#fab505"
-  semantic.warning-light: "#f9f8f6"
-  semantic.warning-muted: "#f6f2ea"
-  semantic.warning-text: "#725409"
+  semantic.warning: "#faad14"
+  semantic.warning-light: "#fffbe6"
+  semantic.warning-muted: "#fff1b8"
+  semantic.warning-text: "#614700"
 
   // Borders
   borders.default: "1px solid #dce0e5"
   borders.strong: "1px solid #92a2b9"
-  borders.accent-error: "3px solid #db2424"
-  borders.accent-warning: "3px solid #fab505"
-  borders.accent-success: "3px solid #33cc99"
-  borders.accent-interactive: "3px solid #1418eb"
-  borders.accent-interactive-strong: "4px solid #1418eb"
+  borders.accent-error: "3px solid #ff4d4f"
+  borders.accent-warning: "3px solid #faad14"
+  borders.accent-success: "3px solid #52c41a"
+  borders.accent-interactive: "3px solid #1677ff"
+  borders.accent-interactive-strong: "4px solid #1677ff"
   borders.accent-none: "3px solid transparent"
-  borders.success: "1px solid #d6eae4"
-  borders.section-accent: "2px solid #1418eb30"
+  borders.success: "1px solid #d9f7be"
+  borders.section-accent: "2px solid #1677ff30"
 
   // Gradients
-  gradient.stat-primary: "linear-gradient(135deg, #f6f6f9, #d2d3ee)"
-  gradient.stat-primary-subtle: "linear-gradient(135deg, #f6f6f9, #eaebf5)"
-  gradient.stat-success: "linear-gradient(135deg, #f6f8f8, #d6eae4)"
-  gradient.stat-success-subtle: "linear-gradient(135deg, #f6f8f8, #ecf3f1)"
-  gradient.stat-warning: "linear-gradient(135deg, #f9f8f6, #f1e7d0)"
-  gradient.stat-warning-subtle: "linear-gradient(135deg, #f9f8f6, #f6f2ea)"
+  gradient.stat-primary: "linear-gradient(135deg, #e6f4ff, #91caff)"
+  gradient.stat-primary-subtle: "linear-gradient(135deg, #e6f4ff, #bae0ff)"
+  gradient.stat-success: "linear-gradient(135deg, #f6ffed, #d9f7be)"
+  gradient.stat-success-subtle: "linear-gradient(135deg, #f6ffed, #b7eb8f)"
+  gradient.stat-warning: "linear-gradient(135deg, #fffbe6, #fff1b8)"
+  gradient.stat-warning-subtle: "linear-gradient(135deg, #fffbe6, #ffe58f)"
   gradient.stat-neutral: "linear-gradient(135deg, #f7f7f8, #bdc5d1)"
   gradient.stat-neutral-subtle: "linear-gradient(135deg, #f7f7f8, #dce0e5)"
-  gradient.header-accent: "linear-gradient(135deg, #1418eb15, #1418eb05)"
+  gradient.header-accent: "linear-gradient(135deg, #1677ff15, #1677ff05)"
 
   // Transitions
   transition.card-lift: "transform 200ms ease, box-shadow 200ms ease"
@@ -116,289 +114,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Midnight — immersive dark theme with electric cyan accents
-// Inspired by developer tools (VS Code, Figma dark). High contrast neon-on-dark.
-// ---------------------------------------------------------------------------
-@theme midnight {
-  palette.primary: cyan
-  palette.neutral: slate
-  semantic.surface: "#0b1120"
-  semantic.surface-raised: "#141e33"
-  semantic.surface-hover: "#1c2b45"
-  semantic.surface-unread: "#0c2a3e"
-  semantic.background: "#060b16"
-  semantic.border: "#1e3148"
-  semantic.border-strong: "#2d5a7b"
-  semantic.text-primary: "#e8edf5"
-  semantic.text-secondary: "#8ba2be"
-  semantic.text-tertiary: "#5a7a9b"
-  semantic.text-disabled: "#3a5068"
-  semantic.text-muted: "#6b8db5"
-  semantic.text-strong: "#f1f7ff"
-  semantic.interactive: "#22d3ee"
-  semantic.interactive-hover: "#06b6d4"
-  semantic.interactive-active: "#0891b2"
-  semantic.focus-ring: "#155e75"
-  semantic.info-bg: "#083344"
-  semantic.destructive: "#fb7185"
-  semantic.destructive-hover: "#f43f5e"
-  semantic.error: "#f43f5e"
-  semantic.error-bg: "#4c0519"
-  semantic.success: "#34d399"
-  semantic.success-light: "#064e3b"
-  semantic.success-muted: "#065f46"
-  semantic.success-text: "#a7f3d0"
-  semantic.success-mid: "#6ee7b7"
-  semantic.warning: "#fbbf24"
-  semantic.warning-light: "#78350f"
-  semantic.warning-muted: "#92400e"
-  semantic.warning-text: "#fde68a"
-
-  // Tight corners
-  radius.sm: "4px"
-  radius.md: "6px"
-  radius.lg: "10px"
-  radius.full: "9999px"
-
-  // Cyan-tinted glows
-  elevation.flat: "none"
-  elevation.raised: "0 0 8px rgba(34,211,238,0.15), 0 1px 2px rgba(0,0,0,0.3)"
-  elevation.layered: "0 0 16px rgba(34,211,238,0.1), 0 4px 6px rgba(0,0,0,0.3)"
-  elevation.floating: "0 0 30px rgba(34,211,238,0.15), 0 10px 25px rgba(0,0,0,0.4)"
-  elevation.overlay: "0 0 40px rgba(34,211,238,0.1), 0 8px 32px rgba(0,0,0,0.5)"
-  elevation.inset: "inset 0 2px 4px rgba(0,0,0,0.3)"
-}
-
-// ---------------------------------------------------------------------------
-// Ember — warm terracotta and amber tones on cream surfaces
-// Inspired by earthy design systems. Warm, inviting, organic feel.
-// ---------------------------------------------------------------------------
-@theme ember {
-  palette.primary: orange
-  palette.neutral: stone
-  semantic.surface: "#faf5ef"
-  semantic.surface-raised: "#fffbf5"
-  semantic.surface-hover: "#f0e6d6"
-  semantic.surface-unread: "#fff7ed"
-  semantic.background: "#fefcf8"
-  semantic.border: "#d9c4a8"
-  semantic.border-strong: "#b8956a"
-  semantic.text-primary: "#3c1a04"
-  semantic.text-secondary: "#78350f"
-  semantic.text-tertiary: "#a16207"
-  semantic.text-disabled: "#d4b896"
-  semantic.text-muted: "#92400e"
-  semantic.text-strong: "#2c1003"
-  semantic.interactive: "#ea580c"
-  semantic.interactive-hover: "#c2410c"
-  semantic.interactive-active: "#9a3412"
-  semantic.focus-ring: "#fdba74"
-  semantic.info-bg: "#fff7ed"
-  semantic.destructive: "#dc2626"
-  semantic.destructive-hover: "#b91c1c"
-  semantic.error: "#b91c1c"
-  semantic.error-bg: "#fef2f2"
-  semantic.success: "#16a34a"
-  semantic.success-light: "#f0fdf4"
-  semantic.success-muted: "#dcfce7"
-  semantic.success-text: "#14532d"
-  semantic.success-mid: "#15803d"
-  semantic.warning: "#d97706"
-  semantic.warning-light: "#fffbeb"
-  semantic.warning-muted: "#fef3c7"
-  semantic.warning-text: "#78350f"
-
-  // Generous spacing (5px unit)
-  spacing.1: "5px"
-  spacing.2: "10px"
-  spacing.3: "15px"
-  spacing.4: "20px"
-  spacing.5: "25px"
-  spacing.6: "30px"
-  spacing.8: "40px"
-  spacing.10: "50px"
-  spacing.12: "60px"
-  spacing.16: "80px"
-
-  // Soft, rounded corners
-  radius.sm: "10px"
-  radius.md: "14px"
-  radius.lg: "20px"
-  radius.full: "9999px"
-
-  // Warm, diffuse elevation
-  elevation.flat: "none"
-  elevation.raised: "0 2px 8px rgba(120,53,15,0.08), 0 1px 3px rgba(120,53,15,0.06)"
-  elevation.layered: "0 6px 16px rgba(120,53,15,0.07), 0 3px 6px rgba(120,53,15,0.05)"
-  elevation.floating: "0 12px 32px rgba(120,53,15,0.1), 0 6px 12px rgba(120,53,15,0.06)"
-  elevation.overlay: "0 10px 40px rgba(120,53,15,0.12)"
-  elevation.inset: "inset 0 2px 4px rgba(120,53,15,0.06)"
-}
-
-// ---------------------------------------------------------------------------
-// Forest — sage and emerald on natural warm surfaces
-// Inspired by nature/sustainability apps. Calming, trustworthy, organic.
-// ---------------------------------------------------------------------------
-@theme forest {
-  palette.primary: emerald
-  palette.neutral: stone
-  semantic.surface: "#eef3ee"
-  semantic.surface-raised: "#f6faf6"
-  semantic.surface-hover: "#dce8dc"
-  semantic.surface-unread: "#ecfdf5"
-  semantic.background: "#f5f9f5"
-  semantic.border: "#a8c4a8"
-  semantic.border-strong: "#6b9a6b"
-  semantic.text-primary: "#14291e"
-  semantic.text-secondary: "#2d5a3e"
-  semantic.text-tertiary: "#5a8a6e"
-  semantic.text-disabled: "#a3c4b0"
-  semantic.text-muted: "#3d7052"
-  semantic.text-strong: "#0a1f14"
-  semantic.interactive: "#059669"
-  semantic.interactive-hover: "#047857"
-  semantic.interactive-active: "#065f46"
-  semantic.focus-ring: "#6ee7b7"
-  semantic.info-bg: "#ecfdf5"
-  semantic.destructive: "#dc2626"
-  semantic.destructive-hover: "#b91c1c"
-  semantic.error: "#b91c1c"
-  semantic.error-bg: "#fef2f2"
-  semantic.success: "#059669"
-  semantic.success-light: "#ecfdf5"
-  semantic.success-muted: "#d1fae5"
-  semantic.success-text: "#065f46"
-  semantic.success-mid: "#047857"
-  semantic.warning: "#d97706"
-  semantic.warning-light: "#fffbeb"
-  semantic.warning-muted: "#fef3c7"
-  semantic.warning-text: "#92400e"
-
-  // Subtle, organic corners
-  radius.sm: "3px"
-  radius.md: "5px"
-  radius.lg: "8px"
-  radius.full: "9999px"
-
-  // Near-flat elevation
-  elevation.flat: "none"
-  elevation.raised: "0 1px 2px rgba(0,0,0,0.04)"
-  elevation.layered: "0 2px 4px rgba(0,0,0,0.05)"
-  elevation.floating: "0 4px 8px rgba(0,0,0,0.06)"
-  elevation.overlay: "0 4px 12px rgba(0,0,0,0.06)"
-  elevation.inset: "inset 0 1px 2px rgba(0,0,0,0.04)"
-}
-
-// ---------------------------------------------------------------------------
-// Mono — pure black-and-white editorial design, zero chrome color
-// Inspired by iA Writer, Medium, Apple HIG. Typography-first, distraction-free.
-// ---------------------------------------------------------------------------
-@theme mono {
-  palette.primary: zinc
-  palette.neutral: zinc
-  semantic.surface: "#fafafa"
-  semantic.surface-raised: "#ffffff"
-  semantic.surface-hover: "#f4f4f5"
-  semantic.surface-unread: "#f4f4f5"
-  semantic.background: "#ffffff"
-  semantic.border: "#d4d4d8"
-  semantic.border-strong: "#a1a1aa"
-  semantic.text-primary: "#09090b"
-  semantic.text-secondary: "#3f3f46"
-  semantic.text-tertiary: "#71717a"
-  semantic.text-disabled: "#d4d4d8"
-  semantic.text-muted: "#52525b"
-  semantic.text-strong: "#09090b"
-  semantic.interactive: "#18181b"
-  semantic.interactive-hover: "#27272a"
-  semantic.interactive-active: "#09090b"
-  semantic.focus-ring: "#a1a1aa"
-  semantic.info-bg: "#f4f4f5"
-  semantic.destructive: "#dc2626"
-  semantic.destructive-hover: "#b91c1c"
-  semantic.error: "#b91c1c"
-  semantic.error-bg: "#fef2f2"
-  semantic.success: "#16a34a"
-  semantic.success-light: "#f0fdf4"
-  semantic.success-muted: "#dcfce7"
-  semantic.success-text: "#14532d"
-  semantic.success-mid: "#15803d"
-  semantic.warning: "#ca8a04"
-  semantic.warning-light: "#fefce8"
-  semantic.warning-muted: "#fef9c3"
-  semantic.warning-text: "#713f12"
-
-  // Sharp, editorial corners
-  radius.sm: "0px"
-  radius.md: "0px"
-  radius.lg: "2px"
-  radius.full: "2px"
-
-  // Flat elevation (no shadows)
-  elevation.flat: "none"
-  elevation.raised: "none"
-  elevation.layered: "none"
-  elevation.floating: "none"
-  elevation.overlay: "none"
-  elevation.inset: "none"
-}
-
-// ---------------------------------------------------------------------------
-// Luxe — rich violet on subtle purple tints, premium and exclusive
-// Inspired by Stripe, Linear, premium SaaS dashboards. Sophisticated, high-end.
-// ---------------------------------------------------------------------------
-@theme luxe {
-  palette.primary: violet
-  palette.neutral: slate
-  semantic.surface: "#f6f2ff"
-  semantic.surface-raised: "#fdfcff"
-  semantic.surface-hover: "#ede5ff"
-  semantic.surface-unread: "#f5f3ff"
-  semantic.background: "#faf8ff"
-  semantic.border: "#c4b5fd"
-  semantic.border-strong: "#8b5cf6"
-  semantic.text-primary: "#1e0a3e"
-  semantic.text-secondary: "#4c1d95"
-  semantic.text-tertiary: "#7c3aed"
-  semantic.text-disabled: "#c4b5fd"
-  semantic.text-muted: "#5b21b6"
-  semantic.text-strong: "#120627"
-  semantic.interactive: "#7c3aed"
-  semantic.interactive-hover: "#6d28d9"
-  semantic.interactive-active: "#5b21b6"
-  semantic.focus-ring: "#a78bfa"
-  semantic.info-bg: "#ede9fe"
-  semantic.destructive: "#e11d48"
-  semantic.destructive-hover: "#be123c"
-  semantic.error: "#be123c"
-  semantic.error-bg: "#fff1f2"
-  semantic.success: "#059669"
-  semantic.success-light: "#ecfdf5"
-  semantic.success-muted: "#d1fae5"
-  semantic.success-text: "#065f46"
-  semantic.success-mid: "#047857"
-  semantic.warning: "#d97706"
-  semantic.warning-light: "#fffbeb"
-  semantic.warning-muted: "#fef3c7"
-  semantic.warning-text: "#92400e"
-
-  // Smooth, premium corners
-  radius.sm: "8px"
-  radius.md: "12px"
-  radius.lg: "16px"
-  radius.full: "9999px"
-
-  // Deep, layered elevation
-  elevation.flat: "none"
-  elevation.raised: "0 1px 3px rgba(124,58,237,0.06), 0 2px 8px rgba(0,0,0,0.06)"
-  elevation.layered: "0 4px 12px rgba(124,58,237,0.06), 0 2px 6px rgba(0,0,0,0.06)"
-  elevation.floating: "0 12px 32px rgba(124,58,237,0.08), 0 4px 12px rgba(0,0,0,0.08)"
-  elevation.overlay: "0 16px 48px rgba(124,58,237,0.1), 0 8px 24px rgba(0,0,0,0.08)"
-  elevation.inset: "inset 0 2px 4px rgba(124,58,237,0.06)"
-}
-
-// ---------------------------------------------------------------------------
-// Dark — baseline dark mode (special: merges with auto-generated dark semantics)
+// 1. Dark — dark surfaces, light text, indigo interactive
 // ---------------------------------------------------------------------------
 @theme dark {
   palette.primary: indigo
@@ -434,17 +150,507 @@
   semantic.warning-muted: "#92400e"
   semantic.warning-text: "#fde68a"
 
-  // Dark-adapted corners
   radius.sm: "6px"
   radius.md: "8px"
   radius.lg: "12px"
-  radius.full: "9999px"
 
-  // Dark-adapted elevation
+  borders.default: "1px solid #334155"
+  borders.strong: "1px solid #475569"
+
   elevation.flat: "none"
   elevation.raised: "0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15)"
   elevation.layered: "0 4px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.15)"
   elevation.floating: "0 10px 25px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.15)"
   elevation.overlay: "0 8px 32px rgba(0,0,0,0.35)"
   elevation.inset: "inset 0 2px 4px rgba(0,0,0,0.2)"
+
+  // Dark component tokens
+  btn-primary-bg: "#818cf8"
+  btn-primary-color: "#0f172a"
+  btn-primary-hover: "#6366f1"
+  btn-secondary-bg: "#1e293b"
+  btn-secondary-color: "#e2e8f0"
+  btn-secondary-border: "#475569"
+  btn-secondary-hover: "#334155"
+  btn-ghost-color: "#94a3b8"
+  btn-ghost-hover: "#334155"
+  btn-destructive-bg: "#fb7185"
+  btn-destructive-color: "#0f172a"
+  btn-destructive-hover: "#f43f5e"
+  input-bg: "#1e293b"
+  input-border: "#475569"
+  input-color: "#f1f5f9"
+  input-focusBorder: "#818cf8"
+  input-focusRing: "rgba(129,140,248,.2)"
+  toggle-trackBg: "#475569"
+  toggle-trackBgOn: "#818cf8"
+  select-border: "#475569"
+  select-bg: "#1e293b"
+  select-optionHover: "#334155"
+  select-optionSelected: "#312e81"
+  modal-backdropBg: "rgba(0,0,0,.6)"
+  modal-bg: "#1e293b"
+  modal-shadow: "0 20px 60px rgba(0,0,0,.4)"
+  checkbox-border: "#475569"
+  checkbox-checkedBg: "#818cf8"
+  tab-activeColor: "#818cf8"
+  tab-borderColor: "#334155"
+  tab-hoverBg: "rgba(255,255,255,.05)"
+}
+
+// ---------------------------------------------------------------------------
+// 2. MUI — Material Design inspired
+// ---------------------------------------------------------------------------
+@theme mui {
+  palette.primary: blue
+  semantic.interactive: "#1976d2"
+  semantic.interactive-hover: "#1565c0"
+  semantic.interactive-active: "#0d47a1"
+  semantic.focus-ring: "#90caf9"
+
+  font.body: "'Roboto', 'Helvetica Neue', sans-serif"
+  font.heading: "'Roboto', 'Helvetica Neue', sans-serif"
+
+  borders.default: "1px solid #e0e0e0"
+  borders.strong: "1px solid #bdbdbd"
+
+  radius.sm: "4px"
+  radius.md: "4px"
+  radius.lg: "8px"
+
+  elevation.raised: "0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.12)"
+  elevation.layered: "0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px rgba(0,0,0,.14), 0 1px 8px rgba(0,0,0,.12)"
+  elevation.floating: "0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12)"
+
+  btn-primary-bg: "#1976d2"
+  btn-primary-hover: "#1565c0"
+  btn-radius: "4px"
+  btn-textTransform: "uppercase"
+  btn-letterSpacing: "0.05em"
+  btn-fontWeight: "500"
+  btn-secondary-bg: "transparent"
+  btn-secondary-color: "#1976d2"
+  btn-secondary-border: "#1976d2"
+  btn-secondary-hover: "rgba(25,118,210,.04)"
+  input-radius: "4px"
+  input-focusBorder: "#1976d2"
+  input-focusRing: "rgba(25,118,210,.12)"
+  select-radius: "4px"
+  modal-radius: "4px"
+  tab-activeColor: "#1976d2"
+  checkbox-checkedBg: "#1976d2"
+  toggle-trackBgOn: "#1976d2"
+}
+
+// ---------------------------------------------------------------------------
+// 3. shadcn — Minimal black/white, sharp corners
+// ---------------------------------------------------------------------------
+@theme shadcn {
+  palette.primary: zinc
+  palette.neutral: zinc
+  semantic.interactive: "#18181b"
+  semantic.interactive-hover: "#27272a"
+  semantic.interactive-active: "#09090b"
+  semantic.focus-ring: "#a1a1aa"
+  semantic.surface: "#fafafa"
+  semantic.surface-raised: "#ffffff"
+  semantic.surface-hover: "#f4f4f5"
+  semantic.border: "#e4e4e7"
+  semantic.border-strong: "#a1a1aa"
+  semantic.text-primary: "#09090b"
+  semantic.text-secondary: "#71717a"
+
+  borders.default: "1px solid #e4e4e7"
+  borders.strong: "1px solid #a1a1aa"
+
+  radius.sm: "6px"
+  radius.md: "6px"
+  radius.lg: "8px"
+
+  elevation.raised: "0 1px 2px rgba(0,0,0,0.05)"
+  elevation.layered: "0 1px 3px rgba(0,0,0,0.08)"
+  elevation.floating: "0 4px 12px rgba(0,0,0,0.08)"
+
+  btn-radius: "6px"
+  btn-primary-bg: "#18181b"
+  btn-primary-color: "#fafafa"
+  btn-primary-hover: "#27272a"
+  btn-secondary-bg: "#ffffff"
+  btn-secondary-color: "#18181b"
+  btn-secondary-border: "#e4e4e7"
+  btn-secondary-hover: "#f4f4f5"
+  btn-ghost-color: "#71717a"
+  btn-ghost-hover: "#f4f4f5"
+  btn-destructive-bg: "#ef4444"
+  btn-destructive-hover: "#dc2626"
+  input-radius: "6px"
+  input-bg: "#f4f4f5"
+  input-border: "#e4e4e7"
+  input-focusBorder: "#18181b"
+  input-focusRing: "none"
+  select-radius: "6px"
+  select-bg: "#f4f4f5"
+  select-border: "#e4e4e7"
+  toggle-radius: "6px"
+  toggle-trackBgOn: "#18181b"
+  modal-radius: "8px"
+  modal-shadow: "0 4px 16px rgba(0,0,0,0.1)"
+  checkbox-radius: "4px"
+  checkbox-checkedBg: "#18181b"
+  tab-activeColor: "#18181b"
+  tab-borderColor: "#e4e4e7"
+  badge-radius: "6px"
+}
+
+// ---------------------------------------------------------------------------
+// 4. Cartoon — Warm, playful, thick borders, very rounded
+// ---------------------------------------------------------------------------
+@theme cartoon {
+  palette.primary: emerald
+  semantic.interactive: "#2d6a4f"
+  semantic.interactive-hover: "#1b4332"
+  semantic.interactive-active: "#081c15"
+  semantic.focus-ring: "#95d5b2"
+  semantic.surface: "#fdf6ec"
+  semantic.surface-raised: "#fffdf7"
+  semantic.surface-hover: "#f5ead4"
+  semantic.background: "#fefcf6"
+  semantic.border: "#d4a574"
+  semantic.border-strong: "#b07d50"
+  semantic.text-primary: "#2d1b0e"
+  semantic.text-secondary: "#5c3d1f"
+
+  borders.default: "2px solid #d4a574"
+  borders.strong: "2px solid #b07d50"
+
+  font.body: "'Nunito', 'Comic Sans MS', cursive, sans-serif"
+  font.heading: "'Nunito', 'Comic Sans MS', cursive, sans-serif"
+
+  spacing.1: "5px"
+  spacing.2: "10px"
+  spacing.3: "15px"
+  spacing.4: "20px"
+  spacing.5: "25px"
+  spacing.6: "30px"
+  spacing.8: "40px"
+  spacing.10: "50px"
+
+  radius.sm: "14px"
+  radius.md: "18px"
+  radius.lg: "24px"
+
+  elevation.raised: "4px 4px 0 rgba(45,27,14,0.15)"
+  elevation.layered: "6px 6px 0 rgba(45,27,14,0.12)"
+  elevation.floating: "8px 8px 0 rgba(45,27,14,0.1)"
+
+  btn-radius: "20px"
+  btn-borderWidth: "2px"
+  btn-fontWeight: "700"
+  btn-primary-bg: "#2d6a4f"
+  btn-primary-color: "#fffdf7"
+  btn-primary-hover: "#1b4332"
+  btn-secondary-bg: "#fffdf7"
+  btn-secondary-color: "#2d6a4f"
+  btn-secondary-border: "#2d6a4f"
+  btn-secondary-hover: "#f5ead4"
+  btn-ghost-color: "#5c3d1f"
+  btn-ghost-hover: "#f5ead4"
+  btn-destructive-bg: "#e76f51"
+  btn-destructive-color: "#fffdf7"
+  btn-destructive-hover: "#c1553e"
+  input-radius: "14px"
+  input-borderWidth: "2px"
+  input-border: "#d4a574"
+  input-focusBorder: "#2d6a4f"
+  input-focusRing: "rgba(45,106,79,.15)"
+  select-radius: "14px"
+  select-border: "#d4a574"
+  toggle-radius: "999px"
+  toggle-trackBgOn: "#2d6a4f"
+  modal-radius: "24px"
+  modal-shadow: "8px 8px 0 rgba(45,27,14,0.1)"
+  checkbox-radius: "8px"
+  checkbox-checkedBg: "#2d6a4f"
+  checkbox-border: "#d4a574"
+  tab-activeColor: "#2d6a4f"
+  tab-borderColor: "#d4a574"
+  badge-radius: "20px"
+  borderWidth-default: "2px"
+}
+
+// ---------------------------------------------------------------------------
+// 5. Illustration — Clean green accent, pill buttons
+// ---------------------------------------------------------------------------
+@theme illustration {
+  palette.primary: green
+  semantic.interactive: "#52c41a"
+  semantic.interactive-hover: "#389e0d"
+  semantic.interactive-active: "#237804"
+  semantic.focus-ring: "#b7eb8f"
+  semantic.surface: "#fff9f0"
+  semantic.surface-raised: "#ffffff"
+  semantic.surface-hover: "#fff0e6"
+  semantic.background: "#fff9f0"
+  semantic.border: "#2c2c2c"
+  semantic.border-strong: "#2c2c2c"
+  semantic.text-primary: "#2c2c2c"
+  semantic.text-secondary: "#595959"
+
+  borders.default: "3px solid #2c2c2c"
+  borders.strong: "3px solid #2c2c2c"
+
+  radius.sm: "8px"
+  radius.md: "12px"
+  radius.lg: "16px"
+
+  elevation.raised: "4px 4px 0 #2c2c2c"
+  elevation.layered: "4px 4px 0 #2c2c2c"
+  elevation.floating: "4px 4px 0 #2c2c2c"
+  elevation.overlay: "4px 4px 0 #2c2c2c"
+
+  btn-radius: "12px"
+  btn-borderWidth: "3px"
+  btn-fontWeight: "600"
+  btn-textTransform: "uppercase"
+  btn-letterSpacing: "0.5px"
+  btn-primary-bg: "#52c41a"
+  btn-primary-color: "#ffffff"
+  btn-primary-hover: "#389e0d"
+  btn-secondary-bg: "#ffffff"
+  btn-secondary-color: "#2c2c2c"
+  btn-secondary-border: "#2c2c2c"
+  btn-secondary-hover: "#fff0e6"
+  btn-ghost-color: "#2c2c2c"
+  btn-ghost-hover: "#fff0e6"
+  btn-destructive-bg: "#fa5252"
+  btn-destructive-color: "#ffffff"
+  btn-destructive-hover: "#e03131"
+  btn-shadow: "4px 4px 0 #2c2c2c"
+  input-borderWidth: "3px"
+  input-border: "#2c2c2c"
+  input-radius: "12px"
+  input-focusBorder: "#52c41a"
+  input-focusRing: "none"
+  input-shadow: "4px 4px 0 #2c2c2c"
+  select-border: "#2c2c2c"
+  select-radius: "12px"
+  toggle-trackBgOn: "#52c41a"
+  toggle-radius: "12px"
+  checkbox-checkedBg: "#52c41a"
+  checkbox-border: "#2c2c2c"
+  checkbox-radius: "4px"
+  tab-activeColor: "#52c41a"
+  tab-borderColor: "#2c2c2c"
+  badge-radius: "12px"
+  borderWidth-default: "3px"
+  modal-radius: "16px"
+  modal-shadow: "4px 4px 0 #2c2c2c"
+  progress-trackBg: "#e8e8e8"
+  progress-fillBg: "#52c41a"
+}
+
+// ---------------------------------------------------------------------------
+// 6. Bootstrap — Classic Bootstrap feel
+// ---------------------------------------------------------------------------
+@theme bootstrap {
+  palette.primary: blue
+  semantic.interactive: "#0d6efd"
+  semantic.interactive-hover: "#0b5ed7"
+  semantic.interactive-active: "#0a58ca"
+  semantic.focus-ring: "#b6d4fe"
+  semantic.destructive: "#dc3545"
+  semantic.destructive-hover: "#b02a37"
+  semantic.success: "#198754"
+  semantic.warning: "#ffc107"
+
+  borders.default: "1px solid #dee2e6"
+  borders.strong: "1px solid #adb5bd"
+
+  radius.sm: "4px"
+  radius.md: "6px"
+  radius.lg: "8px"
+
+  btn-radius: "6px"
+  btn-fontWeight: "400"
+  btn-primary-bg: "#0d6efd"
+  btn-primary-color: "#fff"
+  btn-primary-hover: "#0b5ed7"
+  btn-secondary-bg: "#6c757d"
+  btn-secondary-color: "#fff"
+  btn-secondary-border: "#6c757d"
+  btn-secondary-hover: "#5c636a"
+  btn-ghost-color: "#0d6efd"
+  btn-ghost-hover: "rgba(13,110,253,.1)"
+  btn-destructive-bg: "#dc3545"
+  btn-destructive-color: "#fff"
+  btn-destructive-hover: "#b02a37"
+  input-radius: "6px"
+  input-focusBorder: "#86b7fe"
+  input-focusRing: "rgba(13,110,253,.25)"
+  select-radius: "6px"
+  toggle-trackBgOn: "#0d6efd"
+  modal-radius: "8px"
+  checkbox-checkedBg: "#0d6efd"
+  tab-activeColor: "#0d6efd"
+}
+
+// ---------------------------------------------------------------------------
+// 7. Glass — Frosted glass on purple gradient
+// ---------------------------------------------------------------------------
+@theme glass {
+  palette.primary: violet
+  semantic.surface: "rgba(255,255,255,0.15)"
+  semantic.surface-raised: "rgba(255,255,255,0.2)"
+  semantic.surface-hover: "rgba(255,255,255,0.25)"
+  semantic.background: "rgba(255,255,255,0.1)"
+  semantic.border: "rgba(255,255,255,0.25)"
+  semantic.border-strong: "rgba(255,255,255,0.4)"
+  semantic.text-primary: "#ffffff"
+  semantic.text-secondary: "rgba(255,255,255,0.8)"
+  semantic.text-tertiary: "rgba(255,255,255,0.6)"
+  semantic.text-muted: "rgba(255,255,255,0.7)"
+  semantic.text-disabled: "rgba(255,255,255,0.3)"
+  semantic.interactive: "#a78bfa"
+  semantic.interactive-hover: "#8b5cf6"
+  semantic.interactive-active: "#7c3aed"
+  semantic.focus-ring: "rgba(167,139,250,0.5)"
+
+  borders.default: "1px solid rgba(255,255,255,0.2)"
+  borders.strong: "1px solid rgba(255,255,255,0.35)"
+
+  surface.backgroundImage: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  surface.backdropFilter: "blur(20px) saturate(180%)"
+  surface.panelBackdropFilter: "blur(12px)"
+
+  radius.sm: "12px"
+  radius.md: "16px"
+  radius.lg: "20px"
+
+  elevation.raised: "0 4px 16px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1)"
+  elevation.layered: "0 8px 32px rgba(0,0,0,0.2)"
+  elevation.floating: "0 16px 48px rgba(0,0,0,0.25)"
+
+  btn-radius: "12px"
+  btn-primary-bg: "rgba(167,139,250,0.8)"
+  btn-primary-color: "#ffffff"
+  btn-primary-hover: "rgba(139,92,246,0.9)"
+  btn-secondary-bg: "rgba(255,255,255,0.15)"
+  btn-secondary-color: "#ffffff"
+  btn-secondary-border: "rgba(255,255,255,0.25)"
+  btn-secondary-hover: "rgba(255,255,255,0.25)"
+  btn-ghost-color: "rgba(255,255,255,0.8)"
+  btn-ghost-hover: "rgba(255,255,255,0.15)"
+  btn-destructive-bg: "rgba(251,113,133,0.8)"
+  btn-destructive-color: "#ffffff"
+  btn-destructive-hover: "rgba(244,63,94,0.9)"
+  input-bg: "rgba(255,255,255,0.1)"
+  input-border: "rgba(255,255,255,0.25)"
+  input-color: "#ffffff"
+  input-focusBorder: "#a78bfa"
+  input-focusRing: "rgba(167,139,250,.2)"
+  input-radius: "12px"
+  select-bg: "rgba(255,255,255,0.15)"
+  select-border: "rgba(255,255,255,0.25)"
+  select-radius: "12px"
+  select-optionHover: "rgba(255,255,255,0.2)"
+  select-optionSelected: "rgba(167,139,250,0.3)"
+  toggle-trackBg: "rgba(255,255,255,0.2)"
+  toggle-trackBgOn: "#a78bfa"
+  toggle-thumbBg: "#ffffff"
+  modal-backdropBg: "rgba(0,0,0,.4)"
+  modal-backdropFilter: "blur(8px)"
+  modal-bg: "rgba(255,255,255,0.15)"
+  modal-radius: "20px"
+  modal-shadow: "0 20px 60px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,0.1)"
+  checkbox-border: "rgba(255,255,255,0.3)"
+  checkbox-checkedBg: "#a78bfa"
+  tab-activeColor: "#a78bfa"
+  tab-borderColor: "rgba(255,255,255,0.2)"
+  tab-hoverBg: "rgba(255,255,255,0.1)"
+  badge-radius: "12px"
+}
+
+// ---------------------------------------------------------------------------
+// 8. Geek — Terminal/hacker matrix green on black
+// ---------------------------------------------------------------------------
+@theme geek {
+  palette.primary: green
+  semantic.surface: "#0a0a0a"
+  semantic.surface-raised: "#111111"
+  semantic.surface-hover: "#1a1a1a"
+  semantic.background: "#000000"
+  semantic.border: "#00ff41"
+  semantic.border-strong: "#00ff41"
+  semantic.text-primary: "#00ff41"
+  semantic.text-secondary: "#00cc33"
+  semantic.text-tertiary: "#009926"
+  semantic.text-muted: "#00b33c"
+  semantic.text-disabled: "#004d1a"
+  semantic.interactive: "#00ff41"
+  semantic.interactive-hover: "#33ff6b"
+  semantic.interactive-active: "#00cc33"
+  semantic.focus-ring: "#00ff4140"
+
+  font.body: "'Fira Code', 'Consolas', 'Monaco', monospace"
+  font.heading: "'Fira Code', 'Consolas', 'Monaco', monospace"
+  font.mono: "'Fira Code', 'Consolas', 'Monaco', monospace"
+
+  borders.default: "1px solid #00ff41"
+  borders.strong: "1px solid #33ff6b"
+
+  radius.sm: "2px"
+  radius.md: "4px"
+  radius.lg: "6px"
+
+  elevation.raised: "0 0 10px rgba(0,255,65,0.3), 0 0 0 1px rgba(0,255,65,0.4)"
+  elevation.layered: "0 0 20px rgba(0,255,65,0.25), 0 0 0 1px rgba(0,255,65,0.4)"
+  elevation.floating: "0 0 40px rgba(0,255,65,0.3), 0 0 0 1px rgba(0,255,65,0.4)"
+
+  btn-radius: "2px"
+  btn-primary-bg: "#00ff41"
+  btn-primary-color: "#000000"
+  btn-primary-hover: "#33ff6b"
+  btn-secondary-bg: "#0a0a0a"
+  btn-secondary-color: "#00ff41"
+  btn-secondary-border: "#00ff41"
+  btn-secondary-hover: "#111111"
+  btn-ghost-color: "#00ff41"
+  btn-ghost-hover: "#111111"
+  btn-destructive-bg: "#ff0040"
+  btn-destructive-color: "#000000"
+  btn-destructive-hover: "#cc0033"
+  btn-fontWeight: "400"
+  btn-textTransform: "uppercase"
+  btn-letterSpacing: "0.1em"
+  input-bg: "#0a0a0a"
+  input-border: "#00ff41"
+  input-color: "#00ff41"
+  input-radius: "2px"
+  input-focusBorder: "#33ff6b"
+  input-focusRing: "rgba(0,255,65,.2)"
+  select-bg: "#0a0a0a"
+  select-border: "#00ff41"
+  select-radius: "2px"
+  select-optionHover: "#111111"
+  select-optionSelected: "#003311"
+  toggle-trackBg: "#1a1a1a"
+  toggle-trackBgOn: "#00ff41"
+  toggle-thumbBg: "#000000"
+  toggle-radius: "2px"
+  modal-backdropBg: "rgba(0,0,0,.8)"
+  modal-bg: "#0a0a0a"
+  modal-radius: "4px"
+  modal-shadow: "0 0 30px rgba(0,255,65,0.3), 0 0 0 1px #00ff41"
+  btn-shadow: "0 0 8px rgba(0,255,65,0.3), inset 0 0 4px rgba(0,255,65,0.1)"
+  input-shadow: "0 0 8px rgba(0,255,65,0.25), inset 0 0 4px rgba(0,255,65,0.05)"
+  checkbox-border: "#00ff41"
+  checkbox-checkedBg: "#00ff41"
+  checkbox-radius: "2px"
+  tab-activeColor: "#00ff41"
+  tab-borderColor: "#00ff41"
+  tab-hoverBg: "#111111"
+  badge-radius: "2px"
+  badge-fontSize: "11px"
+  progress-trackBg: "#1a1a1a"
+  progress-fillBg: "#00ff41"
 }

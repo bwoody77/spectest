@@ -2,7 +2,8 @@
  * dev.mjs — Start mock API server + spec dev/prod/bytecode server.
  *
  * Usage:
- *   pnpm dev          — dev server with hot reload (default)
+ *   pnpm dev          — dev server with hot reload (IR pipeline, default)
+ *   pnpm dev --oldjs  — dev server with legacy js-generator codegen
  *   pnpm dev --prod   — production standalone JS bundle
  *   pnpm dev --byte   — production bytecode (.specbc) bundle
  *
@@ -16,13 +17,14 @@ import { readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { createRequire } from 'node:module';
 
-const API_PORT = 4000;
-const CLIENT_PORT = 3000;
-
 // --- Parse CLI args ---
 const args = process.argv.slice(2);
+
+const API_PORT = parseInt(args.find(a => a.startsWith('--api-port='))?.split('=')[1] ?? '4000');
+const CLIENT_PORT = parseInt(args.find(a => a.startsWith('--port='))?.split('=')[1] ?? '3000');
 const MODE = args.includes('--byte') ? 'byte'
            : args.includes('--prod') ? 'prod'
+           : args.includes('--oldjs') ? 'oldjs'
            : 'dev';
 
 function killPort(port) {
@@ -93,9 +95,12 @@ try {
 // ---------------------------------------------------------------------------
 // Mode: dev (default) — hot-reload dev server
 // ---------------------------------------------------------------------------
-if (MODE === 'dev') {
-  console.log('Starting spec dev server...');
-  const client = spawn('npx', ['spec', 'dev'], { stdio: 'inherit', shell: true });
+if (MODE === 'dev' || MODE === 'oldjs') {
+  const isLegacy = MODE === 'oldjs';
+  const devArgs = isLegacy ? ['spec', 'dev', '--legacy'] : ['spec', 'dev'];
+  const modeLabel = isLegacy ? 'development (legacy js-generator)' : 'development (IR pipeline)';
+  console.log(`Starting spec dev server (${isLegacy ? 'legacy' : 'IR pipeline'})...`);
+  const client = spawn('npx', devArgs, { stdio: 'inherit', shell: true });
   client.on('error', (err) => { console.error('Dev server failed:', err.message); process.exit(1); });
 
   try {
@@ -109,7 +114,7 @@ if (MODE === 'dev') {
   }
 
   console.log('\n=========================================');
-  console.log(`  Mode:        development (hot reload)`);
+  console.log(`  Mode:        ${modeLabel} (hot reload)`);
   console.log(`  API server:  http://localhost:${API_PORT}`);
   console.log(`  Dev server:  http://localhost:${CLIENT_PORT}`);
   console.log('=========================================');
@@ -156,16 +161,31 @@ else {
   // For prod mode, the standalone bundle.js is self-contained (no import map needed).
   // For byte mode, we need the VM to load and execute the .specbc file.
 
-  // Resolve @spec/vm dist path for bytecode mode
+  // Resolve package dist paths for bytecode mode
   let vmDir = '';
+  let componentsDir = '';
+  let runtimeDir = '';
   if (isBytecode) {
     try {
       const require = createRequire(import.meta.url);
       const vmMain = require.resolve('@spec/vm');
       vmDir = dirname(vmMain);
     } catch {
-      // Fallback: relative to the spec monorepo
       vmDir = join(process.cwd(), '..', 'spec', 'packages', 'vm', 'dist');
+    }
+    try {
+      const require = createRequire(import.meta.url);
+      const compMain = require.resolve('@spec/components');
+      componentsDir = dirname(compMain);
+    } catch {
+      componentsDir = join(process.cwd(), '..', 'spec', 'packages', 'components', 'dist');
+    }
+    try {
+      const require = createRequire(import.meta.url);
+      const rtMain = require.resolve('@spec/runtime');
+      runtimeDir = dirname(rtMain);
+    } catch {
+      runtimeDir = join(process.cwd(), '..', 'spec', 'packages', 'runtime', 'dist');
     }
   }
 
@@ -215,7 +235,11 @@ else {
 <div id="app"></div>
 <script type="module">
   import { loadAndMount } from '/@spec/vm/index.js';
-  await loadAndMount('/bundle.specbc', document.getElementById('app'));
+  import { componentRegistry } from '/@spec/components/index.js';
+  await loadAndMount('/bundle.specbc', document.getElementById('app'), {
+    components: componentRegistry,
+    surfaceName: 'App',
+  });
 </script>
 </body>
 </html>`;
@@ -227,9 +251,43 @@ else {
     // Serve VM files (bytecode mode)
     if (isBytecode && url.startsWith('/@spec/vm/')) {
       const filename = url.slice('/@spec/vm/'.length);
-      if (/^[a-z-]+\.js$/.test(filename)) {
+      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
         try {
           const content = await readFile(join(vmDir, filename), 'utf8');
+          res.writeHead(200, { 'Content-Type': 'application/javascript' });
+          res.end(content);
+        } catch {
+          res.writeHead(404);
+          res.end('Not found');
+        }
+        return;
+      }
+    }
+
+    // Serve component files (bytecode mode)
+    if (isBytecode && url.startsWith('/@spec/components/')) {
+      const filename = url.slice('/@spec/components/'.length);
+      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
+        try {
+          let content = await readFile(join(componentsDir, filename), 'utf8');
+          // Rewrite bare @spec/runtime imports to served path
+          content = content.replace(/from\s+['"]@spec\/runtime['"]/g, "from '/@spec/runtime/index.js'");
+          res.writeHead(200, { 'Content-Type': 'application/javascript' });
+          res.end(content);
+        } catch {
+          res.writeHead(404);
+          res.end('Not found');
+        }
+        return;
+      }
+    }
+
+    // Serve runtime files (bytecode mode)
+    if (isBytecode && url.startsWith('/@spec/runtime/')) {
+      const filename = url.slice('/@spec/runtime/'.length);
+      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
+        try {
+          const content = await readFile(join(runtimeDir, filename), 'utf8');
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
           res.end(content);
         } catch {

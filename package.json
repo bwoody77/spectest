@@ -5,6 +5,7 @@
   "scripts": {
     "api": "node server.mjs",
     "dev": "node dev.mjs",
+    "dev:oldjs": "node dev.mjs --oldjs",
     "dev:prod": "node dev.mjs --prod",
     "dev:byte": "node dev.mjs --byte",
     "build": "spec compile",

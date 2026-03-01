@@ -42,6 +42,7 @@
 @import { DataGridDemo } from "./surfaces/data-grid-demo.spec"
 @import { EditableGridDemo } from "./surfaces/editable-grid-demo.spec"
 @import { TreeDemo } from "./surfaces/tree-demo.spec"
+@import { ThemePreview } from "./surfaces/theme-preview.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
 
@@ -133,6 +134,7 @@ surface App {
     showTree: view == "categories"
     showPerfGrid: view == "perfgrid"
     showPerfSignals: view == "perfsignals"
+    showThemePreview: view == "themepreview"
 
     viewTitle: match view {
       "dashboard" -> "Dashboard",
@@ -149,6 +151,7 @@ surface App {
       "categories" -> "Categories",
       "perfgrid" -> "Grid Performance",
       "perfsignals" -> "Signal Performance",
+      "themepreview" -> "Theme Preview",
       _ -> "Admin"
     }
 
@@ -168,6 +171,7 @@ surface App {
       "categories" -> "Data",
       "perfgrid" -> "Performance",
       "perfsignals" -> "Performance",
+      "themepreview" -> "Design",
       _ -> "Overview"
     }
 
@@ -176,7 +180,7 @@ surface App {
     statsInProgress: stats != null ? stats.inProgress : 0
     statsTodo: stats != null ? stats.todo : 0
 
-    appColorScheme: themePreset == "dark" || themePreset == "midnight" ? "dark" : "light"
+    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" ? "dark" : "light"
     fullHeight: "100vh"
     headerPad: "10px 20px"
     breadcrumbPad: "8px 20px"
@@ -242,12 +246,14 @@ surface App {
       Select(
         options: [
           {value: "default", label: "Default"},
-          {value: "midnight", label: "Midnight"},
-          {value: "ember", label: "Ember"},
-          {value: "forest", label: "Forest"},
-          {value: "mono", label: "Mono"},
-          {value: "luxe", label: "Luxe"},
-          {value: "dark", label: "Dark"}
+          {value: "dark", label: "Dark"},
+          {value: "mui", label: "MUI"},
+          {value: "shadcn", label: "shadcn"},
+          {value: "cartoon", label: "Cartoon"},
+          {value: "illustration", label: "Illustration"},
+          {value: "bootstrap", label: "Bootstrap"},
+          {value: "glass", label: "Glass"},
+          {value: "geek", label: "Geek"}
         ],
         value: themePreset,
         label: "Theme"
@@ -323,6 +329,9 @@ surface App {
           {id: "perfgrid", label: "Grid 10K", icon: "zap"},
           {id: "perfsignals", label: "Signal Test", icon: "activity"}
         ]},
+        {heading: "Design", items: [
+          {id: "themepreview", label: "Theme Preview", icon: "palette"}
+        ]},
         {heading: "System", items: [
           {id: "settings", label: "Settings", icon: "settings"}
         ]}
@@ -350,7 +359,7 @@ surface App {
         visibility: showDashboard
         layout: vertical, gap: spacing.5
         StatsBar(statsTotal, statsDone, statsInProgress, statsTodo, themePreset)
-        TaskTable(themePreset, selectedTask, view)
+        TaskTable(selectedTask, view)
       }
 
       // Detail view
@@ -358,7 +367,7 @@ surface App {
         role: "region"
         aria-label: "Task detail"
         visibility: showDetail
-        TaskDetail(themePreset, selectedTask, view)
+        TaskDetail(selectedTask, view)
       }
 
       // Create view
@@ -442,21 +451,29 @@ surface App {
         TreeDemo(themePreset)
       }
 
-      // Performance: Grid 10K
-      // block {
-      //   role: "region"
-      //   aria-label: "Grid performance"
-      //   visibility: showPerfGrid
-      //   PerfGrid()
-      // }
+      // Theme Preview
+      block {
+        role: "region"
+        aria-label: "Theme preview"
+        visibility: showThemePreview
+        ThemePreview()
+      }
 
-      // // Performance: Signal throughput
-      // block {
-      //   role: "region"
-      //   aria-label: "Signal performance"
-      //   visibility: showPerfSignals
-      //   PerfSignals()
-      // }
+      // Performance: Grid 10K
+      block {
+        role: "region"
+        aria-label: "Grid performance"
+        visibility: showPerfGrid
+        PerfGrid()
+      }
+
+      // Performance: Signal throughput
+      block {
+        role: "region"
+        aria-label: "Signal performance"
+        visibility: showPerfSignals
+        PerfSignals()
+      }
     }
   }
 
@@ -474,6 +491,7 @@ surface App {
       {id: "datagrid", label: "Product Catalog", group: "Data", icon: "layout"},
       {id: "editgrid", label: "Editable Grid", group: "Data", icon: "edit"},
       {id: "categories", label: "Categories", group: "Data", icon: "list"},
+      {id: "themepreview", label: "Theme Preview", group: "Design", icon: "palette"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
       {id: "settings", label: "Settings", group: "System", icon: "settings"}
