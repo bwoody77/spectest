@@ -92,9 +92,9 @@ fi
 
 echo ""
 echo "=== Restarting PM2 application ==="
-pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
-pm2 start "node --env-file=.env server.mjs" --name "$PM2_APP_NAME" --cwd "$REMOTE_DIR" --interpreter none
-pm2 save
+sudo pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
+sudo pm2 start "node --env-file=.env server.mjs" --name "$PM2_APP_NAME" --cwd "$REMOTE_DIR" --interpreter none
+sudo pm2 save
 
 echo ""
 echo "=== Reloading nginx ==="
