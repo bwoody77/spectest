@@ -247,10 +247,30 @@ surface ThemePreview() {
       layout: vertical, gap: spacing.3
 
       text("Alerts") { style: type.heading-sm, color: semantic.text-primary }
-      Alert(severity: "success", message: "Operation completed successfully.", title: "Success")
-      Alert(severity: "error", message: "Something went wrong. Please try again.", title: "Error")
-      Alert(severity: "warning", message: "This action cannot be undone.", title: "Warning")
-      Alert(severity: "info", message: "New features are available.", title: "Info")
+
+      block {
+        layout: horizontal, gap: spacing.4
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          Alert(severity: "success", message: "Operation completed.", title: "Success")
+          Alert(severity: "error", message: "Something went wrong.", title: "Error")
+          Alert(severity: "warning", message: "Cannot be undone.", title: "Warning")
+          Alert(severity: "info", message: "New features available.", title: "Info")
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          Alert2(severity: "success", message: "Operation completed.", title: "Success")
+          Alert2(severity: "error", message: "Something went wrong.", title: "Error")
+          Alert2(severity: "warning", message: "Cannot be undone.", title: "Warning")
+          Alert2(severity: "info", message: "New features available.", title: "Info")
+        }
+      }
     }
   }
 }
