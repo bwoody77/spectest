@@ -14,8 +14,7 @@ import { spawn, execSync } from 'node:child_process';
 import { createConnection } from 'node:net';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { createRequire } from 'node:module';
+import { join } from 'node:path';
 
 // --- Parse CLI args ---
 const args = process.argv.slice(2);
@@ -158,36 +157,7 @@ else {
   // --- Resolve paths for the static server ---
   const distDir = join(process.cwd(), 'dist');
 
-  // For prod mode, the standalone bundle.js is self-contained (no import map needed).
-  // For byte mode, we need the VM to load and execute the .specbc file.
-
-  // Resolve package dist paths for bytecode mode
-  let vmDir = '';
-  let componentsDir = '';
-  let runtimeDir = '';
-  if (isBytecode) {
-    try {
-      const require = createRequire(import.meta.url);
-      const vmMain = require.resolve('@spec/vm');
-      vmDir = dirname(vmMain);
-    } catch {
-      vmDir = join(process.cwd(), '..', 'spec', 'packages', 'vm', 'dist');
-    }
-    try {
-      const require = createRequire(import.meta.url);
-      const compMain = require.resolve('@spec/components');
-      componentsDir = dirname(compMain);
-    } catch {
-      componentsDir = join(process.cwd(), '..', 'spec', 'packages', 'components', 'dist');
-    }
-    try {
-      const require = createRequire(import.meta.url);
-      const rtMain = require.resolve('@spec/runtime');
-      runtimeDir = dirname(rtMain);
-    } catch {
-      runtimeDir = join(process.cwd(), '..', 'spec', 'packages', 'runtime', 'dist');
-    }
-  }
+  // Both prod and byte modes produce a self-contained bundle.js (no import map needed).
 
   // --- Build HTML shells ---
   const PROD_HTML = `<!DOCTYPE html>
@@ -234,10 +204,9 @@ else {
 <body>
 <div id="app"></div>
 <script type="module">
-  import { loadAndMount } from '/@spec/vm/index.js';
-  import { componentRegistry } from '/@spec/components/index.js';
+  import { loadAndMount, components } from '/bundle.js';
   await loadAndMount('/bundle.specbc', document.getElementById('app'), {
-    components: componentRegistry,
+    components,
     surfaceName: 'App',
   });
 </script>
@@ -248,58 +217,8 @@ else {
   const server = createServer(async (req, res) => {
     const url = req.url ?? '/';
 
-    // Serve VM files (bytecode mode)
-    if (isBytecode && url.startsWith('/@spec/vm/')) {
-      const filename = url.slice('/@spec/vm/'.length);
-      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
-        try {
-          const content = await readFile(join(vmDir, filename), 'utf8');
-          res.writeHead(200, { 'Content-Type': 'application/javascript' });
-          res.end(content);
-        } catch {
-          res.writeHead(404);
-          res.end('Not found');
-        }
-        return;
-      }
-    }
-
-    // Serve component files (bytecode mode)
-    if (isBytecode && url.startsWith('/@spec/components/')) {
-      const filename = url.slice('/@spec/components/'.length);
-      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
-        try {
-          let content = await readFile(join(componentsDir, filename), 'utf8');
-          // Rewrite bare @spec/runtime imports to served path
-          content = content.replace(/from\s+['"]@spec\/runtime['"]/g, "from '/@spec/runtime/index.js'");
-          res.writeHead(200, { 'Content-Type': 'application/javascript' });
-          res.end(content);
-        } catch {
-          res.writeHead(404);
-          res.end('Not found');
-        }
-        return;
-      }
-    }
-
-    // Serve runtime files (bytecode mode)
-    if (isBytecode && url.startsWith('/@spec/runtime/')) {
-      const filename = url.slice('/@spec/runtime/'.length);
-      if (/^[a-z0-9._-]+\.js$/.test(filename)) {
-        try {
-          const content = await readFile(join(runtimeDir, filename), 'utf8');
-          res.writeHead(200, { 'Content-Type': 'application/javascript' });
-          res.end(content);
-        } catch {
-          res.writeHead(404);
-          res.end('Not found');
-        }
-        return;
-      }
-    }
-
-    // Serve the compiled bundle
-    if (url === '/bundle.js' && !isBytecode) {
+    // Serve the compiled JS bundle (both prod and bytecode modes)
+    if (url === '/bundle.js') {
       try {
         const content = await readFile(join(distDir, 'bundle.js'), 'utf8');
         res.writeHead(200, { 'Content-Type': 'application/javascript' });

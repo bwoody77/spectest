@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec Tutorial — Build a Task Tracker</title>
+  <style>
+    :root {
+      --bg: #08080f;
+      --surface: #0f0f1a;
+      --surface-2: #14142a;
+      --border: rgba(255,255,255,0.08);
+      --border-active: rgba(108,99,255,0.5);
+      --accent: #6c63ff;
+      --accent-2: #00d4aa;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --code-bg: #0d0d1a;
+      --error-bg: #2a0a0a;
+      --error-text: #ff6b6b;
+      --step-done: rgba(0,212,170,0.15);
+      font-size: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 1.5rem;
+      background: rgba(8,8,15,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 48px;
+      flex-shrink: 0;
+    }
+    .nav-logo {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 1rem; font-weight: 700;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.8rem; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── MAIN LAYOUT ── */
+    .app {
+      display: flex; flex-direction: column;
+      height: calc(100vh - 48px);
+    }
+    .workspace {
+      display: flex; flex: 1; min-height: 0;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      width: 320px; min-width: 280px;
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden;
+    }
+    .step-list {
+      padding: 0.75rem;
+      overflow-y: auto;
+      flex-shrink: 0;
+      max-height: 260px;
+      border-bottom: 1px solid var(--border);
+    }
+    .step-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+    .step-pill:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .step-pill.active {
+      background: rgba(108,99,255,0.12);
+      border-color: var(--border-active);
+      color: var(--text);
+    }
+    .step-pill.completed .step-num {
+      background: var(--accent-2);
+      color: var(--bg);
+    }
+    .step-num {
+      width: 22px; height: 22px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-size: 0.7rem; font-weight: 700;
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .step-pill.active .step-num {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ── PROSE ── */
+    .prose-panel {
+      flex: 1; overflow-y: auto;
+      padding: 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+    .prose-panel h3 {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .prose-panel p { margin-bottom: 0.75rem; }
+    .prose-panel code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.82em;
+      background: rgba(108,99,255,0.12);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: var(--accent);
+    }
+    .prose-panel strong { color: var(--text); }
+    .concept-tag {
+      display: inline-block;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      background: rgba(0,212,170,0.1);
+      border: 1px solid rgba(0,212,170,0.2);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      flex: 1; display: flex; flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ── EDITOR ── */
+    .editor-container {
+      flex: 1; min-height: 200px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .editor-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.4rem 0.75rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .editor-filename {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .editor-wrap {
+      flex: 1; overflow: hidden;
+      position: relative;
+    }
+    .editor-wrap textarea {
+      width: 100%; height: 100%; resize: none;
+      background: var(--code-bg); color: var(--text);
+      border: none; outline: none;
+      padding: 0.75rem;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13.5px; line-height: 1.6; tab-size: 2;
+    }
+
+    /* ── ERROR BAR ── */
+    .error-bar {
+      display: none;
+      padding: 0.5rem 0.75rem;
+      background: var(--error-bg);
+      border-bottom: 1px solid rgba(255,80,80,0.2);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: var(--error-text);
+      max-height: 80px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .error-bar.visible { display: block; }
+
+    /* ── PREVIEW ── */
+    .preview-container {
+      flex: 1; min-height: 180px;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview-header {
+      display: flex; align-items: center;
+      padding: 0.4rem 0.75rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .preview-label {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .preview-iframe {
+      flex: 1;
+      border: none;
+      background: #f8fafc;
+      width: 100%;
+    }
+
+    /* ── BOTTOM BAR ── */
+    .bottom-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .bottom-bar-left, .bottom-bar-right {
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .bottom-bar-center {
+      font-size: 0.78rem; color: var(--muted);
+    }
+    .btn {
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 1024px) {
+      .workspace { flex-direction: column; }
+      .left-panel {
+        width: 100%; min-width: 0;
+        max-height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .step-list {
+        display: flex; gap: 0.25rem;
+        overflow-x: auto;
+        max-height: none;
+        flex-wrap: nowrap;
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .step-pill { white-space: nowrap; flex-shrink: 0; }
+      .prose-panel { max-height: 150px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <a class="nav-logo" href="../"><span>//</span> spec</a>
+  <div class="nav-links">
+    <a href="../#why">Why Spec</a>
+    <a href="../showcase/">Showcase</a>
+    <a href="./" class="active">Tutorial</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="workspace">
+    <!-- LEFT PANEL: steps + prose -->
+    <div class="left-panel">
+      <div class="step-list" id="stepList"></div>
+      <div class="prose-panel" id="prose"></div>
+    </div>
+
+    <!-- RIGHT PANEL: editor + preview -->
+    <div class="right-panel">
+      <div class="editor-container">
+        <div class="editor-header">
+          <span class="editor-filename">tutorial.spec</span>
+        </div>
+        <div class="editor-wrap" id="editorWrap">
+          <textarea id="editorTextarea" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="error-bar" id="errorBar"></div>
+      <div class="preview-container">
+        <div class="preview-header">
+          <span class="preview-label">Preview</span>
+        </div>
+        <iframe class="preview-iframe" id="preview" sandbox="allow-scripts allow-same-origin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-bar-left">
+      <button class="btn" id="btnPrev" disabled>&larr; Prev</button>
+    </div>
+    <div class="bottom-bar-center" id="stepIndicator">Step 1 of 16</div>
+    <div class="bottom-bar-right">
+      <button class="btn" id="btnReset">Reset Code</button>
+      <button class="btn btn-primary" id="btnNext">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Main script ── -->
+<script type="module">
+
+// ── Tutorial step data ──────────────────────────────────────────────────────
+const STEPS = [
+  // Step 1
+  {
+    title: "Hello, Spec",
+    concepts: "surface, text()",
+    prose: `<h3>Hello, Spec!</h3>
+<p>Welcome to Spec! In this tutorial you'll build a <strong>Task Tracker</strong> app from scratch, learning every major feature along the way.</p>
+<p>A <code>surface</code> is Spec's entry point — like a page or root component. Inside it you write declarations that describe your UI.</p>
+<p><code>text("...")</code> renders text to the screen. That's all you need to get started.</p>
+<p>Try changing the text in the editor and watch the preview update!</p>`,
+    code: `surface App {
+  text("Hello, Spec!")
+}`
+  },
+  // Step 2
+  {
+    title: "Design Tokens",
+    concepts: "style, type.*, color, semantic.*",
+    prose: `<h3>Design Tokens & Typography</h3>
+<p>Spec has a built-in <strong>visual system</strong> with design tokens for typography, color, spacing, and more.</p>
+<p><code>style: type.heading-lg</code> applies a heading style. <code>color: semantic.text-primary</code> uses a semantic color token.</p>
+<p>These tokens come from Spec's default visual system. You can customize them, but the defaults give you a polished look instantly.</p>`,
+    code: `surface App {
+  text("Task Tracker") { style: type.heading-lg, color: semantic.text-primary }
+  text("Stay organized, get things done.") { style: type.body-md, color: semantic.text-secondary }
+}`
+  },
+  // Step 3
+  {
+    title: "Blocks & Layout",
+    concepts: "block, layout, gap, padding",
+    prose: `<h3>Blocks & Layout</h3>
+<p>A <code>block</code> is a container — like a div. You control layout with properties like <code>layout: vertical</code>, <code>gap</code>, and <code>padding</code>.</p>
+<p>Layout values use spacing tokens like <code>spacing.4</code> (1rem) and <code>spacing.5</code> (1.25rem). Background and border-radius use semantic tokens too.</p>
+<p>Everything composes cleanly — blocks inside blocks, with layout flowing naturally.</p>`,
+    code: `surface App {
+  layout: vertical, gap: spacing.5, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    padding: spacing.4, background: semantic.surface-raised
+    border-radius: radius.md, layout: vertical, gap: spacing.3
+    text("Welcome!") { style: type.heading-sm }
+    text("Start adding tasks below.") { color: semantic.text-secondary }
+  }
+}`
+  },
+  // Step 4
+  {
+    title: "State & Reactivity",
+    concepts: "@state, @actions, Button, on click",
+    prose: `<h3>State & Reactivity</h3>
+<p><code>@state</code> declares reactive variables. When state changes, the UI updates automatically — no manual wiring needed.</p>
+<p><code>@actions</code> defines functions that can modify state. Spec's compiler traces exactly which DOM nodes depend on which state, so updates are surgical.</p>
+<p><code>Button</code> is a built-in component. <code>on click: increment()</code> binds the click event to your action.</p>
+<p>String interpolation uses <code>{variable}</code> inside text — it's reactive too!</p>`,
+    code: `surface App {
+  @state { count: 0 }
+  @actions {
+    increment() { count = count + 1 }
+    decrement() { count = count > 0 ? count - 1 : 0 }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Count: {count}") { style: type.heading-md }
+
+  block {
+    layout: horizontal, gap: spacing.3
+    Button(label: "Add", variant: "primary") { on click: increment() }
+    Button(label: "Remove", variant: "secondary") { on click: decrement() }
+  }
+}`
+  },
+  // Step 5
+  {
+    title: "Computed Values",
+    concepts: "@computed, derived state, ternary",
+    prose: `<h3>Computed Values</h3>
+<p><code>@computed</code> declares values derived from state. They update automatically whenever their dependencies change.</p>
+<p>Use ternary expressions (<code>condition ? a : b</code>) for conditional values. Computed values are perfect for status messages and derived counts.</p>
+<p>Notice how <code>status</code> recomputes instantly when you click the buttons!</p>`,
+    code: `surface App {
+  @state { count: 0 }
+  @computed {
+    doubled: count * 2
+    status: count == 0 ? "No tasks yet" : "{count} task(s) pending"
+  }
+  @actions {
+    increment() { count = count + 1 }
+    decrement() { count = count > 0 ? count - 1 : 0 }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+  text("{status}") { style: type.body-md, color: semantic.text-secondary }
+  text("Doubled: {doubled}") { style: type.body-sm, color: semantic.text-secondary }
+
+  block {
+    layout: horizontal, gap: spacing.3
+    Button(label: "+1", variant: "primary") { on click: increment() }
+    Button(label: "-1", variant: "secondary") { on click: decrement() }
+  }
+}`
+  },
+  // Step 6
+  {
+    title: "Form Inputs",
+    concepts: "Input, on change(v)",
+    prose: `<h3>Form Inputs</h3>
+<p>The <code>Input</code> component handles text input. It takes props like <code>label</code>, <code>placeholder</code>, and <code>value</code>.</p>
+<p><code>on change(v)</code> fires whenever the input value changes. The <code>(v)</code> captures the new value, which you pass to an action to update state.</p>
+<p>This is the foundation of our Task Tracker's "add task" form!</p>`,
+    code: `surface App {
+  @state { taskName: "" }
+  @actions {
+    setTaskName(v) { taskName = v }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: vertical, gap: spacing.3
+    Input(type: "text", label: "Task name", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    text("You typed: {taskName}") { style: type.body-sm, color: semantic.text-secondary }
+  }
+}`
+  },
+  // Step 7
+  {
+    title: "Lists with each",
+    concepts: "each...in, arrays, spread",
+    prose: `<h3>Lists with <code>each</code></h3>
+<p><code>each task in tasks</code> iterates over an array and renders UI for each item. It's reactive — add or remove items and the list updates.</p>
+<p>Use the spread operator (<code>[...tasks, newItem]</code>) for immutable state updates. Spec works best with immutable data patterns.</p>
+<p>Try adding a few tasks and watch the list grow!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        text(task.name) { style: type.body-md }
+      }
+    }
+  }
+}`
+  },
+  // Step 8
+  {
+    title: "Toggle & Delete",
+    concepts: "Checkbox, map, filter, array ops",
+    prose: `<h3>Toggle & Delete</h3>
+<p>Spec's pipe operator (<code>|&gt;</code>) chains operations cleanly: <code>tasks |&gt; map(...)</code> reads like English.</p>
+<p>The <code>Checkbox</code> component handles boolean toggles. We use <code>map</code> to toggle a task's <code>done</code> state and <code>filter</code> to remove tasks.</p>
+<p>Each task now has a checkbox and a delete button. Try toggling and deleting!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 9
+  {
+    title: "Conditionals",
+    concepts: "visibility, conditional styles",
+    prose: `<h3>Conditionals & Visibility</h3>
+<p><code>visibility: condition</code> shows or hides a block based on a boolean expression. When hidden, the element is removed from the DOM entirely.</p>
+<p>Conditional styling uses ternaries in property values: <code>color: task.done ? semantic.text-disabled : semantic.text-primary</code>.</p>
+<p>Complete a task and watch it get the strikethrough style!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @computed {
+    taskCount: tasks |> length()
+    hasTasks: taskCount > 0
+  }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    visibility: !hasTasks
+    padding: spacing.4, background: semantic.surface-raised
+    border-radius: radius.md
+    text("No tasks yet. Add one above!") { color: semantic.text-secondary, style: type.body-md }
+  }
+
+  block {
+    visibility: hasTasks
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 10
+  {
+    title: "Badge & Progress",
+    concepts: "Badge, Progress, composition",
+    prose: `<h3>Built-in Components: Badge & Progress</h3>
+<p>Spec ships with a rich set of built-in components. <code>Badge</code> shows a status label with variants like <code>"success"</code> and <code>"neutral"</code>.</p>
+<p><code>Progress</code> renders a progress bar bound to a computed percentage.</p>
+<p>As you complete tasks, the progress bar fills and the badge count updates. All driven by reactive computed values!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @computed {
+    taskCount: tasks |> length()
+    doneCount: tasks |> filter(t -> t.done) |> length()
+    progress: taskCount > 0 ? (doneCount / taskCount) * 100 : 0
+  }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Badge(text: "{doneCount}/{taskCount} done", variant: "success")
+    block { grow: true }
+    Progress(value: progress)
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 11
+  {
+    title: "Filters with Select",
+    concepts: "Select, match, pipe operator",
+    prose: `<h3>Filters with Select</h3>
+<p>The <code>Select</code> component gives users a dropdown. Bind it to state and use <code>@computed</code> to derive filtered results.</p>
+<p>Spec's <code>match</code> expression is like a switch — pattern-match on the filter value to return different filtered arrays. The <code>_</code> wildcard matches anything.</p>
+<p>Select a filter and watch the task list update!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "", filter: "all" }
+  @computed {
+    taskCount: tasks |> length()
+    doneCount: tasks |> filter(t -> t.done) |> length()
+    progress: taskCount > 0 ? (doneCount / taskCount) * 100 : 0
+    visibleTasks: match filter {
+      "active" -> tasks |> filter(t -> !t.done),
+      "done" -> tasks |> filter(t -> t.done),
+      _ -> tasks
+    }
+  }
+  @actions {
+    setTaskName(v) { taskName = v }
+    setFilter(v) { filter = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Badge(text: "{doneCount}/{taskCount} done", variant: "success")
+    block { grow: true }
+    Progress(value: progress)
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Select(
+      label: "Filter",
+      options: [
+        { label: "All", value: "all" },
+        { label: "Active", value: "active" },
+        { label: "Done", value: "done" }
+      ],
+      value: filter
+    ) {
+      on change(v): setFilter(v)
+    }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in visibleTasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 12
+  {
+    title: "Hover & Transitions",
+    concepts: "on hover, transition, shadow",
+    prose: `<h3>Hover States & Transitions</h3>
+<p><code>on hover { ... }</code> applies styles when the user hovers over an element. Combine with <code>transition</code> for smooth animations.</p>
+<p>Spec provides transition presets like <code>transition.card-lift</code> and elevation tokens like <code>elevation.raised</code>.</p>
+<p>Hover over the task items to see the lift effect!</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        cursor: "pointer"
+        transition: transition.card-lift
+        on hover {
+          shadow: elevation.raised
+          transform: transform.lift-xs
+        }
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 13
+  {
+    title: "Custom Components",
+    concepts: "component, props, reusability",
+    prose: `<h3>Custom Components</h3>
+<p>The <code>component</code> keyword lets you extract reusable UI pieces. Components take typed props and can be used just like built-in components.</p>
+<p>Here we extract each task row into a <code>TaskItem</code> component. This keeps the surface clean and makes the task rendering reusable.</p>
+<p>Components are compiled — not interpreted. The compiler inlines and optimizes them.</p>`,
+    code: `component TaskItem(task, onToggle, onRemove) {
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    padding: spacing.3, background: semantic.surface-raised
+    border-radius: radius.sm
+    cursor: "pointer"
+    transition: transition.card-lift
+    on hover {
+      shadow: elevation.raised
+      transform: transform.lift-xs
+    }
+    Checkbox(checked: task.done, label: task.name) {
+      on change: onToggle(task.id)
+    }
+    block { grow: true }
+    Button(label: "Delete", variant: "ghost", size: "sm") {
+      on click: onRemove(task.id)
+    }
+  }
+}
+
+surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      TaskItem(task: task, onToggle: toggleTask, onRemove: removeTask)
+    }
+  }
+}`
+  },
+  // Step 14
+  {
+    title: "Priority & Badges",
+    concepts: "match expression, data modeling",
+    prose: `<h3>Priority & Badges</h3>
+<p>The <code>match</code> expression works great for mapping data to component variants. Here we create a <code>PriorityBadge</code> component that picks a badge color based on priority.</p>
+<p>We've added a priority field to each task and a <code>Select</code> to choose it when adding tasks. The match expression maps <code>"high"</code> to <code>"error"</code>, <code>"medium"</code> to <code>"warning"</code>, and everything else to <code>"neutral"</code>.</p>`,
+    code: `component PriorityBadge(priority) {
+  Badge(
+    text: priority,
+    variant: match priority {
+      "high" -> "error",
+      "medium" -> "warning",
+      _ -> "neutral"
+    }
+  )
+}
+
+component TaskItem(task, onToggle, onRemove) {
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    padding: spacing.3, background: semantic.surface-raised
+    border-radius: radius.sm
+    Checkbox(checked: task.done, label: task.name) {
+      on change: onToggle(task.id)
+    }
+    PriorityBadge(priority: task.priority)
+    block { grow: true }
+    Button(label: "Delete", variant: "ghost", size: "sm") {
+      on click: onRemove(task.id)
+    }
+  }
+}
+
+surface App {
+  @state { tasks: [], nextId: 1, taskName: "", priority: "medium" }
+  @actions {
+    setTaskName(v) { taskName = v }
+    setPriority(v) { priority = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false, priority: priority }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "Task name", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Select(
+      label: "Priority",
+      options: [
+        { label: "Low", value: "low" },
+        { label: "Medium", value: "medium" },
+        { label: "High", value: "high" }
+      ],
+      value: priority
+    ) {
+      on change(v): setPriority(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      TaskItem(task: task, onToggle: toggleTask, onRemove: removeTask)
+    }
+  }
+}`
+  },
+  // Step 15
+  {
+    title: "Stats Dashboard",
+    concepts: "grid layout, multiple computed",
+    prose: `<h3>Stats Dashboard</h3>
+<p>Use <code>layout: grid</code> with <code>columns: "1fr 1fr 1fr"</code> to create a responsive grid. Combine with multiple <code>@computed</code> values for a live statistics dashboard.</p>
+<p>Each stat card uses design tokens for consistent spacing and typography. The numbers update in real-time as you interact with tasks.</p>`,
+    code: `surface App {
+  @state { tasks: [], nextId: 1, taskName: "" }
+  @computed {
+    taskCount: tasks |> length()
+    doneCount: tasks |> filter(t -> t.done) |> length()
+    activeCount: taskCount - doneCount
+    progress: taskCount > 0 ? (doneCount / taskCount) * 100 : 0
+  }
+  @actions {
+    setTaskName(v) { taskName = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.4, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: grid, columns: "1fr 1fr 1fr", gap: spacing.4
+
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{taskCount}") { style: type.heading-lg, color: semantic.text-primary }
+      text("Total Tasks") { style: type.body-sm, color: semantic.text-secondary }
+    }
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{doneCount}") { style: type.heading-lg, color: semantic.text-success }
+      text("Completed") { style: type.body-sm, color: semantic.text-secondary }
+    }
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{activeCount}") { style: type.heading-lg, color: semantic.text-primary }
+      text("Remaining") { style: type.body-sm, color: semantic.text-secondary }
+    }
+  }
+
+  Progress(value: progress)
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "New task", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in tasks {
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        padding: spacing.3, background: semantic.surface-raised
+        border-radius: radius.sm
+        Checkbox(checked: task.done, label: task.name) {
+          on change: toggleTask(task.id)
+        }
+        block { grow: true }
+        Button(label: "Delete", variant: "ghost", size: "sm") {
+          on click: removeTask(task.id)
+        }
+      }
+    }
+  }
+}`
+  },
+  // Step 16
+  {
+    title: "The Final App",
+    concepts: "everything together",
+    prose: `<h3>The Complete Task Tracker</h3>
+<p>Congratulations! You've built a full Task Tracker using every major Spec feature:</p>
+<p><strong>Surfaces</strong> as entry points, <strong>design tokens</strong> for consistent styling, <strong>blocks</strong> for layout, <strong>@state</strong> and <strong>@actions</strong> for reactivity, <strong>@computed</strong> for derived values, <strong>Input</strong> and <strong>Select</strong> for forms, <strong>each</strong> for lists, <strong>visibility</strong> for conditionals, <strong>Badge</strong> and <strong>Progress</strong> components, <strong>hover</strong> effects, <strong>custom components</strong>, <strong>match</strong> expressions, and <strong>grid layouts</strong>.</p>
+<p>All of this compiles to direct DOM operations — no virtual DOM, no runtime framework. Just your app.</p>
+<p><strong>Next steps:</strong> Explore the <a href="../showcase/" style="color:var(--accent);">Showcase</a> to see more components in action.</p>`,
+    code: `component PriorityBadge(priority) {
+  Badge(
+    text: priority,
+    variant: match priority {
+      "high" -> "error",
+      "medium" -> "warning",
+      _ -> "neutral"
+    }
+  )
+}
+
+component TaskItem(task, onToggle, onRemove) {
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    padding: spacing.3, background: semantic.surface-raised
+    border-radius: radius.sm
+    cursor: "pointer"
+    transition: transition.card-lift
+    on hover {
+      shadow: elevation.raised
+      transform: transform.lift-xs
+    }
+    Checkbox(checked: task.done, label: task.name) {
+      on change: onToggle(task.id)
+    }
+    PriorityBadge(priority: task.priority)
+    block { grow: true }
+    Button(label: "Delete", variant: "ghost", size: "sm") {
+      on click: onRemove(task.id)
+    }
+  }
+}
+
+surface App {
+  @state {
+    tasks: [], nextId: 1
+    taskName: "", priority: "medium", filter: "all"
+  }
+  @computed {
+    taskCount: tasks |> length()
+    doneCount: tasks |> filter(t -> t.done) |> length()
+    activeCount: taskCount - doneCount
+    progress: taskCount > 0 ? (doneCount / taskCount) * 100 : 0
+    visibleTasks: match filter {
+      "active" -> tasks |> filter(t -> !t.done),
+      "done" -> tasks |> filter(t -> t.done),
+      _ -> tasks
+    }
+  }
+  @actions {
+    setTaskName(v) { taskName = v }
+    setPriority(v) { priority = v }
+    setFilter(v) { filter = v }
+    addTask() {
+      tasks = [...tasks, { id: nextId, name: taskName, done: false, priority: priority }]
+      nextId = nextId + 1
+      taskName = ""
+    }
+    toggleTask(id) {
+      tasks = tasks |> map(t -> t.id == id ? { ...t, done: !t.done } : t)
+    }
+    removeTask(id) {
+      tasks = tasks |> filter(t -> t.id != id)
+    }
+  }
+
+  layout: vertical, gap: spacing.5, padding: spacing.5
+
+  text("Task Tracker") { style: type.heading-lg }
+
+  block {
+    layout: grid, columns: "1fr 1fr 1fr", gap: spacing.4
+
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{taskCount}") { style: type.heading-lg, color: semantic.text-primary }
+      text("Total") { style: type.body-sm, color: semantic.text-secondary }
+    }
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{doneCount}") { style: type.heading-lg, color: semantic.text-success }
+      text("Done") { style: type.body-sm, color: semantic.text-secondary }
+    }
+    block {
+      padding: spacing.4, background: semantic.surface-raised
+      border-radius: radius.md, layout: vertical, gap: spacing.1
+      text("{activeCount}") { style: type.heading-lg, color: semantic.text-primary }
+      text("Active") { style: type.body-sm, color: semantic.text-secondary }
+    }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Badge(text: "{doneCount}/{taskCount} done", variant: "success")
+    block { grow: true }
+    Progress(value: progress)
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: end
+    Input(type: "text", label: "Task name", placeholder: "What needs doing?", value: taskName) {
+      on change(v): setTaskName(v)
+    }
+    Select(
+      label: "Priority",
+      options: [
+        { label: "Low", value: "low" },
+        { label: "Medium", value: "medium" },
+        { label: "High", value: "high" }
+      ],
+      value: priority
+    ) {
+      on change(v): setPriority(v)
+    }
+    Button(label: "Add Task", variant: "primary") { on click: addTask() }
+  }
+
+  block {
+    layout: horizontal, gap: spacing.3, align: center
+    Select(
+      label: "Show",
+      options: [
+        { label: "All tasks", value: "all" },
+        { label: "Active only", value: "active" },
+        { label: "Done only", value: "done" }
+      ],
+      value: filter
+    ) {
+      on change(v): setFilter(v)
+    }
+  }
+
+  block {
+    layout: vertical, gap: spacing.2
+    each task in visibleTasks {
+      TaskItem(task: task, onToggle: toggleTask, onRemove: removeTask)
+    }
+  }
+}`
+  }
+];
+
+// ── DOM references ──────────────────────────────────────────────────────────
+const stepListEl = document.getElementById('stepList');
+const proseEl = document.getElementById('prose');
+const errorBar = document.getElementById('errorBar');
+const previewFrame = document.getElementById('preview');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnReset = document.getElementById('btnReset');
+const stepIndicator = document.getElementById('stepIndicator');
+const textarea = document.getElementById('editorTextarea');
+
+// ── Compute base URL (handles /tutorial vs /tutorial/) ──────────────────────
+const _path = location.pathname;
+const _dir = _path.endsWith('/') ? _path : _path + '/';
+const BASE = location.origin + _dir;
+
+// ── State ───────────────────────────────────────────────────────────────────
+let currentStep = 0;
+let compileTimer;
+let compile = null;
+
+const visited = new Set([0]);
+
+// ── Editor abstraction (works with textarea, upgrades to CodeMirror) ────────
+function getEditorText() {
+  return textarea.value;
+}
+
+function setEditorText(text) {
+  textarea.value = text;
+}
+
+// ── Step list rendering ─────────────────────────────────────────────────────
+function renderStepList() {
+  stepListEl.innerHTML = STEPS.map((s, i) => `
+    <div class="step-pill ${i === currentStep ? 'active' : ''} ${visited.has(i) && i !== currentStep ? 'completed' : ''}"
+         data-step="${i}">
+      <div class="step-num">${i + 1}</div>
+      <span>${s.title}</span>
+    </div>
+  `).join('');
+}
+
+stepListEl.addEventListener('click', (e) => {
+  const pill = e.target.closest('.step-pill');
+  if (pill) goToStep(parseInt(pill.dataset.step));
+});
+
+// ── Navigation ──────────────────────────────────────────────────────────────
+function goToStep(index) {
+  if (index < 0 || index >= STEPS.length) return;
+  currentStep = index;
+  visited.add(index);
+
+  renderStepList();
+  proseEl.innerHTML = `<div class="concept-tag">${STEPS[index].concepts}</div>` + STEPS[index].prose;
+  stepIndicator.textContent = `Step ${index + 1} of ${STEPS.length}`;
+  btnPrev.disabled = index === 0;
+  btnNext.disabled = index === STEPS.length - 1;
+
+  setEditorText(STEPS[index].code);
+
+  const activePill = stepListEl.querySelector('.step-pill.active');
+  if (activePill) activePill.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  scheduleCompile();
+}
+
+btnPrev.addEventListener('click', () => goToStep(currentStep - 1));
+btnNext.addEventListener('click', () => goToStep(currentStep + 1));
+btnReset.addEventListener('click', () => {
+  setEditorText(STEPS[currentStep].code);
+  scheduleCompile();
+});
+
+// Textarea input handler (for before CodeMirror loads, or if it fails)
+textarea.addEventListener('input', () => scheduleCompile());
+// Handle Tab key in textarea
+textarea.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const start = textarea.selectionStart;
+    textarea.value = textarea.value.substring(0, start) + '  ' + textarea.value.substring(textarea.selectionEnd);
+    textarea.selectionStart = textarea.selectionEnd = start + 2;
+    scheduleCompile();
+  }
+});
+
+// ── Compilation ─────────────────────────────────────────────────────────────
+function scheduleCompile() {
+  clearTimeout(compileTimer);
+  compileTimer = setTimeout(doCompile, 400);
+}
+
+function doCompile() {
+  if (!compile) return; // compiler not loaded yet
+
+  const source = getEditorText();
+  if (!source.trim()) {
+    errorBar.classList.remove('visible');
+    updatePreview('');
+    return;
+  }
+
+  try {
+    const result = compile(source, { mode: 'development', filename: 'tutorial.spec' });
+
+    if (result.errors.length > 0) {
+      errorBar.textContent = result.errors.join('\n');
+      errorBar.classList.add('visible');
+      return;
+    }
+
+    errorBar.classList.remove('visible');
+    updatePreview(result.js);
+  } catch (err) {
+    errorBar.textContent = 'Compiler error: ' + (err.message || String(err));
+    errorBar.classList.add('visible');
+  }
+}
+
+// ── Preview iframe ──────────────────────────────────────────────────────────
+const baseUrl = BASE;
+
+function updatePreview(js) {
+  if (!js) {
+    previewFrame.srcdoc = '<html><body></body></html>';
+    return;
+  }
+
+  // Strip "export " so functions are available in scope, and add a mount call
+  const moduleCode = js.replace(/^export /gm, '')
+    + '\nif (typeof mountApp === "function") mountApp(document.getElementById("app"));';
+
+  // Escape closing script tags in compiled JS to avoid breaking the HTML
+  const safeCode = moduleCode.replace(/<\/script>/gi, '<\\/script>');
+
+  const importmap = JSON.stringify({
+    imports: {
+      "@spec/runtime": baseUrl + "runtime/index.js",
+      "@spec/components/": baseUrl + "components/"
+    },
+    scopes: {
+      [baseUrl + "runtime/"]: {
+        "./scheduler.js": baseUrl + "runtime/scheduler.js",
+        "./signals.js": baseUrl + "runtime/signals.js",
+        "./bindings.js": baseUrl + "runtime/bindings.js",
+        "./events.js": baseUrl + "runtime/events.js",
+        "./collections.js": baseUrl + "runtime/collections.js",
+        "./fetch.js": baseUrl + "runtime/fetch.js",
+        "./theme.js": baseUrl + "runtime/theme.js",
+        "./lazy.js": baseUrl + "runtime/lazy.js",
+        "./hash.js": baseUrl + "runtime/hash.js",
+        "./i18n.js": baseUrl + "runtime/i18n.js",
+        "./persist.js": baseUrl + "runtime/persist.js",
+        "./breakpoints.js": baseUrl + "runtime/breakpoints.js"
+      },
+      [baseUrl + "components/"]: {
+        "@spec/runtime": baseUrl + "runtime/index.js",
+        "./layout-utils.js": baseUrl + "components/layout-utils.js",
+        "./icons.js": baseUrl + "components/icons.js",
+        "./icon.js": baseUrl + "components/icon.js",
+        "./types.js": baseUrl + "components/types.js"
+      }
+    }
+  });
+
+  const html = '<!DOCTYPE html><html><head>'
+    + '<meta charset="utf-8">'
+    + '<script type="importmap">' + importmap + '<\/script>'
+    + '<style>'
+    + '*, *::before, *::after { box-sizing: border-box; }'
+    + 'body { margin: 0; font-family: Inter, system-ui, -apple-system, sans-serif; color: #1e293b; background: #f8fafc; line-height: 1.5; -webkit-font-smoothing: antialiased; }'
+    + '#app { min-height: 100vh; }'
+    + '.spec-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }'
+    + '.spec-btn:active { transform: scale(.97); }'
+    + '.spec-tab-panel[hidden] { display: none; }'
+    + '@keyframes specFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }'
+    + '.spec-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 999px; }'
+    + '.spec-input::placeholder { color: #9ca3af; }'
+    + '.spec-select-listbox--above { top: auto; bottom: 100%; margin-top: 0; margin-bottom: 4px; }'
+    + '@keyframes specSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }'
+    + '.spec-icon { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; flex-shrink: 0; }'
+    + '</style>'
+    + '</head><body>'
+    + '<div id="app"></div>'
+    + '<script type="module">' + safeCode + '<\/script>'
+    + '</body></html>';
+
+  previewFrame.srcdoc = html;
+}
+
+// ── Initialize immediately with textarea ────────────────────────────────────
+textarea.value = STEPS[0].code;
+renderStepList();
+proseEl.innerHTML = `<div class="concept-tag">${STEPS[0].concepts}</div>` + STEPS[0].prose;
+
+// ── Load compiler ───────────────────────────────────────────────────────────
+try {
+  const mod = await import(BASE + 'spec-compiler.js');
+  compile = mod.compile;
+  console.log('Spec compiler loaded');
+  scheduleCompile(); // compile the initial step
+} catch (err) {
+  errorBar.textContent = 'Failed to load compiler: ' + err.message;
+  errorBar.classList.add('visible');
+  console.error('Compiler load failed:', err);
+}
+
+
+</script>
+</body>
+</html>

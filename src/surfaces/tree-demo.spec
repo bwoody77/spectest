@@ -87,6 +87,7 @@ surface TreeDemo() {
       Tree(
         nodes: categoryList,
         expanded: [],
+        persist: "tree-demo"
         selection: "single"
       ) {
         on selectionChange(ids): { selectNode(ids) }
