@@ -189,7 +189,10 @@ surface App {
   @actions {
     setThemePreset(p) { themePreset = p }
     setView(v) { view = v }
-    toggleSidebar() { sidebarCollapsed = !sidebarCollapsed; mobileNavOpen = !mobileNavOpen }
+    toggleSidebar() {
+      sidebarCollapsed = !sidebarCollapsed
+      mobileNavOpen = !mobileNavOpen
+    }
     closeMobileNav() { mobileNavOpen = false }
     openCommandPalette() { commandPaletteOpen = true }
     closeCommandPalette() { commandPaletteOpen = false }
@@ -216,16 +219,20 @@ surface App {
   // Header bar (Issue #50, #54, #57)
   block {
     role: "banner"
-    padding: headerPad
+    padding-y: responsive(6px, md: 10px)
+    padding-x: responsive(12px, md: 20px)
     background: semantic.background
     border-bottom: borders.default
     shadow: elevation.raised
-    layout: responsive(vertical, md: horizontal), gap: spacing.4, align: center, justify: between
+    layout: horizontal, gap: spacing.4, align: center, justify: between
 
-    // Left: title
+    // Left: hamburger + title
     block {
       layout: horizontal, gap: spacing.3, align: center
 
+      Button(label: "☰", variant: "ghost") {
+        on click: toggleSidebar()
+      }
       Icon(name: "home", size: icon.lg, color: semantic.interactive)
       text("Spec Admin") {
         style: type.heading-lg
@@ -236,7 +243,7 @@ surface App {
 
     // Right: theme switcher + dark mode + command palette hint
     block {
-      layout: responsive(vertical, sm: horizontal), gap: spacing.3, align: center
+      layout: horizontal, gap: spacing.2, align: center
 
       // Theme selector
       Select(
@@ -275,19 +282,25 @@ surface App {
     }
   }
 
-  // Breadcrumb navigation (Issue #18)
+  // Breadcrumb navigation (Issue #18) — hidden on mobile
   block {
-    padding: breadcrumbPad
+    max-height: responsive(0px, md: 50px)
+    overflow: hidden
     background: semantic.surface-raised
     border-bottom: borders.default
-    Breadcrumb(
-      items: [
-        {id: "dashboard", label: "Home"},
-        {id: view, label: breadcrumbSection},
-        {id: view, label: viewTitle}
-      ]
-    ) {
-      on select(id): { view = id }
+
+    block {
+      padding-y: responsive(4px, md: 8px)
+      padding-x: responsive(12px, md: 20px)
+      Breadcrumb(
+        items: [
+          {id: "dashboard", label: "Home"},
+          {id: view, label: breadcrumbSection},
+          {id: view, label: viewTitle}
+        ]
+      ) {
+        on select(id): { view = id }
+      }
     }
   }
 
@@ -333,16 +346,22 @@ surface App {
         ]}
       ],
       activeItem: view,
-      collapsed: sidebarCollapsed
+      collapsed: sidebarCollapsed,
+      autoHideBelow: "md",
+      mobileOpen: mobileNavOpen
     ) {
-      on select(id): { view = id }
+      on select(id): {
+        view = id
+        mobileNavOpen = false
+      }
       on collapse(c): { sidebarCollapsed = c }
+      on mobileClose: closeMobileNav()
     }
 
     // Main content area
     block {
       grow: true
-      padding: spacing.5
+      padding: responsive(spacing.3, md: spacing.5)
       background: semantic.surface
       layout: vertical, gap: spacing.5
       overflow: "auto"
