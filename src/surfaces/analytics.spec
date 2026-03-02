@@ -20,13 +20,13 @@ surface AnalyticsView {
     todoPercent: total > 0 ? (todo * 100 / total) : 0
 
     taskList: tasks != null ? tasks : []
-    highCount: taskList.filter(t -> t.priority == "high").length
-    mediumCount: taskList.filter(t -> t.priority == "medium").length
-    lowCount: taskList.filter(t -> t.priority == "low").length
+    highCount: taskList.filter(t => t.priority == "high").length
+    mediumCount: taskList.filter(t => t.priority == "medium").length
+    lowCount: taskList.filter(t => t.priority == "low").length
 
-    aliceCount: taskList.filter(t -> t.assignee == "Alice").length
-    bobCount: taskList.filter(t -> t.assignee == "Bob").length
-    carolCount: taskList.filter(t -> t.assignee == "Carol").length
+    aliceCount: taskList.filter(t => t.assignee == "Alice").length
+    bobCount: taskList.filter(t => t.assignee == "Bob").length
+    carolCount: taskList.filter(t => t.assignee == "Carol").length
   }
 
   layout: vertical, gap: spacing.6

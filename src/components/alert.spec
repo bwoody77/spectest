@@ -1,4 +1,4 @@
-component Alert2(message: string, severity: string = "info", title: string = "") {
+component Alert(message: string, severity: string = "info", title: string = "") {
   block {
     layout: horizontal, gap: spacing.2, align: start
     padding: spacing.3

@@ -14,9 +14,9 @@ surface NotificationsPanel {
 
   @computed {
     allNotifications: notifications != null ? notifications : []
-    filteredNotifications: severityFilter == "all" ? allNotifications : allNotifications.filter(n -> n.severity == severityFilter)
+    filteredNotifications: severityFilter == "all" ? allNotifications : allNotifications.filter(n => n.severity == severityFilter)
     notifCount: "{filteredNotifications.length} notifications"
-    unreadCount: allNotifications.filter(n -> !n.read).length
+    unreadCount: allNotifications.filter(n => !n.read).length
     hasUnread: unreadCount > 0
     unreadLabel: "{unreadCount} unread"
     hasNoNotifications: filteredNotifications.length == 0
@@ -50,7 +50,7 @@ surface NotificationsPanel {
       role: "toolbar"
       aria-label: "Severity filters"
       padding: spacing.3
-      layout: horizontal, gap: spacing.2, align: center
+      layout: responsive(vertical, md: horizontal), gap: spacing.2, align: center
       text("Filter:") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
       Button(label: "All", variant: "secondary") {
         on click: setSeverityFilter("all")
@@ -97,7 +97,7 @@ surface NotificationsPanel {
       shadow: elevation.flat
       cursor: "pointer"
       transition: transition.interactive-full
-      layout: horizontal, gap: spacing.3, align: center
+      layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
 
       on hover {
         shadow: elevation.raised

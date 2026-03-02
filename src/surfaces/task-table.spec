@@ -13,7 +13,7 @@ surface TaskTable(selectedTask, view) {
 
   @computed {
     taskList: tasks != null ? tasks : []
-    filteredTasks: filter == "all" ? taskList : taskList.filter(t -> t.status == filter)
+    filteredTasks: filter == "all" ? taskList : taskList.filter(t => t.status == filter)
     taskCount: "{filteredTasks.length} tasks"
     hasNoResults: filteredTasks.length == 0
   }
@@ -43,7 +43,7 @@ surface TaskTable(selectedTask, view) {
     border-radius: radius.md
     border: borders.default
     shadow: elevation.flat
-    layout: horizontal, gap: spacing.3, align: center
+    layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
     transition: transition.shadow
 
     on hover {
@@ -95,7 +95,7 @@ surface TaskTable(selectedTask, view) {
       shadow: elevation.flat
       cursor: "pointer"
       transition: transition.row-hover
-      layout: horizontal, gap: spacing.3, align: center
+      layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
       on click: selectTask(task)
 
       on hover {

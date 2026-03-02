@@ -15,8 +15,8 @@ surface TeamDirectory {
 
   @computed {
     userList: users != null ? users : []
-    filteredUsers: roleFilter == "all" ? userList : userList.filter(u -> u.role == roleFilter)
-    searchResults: search == "" ? filteredUsers : filteredUsers.filter(u -> u.name.toLowerCase().includes(search.toLowerCase()))
+    filteredUsers: roleFilter == "all" ? userList : userList.filter(u => u.role == roleFilter)
+    searchResults: search == "" ? filteredUsers : filteredUsers.filter(u => u.name.toLowerCase().includes(search.toLowerCase()))
     userCount: "{searchResults.length} members"
     hasNoUsers: searchResults.length == 0
   }
@@ -38,7 +38,7 @@ surface TeamDirectory {
   Card() {
     block {
       padding: spacing.4
-      layout: horizontal, gap: spacing.3, align: center
+      layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
 
       Input(type: "search", label: "Search", value: search, placeholder: "Search members...") {
         on change(v): { search = v }

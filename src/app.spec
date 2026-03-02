@@ -15,11 +15,11 @@
 // Performance (measured 2026-02-28):
 //   Bundle: 121 KB raw, ~18 KB gzipped (2,542 lines)
 //   Surfaces/components compiled: 25 mount functions
-//   Components used: 25 built-in (Accordion, Alert, Badge, Breadcrumb, Button,
+//   Components used: 24 built-in (Accordion, Badge, Breadcrumb, Button,
 //     Card, Checkbox, CommandPalette, ConfirmDialog, DataGrid, DatePicker,
 //     Drawer, EditableGrid, EmptyState, Icon, Image, Input, Pagination,
 //     Popover, Progress, Select, Sidebar, Skeleton, Stepper, Stat, Timeline,
-//     Toggle, Tooltip, Tree) + 6 declared components
+//     Toggle, Tooltip, Tree) + 7 declared components (incl. Alert.spec)
 //   Runtime features: createBreakpoints, syncHash, lazyMount, bindCollection,
 //     bindStyle, bindText, bindVisibility, computed, createSignal, createSource
 // ---------------------------------------------------------------------------
@@ -220,7 +220,7 @@ surface App {
     background: semantic.background
     border-bottom: borders.default
     shadow: elevation.raised
-    layout: horizontal, gap: spacing.4, align: center, justify: between
+    layout: responsive(vertical, md: horizontal), gap: spacing.4, align: center, justify: between
 
     // Left: title
     block {
@@ -236,7 +236,7 @@ surface App {
 
     // Right: theme switcher + dark mode + command palette hint
     block {
-      layout: horizontal, gap: spacing.3, align: center
+      layout: responsive(vertical, sm: horizontal), gap: spacing.3, align: center
 
       // Theme selector
       Select(

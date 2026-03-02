@@ -13,12 +13,12 @@ surface ActivityFeed {
 
   @computed {
     allActivity: activityItems != null ? activityItems : []
-    filteredActivity: typeFilter == "all" ? allActivity : allActivity.filter(a -> a.type == typeFilter)
+    filteredActivity: typeFilter == "all" ? allActivity : allActivity.filter(a => a.type == typeFilter)
     activityCount: "{filteredActivity.length} events"
     hasNoActivity: filteredActivity.length == 0
 
     // Map activity data to Timeline item format
-    timelineItems: filteredActivity.map(a -> {id: a.id, title: a.user, description: a.detail, date: a.timestamp, status: match a.type { "task_completed" -> "completed", "deploy" -> "completed", _ -> "active" }})
+    timelineItems: filteredActivity.map(a => ({id: a.id, title: a.user, description: a.detail, date: a.timestamp, status: match a.type { "task_completed" -> "completed", "deploy" -> "completed", _ -> "active" }}))
   }
 
   @actions {
@@ -39,7 +39,7 @@ surface ActivityFeed {
       role: "toolbar"
       aria-label: "Activity filters"
       padding: spacing.3
-      layout: horizontal, gap: spacing.2, align: center
+      layout: responsive(vertical, md: horizontal), gap: spacing.2, align: center
       Badge(text: activityCount, variant: "neutral")
       Button(label: "All", variant: "secondary") {
         on click: setTypeFilter("all")
@@ -102,7 +102,7 @@ surface ActivityFeed {
         border-radius: radius.md
         shadow: elevation.raised
         transition: transition.interactive
-        layout: horizontal, gap: spacing.3, align: center
+        layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
 
         on hover {
           shadow: elevation.layered

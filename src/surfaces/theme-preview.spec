@@ -46,18 +46,41 @@ surface ThemePreview() {
       text("Buttons") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: horizontal, gap: spacing.3, align: center
-        Button(label: "Primary", variant: "primary") {}
-        Button(label: "Secondary", variant: "secondary") {}
-        Button(label: "Ghost", variant: "ghost") {}
-        Button(label: "Destructive", variant: "destructive") {}
-      }
-      block {
-        layout: horizontal, gap: spacing.3, align: center
-        Button(label: "Disabled", variant: "primary", disabled: true) {}
-        Button(label: "Loading", variant: "primary", loading: true) {}
-        Button(label: "Small Ghost", variant: "ghost") {}
-        Button(label: "Small Secondary", variant: "secondary") {}
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          block {
+            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+            Button(label: "Primary", variant: "primary") {}
+            Button(label: "Secondary", variant: "secondary") {}
+            Button(label: "Ghost", variant: "ghost") {}
+            Button(label: "Destructive", variant: "destructive") {}
+          }
+          block {
+            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+            Button(label: "Disabled", variant: "primary", disabled: true) {}
+            Button(label: "Loading", variant: "primary", loading: true) {}
+          }
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          block {
+            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+            Button2(label: "Primary", variant: "primary")
+            Button2(label: "Secondary", variant: "secondary")
+            Button2(label: "Ghost", variant: "ghost")
+            Button2(label: "Destructive", variant: "destructive")
+          }
+          block {
+            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+            Button2(label: "Disabled", variant: "primary", disabled: true)
+            Button2(label: "Loading", variant: "primary", loading: true)
+          }
+        }
       }
     }
   }
@@ -108,61 +131,126 @@ surface ThemePreview() {
         block {
           layout: vertical, gap: spacing.4
 
-          text("Checkboxes") { style: type.label-md, color: semantic.text-secondary }
+          text("Checkboxes — Built-in (TS)") { style: type.label-md, color: semantic.text-secondary }
           Checkbox(label: "Accept terms", checked: checkboxChecked) {
             on change(v): setCheckbox(v)
           }
           Checkbox(label: "Subscribe to newsletter", checked: true) {}
           Checkbox(label: "Disabled option", disabled: true) {}
 
-          text("Toggles") { style: type.label-md, color: semantic.text-secondary }
+          text("Checkboxes — Spec Component") { style: type.label-md, color: semantic.text-secondary }
+          Checkbox2(label: "Accept terms", checked: true)
+          Checkbox2(label: "Subscribe to newsletter", checked: true)
+          Checkbox2(label: "Disabled option", disabled: true)
+
+          text("Toggles — Built-in (TS)") { style: type.label-md, color: semantic.text-secondary }
           Toggle(label: "Dark mode", checked: toggleChecked) {
             on change(v): setToggle(v)
           }
           Toggle(label: "Notifications", checked: true) {}
           Toggle(label: "Disabled toggle", disabled: true) {}
+
+          text("Toggles — Spec Component") { style: type.label-md, color: semantic.text-secondary }
+          Toggle2(label: "Dark mode", checked: true)
+          Toggle2(label: "Notifications", checked: true)
+          Toggle2(label: "Disabled toggle", disabled: true)
         }
       }
     }
   }
 
-  // ===== Progress & Badges =====
+  // ===== Progress =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
-      text("Progress & Badges") { style: type.heading-sm, color: semantic.text-primary }
+      text("Progress") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: vertical, gap: spacing.3
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
 
         block {
-          layout: horizontal, gap: spacing.3, align: center
-          text("65%") { style: type.label-sm, color: semantic.text-secondary }
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
           block {
-            grow: true
-            Progress(value: progressValue, label: "Upload progress")
+            layout: horizontal, gap: spacing.3, align: center
+            text("65%") { style: type.label-sm, color: semantic.text-secondary }
+            block {
+              grow: true
+              Progress(value: progressValue, label: "Upload progress")
+            }
+          }
+          block {
+            layout: horizontal, gap: spacing.3, align: center
+            text("40%") { style: type.label-sm, color: semantic.text-secondary }
+            block {
+              grow: true
+              Progress(value: progressHalf, label: "Secondary progress")
+            }
           }
         }
 
         block {
-          layout: horizontal, gap: spacing.3, align: center
-          text("40%") { style: type.label-sm, color: semantic.text-secondary }
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
           block {
-            grow: true
-            Progress(value: progressHalf, label: "Secondary progress")
+            layout: horizontal, gap: spacing.3, align: center
+            text("65%") { style: type.label-sm, color: semantic.text-secondary }
+            block {
+              grow: true
+              Progress2(value: progressValue)
+            }
+          }
+          block {
+            layout: horizontal, gap: spacing.3, align: center
+            text("40%") { style: type.label-sm, color: semantic.text-secondary }
+            block {
+              grow: true
+              Progress2(value: progressHalf)
+            }
           }
         }
       }
+    }
+  }
+
+  // ===== Badges =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Badges") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: horizontal, gap: spacing.2, align: center
-        Badge(text: "Info", variant: "info")
-        Badge(text: "Success", variant: "success")
-        Badge(text: "Warning", variant: "warning")
-        Badge(text: "Error", variant: "error")
-        Badge(text: "Neutral", variant: "neutral")
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          block {
+            layout: horizontal, gap: spacing.2, align: center
+            Badge(text: "Info", variant: "info")
+            Badge(text: "Success", variant: "success")
+            Badge(text: "Warning", variant: "warning")
+            Badge(text: "Error", variant: "error")
+            Badge(text: "Neutral", variant: "neutral")
+          }
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          block {
+            layout: horizontal, gap: spacing.2, align: center
+            Badge2(text: "Info", variant: "info")
+            Badge2(text: "Success", variant: "success")
+            Badge2(text: "Warning", variant: "warning")
+            Badge2(text: "Error", variant: "error")
+            Badge2(text: "Neutral", variant: "neutral")
+          }
+        }
       }
     }
   }
@@ -248,27 +336,111 @@ surface ThemePreview() {
 
       text("Alerts") { style: type.heading-sm, color: semantic.text-primary }
 
+      Alert(severity: "success", message: "Operation completed.", title: "Success")
+      Alert(severity: "error", message: "Something went wrong.", title: "Error")
+      Alert(severity: "warning", message: "Cannot be undone.", title: "Warning")
+      Alert(severity: "info", message: "New features available.", title: "Info")
+    }
+  }
+
+  // ===== Skeleton =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Skeleton") { style: type.heading-sm, color: semantic.text-primary }
+
       block {
-        layout: horizontal, gap: spacing.4
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
 
         block {
-          grow: true
           layout: vertical, gap: spacing.3
           text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Alert(severity: "success", message: "Operation completed.", title: "Success")
-          Alert(severity: "error", message: "Something went wrong.", title: "Error")
-          Alert(severity: "warning", message: "Cannot be undone.", title: "Warning")
-          Alert(severity: "info", message: "New features available.", title: "Info")
+          Skeleton(variant: "rectangle", height: "80px")
+          block {
+            layout: horizontal, gap: spacing.3, align: center
+            Skeleton(variant: "circle", width: "48px")
+            block {
+              grow: true
+              Skeleton(variant: "text", lines: 2)
+            }
+          }
         }
 
         block {
-          grow: true
           layout: vertical, gap: spacing.3
           text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Alert2(severity: "success", message: "Operation completed.", title: "Success")
-          Alert2(severity: "error", message: "Something went wrong.", title: "Error")
-          Alert2(severity: "warning", message: "Cannot be undone.", title: "Warning")
-          Alert2(severity: "info", message: "New features available.", title: "Info")
+          Skeleton2()
+        }
+      }
+    }
+  }
+
+  // ===== Empty State =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Empty State") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          EmptyState(message: "No items found", description: "Try adjusting your filters or create a new item.")
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          EmptyState2(message: "No items found", description: "Try adjusting your filters or create a new item.")
+        }
+      }
+    }
+  }
+
+  // ===== Card Container =====
+  block {
+    layout: vertical, gap: spacing.4
+
+    text("Card Container") { style: type.heading-sm, color: semantic.text-primary }
+
+    block {
+      layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+      block {
+        layout: vertical, gap: spacing.3
+        text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+        Card() {
+          block {
+            padding: spacing.4
+            layout: vertical, gap: spacing.2
+            text("Card Title") { style: type.heading-sm, color: semantic.text-primary }
+            text("This is a built-in Card component used as a container.") {
+              style: type.body-md
+              color: semantic.text-secondary
+            }
+          }
+        }
+      }
+
+      block {
+        layout: vertical, gap: spacing.3
+        text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+        Card2() {
+          block {
+            padding: spacing.4
+            layout: vertical, gap: spacing.2
+            text("Card Title") { style: type.heading-sm, color: semantic.text-primary }
+            text("This is a Spec Card2 component used as a container.") {
+              style: type.body-md
+              color: semantic.text-secondary
+            }
+          }
         }
       }
     }

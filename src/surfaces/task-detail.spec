@@ -131,7 +131,7 @@ surface TaskDetail(task, view) {
 
     // Action buttons
     block {
-      layout: horizontal, gap: spacing.3
+      layout: responsive(vertical, md: horizontal), gap: spacing.3
       Button(label: "Back to Dashboard", variant: "secondary") {
         on click: goBack()
       }

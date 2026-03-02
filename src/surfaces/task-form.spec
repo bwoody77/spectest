@@ -192,7 +192,7 @@ surface TaskForm() {
 
       // Submit buttons
       block {
-        layout: horizontal, gap: spacing.3
+        layout: responsive(vertical, md: horizontal), gap: spacing.3
         Button(label: "Create Task", variant: "primary") {
           on click: submitForm()
         }

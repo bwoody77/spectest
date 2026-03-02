@@ -242,7 +242,7 @@ surface SettingsPanel {
 
   // Save button
   block {
-    layout: horizontal, gap: spacing.3
+    layout: responsive(vertical, md: horizontal), gap: spacing.3
     Button(label: "Save Settings", variant: "primary") {
       on click: saveSettings()
     }
