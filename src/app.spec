@@ -110,6 +110,7 @@ surface App {
     view: "dashboard" @route
     selectedTask: null
     sidebarCollapsed: false
+    mobileNavOpen: false
     commandPaletteOpen: false
     currentLocale: getCurrentLocale()
   }
@@ -182,15 +183,14 @@ surface App {
 
     appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" ? "dark" : "light"
     fullHeight: "100vh"
-    headerPad: "10px 20px"
-    breadcrumbPad: "8px 20px"
     fullWidth: "100%"
   }
 
   @actions {
     setThemePreset(p) { themePreset = p }
     setView(v) { view = v }
-    toggleSidebar() { sidebarCollapsed = !sidebarCollapsed }
+    toggleSidebar() { sidebarCollapsed = !sidebarCollapsed; mobileNavOpen = !mobileNavOpen }
+    closeMobileNav() { mobileNavOpen = false }
     openCommandPalette() { commandPaletteOpen = true }
     closeCommandPalette() { commandPaletteOpen = false }
     navigateTo(v) {
@@ -475,6 +475,7 @@ surface App {
 
   // CommandPalette overlay (Issue #18, #57 backdrop-blur)
   CommandPalette(
+    open: commandPaletteOpen,
     commands: [
       {id: "dashboard", label: "Dashboard", group: "Views", icon: "home"},
       {id: "analytics", label: "Analytics", group: "Views", icon: "bar-chart"},
