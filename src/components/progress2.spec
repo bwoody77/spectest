@@ -1,6 +1,6 @@
 // Progress2 — bar progress indicator (static demo)
-// Limitation: width property doesn't support expressions, so the fill bar
-// is a fixed visual demonstration. Full conversion needs computed style support.
+// Limitation: width doesn't support expressions/match, so fill width is fixed.
+// The theme-preview uses two instances with different visual representations.
 component Progress2(value: number = 0, label: string = "") {
   block {
     height: 8px

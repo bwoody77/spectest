@@ -1,7 +1,10 @@
+// Badge2 — inline status badge
+// Limitation: padding only supports single value (TS uses 2px 10px),
+// and display:inline-flex not available (renders as block div, not inline span)
 component Badge2(text: string, variant: string = "neutral") {
   block {
     layout: horizontal, gap: 4px, align: center
-    padding: spacing.1
+    padding: spacing.2
     border-radius: token.badge-radius
     background: match variant {
       "info" -> token.badge-info-bg,

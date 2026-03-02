@@ -202,14 +202,6 @@ surface ThemePreview() {
               Progress2(value: progressValue)
             }
           }
-          block {
-            layout: horizontal, gap: spacing.3, align: center
-            text("40%") { style: type.label-sm, color: semantic.text-secondary }
-            block {
-              grow: true
-              Progress2(value: progressHalf)
-            }
-          }
         }
       }
     }
