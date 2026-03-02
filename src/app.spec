@@ -222,13 +222,9 @@ surface App {
     shadow: elevation.raised
     layout: horizontal, gap: spacing.4, align: center, justify: between
 
-    // Left: menu toggle + title
+    // Left: title
     block {
       layout: horizontal, gap: spacing.3, align: center
-
-      Button(label: "☰", variant: "ghost") {
-        on click: toggleSidebar()
-      }
 
       Icon(name: "home", size: icon.lg, color: semantic.interactive)
       text("Spec Admin") {
