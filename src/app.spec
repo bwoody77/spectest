@@ -43,6 +43,7 @@
 @import { EditableGridDemo } from "./surfaces/editable-grid-demo.spec"
 @import { TreeDemo } from "./surfaces/tree-demo.spec"
 @import { ThemePreview } from "./surfaces/theme-preview.spec"
+// @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
 
@@ -137,6 +138,8 @@ surface App {
     showPerfGrid: view == "perfgrid"
     showPerfSignals: view == "perfsignals"
     showThemePreview: view == "themepreview"
+    showLanding2: view == "landing2"
+    isLandingPage: view == "landing2"
 
     viewTitle: match view {
       "dashboard" -> "Dashboard",
@@ -154,6 +157,7 @@ surface App {
       "perfgrid" -> "Grid Performance",
       "perfsignals" -> "Signal Performance",
       "themepreview" -> "Theme Preview",
+      "landing2" -> "Landing Page",
       _ -> "Admin"
     }
 
@@ -174,6 +178,7 @@ surface App {
       "perfgrid" -> "Performance",
       "perfsignals" -> "Performance",
       "themepreview" -> "Design",
+      "landing2" -> "Marketing",
       _ -> "Overview"
     }
 
@@ -182,7 +187,7 @@ surface App {
     statsInProgress: stats != null ? stats.inProgress : 0
     statsTodo: stats != null ? stats.todo : 0
 
-    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" || themePreset == "nord" || themePreset == "cyberpunk" || themePreset == "dracula" || themePreset == "ocean" || themePreset == "monokai" || themePreset == "retro" || themePreset == "gruvbox" || themePreset == "catppuccin" || themePreset == "synthwave" ? "dark" : "light"
+    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" || themePreset == "nord" || themePreset == "cyberpunk" || themePreset == "dracula" || themePreset == "ocean" || themePreset == "monokai" || themePreset == "retro" || themePreset == "gruvbox" || themePreset == "catppuccin" || themePreset == "synthwave" || themePreset == "rose-pine" || themePreset == "cobalt" || themePreset == "stranger-things" || themePreset == "mtg" ? "dark" : "light"
     fullHeight: "100vh"
     fullWidth: "100%"
   }
@@ -211,8 +216,19 @@ surface App {
 
   layout: vertical
 
+  // Landing page — full viewport, no admin shell
+  block {
+    visibility: isLandingPage
+    colorScheme: appColorScheme
+    height: fullHeight
+    overflow: auto
+    background: "#0f172a"
+    Landing2(view)
+  }
+
   // Root wrapper with dark mode (Issue #59) and full-height layout
   block {
+    visibility: !isLandingPage
     colorScheme: appColorScheme
     height: fullHeight
     overflow: hidden
@@ -281,7 +297,8 @@ surface App {
     overflow: auto
 
     block {
-      layout: horizontal, gap: spacing.2, align: center
+      layout: horizontal, gap: spacing.3, align: center
+      width: "max-content"
 
       each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
             {value: "dark", label: "Dark", bg: "#0f172a", fg: "#e2e8f0", accent: "#818cf8", bdr: "#334155"},
@@ -307,33 +324,78 @@ surface App {
             {value: "gruvbox", label: "Gruvbox", bg: "#282828", fg: "#EBDBB2", accent: "#FE8019", bdr: "#504945"},
             {value: "catppuccin", label: "Catppuccin", bg: "#1E1E2E", fg: "#CDD6F4", accent: "#CBA6F7", bdr: "#45475A"},
             {value: "newspaper", label: "Newspaper", bg: "#FFFEF9", fg: "#1A1A1A", accent: "#8B0000", bdr: "#D8D0C4"},
-            {value: "synthwave", label: "Synthwave", bg: "#241B2F", fg: "#F0E8FF", accent: "#FF7AC6", bdr: "#463868"}
+            {value: "synthwave", label: "Synthwave", bg: "#241B2F", fg: "#F0E8FF", accent: "#FF7AC6", bdr: "#463868"},
+            {value: "rose-pine", label: "Rosé Pine", bg: "#191724", fg: "#E0DEF4", accent: "#EBBCBA", bdr: "#3A3650"},
+            {value: "cobalt", label: "Cobalt", bg: "#15232D", fg: "#E1EFFF", accent: "#FFC600", bdr: "#1E4263"},
+            {value: "pastel", label: "Pastel", bg: "#F8F6FF", fg: "#2D2642", accent: "#9B72CF", bdr: "#E0D8F0"},
+            {value: "high-contrast", label: "Hi-Contrast", bg: "#FFFFFF", fg: "#000000", accent: "#0050D8", bdr: "#000000"},
+            {value: "stranger-things", label: "Stranger Things", bg: "#0C0808", fg: "#F0D8D0", accent: "#E82020", bdr: "#3A1C1C"},
+            {value: "mtg", label: "MTG", bg: "#1C1712", fg: "#E8DCC8", accent: "#D4A836", bdr: "#5C4A30"}
            ] as theme {
         block {
-          padding-x: spacing.3
-          padding-y: spacing.2
+          width: 110px
+          padding: spacing.2
           border-radius: radius.md
           background: theme.bg
           border: themePreset == theme.value ? "2px solid " + theme.accent : "2px solid " + theme.bdr
           cursor: pointer
           on click: setThemePreset(theme.value)
-          layout: horizontal, gap: spacing.1, align: center
+          layout: vertical, gap: spacing.1
 
-          // Color accent dot
+          // Accent bar
           block {
-            width: 8px
-            height: 8px
-            border-radius: 50%
+            height: 4px
+            border-radius: 2px
             background: theme.accent
           }
 
-          text(theme.label) {
-            style: type.caption
+          // Text sample
+          text("Aa") {
+            style: type.body-lg
             color: theme.fg
+          }
+
+          // Theme name
+          text(theme.label) {
+            style: type.body-sm
+            color: theme.fg
+          }
+
+          // Color dots
+          block {
+            layout: horizontal, gap: 4px, align: center
+
+            block {
+              width: 10px
+              height: 10px
+              border-radius: 50%
+              background: theme.fg
+            }
+            block {
+              width: 10px
+              height: 10px
+              border-radius: 50%
+              background: theme.accent
+            }
+            block {
+              width: 10px
+              height: 10px
+              border-radius: 50%
+              background: theme.bdr
+            }
           }
         }
       }
     }
+  }
+
+  // Stranger Things pulsing red glow bar (between header and content)
+  block {
+    visibility: themePreset == "stranger-things"
+    height: 6px
+    background: "linear-gradient(180deg, #E82020, #8B0000)"
+    shadow: "0 4px 30px rgba(232,32,32,0.7), 0 8px 80px rgba(232,32,32,0.35), 0 2px 8px rgba(232,32,32,0.9)"
+    animation: "spec-pulse 5s cubic-bezier(0.4, 0, 0.2, 1) infinite"
   }
 
   // Breadcrumb navigation (Issue #18) — hidden on mobile
@@ -391,6 +453,9 @@ surface App {
         {heading: "Performance", items: [
           {id: "perfgrid", label: "Grid 10K", icon: "zap"},
           {id: "perfsignals", label: "Signal Test", icon: "activity"}
+        ]},
+        {heading: "Marketing", items: [
+          {id: "landing2", label: "Landing Page", icon: "globe"}
         ]},
         {heading: "Design", items: [
           {id: "themepreview", label: "Theme Preview", icon: "palette"}
@@ -561,6 +626,7 @@ surface App {
       {id: "datagrid", label: "Product Catalog", group: "Data", icon: "layout"},
       {id: "editgrid", label: "Editable Grid", group: "Data", icon: "edit"},
       {id: "categories", label: "Categories", group: "Data", icon: "list"},
+      {id: "landing2", label: "Landing Page", group: "Marketing", icon: "globe"},
       {id: "themepreview", label: "Theme Preview", group: "Design", icon: "palette"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
