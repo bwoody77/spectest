@@ -112,6 +112,7 @@ surface App {
     sidebarCollapsed: false
     mobileNavOpen: false
     commandPaletteOpen: false
+    themeDrawerOpen: false
     currentLocale: getCurrentLocale()
   }
 
@@ -181,7 +182,7 @@ surface App {
     statsInProgress: stats != null ? stats.inProgress : 0
     statsTodo: stats != null ? stats.todo : 0
 
-    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" || themePreset == "nord" || themePreset == "cyberpunk" || themePreset == "dracula" || themePreset == "ocean" ? "dark" : "light"
+    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" || themePreset == "nord" || themePreset == "cyberpunk" || themePreset == "dracula" || themePreset == "ocean" || themePreset == "monokai" || themePreset == "retro" || themePreset == "gruvbox" || themePreset == "catppuccin" || themePreset == "synthwave" ? "dark" : "light"
     fullHeight: "100vh"
     fullWidth: "100%"
   }
@@ -189,6 +190,8 @@ surface App {
   @actions {
     setThemePreset(p) { themePreset = p }
     setView(v) { view = v }
+    toggleThemeDrawer() { themeDrawerOpen = !themeDrawerOpen }
+    closeThemeDrawer() { themeDrawerOpen = false }
     toggleSidebar() {
       sidebarCollapsed = !sidebarCollapsed
       mobileNavOpen = !mobileNavOpen
@@ -245,31 +248,9 @@ surface App {
     block {
       layout: horizontal, gap: spacing.2, align: center
 
-      // Theme selector
-      Select(
-        options: [
-          {value: "default", label: "Default"},
-          {value: "dark", label: "Dark"},
-          {value: "mui", label: "MUI"},
-          {value: "shadcn", label: "shadcn"},
-          {value: "cartoon", label: "Cartoon"},
-          {value: "illustration", label: "Illustration"},
-          {value: "bootstrap", label: "Bootstrap"},
-          {value: "glass", label: "Glass"},
-          {value: "geek", label: "Geek"},
-          {value: "nord", label: "Nord"},
-          {value: "sunset", label: "Sunset"},
-          {value: "cyberpunk", label: "Cyberpunk"},
-          {value: "sakura", label: "Sakura"},
-          {value: "dracula", label: "Dracula"},
-          {value: "ocean", label: "Ocean"},
-          {value: "lavender", label: "Lavender"},
-          {value: "brutalist", label: "Brutalist"}
-        ],
-        value: themePreset,
-        label: "Theme"
-      ) {
-        on change(v): setThemePreset(v)
+      // Theme chooser panel trigger
+      Button(label: "Theme", variant: "secondary", pressed: themeDrawerOpen) {
+        on click: toggleThemeDrawer()
       }
 
       // Language selector
@@ -286,6 +267,71 @@ surface App {
       // Command palette trigger (Issue #18)
       Button(label: "⌘K", variant: "ghost") {
         on click: openCommandPalette()
+      }
+    }
+  }
+
+  // Theme chooser panel — inline, pushes content down
+  block {
+    visibility: themeDrawerOpen
+    background: semantic.surface-raised
+    border-bottom: borders.default
+    padding-x: spacing.4
+    padding-y: spacing.2
+    overflow: auto
+
+    block {
+      layout: horizontal, gap: spacing.2, align: center
+
+      each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
+            {value: "dark", label: "Dark", bg: "#0f172a", fg: "#e2e8f0", accent: "#818cf8", bdr: "#334155"},
+            {value: "mui", label: "MUI", bg: "#ffffff", fg: "#212121", accent: "#1976d2", bdr: "#e0e0e0"},
+            {value: "shadcn", label: "shadcn", bg: "#fafafa", fg: "#09090b", accent: "#18181b", bdr: "#e4e4e7"},
+            {value: "cartoon", label: "Cartoon", bg: "#fdf6ec", fg: "#2d3748", accent: "#2d6a4f", bdr: "#e2d5c1"},
+            {value: "illustration", label: "Illustration", bg: "#fff9f0", fg: "#1a1a2e", accent: "#52c41a", bdr: "#e8dfd6"},
+            {value: "bootstrap", label: "Bootstrap", bg: "#ffffff", fg: "#212529", accent: "#0d6efd", bdr: "#dee2e6"},
+            {value: "glass", label: "Glass", bg: "rgba(15,23,42,0.85)", fg: "#e2e8f0", accent: "#a78bfa", bdr: "rgba(255,255,255,0.15)"},
+            {value: "geek", label: "Geek", bg: "#0a0a0a", fg: "#00ff41", accent: "#00ff41", bdr: "#1a3a1a"},
+            {value: "nord", label: "Nord", bg: "#2E3440", fg: "#ECEFF4", accent: "#88C0D0", bdr: "#3B4252"},
+            {value: "sunset", label: "Sunset", bg: "#FFF8F1", fg: "#1C1917", accent: "#EA580C", bdr: "#FFEDD5"},
+            {value: "cyberpunk", label: "Cyberpunk", bg: "#0D001A", fg: "#F0ABFC", accent: "#FF2D95", bdr: "#2D0050"},
+            {value: "sakura", label: "Sakura", bg: "#FFF5F5", fg: "#1A1A2E", accent: "#E11D48", bdr: "#FECDD3"},
+            {value: "dracula", label: "Dracula", bg: "#282A36", fg: "#F8F8F2", accent: "#BD93F9", bdr: "#44475A"},
+            {value: "ocean", label: "Ocean", bg: "#0C1929", fg: "#CBD5E1", accent: "#2DD4BF", bdr: "#1E3A5F"},
+            {value: "lavender", label: "Lavender", bg: "#F5F3FF", fg: "#1E1B4B", accent: "#7C3AED", bdr: "#DDD6FE"},
+            {value: "brutalist", label: "Brutalist", bg: "#FFFFFF", fg: "#000000", accent: "#000000", bdr: "#000000"},
+            {value: "solarized", label: "Solarized", bg: "#EEE8D5", fg: "#073642", accent: "#2AA198", bdr: "#93A1A1"},
+            {value: "monokai", label: "Monokai", bg: "#272822", fg: "#F8F8F2", accent: "#F92672", bdr: "#3E3D32"},
+            {value: "earth", label: "Earth", bg: "#F5F0EB", fg: "#292524", accent: "#B45309", bdr: "#D6CFC7"},
+            {value: "retro", label: "Retro", bg: "#0A0800", fg: "#FFB000", accent: "#FFB000", bdr: "#3D2200"},
+            {value: "gruvbox", label: "Gruvbox", bg: "#282828", fg: "#EBDBB2", accent: "#FE8019", bdr: "#504945"},
+            {value: "catppuccin", label: "Catppuccin", bg: "#1E1E2E", fg: "#CDD6F4", accent: "#CBA6F7", bdr: "#45475A"},
+            {value: "newspaper", label: "Newspaper", bg: "#FFFEF9", fg: "#1A1A1A", accent: "#8B0000", bdr: "#D8D0C4"},
+            {value: "synthwave", label: "Synthwave", bg: "#241B2F", fg: "#F0E8FF", accent: "#FF7AC6", bdr: "#463868"}
+           ] as theme {
+        block {
+          padding-x: spacing.3
+          padding-y: spacing.2
+          border-radius: radius.md
+          background: theme.bg
+          border: themePreset == theme.value ? "2px solid " + theme.accent : "2px solid " + theme.bdr
+          cursor: pointer
+          on click: setThemePreset(theme.value)
+          layout: horizontal, gap: spacing.1, align: center
+
+          // Color accent dot
+          block {
+            width: 8px
+            height: 8px
+            border-radius: 50%
+            background: theme.accent
+          }
+
+          text(theme.label) {
+            style: type.caption
+            color: theme.fg
+          }
+        }
       }
     }
   }
