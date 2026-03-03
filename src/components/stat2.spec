@@ -2,8 +2,8 @@ component Stat2(label: string, value: string, trend: string = "", trendValue: st
   block {
     layout: vertical
 
-    text(label) { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
-    text(value) { style: type.heading-md, color: semantic.text-primary }
+    text(label) { style: type.label-md, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
+    text(value) { style: type.heading-md, color: semantic.text-primary, margin: "0" }
 
     block {
       visibility: trend != ""
