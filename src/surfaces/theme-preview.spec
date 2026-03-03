@@ -9,6 +9,7 @@ surface ThemePreview() {
     toggleChecked: false
     checkboxNewsletter: true
     toggleNotifications: true
+    radioValue: "option1"
     activeTab: "overview"
     stepperStep: 1
     pickedDate: null
@@ -30,6 +31,7 @@ surface ThemePreview() {
     setToggle(v) { toggleChecked = v }
     setCheckboxNewsletter(v) { checkboxNewsletter = v }
     setToggleNotifications(v) { toggleNotifications = v }
+    setRadio(v) { radioValue = v }
     setTab(id) { activeTab = id }
     nextStep() { stepperStep = stepperStep < 4 ? stepperStep + 1 : 1 }
     prevStep() { stepperStep = stepperStep > 1 ? stepperStep - 1 : 1 }
@@ -142,6 +144,18 @@ surface ThemePreview() {
             on change(v): setToggleNotifications(v)
           }
           Toggle(label: "Disabled toggle", disabled: true)
+
+          text("Radio Buttons") { style: type.label-md, color: semantic.text-secondary }
+          Radio(label: "Option 1", value: "option1", checked: radioValue == "option1") {
+            on change(v): setRadio(v)
+          }
+          Radio(label: "Option 2", value: "option2", checked: radioValue == "option2") {
+            on change(v): setRadio(v)
+          }
+          Radio(label: "Option 3", value: "option3", checked: radioValue == "option3") {
+            on change(v): setRadio(v)
+          }
+          Radio(label: "Disabled", value: "disabled", disabled: true)
         }
       }
     }
@@ -367,17 +381,86 @@ surface ThemePreview() {
         block {
           layout: vertical, gap: spacing.3
           text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Stat(label: "Revenue", value: "$12,345", trend: "up", trendText: "+12% vs last month")
-          Stat(label: "Users", value: "1,234", trend: "down", trendText: "-3% vs last month")
-          Stat(label: "Sessions", value: "5,678", trend: "neutral", trendText: "No change")
+          block {
+            padding: spacing.4
+            background: gradient.stat-primary
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "star", size: icon.lg, color: semantic.interactive)
+            Stat(label: "Revenue", value: "$12,345", trend: "up", trendText: "+12%")
+          }
+          block {
+            padding: spacing.4
+            background: gradient.stat-success
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "user", size: icon.lg, color: semantic.success)
+            Stat(label: "Users", value: "1,234", trend: "down", trendText: "-3%")
+          }
+          block {
+            padding: spacing.4
+            background: gradient.stat-warning
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "loader", size: icon.lg, color: semantic.warning)
+            Stat(label: "Sessions", value: "5,678", trend: "neutral", trendText: "No change")
+          }
         }
 
         block {
           layout: vertical, gap: spacing.3
           text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Stat2(label: "Revenue", value: "$12,345", trend: "up", trendValue: "+12% vs last month")
-          Stat2(label: "Users", value: "1,234", trend: "down", trendValue: "-3% vs last month")
-          Stat2(label: "Sessions", value: "5,678", trend: "neutral", trendValue: "No change")
+          block {
+            background: gradient.stat-primary
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "star", size: icon.lg, color: semantic.interactive)
+            Stat2(label: "Revenue", value: "$12,345", trend: "up", trendValue: "+12%")
+          }
+          block {
+            background: gradient.stat-success
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "user", size: icon.lg, color: semantic.success)
+            Stat2(label: "Users", value: "1,234", trend: "down", trendValue: "-3%")
+          }
+          block {
+            background: gradient.stat-warning
+            border-radius: radius.lg
+            layout: vertical, gap: spacing.2, align: center
+            transition: transition.card-lift
+            on hover {
+              transform: transform.lift-md
+              shadow: elevation.floating
+            }
+            Icon(name: "loader", size: icon.lg, color: semantic.warning)
+            Stat2(label: "Sessions", value: "5,678", trend: "neutral", trendValue: "No change")
+          }
         }
       }
     }
