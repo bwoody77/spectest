@@ -32,7 +32,7 @@ surface WizardStep1 {
 
       block {
         layout: vertical, gap: spacing.1
-        Input(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
+        TextInput(type: "text", label: "Title", value: title, placeholder: "Task title", error: showTitleError) {
           on change(v): {
             title = v
             titleTouched = true

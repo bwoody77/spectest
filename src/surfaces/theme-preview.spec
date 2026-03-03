@@ -32,6 +32,7 @@ surface ThemePreview() {
     sidebarItem: "dashboard"
     sidebarCollapsed: false
     stepper2Step: 0
+    toastsVisible: true
   }
 
   @computed {
@@ -78,6 +79,8 @@ surface ThemePreview() {
     setStepper2Step(n) { stepper2Step = n }
     nextStepper2() { stepper2Step = stepper2Step < 3 ? stepper2Step + 1 : 0 }
     prevStepper2() { stepper2Step = stepper2Step > 0 ? stepper2Step - 1 : 0 }
+    dismissToasts() { toastsVisible = false }
+    showToasts() { toastsVisible = true }
   }
 
   layout: vertical, gap: spacing.5
@@ -87,287 +90,6 @@ surface ThemePreview() {
   text("Switch themes above to compare how each one styles these components.") {
     style: type.body-md
     color: semantic.text-secondary
-  }
-
-  // =====================================================================
-  // Spec Component Showcases
-  // =====================================================================
-
-  // ===== Text =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Text") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: vertical, gap: spacing.3
-        Text(content: "Heading Large", variant: "heading-lg")
-        Text(content: "Body text paragraph", variant: "body-md")
-        Text(content: "Small label", variant: "label-sm")
-        Text(content: "Caption text", variant: "caption")
-      }
-    }
-  }
-
-  // ===== Stack =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Stack") { style: type.heading-sm, color: semantic.text-primary }
-      Stack(direction: "horizontal") {
-        Badge(text: "A", variant: "info")
-        Badge(text: "B", variant: "success")
-        Badge(text: "C", variant: "warning")
-      }
-    }
-  }
-
-  // ===== Pagination =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Pagination") { style: type.heading-sm, color: semantic.text-primary }
-      Pagination(total: 100, pageSize: 10, page: paginationPage) {
-        on change(p): setPaginationPage(p)
-      }
-    }
-  }
-
-  // ===== TimePicker =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("TimePicker") { style: type.heading-sm, color: semantic.text-primary }
-      TimePicker(label: "Meeting Time", format: "12")
-    }
-  }
-
-  // ===== Stepper =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Stepper") { style: type.heading-sm, color: semantic.text-primary }
-      Stepper(
-        steps: [
-          {label: "Account"},
-          {label: "Profile"},
-          {label: "Review"},
-          {label: "Complete"}
-        ],
-        activeStep: stepper2Step
-      )
-      block {
-        layout: horizontal, gap: spacing.3
-        Button(label: "Previous", variant: "secondary") {
-          on click: prevStepper2()
-        }
-        Button(label: "Next Step", variant: "primary") {
-          on click: nextStepper2()
-        }
-      }
-    }
-  }
-
-  // ===== Slider =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Slider") { style: type.heading-sm, color: semantic.text-primary }
-      Slider(label: "Volume", min: 0, max: 100, value: sliderValue) {
-        on change(v): setSliderValue(v)
-      }
-    }
-  }
-
-  // ===== Select =====
-  // Using inline card styling with overflow:visible so dropdown popups aren't clipped
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-      overflow: visible
-
-      text("Select") { style: type.heading-sm, color: semantic.text-primary }
-      Select(
-        label: "Framework",
-        options: [
-          {value: "react", label: "React"},
-          {value: "vue", label: "Vue"},
-          {value: "angular", label: "Angular"},
-          {value: "svelte", label: "Svelte"}
-        ],
-        value: select2Value,
-        placeholder: "Choose..."
-      ) {
-        on change(v): setSelect2(v)
-      }
-    }
-  }
-
-  // ===== Tooltip =====
-  // Using inline card styling with overflow:visible so tooltip popups aren't clipped
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Tooltip") { style: type.heading-sm, color: semantic.text-primary }
-
-      block {
-        layout: horizontal, gap: spacing.4
-        overflow: visible
-
-        Tooltip(text: "Top tooltip") {
-          Button(label: "Top", variant: "secondary")
-        }
-        Tooltip(text: "Bottom tooltip", placement: "bottom") {
-          Button(label: "Bottom", variant: "secondary")
-        }
-        Tooltip(text: "Left tooltip", placement: "left") {
-          Button(label: "Left", variant: "secondary")
-        }
-        Tooltip(text: "Right tooltip", placement: "right") {
-          Button(label: "Right", variant: "secondary")
-        }
-      }
-    }
-  }
-
-  // ===== Popover =====
-  // Using inline card styling with overflow:visible so popover panels aren't clipped
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Popover") { style: type.heading-sm, color: semantic.text-primary }
-
-      block {
-        layout: horizontal, gap: spacing.4
-        overflow: visible
-
-        Popover() {
-          slot("trigger") {
-            Button(label: "Bottom (default)", variant: "secondary")
-          }
-          slot("content") {
-            block {
-              layout: vertical, gap: spacing.2
-              text("Popover Content") { style: type.label-md, color: semantic.text-primary }
-              text("Click the trigger to open. Click outside to close.") {
-                style: type.body-md
-                color: semantic.text-secondary
-              }
-            }
-          }
-        }
-
-        Popover(placement: "right") {
-          slot("trigger") {
-            Button(label: "Right", variant: "secondary")
-          }
-          slot("content") {
-            block {
-              layout: vertical, gap: spacing.2
-              text("Right Popover") { style: type.label-md, color: semantic.text-primary }
-              text("Positioned to the right of the trigger.") {
-                style: type.body-md
-                color: semantic.text-secondary
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // ===== Command Palette =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Command Palette") { style: type.heading-sm, color: semantic.text-primary }
-      Button(label: "Open Command Palette", variant: "secondary") {
-        on click: openCmdPalette()
-      }
-      CommandPalette(
-        commands: [
-          {id: "new", label: "New File", shortcut: "Ctrl+N"},
-          {id: "open", label: "Open File", shortcut: "Ctrl+O"},
-          {id: "save", label: "Save", shortcut: "Ctrl+S"},
-          {id: "settings", label: "Open Settings", description: "Configure preferences"},
-          {id: "theme", label: "Change Theme", description: "Switch color theme"}
-        ],
-        open: cmdPaletteOpen
-      ) {
-        on select(id): selectCmd(id)
-        on close: closeCmdPalette()
-      }
-    }
-  }
-
-  // ===== Sidebar =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Sidebar") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        height: 300px
-        border: borders.default
-        border-radius: radius.md
-        overflow: hidden
-        Sidebar(
-          sections: [
-            {title: "Main", items: [
-              {id: "dashboard", label: "Dashboard", icon: "home"},
-              {id: "analytics", label: "Analytics", icon: "star"},
-              {id: "settings", label: "Settings", icon: "settings"}
-            ]},
-            {title: "Account", items: [
-              {id: "profile", label: "Profile", icon: "user"},
-              {id: "logout", label: "Logout", icon: "arrowRight"}
-            ]}
-          ],
-          activeItem: sidebarItem,
-          collapsed: sidebarCollapsed
-        ) {
-          on select(id): setSidebarItem(id)
-          on collapse(v): setSidebarCollapsed(v)
-        }
-      }
-    }
   }
 
   // Two-column masonry layout at larger breakpoints
@@ -871,10 +593,30 @@ surface ThemePreview() {
 
           text("Toast (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
 
-          Toast2(message: "Operation completed successfully!", severity: "success")
-          Toast2(message: "Something went wrong. Please try again.", severity: "error")
-          Toast2(message: "This action cannot be undone.", severity: "warning")
-          Toast2(message: "New features are available.", severity: "info")
+          block {
+            visibility: toastsVisible
+            layout: vertical, gap: spacing.3
+
+            Toast(message: "Operation completed successfully!", severity: "success") {
+              on dismiss: dismissToasts()
+            }
+            Toast(message: "Something went wrong. Please try again.", severity: "error") {
+              on dismiss: dismissToasts()
+            }
+            Toast(message: "This action cannot be undone.", severity: "warning") {
+              on dismiss: dismissToasts()
+            }
+            Toast(message: "New features are available.", severity: "info") {
+              on dismiss: dismissToasts()
+            }
+          }
+
+          block {
+            visibility: !toastsVisible
+            Button(label: "Show Toasts", variant: "secondary") {
+              on click: showToasts()
+            }
+          }
         }
       }
 
@@ -971,6 +713,287 @@ surface ThemePreview() {
             on confirm: closeConfirmDestructive()
             on cancel: closeConfirmDestructive()
           }
+        }
+      }
+    }
+  }
+
+  // =====================================================================
+  // Additional Component Showcases
+  // =====================================================================
+
+  // ===== Text =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Text") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: vertical, gap: spacing.3
+        Text(content: "Heading Large", variant: "heading-lg")
+        Text(content: "Body text paragraph", variant: "body-md")
+        Text(content: "Small label", variant: "label-sm")
+        Text(content: "Caption text", variant: "caption")
+      }
+    }
+  }
+
+  // ===== Stack =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Stack") { style: type.heading-sm, color: semantic.text-primary }
+      Stack(direction: "horizontal") {
+        Badge(text: "A", variant: "info")
+        Badge(text: "B", variant: "success")
+        Badge(text: "C", variant: "warning")
+      }
+    }
+  }
+
+  // ===== Pagination =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Pagination") { style: type.heading-sm, color: semantic.text-primary }
+      Pagination(total: 100, pageSize: 10, page: paginationPage) {
+        on change(p): setPaginationPage(p)
+      }
+    }
+  }
+
+  // ===== TimePicker =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("TimePicker") { style: type.heading-sm, color: semantic.text-primary }
+      TimePicker(label: "Meeting Time", format: "12")
+    }
+  }
+
+  // ===== Stepper =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Stepper") { style: type.heading-sm, color: semantic.text-primary }
+      Stepper(
+        steps: [
+          {label: "Account"},
+          {label: "Profile"},
+          {label: "Review"},
+          {label: "Complete"}
+        ],
+        activeStep: stepper2Step
+      )
+      block {
+        layout: horizontal, gap: spacing.3
+        Button(label: "Previous", variant: "secondary") {
+          on click: prevStepper2()
+        }
+        Button(label: "Next Step", variant: "primary") {
+          on click: nextStepper2()
+        }
+      }
+    }
+  }
+
+  // ===== Slider =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Slider") { style: type.heading-sm, color: semantic.text-primary }
+      Slider(label: "Volume", min: 0, max: 100, value: sliderValue) {
+        on change(v): setSliderValue(v)
+      }
+    }
+  }
+
+  // ===== Select =====
+  // Using inline card styling with overflow:visible so dropdown popups aren't clipped
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      overflow: visible
+
+      text("Select") { style: type.heading-sm, color: semantic.text-primary }
+      Select(
+        label: "Framework",
+        options: [
+          {value: "react", label: "React"},
+          {value: "vue", label: "Vue"},
+          {value: "angular", label: "Angular"},
+          {value: "svelte", label: "Svelte"}
+        ],
+        value: select2Value,
+        placeholder: "Choose..."
+      ) {
+        on change(v): setSelect2(v)
+      }
+    }
+  }
+
+  // ===== Tooltip =====
+  // Using inline card styling with overflow:visible so tooltip popups aren't clipped
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Tooltip") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.4
+        overflow: visible
+
+        Tooltip(text: "Top tooltip") {
+          Button(label: "Top", variant: "secondary")
+        }
+        Tooltip(text: "Bottom tooltip", placement: "bottom") {
+          Button(label: "Bottom", variant: "secondary")
+        }
+        Tooltip(text: "Left tooltip", placement: "left") {
+          Button(label: "Left", variant: "secondary")
+        }
+        Tooltip(text: "Right tooltip", placement: "right") {
+          Button(label: "Right", variant: "secondary")
+        }
+      }
+    }
+  }
+
+  // ===== Popover =====
+  // Using inline card styling with overflow:visible so popover panels aren't clipped
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Popover") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.4
+        overflow: visible
+
+        Popover() {
+          slot("trigger") {
+            Button(label: "Bottom (default)", variant: "secondary")
+          }
+          slot("content") {
+            block {
+              layout: vertical, gap: spacing.2
+              text("Popover Content") { style: type.label-md, color: semantic.text-primary }
+              text("Click the trigger to open. Click outside to close.") {
+                style: type.body-md
+                color: semantic.text-secondary
+              }
+            }
+          }
+        }
+
+        Popover(placement: "right") {
+          slot("trigger") {
+            Button(label: "Right", variant: "secondary")
+          }
+          slot("content") {
+            block {
+              layout: vertical, gap: spacing.2
+              text("Right Popover") { style: type.label-md, color: semantic.text-primary }
+              text("Positioned to the right of the trigger.") {
+                style: type.body-md
+                color: semantic.text-secondary
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // ===== Command Palette =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Command Palette") { style: type.heading-sm, color: semantic.text-primary }
+      Button(label: "Open Command Palette", variant: "secondary") {
+        on click: openCmdPalette()
+      }
+      CommandPalette(
+        commands: [
+          {id: "new", label: "New File", shortcut: "Ctrl+N"},
+          {id: "open", label: "Open File", shortcut: "Ctrl+O"},
+          {id: "save", label: "Save", shortcut: "Ctrl+S"},
+          {id: "settings", label: "Open Settings", description: "Configure preferences"},
+          {id: "theme", label: "Change Theme", description: "Switch color theme"}
+        ],
+        open: cmdPaletteOpen
+      ) {
+        on select(id): selectCmd(id)
+        on close: closeCmdPalette()
+      }
+    }
+  }
+
+  // ===== Sidebar =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Sidebar") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        height: 300px
+        border: borders.default
+        border-radius: radius.md
+        overflow: hidden
+        Sidebar(
+          sections: [
+            {title: "Main", items: [
+              {id: "dashboard", label: "Dashboard", icon: "home"},
+              {id: "analytics", label: "Analytics", icon: "star"},
+              {id: "settings", label: "Settings", icon: "settings"}
+            ]},
+            {title: "Account", items: [
+              {id: "profile", label: "Profile", icon: "user"},
+              {id: "logout", label: "Logout", icon: "arrowRight"}
+            ]}
+          ],
+          activeItem: sidebarItem,
+          collapsed: sidebarCollapsed
+        ) {
+          on select(id): setSidebarItem(id)
+          on collapse(v): setSidebarCollapsed(v)
         }
       }
     }

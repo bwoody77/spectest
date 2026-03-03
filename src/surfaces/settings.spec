@@ -88,7 +88,7 @@ surface SettingsPanel {
 
         block {
           layout: vertical, gap: spacing.1
-          Input(type: "text", label: "Display Name", value: displayName, placeholder: "Your name") {
+          TextInput(type: "text", label: "Display Name", value: displayName, placeholder: "Your name") {
             on change(v): { displayName = v }
           }
           block {
@@ -99,7 +99,7 @@ surface SettingsPanel {
 
         block {
           layout: vertical, gap: spacing.1
-          Input(type: "text", label: "Email", value: email, placeholder: "Your email") {
+          TextInput(type: "text", label: "Email", value: email, placeholder: "Your email") {
             on change(v): { email = v }
           }
           block {
@@ -109,7 +109,7 @@ surface SettingsPanel {
         }
       }
 
-      Input(type: "textarea", label: "Bio", value: bio, placeholder: "Tell us about yourself...") {
+      TextInput(type: "textarea", label: "Bio", value: bio, placeholder: "Tell us about yourself...") {
         on change(v): { bio = v }
       }
     }

@@ -79,7 +79,7 @@ surface TreeDemo() {
       layout: vertical, gap: spacing.3
 
       // Search input
-      Input(type: "search", label: "Filter categories", value: searchQuery, placeholder: "Search...") {
+      TextInput(type: "search", label: "Filter categories", value: searchQuery, placeholder: "Search...") {
         on change(v): { searchQuery = v }
       }
 

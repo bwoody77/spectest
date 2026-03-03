@@ -65,8 +65,16 @@ surface TaskForm() {
     layout: horizontal, gap: spacing.3, align: center
     Icon(name: "plus", size: icon.md, color: semantic.interactive)
     text("Create New Task") { style: type.heading-lg, color: semantic.text-primary, letter-spacing: "-0.01em" }
-    Popover(placement: "bottom", openOn: "click", text: "Fill in the required fields (Title and Assignee) then click Create Task.") {
-      Icon(name: "info", size: icon.sm, color: semantic.text-secondary)
+    Popover(placement: "bottom") {
+      slot("trigger") {
+        Icon(name: "info", size: icon.sm, color: semantic.text-secondary)
+      }
+      slot("content") {
+        text("Fill in the required fields (Title and Assignee) then click Create Task.") {
+          style: type.body-md
+          color: semantic.text-secondary
+        }
+      }
     }
   }
 
@@ -100,7 +108,7 @@ surface TaskForm() {
       // Title
       block {
         layout: vertical, gap: spacing.1
-        Input(type: "text", label: "Title", value: title, placeholder: "Enter task title", error: hasTitleError) {
+        TextInput(type: "text", label: "Title", value: title, placeholder: "Enter task title", error: hasTitleError) {
           on change(v): { title = v }
         }
         block {
@@ -110,7 +118,7 @@ surface TaskForm() {
       }
 
       // Notes
-      Input(type: "textarea", label: "Notes", value: notes, placeholder: "Optional notes...") {
+      TextInput(type: "textarea", label: "Notes", value: notes, placeholder: "Optional notes...") {
         on change(v): { notes = v }
       }
 
@@ -128,8 +136,7 @@ surface TaskForm() {
             ],
             value: assignee,
             placeholder: "Select assignee",
-            label: "Assignee",
-            error: hasAssigneeError
+            label: "Assignee"
           ) {
             on change(v): { assignee = v }
           }

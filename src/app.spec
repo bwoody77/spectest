@@ -217,14 +217,15 @@ surface App {
   layout: vertical
 
   // Landing page — full viewport, no admin shell
-  block {
-    visibility: isLandingPage
-    colorScheme: appColorScheme
-    height: fullHeight
-    overflow: auto
-    background: "#0f172a"
-    Landing2(view)
-  }
+  // Landing page placeholder (landing2.spec.wip not yet compiled)
+  // block {
+  //   visibility: isLandingPage
+  //   colorScheme: appColorScheme
+  //   height: fullHeight
+  //   overflow: auto
+  //   background: "#0f172a"
+  //   Landing2(view)
+  // }
 
   // Root wrapper with dark mode (Issue #59) and full-height layout
   block {
@@ -304,8 +305,7 @@ surface App {
 
     // Header (fixed at top)
     block {
-      padding: spacing.4
-      padding-bottom: spacing.3
+      padding: spacing.3
       border-bottom: borders.default
       layout: horizontal, justify: between, align: center
       text("Themes") { style: type.heading-sm, color: semantic.text-primary }
@@ -319,9 +319,11 @@ surface App {
       grow: true
       overflow: auto
       padding: spacing.4
-      layout: grid, columns: "1fr 1fr", gap: spacing.3
 
-      each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
+      block {
+        layout: grid, columns: "1fr 1fr", gap: spacing.3
+
+        each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
             {value: "dark", label: "Dark", bg: "#0f172a", fg: "#e2e8f0", accent: "#818cf8", bdr: "#334155"},
             {value: "mui", label: "MUI", bg: "#ffffff", fg: "#212121", accent: "#1976d2", bdr: "#e0e0e0"},
             {value: "shadcn", label: "shadcn", bg: "#fafafa", fg: "#09090b", accent: "#18181b", bdr: "#e4e4e7"},
@@ -406,6 +408,7 @@ surface App {
           }
         }
       }
+      }
     }
   }
 
@@ -485,9 +488,7 @@ surface App {
         ]}
       ],
       activeItem: view,
-      collapsed: sidebarCollapsed,
-      autoHideBelow: "md",
-      mobileOpen: mobileNavOpen
+      collapsed: sidebarCollapsed
     ) {
       on select(id): {
         view = id

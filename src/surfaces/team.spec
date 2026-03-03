@@ -40,7 +40,7 @@ surface TeamDirectory {
       padding: spacing.4
       layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
 
-      Input(type: "search", label: "Search", value: search, placeholder: "Search members...") {
+      TextInput(type: "search", label: "Search", value: search, placeholder: "Search members...") {
         on change(v): { search = v }
       }
 
@@ -94,7 +94,7 @@ surface TeamDirectory {
             shadow: elevation.floating
           }
 
-          UserAvatar(user.name, semantic.interactive)
+          UserAvatar(name: user.name, bgColor: semantic.interactive)
 
           block {
             layout: vertical, gap: spacing.1, align: center
