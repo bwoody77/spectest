@@ -1,7 +1,4 @@
 component Timeline2(items: array) {
-  // Note: the compiler doesn't yet support dynamic style expressions (match/ternary)
-  // inside each loops, so dots and lines use static colors. Per-status coloring
-  // requires a compiler enhancement to emit item property access in style bindings.
   block {
     layout: vertical
     role: "list"
@@ -17,14 +14,17 @@ component Timeline2(items: array) {
           width: 24px
           min-width: 24px
 
-          // Status dot — static color (compiler limitation: no item.* in styles)
+          // Status dot
           block {
             width: 12px
             height: 12px
             min-width: 12px
             min-height: 12px
             border-radius: 9999px
-            background: semantic.interactive
+            background: match item.status {
+              "completed" -> "#22c55e", "active" -> "#3b82f6",
+              "error" -> "#ef4444", _ -> "#9ca3af"
+            }
           }
           // Connector line
           block {
@@ -33,7 +33,10 @@ component Timeline2(items: array) {
             min-width: 2px
             grow: true
             min-height: 24px
-            background: semantic.border
+            background: match item.status {
+              "completed" -> "#22c55e", "active" -> "#3b82f6",
+              "error" -> "#ef4444", _ -> "#d1d5db"
+            }
           }
         }
 
@@ -43,14 +46,20 @@ component Timeline2(items: array) {
           padding: spacing.2
           grow: true
 
-          text(item.date) {
-            style: type.caption
-            color: semantic.text-tertiary
+          block {
+            visibility: item.date != ""
+            text(item.date) {
+              style: type.caption
+              color: semantic.text-tertiary
+            }
           }
           text(item.title) { style: type.body-md, color: semantic.text-primary }
-          text(item.description) {
-            style: type.body-md
-            color: semantic.text-secondary
+          block {
+            visibility: item.description != ""
+            text(item.description) {
+              style: type.body-md
+              color: semantic.text-secondary
+            }
           }
         }
       }
