@@ -76,16 +76,13 @@ component Sidebar(sections: array, activeItem: string = "", collapsed: boolean =
             on hover { background: semantic.surface-raised }
             on click: emit("select", item.id)
 
-            // Icon placeholder
+            // Icon
             block {
               width: 24px
               min-width: 24px
               height: 24px
               layout: horizontal, align: center, justify: center
-              text(item.icon != null ? item.icon : "\u2022") {
-                style: type.body-md
-                color: item.id == activeItem ? semantic.interactive : semantic.text-secondary
-              }
+              Icon(name: item.icon != null ? item.icon : "circle", size: 18, color: item.id == activeItem ? semantic.interactive : semantic.text-secondary)
             }
 
             // Label (hidden when collapsed)

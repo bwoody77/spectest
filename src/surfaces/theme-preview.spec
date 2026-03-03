@@ -351,13 +351,13 @@ surface ThemePreview() {
         Sidebar(
           sections: [
             {title: "Main", items: [
-              {id: "dashboard", label: "Dashboard", icon: "\u2302"},
-              {id: "analytics", label: "Analytics", icon: "\u2637"},
-              {id: "settings", label: "Settings", icon: "\u2699"}
+              {id: "dashboard", label: "Dashboard", icon: "home"},
+              {id: "analytics", label: "Analytics", icon: "star"},
+              {id: "settings", label: "Settings", icon: "settings"}
             ]},
             {title: "Account", items: [
-              {id: "profile", label: "Profile", icon: "\u263A"},
-              {id: "logout", label: "Logout", icon: "\u2192"}
+              {id: "profile", label: "Profile", icon: "user"},
+              {id: "logout", label: "Logout", icon: "arrowRight"}
             ]}
           ],
           activeItem: sidebarItem,
