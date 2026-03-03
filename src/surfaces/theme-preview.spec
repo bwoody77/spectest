@@ -10,6 +10,7 @@ surface ThemePreview() {
     checkboxNewsletter: true
     toggleNotifications: true
     radioValue: "option1"
+    accordionMultiple: false
     activeTab: "overview"
     stepperStep: 1
     pickedDate: null
@@ -32,6 +33,7 @@ surface ThemePreview() {
     setCheckboxNewsletter(v) { checkboxNewsletter = v }
     setToggleNotifications(v) { toggleNotifications = v }
     setRadio(v) { radioValue = v }
+    setAccordionMultiple(v) { accordionMultiple = v }
     setTab(id) { activeTab = id }
     nextStep() { stepperStep = stepperStep < 4 ? stepperStep + 1 : 1 }
     prevStep() { stepperStep = stepperStep > 1 ? stepperStep - 1 : 1 }
@@ -593,13 +595,19 @@ surface ThemePreview() {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
-      text("Accordion (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, justify: between, align: center
+        text("Accordion (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+        Toggle(label: "Allow multiple", checked: accordionMultiple) {
+          on change(v): setAccordionMultiple(v)
+        }
+      }
 
       Accordion(items: [
         {id: "1", title: "What is Spec?", content: "Spec is a declarative UI language that compiles to efficient JavaScript."},
         {id: "2", title: "How does theming work?", content: "Themes use semantic tokens that map to your visual system palette."},
         {id: "3", title: "Is it production ready?", content: "Spec is under active development with growing component coverage."}
-      ])
+      ], multiple: accordionMultiple)
     }
   }
 

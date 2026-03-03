@@ -1,9 +1,9 @@
 component Stat2(label: string, value: string, trend: string = "", trendValue: string = "", helpText: string = "") {
   block {
-    layout: vertical
+    layout: vertical, align: center
 
     text(label) { style: type.label-md, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
-    text(value) { style: type.heading-md, color: semantic.text-primary, margin: "0" }
+    text(value) { style: type.label-lg, weight: 700, color: semantic.text-primary }
 
     block {
       visibility: trend != ""
