@@ -1,14 +1,23 @@
-// Checkbox2 — visual-equivalent checkbox for theme comparison
-// Note: not interactive; needs native <input> element + event forwarding
+// Checkbox — custom visual checkbox with event forwarding
 component Checkbox2(label: string, checked: boolean = false, disabled: boolean = false) {
-  block {
+  button {
+    disabled: disabled
+    border: "none"
+    background: "transparent"
+    padding: 0
     layout: horizontal, gap: 10px, align: center
     opacity: match disabled {
       true -> 0.5,
       _ -> 1
     }
+    cursor: match disabled {
+      true -> "default",
+      _ -> "pointer"
+    }
 
-    // Unchecked box
+    on click: emit("change", checked == false)
+
+    // Unchecked box (visual)
     block {
       visibility: checked == false
       width: 18px
@@ -18,7 +27,7 @@ component Checkbox2(label: string, checked: boolean = false, disabled: boolean =
       background: "transparent"
     }
 
-    // Checked box with icon
+    // Checked box with icon (visual)
     block {
       visibility: checked == true
       width: 18px

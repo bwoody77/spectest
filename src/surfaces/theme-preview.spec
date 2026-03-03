@@ -46,40 +46,18 @@ surface ThemePreview() {
       text("Buttons") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
+        layout: vertical, gap: spacing.3
         block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
-            Button(label: "Primary", variant: "primary") {}
-            Button(label: "Secondary", variant: "secondary") {}
-            Button(label: "Ghost", variant: "ghost") {}
-            Button(label: "Destructive", variant: "destructive") {}
-          }
-          block {
-            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
-            Button(label: "Disabled", variant: "primary", disabled: true) {}
-            Button(label: "Loading", variant: "primary", loading: true) {}
-          }
+          layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+          Button(label: "Primary", variant: "primary")
+          Button(label: "Secondary", variant: "secondary")
+          Button(label: "Ghost", variant: "ghost")
+          Button(label: "Destructive", variant: "destructive")
         }
-
         block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
-            Button2(label: "Primary", variant: "primary")
-            Button2(label: "Secondary", variant: "secondary")
-            Button2(label: "Ghost", variant: "ghost")
-            Button2(label: "Destructive", variant: "destructive")
-          }
-          block {
-            layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
-            Button2(label: "Disabled", variant: "primary", disabled: true)
-            Button2(label: "Loading", variant: "primary", loading: true)
-          }
+          layout: responsive(vertical, md: horizontal), gap: spacing.3, align: center
+          Button(label: "Disabled", variant: "primary", disabled: true)
+          Button(label: "Loading", variant: "primary", loading: true)
         }
       }
     }
@@ -202,6 +180,14 @@ surface ThemePreview() {
               Progress2(value: progressValue)
             }
           }
+          block {
+            layout: horizontal, gap: spacing.3, align: center
+            text("40%") { style: type.label-sm, color: semantic.text-secondary }
+            block {
+              grow: true
+              Progress2(value: progressHalf)
+            }
+          }
         }
       }
     }
@@ -216,33 +202,12 @@ surface ThemePreview() {
       text("Badges") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            layout: horizontal, gap: spacing.2, align: center
-            Badge(text: "Info", variant: "info")
-            Badge(text: "Success", variant: "success")
-            Badge(text: "Warning", variant: "warning")
-            Badge(text: "Error", variant: "error")
-            Badge(text: "Neutral", variant: "neutral")
-          }
-        }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            layout: horizontal, gap: spacing.2, align: center
-            Badge2(text: "Info", variant: "info")
-            Badge2(text: "Success", variant: "success")
-            Badge2(text: "Warning", variant: "warning")
-            Badge2(text: "Error", variant: "error")
-            Badge2(text: "Neutral", variant: "neutral")
-          }
-        }
+        layout: horizontal, gap: spacing.2, align: center
+        Badge(text: "Info", variant: "info")
+        Badge(text: "Success", variant: "success")
+        Badge(text: "Warning", variant: "warning")
+        Badge(text: "Error", variant: "error")
+        Badge(text: "Neutral", variant: "neutral")
       }
     }
   }
@@ -342,30 +307,7 @@ surface ThemePreview() {
       layout: vertical, gap: spacing.4
 
       text("Skeleton") { style: type.heading-sm, color: semantic.text-primary }
-
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Skeleton(variant: "rectangle", height: "80px")
-          block {
-            layout: horizontal, gap: spacing.3, align: center
-            Skeleton(variant: "circle", width: "48px")
-            block {
-              grow: true
-              Skeleton(variant: "text", lines: 2)
-            }
-          }
-        }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Skeleton2()
-        }
-      }
+      Skeleton()
     }
   }
 
@@ -376,62 +318,25 @@ surface ThemePreview() {
       layout: vertical, gap: spacing.4
 
       text("Empty State") { style: type.heading-sm, color: semantic.text-primary }
-
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          EmptyState(message: "No items found", description: "Try adjusting your filters or create a new item.")
-        }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          EmptyState2(message: "No items found", description: "Try adjusting your filters or create a new item.")
-        }
-      }
+      EmptyState(message: "No items found", description: "Try adjusting your filters or create a new item.")
     }
   }
 
   // ===== Card Container =====
-  block {
-    layout: vertical, gap: spacing.4
-
-    text("Card Container") { style: type.heading-sm, color: semantic.text-primary }
-
+  Card() {
     block {
-      layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
 
-      block {
-        layout: vertical, gap: spacing.3
-        text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-        Card() {
-          block {
-            padding: spacing.4
-            layout: vertical, gap: spacing.2
-            text("Card Title") { style: type.heading-sm, color: semantic.text-primary }
-            text("This is a built-in Card component used as a container.") {
-              style: type.body-md
-              color: semantic.text-secondary
-            }
-          }
-        }
-      }
-
-      block {
-        layout: vertical, gap: spacing.3
-        text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-        Card2() {
-          block {
-            padding: spacing.4
-            layout: vertical, gap: spacing.2
-            text("Card Title") { style: type.heading-sm, color: semantic.text-primary }
-            text("This is a Spec Card2 component used as a container.") {
-              style: type.body-md
-              color: semantic.text-secondary
-            }
+      text("Card Container") { style: type.heading-sm, color: semantic.text-primary }
+      Card() {
+        block {
+          padding: spacing.4
+          layout: vertical, gap: spacing.2
+          text("Card Title") { style: type.heading-sm, color: semantic.text-primary }
+          text("This is a Card component used as a container.") {
+            style: type.body-md
+            color: semantic.text-secondary
           }
         }
       }

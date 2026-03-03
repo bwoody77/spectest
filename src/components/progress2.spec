@@ -1,6 +1,4 @@
-// Progress2 — bar progress indicator (static demo)
-// Limitation: width doesn't support expressions/match, so fill width is fixed.
-// The theme-preview uses two instances with different visual representations.
+// Progress2 — bar progress indicator with expression-based width
 component Progress2(value: number = 0, label: string = "") {
   block {
     height: 8px
@@ -9,12 +7,16 @@ component Progress2(value: number = 0, label: string = "") {
     overflow: hidden
     role: "progressbar"
 
-    // Static fill bar — cannot bind width to value param yet
+    // Fill bar — width bound to value param
     block {
       height: 8px
-      width: 65%
+      width: match value {
+        0 -> "0%",
+        _ -> "{value}%"
+      }
       background: token.progress-fillBg
       border-radius: 4px
+      transition: "width 0.3s ease"
     }
   }
 }

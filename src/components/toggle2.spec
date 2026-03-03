@@ -1,12 +1,21 @@
-// Toggle2 — visual-equivalent toggle for theme comparison
-// Note: not interactive; needs native element + event forwarding
+// Toggle — custom toggle/switch with event forwarding
 component Toggle2(label: string, checked: boolean = false, disabled: boolean = false) {
-  block {
+  button {
+    disabled: disabled
+    border: "none"
+    background: "transparent"
+    padding: 0
     layout: horizontal, gap: 10px, align: center
+    cursor: match disabled {
+      true -> "default",
+      _ -> "pointer"
+    }
     opacity: match disabled {
       true -> 0.5,
       _ -> 1
     }
+
+    on click: emit("change", checked == false)
 
     text(label) {
       style: type.body-md
