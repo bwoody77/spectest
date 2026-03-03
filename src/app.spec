@@ -233,6 +233,12 @@ surface App {
     colorScheme: appColorScheme
     height: fullHeight
     overflow: hidden
+    background: gradient.app-background
+    layout: vertical
+
+  block {
+    grow: true
+    overflow: hidden
     background: semantic.surface
     layout: vertical
 
@@ -659,5 +665,6 @@ surface App {
     on close: closeCommandPalette()
   }
 
+  } // close surface block
   } // close root wrapper block
 }

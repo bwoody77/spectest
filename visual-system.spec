@@ -92,6 +92,7 @@
   gradient.stat-neutral: "linear-gradient(135deg, #f7f7f8, #bdc5d1)"
   gradient.stat-neutral-subtle: "linear-gradient(135deg, #f7f7f8, #dce0e5)"
   gradient.header-accent: "linear-gradient(135deg, #1677ff15, #1677ff05)"
+  gradient.app-background: "none"
 
   // Transitions
   transition.card-lift: "transform 200ms ease, box-shadow 200ms ease"
@@ -987,8 +988,10 @@
   borders.default: "1px solid rgba(255,255,255,0.2)"
   borders.strong: "1px solid rgba(255,255,255,0.35)"
 
-  surface.backgroundImage: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-  surface.backdropFilter: "blur(20px) saturate(180%)"
+  surface.backgroundImage: "none"
+  surface.backdropFilter: "none"
+  //gradient.app-background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  gradient.app-background: "linear-gradient(135deg, #2b2b2f 0%, #3536ce 100%)"
   surface.panelBackdropFilter: "blur(12px)"
 
   radius.sm: "12px"
