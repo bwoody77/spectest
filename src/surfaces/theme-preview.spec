@@ -201,7 +201,7 @@ surface ThemePreview() {
             text("65%") { style: type.label-sm, color: semantic.text-secondary }
             block {
               grow: true
-              Progress2(value: progressValue)
+              Progress(value: progressValue)
             }
           }
           block {
@@ -209,7 +209,7 @@ surface ThemePreview() {
             text("40%") { style: type.label-sm, color: semantic.text-secondary }
             block {
               grow: true
-              Progress2(value: progressHalf)
+              Progress(value: progressHalf)
             }
           }
         }
@@ -491,7 +491,7 @@ surface ThemePreview() {
         block {
           layout: vertical, gap: spacing.3
           text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Breadcrumb2(items: [
+          Breadcrumb(items: [
             {id: "home", label: "Home"},
             {id: "products", label: "Products"},
             {id: "electronics", label: "Electronics"},
@@ -595,7 +595,7 @@ surface ThemePreview() {
 
       text("Accordion (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
 
-      Accordion2(items: [
+      Accordion(items: [
         {id: "1", title: "What is Spec?", content: "Spec is a declarative UI language that compiles to efficient JavaScript."},
         {id: "2", title: "How does theming work?", content: "Themes use semantic tokens that map to your visual system palette."},
         {id: "3", title: "Is it production ready?", content: "Spec is under active development with growing component coverage."}
@@ -719,7 +719,7 @@ surface ThemePreview() {
         }
       }
 
-      Modal2(open: modalOpen, title: "Example Modal", width: "500px") {
+      Modal(open: modalOpen, title: "Example Modal", width: "500px") {
         on close: closeModal()
 
         block {
@@ -753,7 +753,7 @@ surface ThemePreview() {
         }
       }
 
-      Drawer2(open: drawerOpen, title: "Navigation") {
+      Drawer(open: drawerOpen, title: "Navigation") {
         on close: closeDrawer()
 
         block {
@@ -787,12 +787,12 @@ surface ThemePreview() {
         }
       }
 
-      ConfirmDialog2(open: confirmOpen, title: "Save Changes?", message: "Would you like to save your changes before leaving?", confirmLabel: "Save", cancelLabel: "Discard") {
+      ConfirmDialog(open: confirmOpen, title: "Save Changes?", message: "Would you like to save your changes before leaving?", confirmLabel: "Save", cancelLabel: "Discard") {
         on confirm: closeConfirm()
         on cancel: closeConfirm()
       }
 
-      ConfirmDialog2(open: confirmDestructiveOpen, title: "Delete Item", message: "This action cannot be undone. Are you sure you want to delete this item?", confirmLabel: "Delete", cancelLabel: "Keep", destructive: true) {
+      ConfirmDialog(open: confirmDestructiveOpen, title: "Delete Item", message: "This action cannot be undone. Are you sure you want to delete this item?", confirmLabel: "Delete", cancelLabel: "Keep", destructive: true) {
         on confirm: closeConfirmDestructive()
         on cancel: closeConfirmDestructive()
       }
