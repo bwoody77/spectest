@@ -7,9 +7,15 @@ surface ThemePreview() {
     selectValue: ""
     checkboxChecked: false
     toggleChecked: false
+    checkboxNewsletter: true
+    toggleNotifications: true
     activeTab: "overview"
     stepperStep: 1
     pickedDate: null
+    modalOpen: false
+    drawerOpen: false
+    confirmOpen: false
+    confirmDestructiveOpen: false
   }
 
   @computed {
@@ -22,10 +28,20 @@ surface ThemePreview() {
     setSelect(v) { selectValue = v }
     setCheckbox(v) { checkboxChecked = v }
     setToggle(v) { toggleChecked = v }
+    setCheckboxNewsletter(v) { checkboxNewsletter = v }
+    setToggleNotifications(v) { toggleNotifications = v }
     setTab(id) { activeTab = id }
     nextStep() { stepperStep = stepperStep < 4 ? stepperStep + 1 : 1 }
     prevStep() { stepperStep = stepperStep > 1 ? stepperStep - 1 : 1 }
     setDate(d) { pickedDate = d }
+    openModal() { modalOpen = true }
+    closeModal() { modalOpen = false }
+    openDrawer() { drawerOpen = true }
+    closeDrawer() { drawerOpen = false }
+    openConfirm() { confirmOpen = true }
+    closeConfirm() { confirmOpen = false }
+    openConfirmDestructive() { confirmDestructiveOpen = true }
+    closeConfirmDestructive() { confirmDestructiveOpen = false }
   }
 
   layout: vertical, gap: spacing.5
@@ -109,29 +125,23 @@ surface ThemePreview() {
         block {
           layout: vertical, gap: spacing.4
 
-          text("Checkboxes — Built-in (TS)") { style: type.label-md, color: semantic.text-secondary }
+          text("Checkboxes") { style: type.label-md, color: semantic.text-secondary }
           Checkbox(label: "Accept terms", checked: checkboxChecked) {
             on change(v): setCheckbox(v)
           }
-          Checkbox(label: "Subscribe to newsletter", checked: true) {}
-          Checkbox(label: "Disabled option", disabled: true) {}
+          Checkbox(label: "Subscribe to newsletter", checked: checkboxNewsletter) {
+            on change(v): setCheckboxNewsletter(v)
+          }
+          Checkbox(label: "Disabled option", disabled: true)
 
-          text("Checkboxes — Spec Component") { style: type.label-md, color: semantic.text-secondary }
-          Checkbox2(label: "Accept terms", checked: true)
-          Checkbox2(label: "Subscribe to newsletter", checked: true)
-          Checkbox2(label: "Disabled option", disabled: true)
-
-          text("Toggles — Built-in (TS)") { style: type.label-md, color: semantic.text-secondary }
+          text("Toggles") { style: type.label-md, color: semantic.text-secondary }
           Toggle(label: "Dark mode", checked: toggleChecked) {
             on change(v): setToggle(v)
           }
-          Toggle(label: "Notifications", checked: true) {}
-          Toggle(label: "Disabled toggle", disabled: true) {}
-
-          text("Toggles — Spec Component") { style: type.label-md, color: semantic.text-secondary }
-          Toggle2(label: "Dark mode", checked: true)
-          Toggle2(label: "Notifications", checked: true)
-          Toggle2(label: "Disabled toggle", disabled: true)
+          Toggle(label: "Notifications", checked: toggleNotifications) {
+            on change(v): setToggleNotifications(v)
+          }
+          Toggle(label: "Disabled toggle", disabled: true)
         }
       }
     }
@@ -339,6 +349,369 @@ surface ThemePreview() {
             color: semantic.text-secondary
           }
         }
+      }
+    }
+  }
+
+  // ===== Stat =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Stat") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          Stat(label: "Revenue", value: "$12,345", trend: "up", trendText: "+12% vs last month")
+          Stat(label: "Users", value: "1,234", trend: "down", trendText: "-3% vs last month")
+          Stat(label: "Sessions", value: "5,678", trend: "neutral", trendText: "No change")
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          Stat2(label: "Revenue", value: "$12,345", trend: "up", trendValue: "+12% vs last month")
+          Stat2(label: "Users", value: "1,234", trend: "down", trendValue: "-3% vs last month")
+          Stat2(label: "Sessions", value: "5,678", trend: "neutral", trendValue: "No change")
+        }
+      }
+    }
+  }
+
+  // ===== Breadcrumb =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Breadcrumb") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          Breadcrumb(items: [
+            {id: "home", label: "Home"},
+            {id: "products", label: "Products"},
+            {id: "electronics", label: "Electronics"},
+            {id: "phones", label: "Phones"}
+          ])
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          Breadcrumb2(items: [
+            {id: "home", label: "Home"},
+            {id: "products", label: "Products"},
+            {id: "electronics", label: "Electronics"},
+            {id: "phones", label: "Phones"}
+          ])
+        }
+      }
+    }
+  }
+
+  // ===== Timeline =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Timeline") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          Timeline(items: [
+            {id: "1", title: "Order placed", description: "Order #1234 confirmed", date: "Jan 15", status: "completed"},
+            {id: "2", title: "Processing", description: "Payment verified", date: "Jan 16", status: "completed"},
+            {id: "3", title: "Shipped", description: "In transit via FedEx", date: "Jan 17", status: "active"},
+            {id: "4", title: "Delivered", description: "Estimated Jan 20", date: "", status: "pending"}
+          ])
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          Timeline2(items: [
+            {id: "1", title: "Order placed", description: "Order #1234 confirmed", date: "Jan 15", status: "completed"},
+            {id: "2", title: "Processing", description: "Payment verified", date: "Jan 16", status: "completed"},
+            {id: "3", title: "Shipped", description: "In transit via FedEx", date: "Jan 17", status: "active"},
+            {id: "4", title: "Delivered", description: "Estimated Jan 20", date: "", status: "pending"}
+          ])
+        }
+      }
+    }
+  }
+
+  // ===== Table =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Table") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          Table(
+            columns: [
+              {key: "name", header: "Name"},
+              {key: "role", header: "Role"},
+              {key: "status", header: "Status"}
+            ],
+            rows: [
+              {name: "Alice", role: "Engineer", status: "Active"},
+              {name: "Bob", role: "Designer", status: "Away"},
+              {name: "Carol", role: "Manager", status: "Active"}
+            ]
+          )
+        }
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          Table2(
+            columns: [
+              {key: "name", header: "Name"},
+              {key: "role", header: "Role"},
+              {key: "status", header: "Status"}
+            ],
+            rows: [
+              {name: "Alice", role: "Engineer", status: "Active"},
+              {name: "Bob", role: "Designer", status: "Away"},
+              {name: "Carol", role: "Manager", status: "Active"}
+            ],
+            striped: true
+          )
+        }
+      }
+    }
+  }
+
+  // ===== Accordion =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Accordion (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      Accordion2(items: [
+        {id: "1", title: "What is Spec?", content: "Spec is a declarative UI language that compiles to efficient JavaScript."},
+        {id: "2", title: "How does theming work?", content: "Themes use semantic tokens that map to your visual system palette."},
+        {id: "3", title: "Is it production ready?", content: "Spec is under active development with growing component coverage."}
+      ])
+    }
+  }
+
+  // ===== Tabs (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Tabs (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      Tabs2(
+        tabs: [
+          {id: "overview", label: "Overview"},
+          {id: "analytics", label: "Analytics"},
+          {id: "settings", label: "Settings"}
+        ],
+        activeTab: activeTab
+      ) {
+        on change(id): setTab(id)
+      }
+    }
+  }
+
+  // ===== Tooltip (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Tooltip (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.4
+
+        Tooltip2(text: "This is a tooltip!") {
+          block {
+            padding: spacing.2
+            background: semantic.surface-raised
+            border-radius: 4px
+            cursor: "pointer"
+            text("Hover me (top)") { style: type.label-md, color: semantic.interactive }
+          }
+        }
+
+        Tooltip2(text: "Bottom placement", placement: "bottom") {
+          block {
+            padding: spacing.2
+            background: semantic.surface-raised
+            border-radius: 4px
+            cursor: "pointer"
+            text("Hover me (bottom)") { style: type.label-md, color: semantic.interactive }
+          }
+        }
+      }
+    }
+  }
+
+  // ===== Toast (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.3
+
+      text("Toast (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      Toast2(message: "Operation completed successfully!", severity: "success")
+      Toast2(message: "Something went wrong. Please try again.", severity: "error")
+      Toast2(message: "This action cannot be undone.", severity: "warning")
+      Toast2(message: "New features are available.", severity: "info")
+    }
+  }
+
+  // ===== Popover (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Popover (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.4
+
+        Popover2() {
+          slot("trigger") {
+            Button(label: "Click me", variant: "secondary")
+          }
+          slot("content") {
+            block {
+              layout: vertical, gap: spacing.2
+              text("Popover Content") { style: type.label-md, color: semantic.text-primary }
+              text("This is a popover panel with some content.") {
+                style: type.body-md
+                color: semantic.text-secondary
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // ===== Modal (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Modal (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.3
+
+        Button(label: "Open Modal", variant: "primary") {
+          on click: openModal()
+        }
+      }
+
+      Modal2(open: modalOpen, title: "Example Modal", width: "500px") {
+        on close: closeModal()
+
+        block {
+          layout: vertical, gap: spacing.3
+          text("This is a modal dialog built entirely in Spec.") {
+            style: type.body-md
+            color: semantic.text-secondary
+          }
+          text("It supports focus trapping, scroll locking, and backdrop click to close.") {
+            style: type.body-md
+            color: semantic.text-secondary
+          }
+        }
+      }
+    }
+  }
+
+  // ===== Drawer (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Drawer (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.3
+
+        Button(label: "Open Drawer", variant: "secondary") {
+          on click: openDrawer()
+        }
+      }
+
+      Drawer2(open: drawerOpen, title: "Navigation") {
+        on close: closeDrawer()
+
+        block {
+          layout: vertical, gap: spacing.2
+
+          text("Dashboard") { style: type.body-md, color: semantic.text-primary }
+          text("Settings") { style: type.body-md, color: semantic.text-primary }
+          text("Profile") { style: type.body-md, color: semantic.text-primary }
+          text("Help") { style: type.body-md, color: semantic.text-secondary }
+        }
+      }
+    }
+  }
+
+  // ===== ConfirmDialog (Spec) =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Confirm Dialog (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: horizontal, gap: spacing.3
+
+        Button(label: "Confirm Action", variant: "primary") {
+          on click: openConfirm()
+        }
+        Button(label: "Delete Item", variant: "destructive") {
+          on click: openConfirmDestructive()
+        }
+      }
+
+      ConfirmDialog2(open: confirmOpen, title: "Save Changes?", message: "Would you like to save your changes before leaving?", confirmLabel: "Save", cancelLabel: "Discard") {
+        on confirm: closeConfirm()
+        on cancel: closeConfirm()
+      }
+
+      ConfirmDialog2(open: confirmDestructiveOpen, title: "Delete Item", message: "This action cannot be undone. Are you sure you want to delete this item?", confirmLabel: "Delete", cancelLabel: "Keep", destructive: true) {
+        on confirm: closeConfirmDestructive()
+        on cancel: closeConfirmDestructive()
       }
     }
   }

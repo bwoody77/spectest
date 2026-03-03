@@ -1,5 +1,5 @@
 // Checkbox — custom visual checkbox with event forwarding
-component Checkbox2(label: string, checked: boolean = false, disabled: boolean = false) {
+component Checkbox(label: string, checked: boolean = false, disabled: boolean = false) {
   button {
     disabled: disabled
     border: "none"
@@ -17,26 +17,20 @@ component Checkbox2(label: string, checked: boolean = false, disabled: boolean =
 
     on click: emit("change", checked == false)
 
-    // Unchecked box (visual)
+    // Single box — always present, style changes based on checked
     block {
-      visibility: checked == false
       width: 18px
       height: 18px
       border-radius: token.checkbox-radius
-      border: token.checkbox-border
-      background: "transparent"
-    }
-
-    // Checked box with icon (visual)
-    block {
-      visibility: checked == true
-      width: 18px
-      height: 18px
-      border-radius: token.checkbox-radius
-      background: token.checkbox-checkedBg
+      border: match checked { true -> "none", _ -> token.checkbox-border }
+      background: match checked { true -> token.checkbox-checkedBg, _ -> "transparent" }
       layout: horizontal, align: center, justify: center
 
-      Icon(name: "check", size: "14px", color: "#ffffff")
+      // Check icon only visible when checked
+      block {
+        visibility: checked == true
+        Icon(name: "check", size: "14px", color: "#ffffff")
+      }
     }
 
     text(label) {

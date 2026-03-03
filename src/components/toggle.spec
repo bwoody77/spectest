@@ -1,5 +1,5 @@
 // Toggle — custom toggle/switch with event forwarding
-component Toggle2(label: string, checked: boolean = false, disabled: boolean = false) {
+component Toggle(label: string, checked: boolean = false, disabled: boolean = false) {
   button {
     disabled: disabled
     border: "none"
@@ -23,42 +23,27 @@ component Toggle2(label: string, checked: boolean = false, disabled: boolean = f
       color: semantic.text-secondary
     }
 
-    // Track — unchecked state
+    // Track
     block {
-      visibility: checked == false
       width: 44px
       height: 24px
       border-radius: token.toggle-radius
-      background: token.toggle-trackBg
+      background: match checked { true -> token.toggle-trackBgOn, _ -> token.toggle-trackBg }
+      transition: "background 0.2s ease"
+      position: "relative"
 
-      // Thumb left
+      // Thumb — slides via transform
       block {
         width: 18px
         height: 18px
         border-radius: 9999px
         background: token.toggle-thumbBg
         shadow: "0 1px 3px rgba(0,0,0,0.15)"
-        margin: 3px
-      }
-    }
-
-    // Track — checked state
-    block {
-      visibility: checked == true
-      width: 44px
-      height: 24px
-      border-radius: token.toggle-radius
-      background: token.toggle-trackBgOn
-      layout: horizontal, justify: end
-
-      // Thumb right
-      block {
-        width: 18px
-        height: 18px
-        border-radius: 9999px
-        background: token.toggle-thumbBg
-        shadow: "0 1px 3px rgba(0,0,0,0.15)"
-        margin: 3px
+        position: "absolute"
+        top: 3px
+        left: 3px
+        transition: "transform 0.2s ease"
+        transform: match checked { true -> "translateX(20px)", _ -> "translateX(0)" }
       }
     }
   }
