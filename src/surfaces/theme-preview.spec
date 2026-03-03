@@ -40,6 +40,14 @@ surface ThemePreview() {
     cmpMsTS: []
     cmpToastSpecVisible: true
     cmpToastTSVisible: true
+    cmpDateSpec: ""
+    cmpDateTS: ""
+    cmpGridRows: [
+      {id: "1", name: "Alice", role: "Engineer", status: "Active"},
+      {id: "2", name: "Bob", role: "Designer", status: "Active"},
+      {id: "3", name: "Carol", role: "PM", status: "On Leave"},
+      {id: "4", name: "Dave", role: "Engineer", status: "Active"}
+    ]
   }
 
   @computed {
@@ -99,6 +107,8 @@ surface ThemePreview() {
       cmpToastSpecVisible = true
       cmpToastTSVisible = true
     }
+    setCmpDateSpec(v) { cmpDateSpec = v }
+    setCmpDateTS(v) { cmpDateTS = v }
   }
 
   layout: vertical, gap: spacing.5
@@ -375,6 +385,104 @@ surface ThemePreview() {
           layout: vertical, gap: spacing.2
           text("TS") { style: type.label-sm, color: semantic.warning }
           ImageTS(src: "https://picsum.photos/300/200?r=10", alt: "TS image", aspectRatio: "3/2")
+        }
+      }
+    }
+  }
+
+  // --- DatePicker ---
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      overflow: visible
+
+      text("DatePicker") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+        overflow: visible
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          DatePicker(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
+            on change(v): setCmpDateSpec(v)
+          }
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          DatePickerTS(label: "Date", placeholder: "Pick a date...") {
+            on change(v): setCmpDateTS(v)
+          }
+        }
+      }
+    }
+  }
+
+  // --- EditableGrid ---
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      overflow: visible
+
+      text("EditableGrid") { style: type.heading-sm, color: semantic.text-primary }
+      text("Click a cell then press Enter to edit. Arrow keys to navigate.") {
+        style: type.body-sm
+        color: semantic.text-tertiary
+      }
+      block {
+        layout: horizontal, gap: spacing.5
+        overflow: visible
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          EditableGrid(
+            columns: [
+              {key: "name", header: "Name", sortable: true},
+              {key: "role", header: "Role", sortable: true},
+              {key: "status", header: "Status"}
+            ],
+            rows: cmpGridRows,
+            height: "220px"
+          )
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          EditableGridTS(
+            columns: [
+              {key: "name", header: "Name", sortable: true},
+              {key: "role", header: "Role", sortable: true},
+              {key: "status", header: "Status"}
+            ],
+            rows: cmpGridRows,
+            height: "220px"
+          )
         }
       }
     }

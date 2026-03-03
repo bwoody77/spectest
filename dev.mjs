@@ -15,6 +15,10 @@ import { createConnection } from 'node:net';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { gzip } from 'node:zlib';
+import { promisify } from 'node:util';
+
+const gzipAsync = promisify(gzip);
 
 // --- Parse CLI args ---
 const args = process.argv.slice(2);
@@ -220,9 +224,16 @@ else {
     // Serve the compiled JS bundle (both prod and bytecode modes)
     if (url === '/bundle.js') {
       try {
-        const content = await readFile(join(distDir, 'bundle.js'), 'utf8');
-        res.writeHead(200, { 'Content-Type': 'application/javascript' });
-        res.end(content);
+        const content = await readFile(join(distDir, 'bundle.js'));
+        const acceptGzip = (req.headers['accept-encoding'] || '').includes('gzip');
+        if (acceptGzip) {
+          const compressed = await gzipAsync(content);
+          res.writeHead(200, { 'Content-Type': 'application/javascript', 'Content-Encoding': 'gzip' });
+          res.end(compressed);
+        } else {
+          res.writeHead(200, { 'Content-Type': 'application/javascript' });
+          res.end(content);
+        }
       } catch {
         res.writeHead(404);
         res.end('Not found');
@@ -234,8 +245,15 @@ else {
     if (url === '/bundle.specbc' && isBytecode) {
       try {
         const content = await readFile(join(distDir, 'bundle.specbc'));
-        res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
-        res.end(content);
+        const acceptGzip = (req.headers['accept-encoding'] || '').includes('gzip');
+        if (acceptGzip) {
+          const compressed = await gzipAsync(content);
+          res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Encoding': 'gzip' });
+          res.end(compressed);
+        } else {
+          res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
+          res.end(content);
+        }
       } catch {
         res.writeHead(404);
         res.end('Not found');
