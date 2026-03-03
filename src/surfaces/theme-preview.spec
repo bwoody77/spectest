@@ -28,7 +28,8 @@ surface ThemePreview() {
     paginationPage: 1
     sliderValue: 50
     select2Value: ""
-    cmdPaletteOpen: false
+    cmdPaletteOpenTS: false
+    cmdPaletteOpenSpec: false
     sidebarItem: "dashboard"
     sidebarCollapsed: false
     stepper2Step: 0
@@ -70,9 +71,12 @@ surface ThemePreview() {
     setPaginationPage(p) { paginationPage = p }
     setSliderValue(v) { sliderValue = v }
     setSelect2(v) { select2Value = v }
-    openCmdPalette() { cmdPaletteOpen = true }
-    closeCmdPalette() { cmdPaletteOpen = false }
-    selectCmd(id) { cmdPaletteOpen = false }
+    openCmdPaletteTS() { cmdPaletteOpenTS = true }
+    closeCmdPaletteTS() { cmdPaletteOpenTS = false }
+    selectCmdTS(id) { cmdPaletteOpenTS = false }
+    openCmdPaletteSpec() { cmdPaletteOpenSpec = true }
+    closeCmdPaletteSpec() { cmdPaletteOpenSpec = false }
+    selectCmdSpec(id) { cmdPaletteOpenSpec = false }
     setSidebarItem(id) { sidebarItem = id }
     setSidebarCollapsed(v) { sidebarCollapsed = v }
     setStepper2Step(n) { stepper2Step = n }
@@ -90,10 +94,10 @@ surface ThemePreview() {
   }
 
   // =====================================================================
-  // Side-by-Side Comparisons: TS Built-in vs Spec Component
+  // Spec Component Showcases
   // =====================================================================
 
-  // ===== Text: TS vs Spec =====
+  // ===== Text =====
   Card() {
     block {
       padding: spacing.5
@@ -101,187 +105,96 @@ surface ThemePreview() {
 
       text("Text") { style: type.heading-sm, color: semantic.text-primary }
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Text(content: "Heading Large", variant: "heading-lg")
-          Text(content: "Body text paragraph", variant: "body-md")
-          Text(content: "Small label", variant: "label-sm")
-          Text(content: "Caption text", variant: "caption")
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Text2(content: "Heading Large", variant: "heading-lg")
-          Text2(content: "Body text paragraph", variant: "body-md")
-          Text2(content: "Small label", variant: "label-sm")
-          Text2(content: "Caption text", variant: "caption")
-        }
+        layout: vertical, gap: spacing.3
+        Text(content: "Heading Large", variant: "heading-lg")
+        Text(content: "Body text paragraph", variant: "body-md")
+        Text(content: "Small label", variant: "label-sm")
+        Text(content: "Caption text", variant: "caption")
       }
     }
   }
 
-  // ===== Stack: TS vs Spec =====
+  // ===== Stack =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("Stack") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Stack(direction: "horizontal", gap: "8") {
-            Badge(text: "A", variant: "info")
-            Badge(text: "B", variant: "success")
-            Badge(text: "C", variant: "warning")
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Stack2(direction: "horizontal") {
-            Badge(text: "A", variant: "info")
-            Badge(text: "B", variant: "success")
-            Badge(text: "C", variant: "warning")
-          }
-        }
+      Stack(direction: "horizontal") {
+        Badge(text: "A", variant: "info")
+        Badge(text: "B", variant: "success")
+        Badge(text: "C", variant: "warning")
       }
     }
   }
 
-  // ===== Pagination: TS vs Spec =====
+  // ===== Pagination =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("Pagination") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Pagination(total: 100, pageSize: 10, page: paginationPage) {
-            on change(p): setPaginationPage(p)
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Pagination2(total: 100, pageSize: 10, page: paginationPage) {
-            on change(p): setPaginationPage(p)
-          }
-        }
+      Pagination(total: 100, pageSize: 10, page: paginationPage) {
+        on change(p): setPaginationPage(p)
       }
     }
   }
 
-  // ===== TimePicker: TS vs Spec =====
+  // ===== TimePicker =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("TimePicker") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          TimePicker(label: "Meeting Time", format: "12")
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          TimePicker2(label: "Meeting Time", format: "12")
-        }
-      }
+      TimePicker(label: "Meeting Time", format: "12")
     }
   }
 
-  // ===== Stepper: TS vs Spec =====
+  // ===== Stepper =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("Stepper") { style: type.heading-sm, color: semantic.text-primary }
+      Stepper(
+        steps: [
+          {label: "Account"},
+          {label: "Profile"},
+          {label: "Review"},
+          {label: "Complete"}
+        ],
+        activeStep: stepper2Step
+      )
       block {
-        layout: vertical, gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Stepper(
-            steps: [
-              {id: "1", label: "Account"},
-              {id: "2", label: "Profile"},
-              {id: "3", label: "Review"},
-              {id: "4", label: "Complete"}
-            ],
-            activeStep: stepper2Step
-          )
+        layout: horizontal, gap: spacing.3
+        Button(label: "Previous", variant: "secondary") {
+          on click: prevStepper2()
         }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Stepper2(
-            steps: [
-              {label: "Account"},
-              {label: "Profile"},
-              {label: "Review"},
-              {label: "Complete"}
-            ],
-            activeStep: stepper2Step
-          )
-        }
-
-        block {
-          layout: horizontal, gap: spacing.3
-          Button(label: "Previous", variant: "secondary") {
-            on click: prevStepper2()
-          }
-          Button(label: "Next Step", variant: "primary") {
-            on click: nextStepper2()
-          }
+        Button(label: "Next Step", variant: "primary") {
+          on click: nextStepper2()
         }
       }
     }
   }
 
-  // ===== Slider: TS vs Spec =====
+  // ===== Slider =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("Slider") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Slider(label: "Volume", min: 0, max: 100, value: sliderValue) {
-            on change(v): setSliderValue(v)
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Slider2(label: "Volume", min: 0, max: 100, value: sliderValue) {
-            on change(v): setSliderValue(v)
-          }
-        }
+      Slider(label: "Volume", min: 0, max: 100, value: sliderValue) {
+        on change(v): setSliderValue(v)
       }
     }
   }
 
-  // ===== Select: TS vs Spec =====
+  // ===== Select =====
   // Using inline card styling with overflow:visible so dropdown popups aren't clipped
   block {
     background: semantic.surface-raised
@@ -293,52 +206,26 @@ surface ThemePreview() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
+      overflow: visible
 
       text("Select") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        overflow: visible
-        block {
-          layout: vertical, gap: spacing.3
-          overflow: visible
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Select(
-            label: "Framework",
-            options: [
-              {value: "react", label: "React"},
-              {value: "vue", label: "Vue"},
-              {value: "angular", label: "Angular"},
-              {value: "svelte", label: "Svelte"}
-            ],
-            value: select2Value,
-            placeholder: "Choose..."
-          ) {
-            on change(v): setSelect2(v)
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          overflow: visible
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Select2(
-            label: "Framework",
-            options: [
-              {value: "react", label: "React"},
-              {value: "vue", label: "Vue"},
-              {value: "angular", label: "Angular"},
-              {value: "svelte", label: "Svelte"}
-            ],
-            value: select2Value,
-            placeholder: "Choose..."
-          ) {
-            on change(v): setSelect2(v)
-          }
-        }
+      Select(
+        label: "Framework",
+        options: [
+          {value: "react", label: "React"},
+          {value: "vue", label: "Vue"},
+          {value: "angular", label: "Angular"},
+          {value: "svelte", label: "Svelte"}
+        ],
+        value: select2Value,
+        placeholder: "Choose..."
+      ) {
+        on change(v): setSelect2(v)
       }
     }
   }
 
-  // ===== Tooltip (Spec Component) =====
+  // ===== Tooltip =====
   // Using inline card styling with overflow:visible so tooltip popups aren't clipped
   block {
     background: semantic.surface-raised
@@ -351,32 +238,29 @@ surface ThemePreview() {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
-      text("Tooltip (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
-      text("TS Tooltip uses render-callback API; Spec version uses declarative slots.") {
-        style: type.caption, color: semantic.text-tertiary
-      }
+      text("Tooltip") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
         layout: horizontal, gap: spacing.4
         overflow: visible
 
-        Tooltip2(text: "Top tooltip") {
+        Tooltip(text: "Top tooltip") {
           Button(label: "Top", variant: "secondary")
         }
-        Tooltip2(text: "Bottom tooltip", placement: "bottom") {
+        Tooltip(text: "Bottom tooltip", placement: "bottom") {
           Button(label: "Bottom", variant: "secondary")
         }
-        Tooltip2(text: "Left tooltip", placement: "left") {
+        Tooltip(text: "Left tooltip", placement: "left") {
           Button(label: "Left", variant: "secondary")
         }
-        Tooltip2(text: "Right tooltip", placement: "right") {
+        Tooltip(text: "Right tooltip", placement: "right") {
           Button(label: "Right", variant: "secondary")
         }
       }
     }
   }
 
-  // ===== Popover (Spec Component) =====
+  // ===== Popover =====
   // Using inline card styling with overflow:visible so popover panels aren't clipped
   block {
     background: semantic.surface-raised
@@ -389,16 +273,13 @@ surface ThemePreview() {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
-      text("Popover (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
-      text("TS Popover uses render-callback API; Spec version uses declarative slots.") {
-        style: type.caption, color: semantic.text-tertiary
-      }
+      text("Popover") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
         layout: horizontal, gap: spacing.4
         overflow: visible
 
-        Popover2() {
+        Popover() {
           slot("trigger") {
             Button(label: "Bottom (default)", variant: "secondary")
           }
@@ -414,7 +295,7 @@ surface ThemePreview() {
           }
         }
 
-        Popover2(placement: "right") {
+        Popover(placement: "right") {
           slot("trigger") {
             Button(label: "Right", variant: "secondary")
           }
@@ -446,7 +327,7 @@ surface ThemePreview() {
           layout: vertical, gap: spacing.3
           text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
           Button(label: "Open TS Palette", variant: "secondary") {
-            on click: openCmdPalette()
+            on click: openCmdPaletteTS()
           }
           CommandPalette(
             commands: [
@@ -456,17 +337,17 @@ surface ThemePreview() {
               {id: "settings", label: "Open Settings", description: "Configure preferences"},
               {id: "theme", label: "Change Theme", description: "Switch color theme"}
             ],
-            open: cmdPaletteOpen
+            open: cmdPaletteOpenTS
           ) {
-            on select(id): selectCmd(id)
-            on close: closeCmdPalette()
+            on select(id): selectCmdTS(id)
+            on close: closeCmdPaletteTS()
           }
         }
         block {
           layout: vertical, gap: spacing.3
           text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
           Button(label: "Open Spec Palette", variant: "secondary") {
-            on click: openCmdPalette()
+            on click: openCmdPaletteSpec()
           }
           CommandPalette2(
             commands: [
@@ -476,10 +357,10 @@ surface ThemePreview() {
               {id: "settings", label: "Open Settings", description: "Configure preferences"},
               {id: "theme", label: "Change Theme", description: "Switch color theme"}
             ],
-            open: cmdPaletteOpen
+            open: cmdPaletteOpenSpec
           ) {
-            on select(id): selectCmd(id)
-            on close: closeCmdPalette()
+            on select(id): selectCmdSpec(id)
+            on close: closeCmdPaletteSpec()
           }
         }
       }

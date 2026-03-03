@@ -1,4 +1,4 @@
-component Pagination2(total: number, pageSize: number = 10, page: number = 1, maxButtons: number = 7) {
+component Pagination(total: number, pageSize: number = 10, page: number = 1, maxButtons: number = 7) {
   @computed {
     totalPages: total > 0 ? (total % pageSize == 0 ? total / pageSize : (total - total % pageSize) / pageSize + 1) : 1
     currentPage: page < 1 ? 1 : (page > totalPages ? totalPages : page)

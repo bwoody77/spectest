@@ -1,4 +1,4 @@
-component Tooltip2(text: string = "", placement: string = "top") {
+component Tooltip(text: string = "", placement: string = "top") {
   @state {
     visible: false
   }

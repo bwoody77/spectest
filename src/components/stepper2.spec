@@ -1,4 +1,4 @@
-component Stepper2(steps: array, activeStep: number = 0, orientation: string = "horizontal", allowBack: boolean = true) {
+component Stepper(steps: array, activeStep: number = 0, orientation: string = "horizontal", allowBack: boolean = true) {
   @computed {
     stepCount: steps.length
   }

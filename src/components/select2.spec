@@ -1,4 +1,4 @@
-component Select2(options: array, value: string = "", placeholder: string = "Select...", searchable: boolean = false, disabled: boolean = false, label: string = "") {
+component Select(options: array, value: string = "", placeholder: string = "Select...", searchable: boolean = false, disabled: boolean = false, label: string = "") {
   @state {
     open: false
     query: ""

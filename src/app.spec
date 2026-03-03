@@ -107,7 +107,7 @@ source CategoriesAPI {
 
 surface App {
   @state {
-    themePreset: "default"
+    themePreset: "default" @persist
     view: "dashboard" @route
     selectedTask: null
     sidebarCollapsed: false
@@ -287,18 +287,48 @@ surface App {
     }
   }
 
-  // Theme chooser panel — inline, pushes content down
+  // Theme chooser — right-side drawer
+  // Backdrop
   block {
     visibility: themeDrawerOpen
-    background: semantic.surface-raised
-    border-bottom: borders.default
-    padding-x: spacing.4
-    padding-y: spacing.2
-    overflow: auto
+    position: fixed
+    top: 0px
+    left: 0px
+    right: 0px
+    bottom: 0px
+    z-index: 49
+    background: "rgba(0,0,0,0.3)"
+    on click: closeThemeDrawer()
+  }
 
+  // Drawer panel
+  block {
+    visibility: themeDrawerOpen
+    position: fixed
+    top: 0px
+    right: 0px
+    bottom: 0px
+    width: responsive(280px, md: 320px)
+    z-index: 50
+    background: semantic.surface-raised
+    border-left: borders.default
+    shadow: elevation.overlay
+    overflow: auto
+    padding: spacing.4
+    layout: vertical, gap: spacing.3
+
+    // Header
     block {
-      layout: horizontal, gap: spacing.3, align: center
-      width: "max-content"
+      layout: horizontal, justify: between, align: center
+      text("Themes") { style: type.heading-sm, color: semantic.text-primary }
+      Button(label: "✕", variant: "ghost") {
+        on click: closeThemeDrawer()
+      }
+    }
+
+    // Theme grid
+    block {
+      layout: grid, columns: "1fr 1fr", gap: spacing.3
 
       each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
             {value: "dark", label: "Dark", bg: "#0f172a", fg: "#e2e8f0", accent: "#818cf8", bdr: "#334155"},
@@ -333,7 +363,6 @@ surface App {
             {value: "mtg", label: "MTG", bg: "#1C1712", fg: "#E8DCC8", accent: "#D4A836", bdr: "#5C4A30"}
            ] as theme {
         block {
-          width: 110px
           padding: spacing.2
           border-radius: radius.md
           background: theme.bg

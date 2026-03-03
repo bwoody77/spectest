@@ -1,4 +1,4 @@
-component Popover2(placement: string = "bottom") {
+component Popover(placement: string = "bottom") {
   @state {
     open: false
   }

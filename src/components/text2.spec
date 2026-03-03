@@ -1,4 +1,4 @@
-component Text2(content: string, variant: string = "body-md", selectable: boolean = true) {
+component Text(content: string, variant: string = "body-md", selectable: boolean = true) {
   block {
     visibility: variant == "heading-xl"
     text(content) {

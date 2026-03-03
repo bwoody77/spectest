@@ -1,4 +1,4 @@
-component Stack2(direction: string = "vertical", gap: string = "0", align: string = "stretch", wrap: boolean = false) {
+component Stack(direction: string = "vertical", gap: string = "0", align: string = "stretch", wrap: boolean = false) {
   // Vertical layout
   block {
     visibility: direction == "vertical"
