@@ -28,8 +28,7 @@ surface ThemePreview() {
     paginationPage: 1
     sliderValue: 50
     select2Value: ""
-    cmdPaletteOpenTS: false
-    cmdPaletteOpenSpec: false
+    cmdPaletteOpen: false
     sidebarItem: "dashboard"
     sidebarCollapsed: false
     stepper2Step: 0
@@ -71,12 +70,9 @@ surface ThemePreview() {
     setPaginationPage(p) { paginationPage = p }
     setSliderValue(v) { sliderValue = v }
     setSelect2(v) { select2Value = v }
-    openCmdPaletteTS() { cmdPaletteOpenTS = true }
-    closeCmdPaletteTS() { cmdPaletteOpenTS = false }
-    selectCmdTS(id) { cmdPaletteOpenTS = false }
-    openCmdPaletteSpec() { cmdPaletteOpenSpec = true }
-    closeCmdPaletteSpec() { cmdPaletteOpenSpec = false }
-    selectCmdSpec(id) { cmdPaletteOpenSpec = false }
+    openCmdPalette() { cmdPaletteOpen = true }
+    closeCmdPalette() { cmdPaletteOpen = false }
+    selectCmd(id) { cmdPaletteOpen = false }
     setSidebarItem(id) { sidebarItem = id }
     setSidebarCollapsed(v) { sidebarCollapsed = v }
     setStepper2Step(n) { stepper2Step = n }
@@ -314,60 +310,33 @@ surface ThemePreview() {
     }
   }
 
-  // ===== CommandPalette: TS vs Spec =====
+  // ===== Command Palette =====
   Card() {
     block {
       padding: spacing.5
       layout: vertical, gap: spacing.4
 
       text("Command Palette") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Button(label: "Open TS Palette", variant: "secondary") {
-            on click: openCmdPaletteTS()
-          }
-          CommandPalette(
-            commands: [
-              {id: "new", label: "New File", shortcut: "Ctrl+N"},
-              {id: "open", label: "Open File", shortcut: "Ctrl+O"},
-              {id: "save", label: "Save", shortcut: "Ctrl+S"},
-              {id: "settings", label: "Open Settings", description: "Configure preferences"},
-              {id: "theme", label: "Change Theme", description: "Switch color theme"}
-            ],
-            open: cmdPaletteOpenTS
-          ) {
-            on select(id): selectCmdTS(id)
-            on close: closeCmdPaletteTS()
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Button(label: "Open Spec Palette", variant: "secondary") {
-            on click: openCmdPaletteSpec()
-          }
-          CommandPalette2(
-            commands: [
-              {id: "new", label: "New File", shortcut: "Ctrl+N"},
-              {id: "open", label: "Open File", shortcut: "Ctrl+O"},
-              {id: "save", label: "Save", shortcut: "Ctrl+S"},
-              {id: "settings", label: "Open Settings", description: "Configure preferences"},
-              {id: "theme", label: "Change Theme", description: "Switch color theme"}
-            ],
-            open: cmdPaletteOpenSpec
-          ) {
-            on select(id): selectCmdSpec(id)
-            on close: closeCmdPaletteSpec()
-          }
-        }
+      Button(label: "Open Command Palette", variant: "secondary") {
+        on click: openCmdPalette()
+      }
+      CommandPalette(
+        commands: [
+          {id: "new", label: "New File", shortcut: "Ctrl+N"},
+          {id: "open", label: "Open File", shortcut: "Ctrl+O"},
+          {id: "save", label: "Save", shortcut: "Ctrl+S"},
+          {id: "settings", label: "Open Settings", description: "Configure preferences"},
+          {id: "theme", label: "Change Theme", description: "Switch color theme"}
+        ],
+        open: cmdPaletteOpen
+      ) {
+        on select(id): selectCmd(id)
+        on close: closeCmdPalette()
       }
     }
   }
 
-  // ===== Sidebar: TS vs Spec =====
+  // ===== Sidebar =====
   Card() {
     block {
       padding: spacing.5
@@ -375,62 +344,27 @@ surface ThemePreview() {
 
       text("Sidebar") { style: type.heading-sm, color: semantic.text-primary }
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            height: 300px
-            border: borders.default
-            border-radius: radius.md
-            overflow: hidden
-            Sidebar(
-              sections: [
-                {title: "Main", items: [
-                  {id: "dashboard", label: "Dashboard", icon: "\u2302"},
-                  {id: "analytics", label: "Analytics", icon: "\u2637"},
-                  {id: "settings", label: "Settings", icon: "\u2699"}
-                ]},
-                {title: "Account", items: [
-                  {id: "profile", label: "Profile", icon: "\u263A"},
-                  {id: "logout", label: "Logout", icon: "\u2192"}
-                ]}
-              ],
-              activeItem: sidebarItem,
-              collapsed: sidebarCollapsed
-            ) {
-              on select(id): setSidebarItem(id)
-              on collapse(v): setSidebarCollapsed(v)
-            }
-          }
-        }
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            height: 300px
-            border: borders.default
-            border-radius: radius.md
-            overflow: hidden
-            Sidebar2(
-              sections: [
-                {title: "Main", items: [
-                  {id: "dashboard", label: "Dashboard", icon: "\u2302"},
-                  {id: "analytics", label: "Analytics", icon: "\u2637"},
-                  {id: "settings", label: "Settings", icon: "\u2699"}
-                ]},
-                {title: "Account", items: [
-                  {id: "profile", label: "Profile", icon: "\u263A"},
-                  {id: "logout", label: "Logout", icon: "\u2192"}
-                ]}
-              ],
-              activeItem: sidebarItem,
-              collapsed: sidebarCollapsed
-            ) {
-              on select(id): setSidebarItem(id)
-              on collapse(v): setSidebarCollapsed(v)
-            }
-          }
+        height: 300px
+        border: borders.default
+        border-radius: radius.md
+        overflow: hidden
+        Sidebar(
+          sections: [
+            {title: "Main", items: [
+              {id: "dashboard", label: "Dashboard", icon: "\u2302"},
+              {id: "analytics", label: "Analytics", icon: "\u2637"},
+              {id: "settings", label: "Settings", icon: "\u2699"}
+            ]},
+            {title: "Account", items: [
+              {id: "profile", label: "Profile", icon: "\u263A"},
+              {id: "logout", label: "Logout", icon: "\u2192"}
+            ]}
+          ],
+          activeItem: sidebarItem,
+          collapsed: sidebarCollapsed
+        ) {
+          on select(id): setSidebarItem(id)
+          on collapse(v): setSidebarCollapsed(v)
         }
       }
     }

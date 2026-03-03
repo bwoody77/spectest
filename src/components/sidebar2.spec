@@ -1,4 +1,4 @@
-component Sidebar2(sections: array, activeItem: string = "", collapsed: boolean = false, width: string = "240px", collapsedWidth: string = "56px") {
+component Sidebar(sections: array, activeItem: string = "", collapsed: boolean = false, width: string = "240px", collapsedWidth: string = "56px") {
   block {
     width: collapsed ? collapsedWidth : width
     min-width: collapsed ? collapsedWidth : width
