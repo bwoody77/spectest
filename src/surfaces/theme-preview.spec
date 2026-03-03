@@ -19,6 +19,12 @@ surface ThemePreview() {
     confirmOpen: false
     confirmDestructiveOpen: false
     breadcrumbMax: 0
+    passwordValue: ""
+    emailValue: ""
+    searchValue: ""
+    numberValue: ""
+    textareaValue: ""
+    prefixValue: ""
   }
 
   @computed {
@@ -48,6 +54,12 @@ surface ThemePreview() {
     openConfirmDestructive() { confirmDestructiveOpen = true }
     closeConfirmDestructive() { confirmDestructiveOpen = false }
     setBreadcrumbMax(n) { breadcrumbMax = n }
+    setPassword(v) { passwordValue = v }
+    setEmail(v) { emailValue = v }
+    setSearch(v) { searchValue = v }
+    setNumber(v) { numberValue = v }
+    setTextarea(v) { textareaValue = v }
+    setPrefix(v) { prefixValue = v }
   }
 
   layout: vertical, gap: spacing.5
@@ -96,17 +108,41 @@ surface ThemePreview() {
       block {
         layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
 
-        // Left: text inputs + select
+        // Left: TextInput demos + select
         block {
           layout: vertical, gap: spacing.3
 
-          Input(type: "text", label: "Text Input", placeholder: "Type something...") {
+          TextInput(type: "text", label: "Text Input", placeholder: "Type something...", value: inputValue) {
             on change(v): setInput(v)
           }
 
-          Input(type: "text", label: "With Value", value: "Hello World", placeholder: "Prefilled") {}
+          TextInput(type: "password", label: "Password", placeholder: "Enter password...", value: passwordValue) {
+            on change(v): setPassword(v)
+          }
 
-          Input(type: "text", label: "Error State", value: "bad input", error: true) {}
+          TextInput(type: "email", label: "Email", placeholder: "you@example.com", value: emailValue) {
+            on change(v): setEmail(v)
+          }
+
+          TextInput(type: "search", label: "Search", placeholder: "Search...", value: searchValue) {
+            on change(v): setSearch(v)
+          }
+
+          TextInput(type: "number", label: "Number", placeholder: "0", value: numberValue) {
+            on change(v): setNumber(v)
+          }
+
+          TextInput(type: "textarea", label: "Message", placeholder: "Write here...", value: textareaValue) {
+            on change(v): setTextarea(v)
+          }
+
+          TextInput(label: "Amount", prefix: "$", suffix: "USD", value: prefixValue) {
+            on change(v): setPrefix(v)
+          }
+
+          TextInput(label: "Username", value: "taken", error: true, errorMessage: "Already taken")
+
+          TextInput(label: "Disabled", value: "Read only", disabled: true)
 
           DatePicker(label: "Pick a Date", placeholder: "Choose date...") {
             on change(d): setDate(d)
@@ -313,6 +349,41 @@ surface ThemePreview() {
     }
   }
 
+  // ===== Image =====
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Image") { style: type.heading-sm, color: semantic.text-primary }
+
+      block {
+        layout: responsive(vertical, md: horizontal), gap: spacing.4
+
+        block {
+          layout: vertical, gap: spacing.2
+          grow: true
+          text("Normal") { style: type.label-sm, color: semantic.text-tertiary }
+          Image(src: "https://picsum.photos/300/200", alt: "Photo", aspectRatio: "3/2")
+        }
+
+        block {
+          layout: vertical, gap: spacing.2
+          grow: true
+          text("Fallback") { style: type.label-sm, color: semantic.text-tertiary }
+          Image(src: "https://invalid.example.com/x.jpg", alt: "Fallback", fallbackSrc: "https://picsum.photos/300/200?r=2", aspectRatio: "3/2")
+        }
+
+        block {
+          layout: vertical, gap: spacing.2
+          grow: true
+          text("Lazy") { style: type.label-sm, color: semantic.text-tertiary }
+          Image(src: "https://picsum.photos/300/200?r=3", alt: "Lazy", lazy: true, aspectRatio: "3/2")
+        }
+      }
+    }
+  }
+
   // ===== Empty State =====
   Card() {
     block {
@@ -503,44 +574,19 @@ surface ThemePreview() {
 
       text("Table") { style: type.heading-sm, color: semantic.text-primary }
 
-      block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Table(
-            columns: [
-              {key: "name", header: "Name"},
-              {key: "role", header: "Role"},
-              {key: "status", header: "Status"}
-            ],
-            rows: [
-              {name: "Alice", role: "Engineer", status: "Active"},
-              {name: "Bob", role: "Designer", status: "Away"},
-              {name: "Carol", role: "Manager", status: "Active"}
-            ]
-          )
-        }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Table2(
-            columns: [
-              {key: "name", header: "Name"},
-              {key: "role", header: "Role"},
-              {key: "status", header: "Status"}
-            ],
-            rows: [
-              {name: "Alice", role: "Engineer", status: "Active"},
-              {name: "Bob", role: "Designer", status: "Away"},
-              {name: "Carol", role: "Manager", status: "Active"}
-            ],
-            striped: true
-          )
-        }
-      }
+      Table(
+        columns: [
+          {key: "name", header: "Name"},
+          {key: "role", header: "Role"},
+          {key: "status", header: "Status"}
+        ],
+        rows: [
+          {name: "Alice", role: "Engineer", status: "Active"},
+          {name: "Bob", role: "Designer", status: "Away"},
+          {name: "Carol", role: "Manager", status: "Active"}
+        ],
+        striped: true
+      )
     }
   }
 
@@ -566,26 +612,6 @@ surface ThemePreview() {
     }
   }
 
-  // ===== Tabs (Spec) =====
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Tabs (Spec Component)") { style: type.heading-sm, color: semantic.text-primary }
-
-      Tabs2(
-        tabs: [
-          {id: "overview", label: "Overview"},
-          {id: "analytics", label: "Analytics"},
-          {id: "settings", label: "Settings"}
-        ],
-        activeTab: activeTab
-      ) {
-        on change(id): setTab(id)
-      }
-    }
-  }
 
   // ===== Tooltip (Spec) =====
   Card() {

@@ -181,7 +181,7 @@ surface App {
     statsInProgress: stats != null ? stats.inProgress : 0
     statsTodo: stats != null ? stats.todo : 0
 
-    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" ? "dark" : "light"
+    appColorScheme: themePreset == "dark" || themePreset == "geek" || themePreset == "glass" || themePreset == "nord" || themePreset == "cyberpunk" || themePreset == "dracula" || themePreset == "ocean" ? "dark" : "light"
     fullHeight: "100vh"
     fullWidth: "100%"
   }
@@ -256,7 +256,15 @@ surface App {
           {value: "illustration", label: "Illustration"},
           {value: "bootstrap", label: "Bootstrap"},
           {value: "glass", label: "Glass"},
-          {value: "geek", label: "Geek"}
+          {value: "geek", label: "Geek"},
+          {value: "nord", label: "Nord"},
+          {value: "sunset", label: "Sunset"},
+          {value: "cyberpunk", label: "Cyberpunk"},
+          {value: "sakura", label: "Sakura"},
+          {value: "dracula", label: "Dracula"},
+          {value: "ocean", label: "Ocean"},
+          {value: "lavender", label: "Lavender"},
+          {value: "brutalist", label: "Brutalist"}
         ],
         value: themePreset,
         label: "Theme"
