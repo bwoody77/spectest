@@ -126,7 +126,7 @@ surface NotificationsPanel {
         text(notif.title) { style: type.body-md, weight: notif.read ? 400 : 600 }
         block {
           layout: horizontal, gap: spacing.2, align: center
-          SeverityBadge(notif.severity)
+          SeverityBadge(severity: notif.severity)
           text(notif.createdAt) { style: type.mono-sm, color: semantic.text-secondary }
         }
       }

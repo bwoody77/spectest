@@ -120,17 +120,14 @@ surface DataGridDemo() {
     Pagination(
       total: productList.length,
       pageSize: pageSize,
-      page: page,
-      showTotal: true,
-      pageSizes: [5, 10, 20]
+      page: page
     ) {
       on change(p): { setPage(p) }
-      on pageSizeChange(s): { setPageSize(s) }
     }
   }
 
   // Product detail Drawer
-  Drawer(open: drawerOpen, side: "right", size: "400px") {
+  Drawer(open: drawerOpen, side: "right", width: "400px") {
     on close: closeDrawer()
 
     block {

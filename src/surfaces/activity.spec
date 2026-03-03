@@ -85,8 +85,7 @@ surface ActivityFeed {
   block {
     visibility: !activityItemsLoading
     Timeline(
-      items: timelineItems,
-      orientation: "vertical"
+      items: timelineItems
     )
   }
 
@@ -109,7 +108,7 @@ surface ActivityFeed {
           transform: transform.nudge-right
         }
 
-        ActivityIcon(item.type)
+        ActivityIcon(activityType: item.type)
 
         block {
           layout: vertical, gap: spacing.1

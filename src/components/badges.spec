@@ -103,7 +103,7 @@ component UserAvatar(name: string, bgColor: string) {
     border-radius: radius.full
     layout: horizontal, align: center, justify: center
     shadow: elevation.raised
-    transition: "transform 150ms ease, shadow 150ms ease"
+    transition: "transform 150ms ease, box-shadow 150ms ease"
 
     on hover {
       transform: "scale(1.1)"

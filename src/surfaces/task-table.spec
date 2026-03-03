@@ -116,9 +116,9 @@ surface TaskTable(selectedTask, view) {
         text(task.title) { style: type.body-md, weight: 500, color: semantic.text-primary }
         text(task.assignee) { style: type.body-sm, color: semantic.text-secondary }
       }
-      StatusBadge(task.status)
+      StatusBadge(status: task.status)
       Tooltip(text: "Priority: {task.priority}") {
-        PriorityBadge(task.priority)
+        PriorityBadge(priority: task.priority)
       }
     }
   }

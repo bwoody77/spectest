@@ -85,7 +85,7 @@ surface TaskDetail(task, view) {
             transform: transform.lift-xs
           }
           text("Status") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
-          StatusBadge(taskStatus)
+          StatusBadge(status: taskStatus)
         }
       }
 
@@ -98,7 +98,7 @@ surface TaskDetail(task, view) {
             transform: transform.lift-xs
           }
           text("Priority") { style: type.label-sm, color: semantic.text-secondary, text-transform: "uppercase", letter-spacing: "0.05em" }
-          PriorityBadge(taskPriority)
+          PriorityBadge(priority: taskPriority)
         }
       }
 

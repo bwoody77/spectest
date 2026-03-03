@@ -226,7 +226,7 @@ surface PerfSignals() {
     block {
       layout: vertical, gap: spacing.2
       text("Signal-driven progress (cycles 0–100)") { style: type.label-sm, color: semantic.text-secondary }
-      Progress(value: progressPercent, max: 100)
+      Progress(value: progressPercent)
     }
 
     // Frequency selector
@@ -324,7 +324,7 @@ surface PerfSignals() {
     block {
       layout: vertical, gap: spacing.2
       text("Sine wave oscillation (Signal C drives progress)") { style: type.label-sm, color: semantic.text-secondary }
-      Progress(value: signalCComputed, max: 100)
+      Progress(value: signalCComputed)
     }
 
     // Controls
