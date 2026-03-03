@@ -1,4 +1,7 @@
 component Timeline2(items: array) {
+  // Note: the compiler doesn't yet support dynamic style expressions (match/ternary)
+  // inside each loops, so dots and lines use static colors. Per-status coloring
+  // requires a compiler enhancement to emit item property access in style bindings.
   block {
     layout: vertical
     role: "list"
@@ -12,19 +15,22 @@ component Timeline2(items: array) {
         block {
           layout: vertical, align: center
           width: 24px
+          min-width: 24px
 
+          // Status dot — static color (compiler limitation: no item.* in styles)
           block {
             width: 12px
             height: 12px
+            min-width: 12px
+            min-height: 12px
             border-radius: 9999px
-            background: match item.status {
-              "completed" -> "#22c55e", "active" -> "#3b82f6",
-              "error" -> "#ef4444", _ -> "#9ca3af"
-            }
+            background: semantic.interactive
           }
+          // Connector line
           block {
             visibility: index != items.length - 1
             width: 2px
+            min-width: 2px
             grow: true
             min-height: 24px
             background: semantic.border
@@ -38,13 +44,11 @@ component Timeline2(items: array) {
           grow: true
 
           text(item.date) {
-            visibility: item.date != ""
             style: type.caption
             color: semantic.text-tertiary
           }
           text(item.title) { style: type.body-md, color: semantic.text-primary }
           text(item.description) {
-            visibility: item.description != ""
             style: type.body-md
             color: semantic.text-secondary
           }
