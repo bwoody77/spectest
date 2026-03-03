@@ -18,6 +18,7 @@ surface ThemePreview() {
     drawerOpen: false
     confirmOpen: false
     confirmDestructiveOpen: false
+    breadcrumbMax: 0
   }
 
   @computed {
@@ -46,6 +47,7 @@ surface ThemePreview() {
     closeConfirm() { confirmOpen = false }
     openConfirmDestructive() { confirmDestructiveOpen = true }
     closeConfirmDestructive() { confirmDestructiveOpen = false }
+    setBreadcrumbMax(n) { breadcrumbMax = n }
   }
 
   layout: vertical, gap: spacing.5
@@ -172,47 +174,21 @@ surface ThemePreview() {
       text("Progress") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
+        layout: vertical, gap: spacing.3
         block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
+          layout: horizontal, gap: spacing.3, align: center
+          text("65%") { style: type.label-sm, color: semantic.text-secondary }
           block {
-            layout: horizontal, gap: spacing.3, align: center
-            text("65%") { style: type.label-sm, color: semantic.text-secondary }
-            block {
-              grow: true
-              Progress(value: progressValue, label: "Upload progress")
-            }
-          }
-          block {
-            layout: horizontal, gap: spacing.3, align: center
-            text("40%") { style: type.label-sm, color: semantic.text-secondary }
-            block {
-              grow: true
-              Progress(value: progressHalf, label: "Secondary progress")
-            }
+            grow: true
+            Progress(value: progressValue)
           }
         }
-
         block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
+          layout: horizontal, gap: spacing.3, align: center
+          text("40%") { style: type.label-sm, color: semantic.text-secondary }
           block {
-            layout: horizontal, gap: spacing.3, align: center
-            text("65%") { style: type.label-sm, color: semantic.text-secondary }
-            block {
-              grow: true
-              Progress(value: progressValue)
-            }
-          }
-          block {
-            layout: horizontal, gap: spacing.3, align: center
-            text("40%") { style: type.label-sm, color: semantic.text-secondary }
-            block {
-              grow: true
-              Progress(value: progressHalf)
-            }
+            grow: true
+            Progress(value: progressHalf)
           }
         }
       }
@@ -378,91 +354,49 @@ surface ThemePreview() {
       text("Stat") { style: type.heading-sm, color: semantic.text-primary }
 
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
+        layout: responsive(vertical, md: horizontal), gap: spacing.3
 
         block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            padding: spacing.4
-            background: gradient.stat-primary
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "star", size: icon.lg, color: semantic.interactive)
-            Stat(label: "Revenue", value: "$12,345", trend: "up", trendText: "+12%")
+          padding: spacing.4
+          background: gradient.stat-primary
+          border-radius: radius.lg
+          layout: vertical, gap: spacing.2, align: center
+          transition: transition.card-lift
+          grow: true
+          on hover {
+            transform: transform.lift-md
+            shadow: elevation.floating
           }
-          block {
-            padding: spacing.4
-            background: gradient.stat-success
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "user", size: icon.lg, color: semantic.success)
-            Stat(label: "Users", value: "1,234", trend: "down", trendText: "-3%")
-          }
-          block {
-            padding: spacing.4
-            background: gradient.stat-warning
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "loader", size: icon.lg, color: semantic.warning)
-            Stat(label: "Sessions", value: "5,678", trend: "neutral", trendText: "No change")
-          }
+          Icon(name: "star", size: icon.lg, color: semantic.interactive)
+          Stat(label: "Revenue", value: "$12,345", trend: "up", trendValue: "+12%")
         }
-
         block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          block {
-            background: gradient.stat-primary
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "star", size: icon.lg, color: semantic.interactive)
-            Stat2(label: "Revenue", value: "$12,345", trend: "up", trendValue: "+12%")
+          padding: spacing.4
+          background: gradient.stat-success
+          border-radius: radius.lg
+          layout: vertical, gap: spacing.2, align: center
+          transition: transition.card-lift
+          grow: true
+          on hover {
+            transform: transform.lift-md
+            shadow: elevation.floating
           }
-          block {
-            background: gradient.stat-success
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "user", size: icon.lg, color: semantic.success)
-            Stat2(label: "Users", value: "1,234", trend: "down", trendValue: "-3%")
+          Icon(name: "user", size: icon.lg, color: semantic.success)
+          Stat(label: "Users", value: "1,234", trend: "down", trendValue: "-3%")
+        }
+        block {
+          padding: spacing.4
+          background: gradient.stat-warning
+          border-radius: radius.lg
+          layout: vertical, gap: spacing.2, align: center
+          transition: transition.card-lift
+          grow: true
+          on hover {
+            transform: transform.lift-md
+            shadow: elevation.floating
           }
-          block {
-            background: gradient.stat-warning
-            border-radius: radius.lg
-            layout: vertical, gap: spacing.2, align: center
-            transition: transition.card-lift
-            on hover {
-              transform: transform.lift-md
-              shadow: elevation.floating
-            }
-            Icon(name: "loader", size: icon.lg, color: semantic.warning)
-            Stat2(label: "Sessions", value: "5,678", trend: "neutral", trendValue: "No change")
-          }
+          Icon(name: "loader", size: icon.lg, color: semantic.warning)
+          Stat(label: "Sessions", value: "5,678", trend: "neutral", trendValue: "No change")
         }
       }
     }
@@ -476,30 +410,51 @@ surface ThemePreview() {
 
       text("Breadcrumb") { style: type.heading-sm, color: semantic.text-primary }
 
+      // maxVisible control
       block {
-        layout: grid, columns: responsive("1fr", md: "1fr 1fr"), gap: spacing.4
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Built-in (TS)") { style: type.label-sm, color: semantic.text-tertiary }
-          Breadcrumb(items: [
-            {id: "home", label: "Home"},
-            {id: "products", label: "Products"},
-            {id: "electronics", label: "Electronics"},
-            {id: "phones", label: "Phones"}
-          ])
+        layout: horizontal, gap: spacing.2, align: center
+        text("maxVisible:") { style: type.label-sm, color: semantic.text-secondary }
+        Button(label: "0 (off)", variant: breadcrumbMax == 0 ? "primary" : "ghost") {
+          on click: setBreadcrumbMax(0)
         }
-
-        block {
-          layout: vertical, gap: spacing.3
-          text("Spec Component") { style: type.label-sm, color: semantic.text-tertiary }
-          Breadcrumb(items: [
-            {id: "home", label: "Home"},
-            {id: "products", label: "Products"},
-            {id: "electronics", label: "Electronics"},
-            {id: "phones", label: "Phones"}
-          ])
+        Button(label: "2", variant: breadcrumbMax == 2 ? "primary" : "ghost") {
+          on click: setBreadcrumbMax(2)
         }
+        Button(label: "3", variant: breadcrumbMax == 3 ? "primary" : "ghost") {
+          on click: setBreadcrumbMax(3)
+        }
+        Button(label: "4", variant: breadcrumbMax == 4 ? "primary" : "ghost") {
+          on click: setBreadcrumbMax(4)
+        }
+        Button(label: "5", variant: breadcrumbMax == 5 ? "primary" : "ghost") {
+          on click: setBreadcrumbMax(5)
+        }
+      }
+
+      // Short breadcrumb
+      block {
+        layout: vertical, gap: spacing.2
+        text("Short path (4 items)") { style: type.label-sm, color: semantic.text-tertiary }
+        Breadcrumb(maxVisible: breadcrumbMax, items: [
+          {id: "home", label: "Home"},
+          {id: "products", label: "Products"},
+          {id: "electronics", label: "Electronics"},
+          {id: "phones", label: "Phones"}
+        ])
+      }
+
+      // Long breadcrumb
+      block {
+        layout: vertical, gap: spacing.2
+        text("Long path (6 items)") { style: type.label-sm, color: semantic.text-tertiary }
+        Breadcrumb(maxVisible: breadcrumbMax, items: [
+          {id: "home", label: "Home"},
+          {id: "admin", label: "Administrative Dashboard"},
+          {id: "region", label: "North America"},
+          {id: "sales", label: "Regional Sales"},
+          {id: "q4", label: "Q4 2025 Results"},
+          {id: "detail", label: "Monthly Breakdown"}
+        ])
       }
     }
   }
