@@ -287,21 +287,7 @@ surface App {
     }
   }
 
-  // Theme chooser — right-side drawer
-  // Backdrop
-  block {
-    visibility: themeDrawerOpen
-    position: fixed
-    top: 0px
-    left: 0px
-    right: 0px
-    bottom: 0px
-    z-index: 49
-    background: "rgba(0,0,0,0.3)"
-    on click: closeThemeDrawer()
-  }
-
-  // Drawer panel
+  // Theme chooser — right-side panel (no backdrop, page stays scrollable)
   block {
     visibility: themeDrawerOpen
     position: fixed
@@ -313,12 +299,14 @@ surface App {
     background: semantic.surface-raised
     border-left: borders.default
     shadow: elevation.overlay
-    overflow: auto
-    padding: spacing.4
-    layout: vertical, gap: spacing.3
+    overflow: hidden
+    layout: vertical
 
-    // Header
+    // Header (fixed at top)
     block {
+      padding: spacing.4
+      padding-bottom: spacing.3
+      border-bottom: borders.default
       layout: horizontal, justify: between, align: center
       text("Themes") { style: type.heading-sm, color: semantic.text-primary }
       Button(label: "✕", variant: "ghost") {
@@ -326,8 +314,11 @@ surface App {
       }
     }
 
-    // Theme grid
+    // Theme grid (scrollable)
     block {
+      grow: true
+      overflow: auto
+      padding: spacing.4
       layout: grid, columns: "1fr 1fr", gap: spacing.3
 
       each [{value: "default", label: "Default", bg: "#f7f7f8", fg: "#202732", accent: "#1677ff", bdr: "#dce0e5"},
