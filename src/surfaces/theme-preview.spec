@@ -33,6 +33,13 @@ surface ThemePreview() {
     sidebarCollapsed: false
     stepper2Step: 0
     toastsVisible: true
+    // Comparison section state
+    cmpSelectSpec: ""
+    cmpSelectTS: ""
+    cmpMsSpec: []
+    cmpMsTS: []
+    cmpToastSpecVisible: true
+    cmpToastTSVisible: true
   }
 
   @computed {
@@ -81,6 +88,17 @@ surface ThemePreview() {
     prevStepper2() { stepper2Step = stepper2Step > 0 ? stepper2Step - 1 : 0 }
     dismissToasts() { toastsVisible = false }
     showToasts() { toastsVisible = true }
+    // Comparison section actions
+    setCmpSelectSpec(v) { cmpSelectSpec = v }
+    setCmpSelectTS(v) { cmpSelectTS = v }
+    setCmpMsSpec(v) { cmpMsSpec = v }
+    setCmpMsTS(v) { cmpMsTS = v }
+    dismissCmpToastSpec() { cmpToastSpecVisible = false }
+    dismissCmpToastTS() { cmpToastTSVisible = false }
+    showCmpToasts() {
+      cmpToastSpecVisible = true
+      cmpToastTSVisible = true
+    }
   }
 
   layout: vertical, gap: spacing.5
@@ -90,6 +108,276 @@ surface ThemePreview() {
   text("Switch themes above to compare how each one styles these components.") {
     style: type.body-md
     color: semantic.text-secondary
+  }
+
+  // =====================================================================
+  // Spec vs TS Component Comparison
+  // =====================================================================
+  text("Spec vs TS Comparison") { style: type.heading-md, color: semantic.text-primary }
+  text("Side-by-side comparison of components migrated from TypeScript to Spec.") {
+    style: type.body-md
+    color: semantic.text-secondary
+  }
+
+  // --- Select ---
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      overflow: visible
+
+      text("Select") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+        overflow: visible
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          Select(
+            label: "Framework",
+            options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
+            value: cmpSelectSpec,
+            placeholder: "Choose..."
+          ) {
+            on change(v): setCmpSelectSpec(v)
+          }
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          SelectTS(
+            label: "Framework",
+            options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
+            value: cmpSelectTS,
+            placeholder: "Choose..."
+          ) {
+            on change(v): setCmpSelectTS(v)
+          }
+        }
+      }
+    }
+  }
+
+  // --- MultiSelect ---
+  block {
+    background: semantic.surface-raised
+    border: borders.default
+    border-radius: radius.md
+    shadow: elevation.raised
+    overflow: visible
+
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+      overflow: visible
+
+      text("MultiSelect") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+        overflow: visible
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          MultiSelect(
+            label: "Tags",
+            options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
+            values: cmpMsSpec,
+            placeholder: "Select tags..."
+          ) {
+            on change(v): setCmpMsSpec(v)
+          }
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          overflow: visible
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          MultiSelectTS(
+            label: "Tags",
+            options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
+            values: cmpMsSpec,
+            placeholder: "Select tags..."
+          ) {
+            on change(v): setCmpMsTS(v)
+          }
+        }
+      }
+    }
+  }
+
+  // --- List ---
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("List") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          List(
+            items: [{id: "1", label: "Dashboard"}, {id: "2", label: "Analytics"}, {id: "3", label: "Settings"}, {id: "4", label: "Profile"}, {id: "5", label: "Logout"}],
+            selection: "single",
+            searchable: true
+          )
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          ListTS(
+            items: [{id: "1", label: "Dashboard"}, {id: "2", label: "Analytics"}, {id: "3", label: "Settings"}, {id: "4", label: "Profile"}, {id: "5", label: "Logout"}],
+            selection: "single",
+            searchable: true
+          )
+        }
+      }
+    }
+  }
+
+  // --- Tree ---
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Tree") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          Tree(
+            nodes: [
+              {id: "src", label: "src", children: [
+                {id: "app", label: "app.spec"},
+                {id: "components", label: "components", children: [
+                  {id: "btn", label: "button.spec"},
+                  {id: "card", label: "card.spec"}
+                ]}
+              ]},
+              {id: "pkg", label: "package.json"}
+            ],
+            selection: "single",
+            expanded: ["src"]
+          )
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          TreeTS(
+            nodes: [
+              {id: "src", label: "src", children: [
+                {id: "app", label: "app.spec"},
+                {id: "components", label: "components", children: [
+                  {id: "btn", label: "button.spec"},
+                  {id: "card", label: "card.spec"}
+                ]}
+              ]},
+              {id: "pkg", label: "package.json"}
+            ],
+            selection: "single",
+            expanded: ["src"]
+          )
+        }
+      }
+    }
+  }
+
+  // --- Toast ---
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Toast") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          block {
+            visibility: cmpToastSpecVisible
+            Toast(message: "Operation completed!", severity: "success") {
+              on dismiss: dismissCmpToastSpec()
+            }
+          }
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          block {
+            visibility: cmpToastTSVisible
+            ToastTS(message: "Operation completed!", severity: "success") {
+              on dismiss: dismissCmpToastTS()
+            }
+          }
+        }
+      }
+
+      block {
+        visibility: cmpToastSpecVisible == false || cmpToastTSVisible == false
+        Button(label: "Reset Toasts", variant: "secondary") {
+          on click: showCmpToasts()
+        }
+      }
+    }
+  }
+
+  // --- Image ---
+  Card() {
+    block {
+      padding: spacing.5
+      layout: vertical, gap: spacing.4
+
+      text("Image") { style: type.heading-sm, color: semantic.text-primary }
+      block {
+        layout: horizontal, gap: spacing.5
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("Spec") { style: type.label-sm, color: semantic.interactive }
+          Image(src: "https://picsum.photos/300/200?r=10", alt: "Spec image", aspectRatio: "3/2")
+        }
+
+        block {
+          grow: true
+          layout: vertical, gap: spacing.2
+          text("TS") { style: type.label-sm, color: semantic.warning }
+          ImageTS(src: "https://picsum.photos/300/200?r=10", alt: "TS image", aspectRatio: "3/2")
+        }
+      }
+    }
   }
 
   // Two-column masonry layout at larger breakpoints
