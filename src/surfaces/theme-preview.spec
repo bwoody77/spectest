@@ -305,13 +305,15 @@ surface ThemePreview() {
           Tree(
             nodes: [
               {id: "src", label: "src", icon: "folder", children: [
-                {id: "app", label: "app.spec", icon: "file-code"},
-                {id: "components", label: "components", icon: "folder", children: [
-                  {id: "btn", label: "button.spec", icon: "file-code"},
-                  {id: "card", label: "card.spec", icon: "file-code"}
-                ]}
+                {id: "app", label: "app.spec", icon: "code"},
+                {id: "components", label: "components", icon: "layers", children: [
+                  {id: "btn", label: "button.spec", icon: "code"},
+                  {id: "card", label: "card.spec", icon: "code"}
+                ]},
+                {id: "utils", label: "utils.js", icon: "terminal"}
               ]},
-              {id: "pkg", label: "package.json", icon: "file-json"}
+              {id: "pkg", label: "package.json", icon: "package"},
+              {id: "cfg", label: "spec.config.json", icon: "settings"}
             ],
             selection: "single",
             expanded: ["src"],
@@ -383,33 +385,6 @@ surface ThemePreview() {
         visibility: cmpToastSpecVisible == false || cmpToastTSVisible == false
         Button(label: "Reset Toasts", variant: "secondary") {
           on click: showCmpToasts()
-        }
-      }
-    }
-  }
-
-  // --- Image ---
-  Card() {
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-
-      text("Image") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: horizontal, gap: spacing.5
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          Image(src: "https://picsum.photos/300/200?r=10", alt: "Spec image", aspectRatio: "3/2")
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          ImageTS(src: "https://picsum.photos/300/200?r=10", alt: "TS image", aspectRatio: "3/2")
         }
       }
     }
