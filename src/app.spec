@@ -55,6 +55,8 @@
   translationDir: "./i18n"
 }
 
+@extern { strangerThingsTransition } from "./theme-effects.js"
+
 // Data sources
 
 source TasksAPI {
@@ -193,7 +195,19 @@ surface App {
   }
 
   @actions {
-    setThemePreset(p) { themePreset = p }
+    applyStrangerThemes() {
+      themePreset = "stranger-things"
+      themeDrawerOpen = false
+    }
+    setThemePreset(p) {
+      if (p == "stranger-things") {
+        themeDrawerOpen = false
+        strangerThingsTransition(applyStrangerThemes)
+      }
+      if (p != "stranger-things") {
+        themePreset = p
+      }
+    }
     setView(v) { view = v }
     toggleThemeDrawer() { themeDrawerOpen = !themeDrawerOpen }
     closeThemeDrawer() { themeDrawerOpen = false }
