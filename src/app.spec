@@ -438,7 +438,7 @@ surface App {
     height: 6px
     background: "linear-gradient(180deg, #E82020, #8B0000)"
     shadow: "0 4px 30px rgba(232,32,32,0.7), 0 8px 80px rgba(232,32,32,0.35), 0 2px 8px rgba(232,32,32,0.9)"
-    animation: "spec-pulse 5s cubic-bezier(0.4, 0, 0.2, 1) infinite"
+    animation: "st-glow 40s ease-in-out infinite"
   }
 
   // Breadcrumb navigation (Issue #18) — hidden on mobile

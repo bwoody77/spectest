@@ -42,6 +42,8 @@ surface ThemePreview() {
     cmpToastTSVisible: true
     cmpDateSpec: ""
     cmpDateTS: ""
+    treeExpandMode: "icon"
+    treeSelectedName: ""
     cmpGridRows: [
       {id: "1", name: "Alice", role: "Engineer", status: "Active"},
       {id: "2", name: "Bob", role: "Designer", status: "Active"},
@@ -109,6 +111,8 @@ surface ThemePreview() {
     }
     setCmpDateSpec(v) { cmpDateSpec = v }
     setCmpDateTS(v) { cmpDateTS = v }
+    toggleTreeExpandMode() { treeExpandMode = treeExpandMode == "icon" ? "row" : "icon" }
+    setTreeSelected(id) { treeSelectedName = id }
   }
 
   layout: vertical, gap: spacing.5
@@ -273,6 +277,24 @@ surface ThemePreview() {
       layout: vertical, gap: spacing.4
 
       text("Tree") { style: type.heading-sm, color: semantic.text-primary }
+
+      // Expand mode toggle + selected node display
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+
+        Button(label: "Mode: " + treeExpandMode, variant: "outline", size: "sm") {
+          on click: toggleTreeExpandMode()
+        }
+
+        block {
+          visibility: treeSelectedName != ""
+          layout: horizontal, gap: spacing.1, align: center
+
+          text("Selected:") { style: type.label-sm, color: semantic.text-secondary }
+          Badge(text: treeSelectedName, variant: "default")
+        }
+      }
+
       block {
         layout: horizontal, gap: spacing.5
 
@@ -282,18 +304,21 @@ surface ThemePreview() {
           text("Spec") { style: type.label-sm, color: semantic.interactive }
           Tree(
             nodes: [
-              {id: "src", label: "src", children: [
-                {id: "app", label: "app.spec"},
-                {id: "components", label: "components", children: [
-                  {id: "btn", label: "button.spec"},
-                  {id: "card", label: "card.spec"}
+              {id: "src", label: "src", icon: "folder", children: [
+                {id: "app", label: "app.spec", icon: "file-code"},
+                {id: "components", label: "components", icon: "folder", children: [
+                  {id: "btn", label: "button.spec", icon: "file-code"},
+                  {id: "card", label: "card.spec", icon: "file-code"}
                 ]}
               ]},
-              {id: "pkg", label: "package.json"}
+              {id: "pkg", label: "package.json", icon: "file-json"}
             ],
             selection: "single",
-            expanded: ["src"]
-          )
+            expanded: ["src"],
+            expandMode: treeExpandMode
+          ) {
+            on select(id): setTreeSelected(id)
+          }
         }
 
         block {
@@ -413,7 +438,7 @@ surface ThemePreview() {
           layout: vertical, gap: spacing.2
           overflow: visible
           text("Spec") { style: type.label-sm, color: semantic.interactive }
-          DatePicker(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
+          DatePickerSpec(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
             on change(v): setCmpDateSpec(v)
           }
         }
@@ -458,7 +483,7 @@ surface ThemePreview() {
           layout: vertical, gap: spacing.2
           overflow: visible
           text("Spec") { style: type.label-sm, color: semantic.interactive }
-          EditableGrid(
+          EditableGridSpec(
             columns: [
               {key: "name", header: "Name", sortable: true},
               {key: "role", header: "Role", sortable: true},
