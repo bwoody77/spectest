@@ -35,13 +35,10 @@ surface ThemePreview() {
     toastsVisible: true
     // Comparison section state
     cmpSelectSpec: ""
-    cmpSelectTS: ""
     cmpMsSpec: []
-    cmpMsTS: []
     cmpToastSpecVisible: true
     cmpToastTSVisible: true
     cmpDateSpec: ""
-    cmpDateTS: ""
     treeExpandMode: "icon"
     treeSelectedName: ""
     cmpGridRows: [
@@ -100,9 +97,7 @@ surface ThemePreview() {
     showToasts() { toastsVisible = true }
     // Comparison section actions
     setCmpSelectSpec(v) { cmpSelectSpec = v }
-    setCmpSelectTS(v) { cmpSelectTS = v }
     setCmpMsSpec(v) { cmpMsSpec = v }
-    setCmpMsTS(v) { cmpMsTS = v }
     dismissCmpToastSpec() { cmpToastSpecVisible = false }
     dismissCmpToastTS() { cmpToastTSVisible = false }
     showCmpToasts() {
@@ -110,7 +105,6 @@ surface ThemePreview() {
       cmpToastTSVisible = true
     }
     setCmpDateSpec(v) { cmpDateSpec = v }
-    setCmpDateTS(v) { cmpDateTS = v }
     toggleTreeExpandMode() { treeExpandMode = treeExpandMode == "icon" ? "row" : "icon" }
     setTreeSelected(id) { treeSelectedName = id }
   }
@@ -127,8 +121,8 @@ surface ThemePreview() {
   // =====================================================================
   // Spec vs TS Component Comparison
   // =====================================================================
-  text("Spec vs TS Comparison") { style: type.heading-md, color: semantic.text-primary }
-  text("Side-by-side comparison of components migrated from TypeScript to Spec.") {
+  text("Component Comparison") { style: type.heading-md, color: semantic.text-primary }
+  text("Components migrated from TypeScript to Spec, plus remaining side-by-side comparisons.") {
     style: type.body-md
     color: semantic.text-secondary
   }
@@ -147,39 +141,13 @@ surface ThemePreview() {
       overflow: visible
 
       text("Select") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: horizontal, gap: spacing.5
-        overflow: visible
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          Select(
-            label: "Framework",
-            options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
-            value: cmpSelectSpec,
-            placeholder: "Choose..."
-          ) {
-            on change(v): setCmpSelectSpec(v)
-          }
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          SelectTS(
-            label: "Framework",
-            options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
-            value: cmpSelectTS,
-            placeholder: "Choose..."
-          ) {
-            on change(v): setCmpSelectTS(v)
-          }
-        }
+      Select(
+        label: "Framework",
+        options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
+        value: cmpSelectSpec,
+        placeholder: "Choose..."
+      ) {
+        on change(v): setCmpSelectSpec(v)
       }
     }
   }
@@ -198,39 +166,13 @@ surface ThemePreview() {
       overflow: visible
 
       text("MultiSelect") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: horizontal, gap: spacing.5
-        overflow: visible
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          MultiSelect(
-            label: "Tags",
-            options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
-            values: cmpMsSpec,
-            placeholder: "Select tags..."
-          ) {
-            on change(v): setCmpMsSpec(v)
-          }
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          MultiSelectTS(
-            label: "Tags",
-            options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
-            values: cmpMsSpec,
-            placeholder: "Select tags..."
-          ) {
-            on change(v): setCmpMsTS(v)
-          }
-        }
+      MultiSelect(
+        label: "Tags",
+        options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
+        values: cmpMsSpec,
+        placeholder: "Select tags..."
+      ) {
+        on change(v): setCmpMsSpec(v)
       }
     }
   }
@@ -404,29 +346,8 @@ surface ThemePreview() {
       overflow: visible
 
       text("DatePicker") { style: type.heading-sm, color: semantic.text-primary }
-      block {
-        layout: horizontal, gap: spacing.5
-        overflow: visible
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          DatePickerSpec(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
-            on change(v): setCmpDateSpec(v)
-          }
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          overflow: visible
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          DatePickerTS(label: "Date", placeholder: "Pick a date...") {
-            on change(v): setCmpDateTS(v)
-          }
-        }
+      DatePickerSpec(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
+        on change(v): setCmpDateSpec(v)
       }
     }
   }
@@ -461,11 +382,12 @@ surface ThemePreview() {
           EditableGridSpec(
             columns: [
               {key: "name", header: "Name", sortable: true},
-              {key: "role", header: "Role", sortable: true},
+              {key: "role", header: "Role", sortable: true, type: "select", options: [{value: "Engineer", label: "Engineer"}, {value: "Designer", label: "Designer"}, {value: "PM", label: "PM"}, {value: "Manager", label: "Manager"}]},
               {key: "status", header: "Status"}
             ],
             rows: cmpGridRows,
-            height: "220px"
+            height: "220px",
+            activation: "click"
           )
         }
 
@@ -477,11 +399,12 @@ surface ThemePreview() {
           EditableGridTS(
             columns: [
               {key: "name", header: "Name", sortable: true},
-              {key: "role", header: "Role", sortable: true},
+              {key: "role", header: "Role", sortable: true, type: "select", options: [{value: "Engineer", label: "Engineer"}, {value: "Designer", label: "Designer"}, {value: "PM", label: "PM"}, {value: "Manager", label: "Manager"}]},
               {key: "status", header: "Status"}
             ],
             rows: cmpGridRows,
-            height: "220px"
+            height: "220px",
+            activation: "click"
           )
         }
       }
