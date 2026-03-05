@@ -104,6 +104,10 @@
   transition.shadow: "box-shadow 150ms ease"
   transition.shadow-slow: "box-shadow 200ms ease"
   transition.shadow-slower: "box-shadow 300ms ease"
+  transition.focus: "border-color 150ms ease, box-shadow 150ms ease"
+  transition.expand: "max-height 250ms ease, transform 250ms ease"
+  transition.fill: "width 300ms ease"
+  transition.fade: "opacity 150ms ease"
 
   // Transforms
   transform.lift-xs: "translateY(-1px)"

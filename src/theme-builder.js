@@ -147,6 +147,66 @@ export function applyPrimaryColor(hex) {
   });
 }
 
+/**
+ * Suggest a text color for the given background for ADA compliance.
+ * key: 'primary' | 'secondary'
+ */
+export function getTextSuggestion(bgHex, key) {
+  if (typeof bgHex !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(bgHex)) {
+    return key === 'primary' ? '#1a2230' : '#496183';
+  }
+  const lum = getLuminance(bgHex);
+  if (lum > 0.4) {
+    return key === 'primary' ? '#1a2230' : '#496183';
+  } else {
+    return key === 'primary' ? '#f1f5f9' : '#94a3b8';
+  }
+}
+
+/**
+ * Derive a surface color from primary at a given tint level (0–100).
+ * At 10 (default after sync) gives a very subtle tint; at 100 a heavily tinted surface.
+ * key: 'bg' | 'surface' | 'surfaceRaised' | 'border'
+ */
+export function getSurfaceTint(primaryHex, tint, key) {
+  if (typeof primaryHex !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(primaryHex)) {
+    const fallbacks = { bg: '#ffffff', surface: '#f7f7f8', surfaceRaised: '#ffffff', border: '#dce0e5' };
+    return fallbacks[key] ?? '#ffffff';
+  }
+  const [h, s] = hexToHsl(primaryHex);
+  const t = Math.max(0, Math.min(100, tint)) / 100;
+  switch (key) {
+    case 'bg':           return hslToHex(h, Math.min(s * t * 0.50, 100), Math.max(100 - t * 15, 5));
+    case 'surface':      return hslToHex(h, Math.min(s * t * 0.60, 100), Math.max(98  - t * 18, 5));
+    case 'surfaceRaised':return hslToHex(h, Math.min(s * t * 0.30, 100), Math.max(100 - t * 8,  5));
+    case 'border':       return hslToHex(h, Math.min(s * t * 1.30, 100), Math.max(90  - t * 20, 5));
+    default:             return '#ffffff';
+  }
+}
+
+/**
+ * Suggest a surface color derived from the primary, for light-mode surfaces.
+ * key: 'bg' | 'surface' | 'surfaceRaised' | 'border'
+ */
+export function getSurfaceSuggestion(primaryHex, key) {
+  if (typeof primaryHex !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(primaryHex)) {
+    const fallbacks = { bg: '#ffffff', surface: '#f7f7f8', surfaceRaised: '#ffffff', border: '#dce0e5' };
+    return fallbacks[key] ?? '#ffffff';
+  }
+  const [h, s] = hexToHsl(primaryHex);
+  const lum = getLuminance(primaryHex);
+  if (lum < 0.06) {
+    // Very dark primary → suggest dark-mode surfaces with subtle primary tint
+    const ts = Math.min(s * 0.08, 10);
+    const fallbacks = { bg: hslToHex(h, ts, 3), surface: hslToHex(h, ts, 8), surfaceRaised: hslToHex(h, ts, 14), border: hslToHex(h, Math.min(s * 0.15, 18), 22) };
+    return fallbacks[key] ?? '#111111';
+  }
+  // Light-mode surfaces with a barely-there primary hue tint
+  const ts = Math.max(Math.min(s * 0.06, 10), 3);
+  const fallbacks = { bg: '#ffffff', surface: hslToHex(h, ts, 97), surfaceRaised: '#ffffff', border: hslToHex(h, Math.max(Math.min(s * 0.14, 18), 5), 87) };
+  return fallbacks[key] ?? '#ffffff';
+}
+
 export function applySurfaceColors(bg, surface, surfaceRaised, borderColor) {
   const hover = blendHex(surfaceRaised, '#000000', 0.06);
   updateBuilderTokens({
@@ -209,21 +269,58 @@ export function applyRadiusPreset(preset) {
   });
 }
 
+function loadGoogleFont(family) {
+  const id = `gf-${family.replace(/\s+/g, '-').toLowerCase()}`;
+  if (document.getElementById(id)) return;
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@300;400;500;600;700&display=swap`;
+  document.head.appendChild(link);
+}
+
 export function applyFontFamily(preset) {
-  const map = {
-    system:  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    inter:   "'Inter', 'Segoe UI', Helvetica, sans-serif",
-    rounded: "'Nunito', 'Quicksand', 'Varela Round', sans-serif",
-    serif:   "'Georgia', 'Cambria', 'Times New Roman', serif",
-    mono:    "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
+  const staticFonts = {
+    system:     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    inter:      "'Inter', 'Segoe UI', Helvetica, sans-serif",
+    rounded:    "'Nunito', 'Quicksand', 'Varela Round', sans-serif",
+    serif:      "'Georgia', 'Cambria', 'Times New Roman', serif",
+    mono:       "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
   };
-  const f = map[preset] || map.system;
-  updateBuilderTokens({ 'font-body': f, 'font-heading': f });
+  const webFonts = {
+    poppins:    { family: 'Poppins',           stack: "'Poppins', 'Segoe UI', Helvetica, sans-serif" },
+    'dm-sans':  { family: 'DM Sans',           stack: "'DM Sans', 'Segoe UI', Helvetica, sans-serif" },
+    jakarta:    { family: 'Plus Jakarta Sans',  stack: "'Plus Jakarta Sans', 'Segoe UI', Helvetica, sans-serif" },
+    manrope:    { family: 'Manrope',           stack: "'Manrope', 'Segoe UI', Helvetica, sans-serif" },
+    lato:       { family: 'Lato',              stack: "'Lato', 'Helvetica Neue', Helvetica, sans-serif" },
+    'open-sans':{ family: 'Open Sans',         stack: "'Open Sans', 'Helvetica Neue', Helvetica, sans-serif" },
+    'ibm-plex': { family: 'IBM Plex Sans',     stack: "'IBM Plex Sans', 'Segoe UI', Helvetica, sans-serif" },
+    rubik:      { family: 'Rubik',             stack: "'Rubik', 'Segoe UI', Helvetica, sans-serif" },
+    outfit:     { family: 'Outfit',            stack: "'Outfit', 'Segoe UI', Helvetica, sans-serif" },
+    raleway:    { family: 'Raleway',           stack: "'Raleway', 'Segoe UI', Helvetica, sans-serif" },
+  };
+  if (webFonts[preset]) {
+    loadGoogleFont(webFonts[preset].family);
+    updateBuilderTokens({ 'font-body': webFonts[preset].stack, 'font-heading': webFonts[preset].stack });
+  } else {
+    const f = staticFonts[preset] || staticFonts.system;
+    updateBuilderTokens({ 'font-body': f, 'font-heading': f });
+  }
 }
 
 export function applyMotionPreset(preset) {
   const scale = { instant: 0, fast: 0.5, normal: 1, slow: 2 }[preset] ?? 1;
-  const t = (ms, ease) => scale === 0 ? 'none' : `${Math.round(ms * scale)}ms ${ease}`;
+  const allKeys = [
+    'transition-card-lift', 'transition-subtle', 'transition-scale',
+    'transition-interactive', 'transition-interactive-full', 'transition-row-hover',
+    'transition-shadow', 'transition-shadow-slow', 'transition-shadow-slower',
+    'transition-focus', 'transition-expand', 'transition-fill', 'transition-fade',
+  ];
+  if (scale === 0) {
+    updateBuilderTokens(Object.fromEntries(allKeys.map(k => [k, 'none'])));
+    return;
+  }
+  const t = (ms, ease) => `${Math.round(ms * scale)}ms ${ease}`;
   updateBuilderTokens({
     'transition-card-lift':       `transform ${t(200, 'ease')}, box-shadow ${t(200, 'ease')}`,
     'transition-subtle':          `transform ${t(150, 'ease')}`,
@@ -234,6 +331,10 @@ export function applyMotionPreset(preset) {
     'transition-shadow':          `box-shadow ${t(150, 'ease')}`,
     'transition-shadow-slow':     `box-shadow ${t(200, 'ease')}`,
     'transition-shadow-slower':   `box-shadow ${t(300, 'ease')}`,
+    'transition-focus':           `border-color ${t(150, 'ease')}, box-shadow ${t(150, 'ease')}`,
+    'transition-expand':          `max-height ${t(250, 'ease')}, transform ${t(250, 'ease')}`,
+    'transition-fill':            `width ${t(300, 'ease')}`,
+    'transition-fade':            `opacity ${t(150, 'ease')}`,
   });
 }
 

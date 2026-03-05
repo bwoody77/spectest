@@ -3,7 +3,7 @@
 // Parent (App) controls open/close and save/cancel via actions — this surface owns
 // only the editing state and the per-section UIs.
 
-@extern { applyPrimaryColor, applySurfaceColors, applyTextColors, applyRadiusPreset, applyFontFamily, applyMotionPreset, applyElevationPreset } from "../theme-builder.js"
+@extern { applyPrimaryColor, applySurfaceColors, applyTextColors, applyRadiusPreset, applyFontFamily, applyMotionPreset, applyElevationPreset, getSurfaceSuggestion, getSurfaceTint, getTextSuggestion } from "../theme-builder.js"
 
 surface ThemeBuilder {
   @state {
@@ -19,6 +19,8 @@ surface ThemeBuilder {
     motionPreset:    'normal'
     shadowPreset:    'default'
     activeSection:   'primary'
+    motionToggle:    false
+    surfaceTint:     10
   }
 
   @actions {
@@ -61,6 +63,26 @@ surface ThemeBuilder {
       shadowPreset = p
       applyElevationPreset(p)
     }
+    syncSurfaces() {
+      bgHex = getSurfaceTint(primaryHex, 10, 'bg')
+      surfaceHex = getSurfaceTint(primaryHex, 10, 'surface')
+      surfaceRaisedHex = getSurfaceTint(primaryHex, 10, 'surfaceRaised')
+      borderHex = getSurfaceTint(primaryHex, 10, 'border')
+      textPrimaryHex = getTextSuggestion(bgHex, 'primary')
+      textSecondaryHex = getTextSuggestion(bgHex, 'secondary')
+      applySurfaceColors(bgHex, surfaceHex, surfaceRaisedHex, borderHex)
+      applyTextColors(textPrimaryHex, textSecondaryHex)
+      surfaceTint = 10
+    }
+    setSurfaceTint(v) {
+      surfaceTint = v
+      bgHex = getSurfaceTint(primaryHex, v, 'bg')
+      surfaceHex = getSurfaceTint(primaryHex, v, 'surface')
+      surfaceRaisedHex = getSurfaceTint(primaryHex, v, 'surfaceRaised')
+      borderHex = getSurfaceTint(primaryHex, v, 'border')
+      applySurfaceColors(bgHex, surfaceHex, surfaceRaisedHex, borderHex)
+    }
+    toggleMotionDemo() { motionToggle = !motionToggle }
     setSection(s) { activeSection = s }
   }
 
@@ -251,11 +273,33 @@ surface ThemeBuilder {
       layout: vertical, gap: spacing.4
 
       block {
-        layout: vertical, gap: spacing.1
-        text('Surface Colors') { style: type.label-md, color: semantic.text-primary }
-        text('Background layers, cards, and border colors.') {
-          style: type.body-sm
-          color: semantic.text-secondary
+        layout: horizontal, align: center, justify: between
+        block {
+          layout: vertical, gap: spacing.1
+          text('Surface Colors') { style: type.label-md, color: semantic.text-primary }
+          text('Background layers, cards, and border colors.') {
+            style: type.body-sm
+            color: semantic.text-secondary
+          }
+        }
+        Button(label: 'Sync with primary', variant: 'secondary') {
+          on click: { syncSurfaces() }
+        }
+      }
+
+      // Tint depth slider — only meaningful after a sync
+      block {
+        layout: horizontal, gap: spacing.3, align: center
+        text('Tint depth') { style: type.label-sm, color: semantic.text-secondary }
+        block {
+          grow: true
+          Slider(value: surfaceTint, min: 0, max: 100, step: 1) {
+            on change(v): { setSurfaceTint(v) }
+          }
+        }
+        block {
+          width: 32px
+          text(surfaceTint) { style: type.mono-sm, color: semantic.text-tertiary }
         }
       }
 
@@ -522,13 +566,24 @@ surface ThemeBuilder {
 
       block {
         layout: vertical, gap: spacing.2
+        overflow: auto
 
         each [
-          {id: 'system',  label: 'System',  sample: 'System UI · sans-serif'},
-          {id: 'inter',   label: 'Inter',   sample: 'Inter · modern sans'},
-          {id: 'rounded', label: 'Rounded', sample: 'Nunito · friendly'},
-          {id: 'serif',   label: 'Serif',   sample: 'Georgia · editorial'},
-          {id: 'mono',    label: 'Mono',    sample: 'Fira Code · technical'}
+          {id: 'system',    label: 'System',         sample: 'System UI · native'},
+          {id: 'inter',     label: 'Inter',           sample: 'Inter · modern sans'},
+          {id: 'dm-sans',   label: 'DM Sans',         sample: 'DM Sans · clean'},
+          {id: 'poppins',   label: 'Poppins',         sample: 'Poppins · geometric'},
+          {id: 'jakarta',   label: 'Plus Jakarta',    sample: 'Jakarta · fresh'},
+          {id: 'manrope',   label: 'Manrope',         sample: 'Manrope · modern'},
+          {id: 'lato',      label: 'Lato',            sample: 'Lato · humanist'},
+          {id: 'open-sans', label: 'Open Sans',       sample: 'Open Sans · readable'},
+          {id: 'rubik',     label: 'Rubik',           sample: 'Rubik · rounded'},
+          {id: 'outfit',    label: 'Outfit',          sample: 'Outfit · geometric'},
+          {id: 'raleway',   label: 'Raleway',         sample: 'Raleway · elegant'},
+          {id: 'ibm-plex',  label: 'IBM Plex',        sample: 'IBM Plex · technical'},
+          {id: 'rounded',   label: 'Nunito',          sample: 'Nunito · friendly'},
+          {id: 'serif',     label: 'Serif',           sample: 'Georgia · editorial'},
+          {id: 'mono',      label: 'Mono',            sample: 'Fira Code · code'}
         ] as f {
           block {
             padding: spacing.3
@@ -663,6 +718,38 @@ surface ThemeBuilder {
               text(p.desc) { style: type.body-sm, color: semantic.text-secondary }
             }
           }
+        }
+      }
+
+      // Live preview
+      block {
+        padding: spacing.4
+        border-radius: radius.md
+        background: semantic.surface-raised
+        border: borders.default
+        layout: vertical, gap: spacing.3
+
+        text('Live preview — hover and click to feel the speed') {
+          style: type.label-xs
+          color: semantic.text-tertiary
+        }
+
+        block {
+          layout: horizontal, gap: spacing.2, align: center
+
+          Button(label: 'Primary') { on click: {} }
+          Button(label: 'Secondary', variant: 'secondary') { on click: {} }
+          Button(label: 'Ghost', variant: 'ghost') { on click: {} }
+          Button(label: 'Danger', variant: 'destructive') { on click: {} }
+        }
+
+        block {
+          height: 1px
+          background: semantic.border
+        }
+
+        Toggle(label: 'Toggle switch', checked: motionToggle) {
+          on change(v): { toggleMotionDemo() }
         }
       }
     }
