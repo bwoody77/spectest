@@ -43,6 +43,7 @@
 @import { EditableGridDemo } from "./surfaces/editable-grid-demo.spec"
 @import { TreeDemo } from "./surfaces/tree-demo.spec"
 @import { ThemePreview } from "./surfaces/theme-preview.spec"
+@import { ThemeBuilder } from "./surfaces/theme-builder.spec"
 // @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
@@ -56,6 +57,7 @@
 }
 
 @extern { strangerThingsTransition } from "./theme-effects.js"
+@extern { startBuilderPreview, cancelBuilderPreview, saveBuilderAsTheme } from "./theme-builder.js"
 
 // Data sources
 
@@ -116,6 +118,8 @@ surface App {
     mobileNavOpen: false
     commandPaletteOpen: false
     themeDrawerOpen: false
+    themeBuilderOpen: false
+    builderSaveName: ''
     currentLocale: getCurrentLocale()
   }
 
@@ -195,6 +199,22 @@ surface App {
   }
 
   @actions {
+    openThemeBuilder() {
+      themeBuilderOpen = true
+      themeDrawerOpen = false
+      startBuilderPreview(themePreset)
+    }
+    cancelThemeBuilder() {
+      themeBuilderOpen = false
+      cancelBuilderPreview()
+    }
+    saveBuilderTheme() {
+      saveBuilderAsTheme(builderSaveName)
+      themePreset = builderSaveName
+      themeBuilderOpen = false
+      builderSaveName = ''
+    }
+    setBuilderSaveName(v) { builderSaveName = v }
     applyStrangerThemes() {
       themePreset = "stranger-things"
       themeDrawerOpen = false
@@ -209,7 +229,10 @@ surface App {
       }
     }
     setView(v) { view = v }
-    toggleThemeDrawer() { themeDrawerOpen = !themeDrawerOpen }
+    toggleThemeDrawer() {
+      themeDrawerOpen = !themeDrawerOpen
+      themeBuilderOpen = false
+    }
     closeThemeDrawer() { themeDrawerOpen = false }
     toggleSidebar() {
       sidebarCollapsed = !sidebarCollapsed
@@ -288,6 +311,11 @@ surface App {
       // Theme chooser panel trigger
       Button(label: "Theme", variant: "secondary", pressed: themeDrawerOpen) {
         on click: toggleThemeDrawer()
+      }
+
+      // Theme Builder trigger
+      Button(label: "Build Theme", variant: "secondary", pressed: themeBuilderOpen) {
+        on click: openThemeBuilder()
       }
 
       // Language selector
@@ -428,6 +456,70 @@ surface App {
           }
         }
       }
+      }
+    }
+  }
+
+  // Theme Builder — full right-side editor panel
+  block {
+    visibility: themeBuilderOpen
+    position: fixed
+    top: 0px
+    right: 0px
+    bottom: 0px
+    width: responsive(300px, md: 400px)
+    z-index: 60
+    background: semantic.surface-raised
+    border-left: borders.default
+    shadow: elevation.overlay
+    overflow: hidden
+    layout: vertical
+
+    // Panel header
+    block {
+      padding: spacing.3
+      border-bottom: borders.default
+      layout: horizontal, justify: between, align: center
+
+      block {
+        layout: horizontal, gap: spacing.2, align: center
+        Icon(name: 'palette', size: icon.sm, color: semantic.interactive)
+        text('Theme Builder') { style: type.heading-sm, color: semantic.text-primary }
+      }
+
+      Button(label: '✕', variant: 'ghost') {
+        on click: cancelThemeBuilder()
+      }
+    }
+
+    // ThemeBuilder editing form
+    block {
+      grow: true
+      overflow: hidden
+      layout: vertical
+      ThemeBuilder()
+    }
+
+    // Panel footer: save name + actions
+    block {
+      padding: spacing.3
+      border-top: borders.default
+      background: semantic.surface
+      layout: vertical, gap: spacing.2
+
+      block {
+        layout: horizontal, gap: spacing.2
+        textInput(builderSaveName) {
+          placeholder: 'Theme name to save as...'
+          on change(value): { setBuilderSaveName(value) }
+        }
+        Button(label: 'Save', variant: 'primary', disabled: builderSaveName == '') {
+          on click: saveBuilderTheme()
+        }
+      }
+
+      Button(label: 'Cancel — restore previous theme', variant: 'secondary') {
+        on click: cancelThemeBuilder()
       }
     }
   }
