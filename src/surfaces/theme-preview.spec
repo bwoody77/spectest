@@ -34,10 +34,8 @@ surface ThemePreview() {
     stepper2Step: 0
     toastsVisible: true
     // Comparison section state
-    cmpSelectSpec: ""
     cmpMsSpec: []
     cmpToastSpecVisible: true
-    cmpDateSpec: ""
     treeExpandMode: "icon"
     treeSelectedName: ""
     cmpGridRows: [
@@ -95,11 +93,9 @@ surface ThemePreview() {
     dismissToasts() { toastsVisible = false }
     showToasts() { toastsVisible = true }
     // Comparison section actions
-    setCmpSelectSpec(v) { cmpSelectSpec = v }
     setCmpMsSpec(v) { cmpMsSpec = v }
     dismissCmpToastSpec() { cmpToastSpecVisible = false }
     showCmpToasts() { cmpToastSpecVisible = true }
-    setCmpDateSpec(v) { cmpDateSpec = v }
     toggleTreeExpandMode() { treeExpandMode = treeExpandMode == "icon" ? "row" : "icon" }
     setTreeSelected(id) { treeSelectedName = id }
   }
@@ -120,56 +116,6 @@ surface ThemePreview() {
   text("Spec-compiled components. List and EditableGrid still show side-by-side TS comparison.") {
     style: type.body-md
     color: semantic.text-secondary
-  }
-
-  // --- Select ---
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-      overflow: visible
-
-      text("Select") { style: type.heading-sm, color: semantic.text-primary }
-      Select(
-        label: "Framework",
-        options: [{value: "react", label: "React"}, {value: "vue", label: "Vue"}, {value: "angular", label: "Angular"}, {value: "svelte", label: "Svelte"}],
-        value: cmpSelectSpec,
-        placeholder: "Choose..."
-      ) {
-        on change(v): setCmpSelectSpec(v)
-      }
-    }
-  }
-
-  // --- MultiSelect ---
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-      overflow: visible
-
-      text("MultiSelect") { style: type.heading-sm, color: semantic.text-primary }
-      MultiSelect(
-        label: "Tags",
-        options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
-        values: cmpMsSpec,
-        placeholder: "Select tags..."
-      ) {
-        on change(v): setCmpMsSpec(v)
-      }
-    }
   }
 
   // --- List ---
@@ -273,26 +219,6 @@ surface ThemePreview() {
         Button(label: "Reset Toast", variant: "secondary") {
           on click: showCmpToasts()
         }
-      }
-    }
-  }
-
-  // --- DatePicker ---
-  block {
-    background: semantic.surface-raised
-    border: borders.default
-    border-radius: radius.md
-    shadow: elevation.raised
-    overflow: visible
-
-    block {
-      padding: spacing.5
-      layout: vertical, gap: spacing.4
-      overflow: visible
-
-      text("DatePicker") { style: type.heading-sm, color: semantic.text-primary }
-      DatePicker(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
-        on change(v): setCmpDateSpec(v)
       }
     }
   }
@@ -728,6 +654,15 @@ surface ThemePreview() {
               placeholder: "Choose framework..."
             ) {
               on change(v): setSelect(v)
+            }
+
+            MultiSelect(
+              label: "Tags",
+              options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
+              values: cmpMsSpec,
+              placeholder: "Select tags..."
+            ) {
+              on change(v): setCmpMsSpec(v)
             }
 
             text("Checkboxes") { style: type.label-md, color: semantic.text-secondary }
