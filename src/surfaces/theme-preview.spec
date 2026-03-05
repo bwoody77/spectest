@@ -37,7 +37,6 @@ surface ThemePreview() {
     cmpSelectSpec: ""
     cmpMsSpec: []
     cmpToastSpecVisible: true
-    cmpToastTSVisible: true
     cmpDateSpec: ""
     treeExpandMode: "icon"
     treeSelectedName: ""
@@ -99,11 +98,7 @@ surface ThemePreview() {
     setCmpSelectSpec(v) { cmpSelectSpec = v }
     setCmpMsSpec(v) { cmpMsSpec = v }
     dismissCmpToastSpec() { cmpToastSpecVisible = false }
-    dismissCmpToastTS() { cmpToastTSVisible = false }
-    showCmpToasts() {
-      cmpToastSpecVisible = true
-      cmpToastTSVisible = true
-    }
+    showCmpToasts() { cmpToastSpecVisible = true }
     setCmpDateSpec(v) { cmpDateSpec = v }
     toggleTreeExpandMode() { treeExpandMode = treeExpandMode == "icon" ? "row" : "icon" }
     setTreeSelected(id) { treeSelectedName = id }
@@ -122,7 +117,7 @@ surface ThemePreview() {
   // Spec vs TS Component Comparison
   // =====================================================================
   text("Component Comparison") { style: type.heading-md, color: semantic.text-primary }
-  text("Components migrated from TypeScript to Spec, plus remaining side-by-side comparisons.") {
+  text("Spec-compiled components. List and EditableGrid still show side-by-side TS comparison.") {
     style: type.body-md
     color: semantic.text-secondary
   }
@@ -237,53 +232,24 @@ surface ThemePreview() {
         }
       }
 
-      block {
-        layout: horizontal, gap: spacing.5
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          Tree(
-            nodes: [
-              {id: "src", label: "src", icon: "folder", children: [
-                {id: "app", label: "app.spec", icon: "code"},
-                {id: "components", label: "components", icon: "layers", children: [
-                  {id: "btn", label: "button.spec", icon: "code"},
-                  {id: "card", label: "card.spec", icon: "code"}
-                ]},
-                {id: "utils", label: "utils.js", icon: "terminal"}
-              ]},
-              {id: "pkg", label: "package.json", icon: "package"},
-              {id: "cfg", label: "spec.config.json", icon: "settings"}
-            ],
-            selection: "single",
-            expanded: ["src"],
-            expandMode: treeExpandMode
-          ) {
-            on select(id): setTreeSelected(id)
-          }
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          TreeTS(
-            nodes: [
-              {id: "src", label: "src", children: [
-                {id: "app", label: "app.spec"},
-                {id: "components", label: "components", children: [
-                  {id: "btn", label: "button.spec"},
-                  {id: "card", label: "card.spec"}
-                ]}
-              ]},
-              {id: "pkg", label: "package.json"}
-            ],
-            selection: "single",
-            expanded: ["src"]
-          )
-        }
+      Tree(
+        nodes: [
+          {id: "src", label: "src", icon: "folder", children: [
+            {id: "app", label: "app.spec", icon: "code"},
+            {id: "components", label: "components", icon: "layers", children: [
+              {id: "btn", label: "button.spec", icon: "code"},
+              {id: "card", label: "card.spec", icon: "code"}
+            ]},
+            {id: "utils", label: "utils.js", icon: "terminal"}
+          ]},
+          {id: "pkg", label: "package.json", icon: "package"},
+          {id: "cfg", label: "spec.config.json", icon: "settings"}
+        ],
+        selection: "single",
+        expanded: ["src"],
+        expandMode: treeExpandMode
+      ) {
+        on select(id): setTreeSelected(id)
       }
     }
   }
@@ -296,36 +262,15 @@ surface ThemePreview() {
 
       text("Toast") { style: type.heading-sm, color: semantic.text-primary }
       block {
-        layout: horizontal, gap: spacing.5
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("Spec") { style: type.label-sm, color: semantic.interactive }
-          block {
-            visibility: cmpToastSpecVisible
-            Toast(message: "Operation completed!", severity: "success") {
-              on dismiss: dismissCmpToastSpec()
-            }
-          }
-        }
-
-        block {
-          grow: true
-          layout: vertical, gap: spacing.2
-          text("TS") { style: type.label-sm, color: semantic.warning }
-          block {
-            visibility: cmpToastTSVisible
-            ToastTS(message: "Operation completed!", severity: "success") {
-              on dismiss: dismissCmpToastTS()
-            }
-          }
+        visibility: cmpToastSpecVisible
+        Toast(message: "Operation completed!", severity: "success") {
+          on dismiss: dismissCmpToastSpec()
         }
       }
 
       block {
-        visibility: cmpToastSpecVisible == false || cmpToastTSVisible == false
-        Button(label: "Reset Toasts", variant: "secondary") {
+        visibility: cmpToastSpecVisible == false
+        Button(label: "Reset Toast", variant: "secondary") {
           on click: showCmpToasts()
         }
       }
@@ -346,7 +291,7 @@ surface ThemePreview() {
       overflow: visible
 
       text("DatePicker") { style: type.heading-sm, color: semantic.text-primary }
-      DatePickerSpec(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
+      DatePicker(label: "Date", placeholder: "Pick a date...", value: cmpDateSpec) {
         on change(v): setCmpDateSpec(v)
       }
     }
