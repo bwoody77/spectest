@@ -44,6 +44,7 @@
 @import { TreeDemo } from "./surfaces/tree-demo.spec"
 @import { ThemePreview } from "./surfaces/theme-preview.spec"
 @import { ThemeBuilder } from "./surfaces/theme-builder.spec"
+@import { ReactivityPerf } from "./surfaces/reactivity-perf.spec"
 // @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
@@ -143,6 +144,7 @@ surface App {
     showTree: view == "categories"
     showPerfGrid: view == "perfgrid"
     showPerfSignals: view == "perfsignals"
+    showReactivityPerf: view == "reactivityperf"
     showThemePreview: view == "themepreview"
     showLanding2: view == "landing2"
     isLandingPage: view == "landing2"
@@ -162,6 +164,7 @@ surface App {
       "categories" -> "Categories",
       "perfgrid" -> "Grid Performance",
       "perfsignals" -> "Signal Performance",
+      "reactivityperf" -> "Reactivity Perf",
       "themepreview" -> "Theme Preview",
       "landing2" -> "Landing Page",
       _ -> "Admin"
@@ -183,6 +186,7 @@ surface App {
       "categories" -> "Data",
       "perfgrid" -> "Performance",
       "perfsignals" -> "Performance",
+      "reactivityperf" -> "Performance",
       "themepreview" -> "Design",
       "landing2" -> "Marketing",
       _ -> "Overview"
@@ -587,7 +591,8 @@ surface App {
         ]},
         {heading: "Performance", items: [
           {id: "perfgrid", label: "Grid 10K", icon: "zap"},
-          {id: "perfsignals", label: "Signal Test", icon: "activity"}
+          {id: "perfsignals", label: "Signal Test", icon: "activity"},
+          {id: "reactivityperf", label: "Reactivity Perf", icon: "zap"}
         ]},
         {heading: "Marketing", items: [
           {id: "landing2", label: "Landing Page", icon: "globe"}
@@ -741,6 +746,14 @@ surface App {
         visibility: showPerfSignals
         PerfSignals()
       }
+
+      // Performance: Reactivity test
+      block {
+        role: "region"
+        aria-label: "Reactivity performance"
+        visibility: showReactivityPerf
+        ReactivityPerf()
+      }
     }
   }
 
@@ -763,6 +776,7 @@ surface App {
       {id: "themepreview", label: "Theme Preview", group: "Design", icon: "palette"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
+      {id: "reactivityperf", label: "Reactivity Perf", group: "Performance", icon: "zap"},
       {id: "settings", label: "Settings", group: "System", icon: "settings"}
     ],
     placeholder: "Search views, actions..."

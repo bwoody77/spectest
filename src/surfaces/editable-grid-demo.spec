@@ -7,6 +7,7 @@ surface EditableGridDemo() {
     saveProgress: 0
     saving: false
     saved: false
+    lastSaveEvent: ""
   }
 
   @source {
@@ -32,6 +33,14 @@ surface EditableGridDemo() {
       saved = true
     }
     dismissSaved() { saved = false }
+    onCellSave(rowId, field, value) {
+      lastSaveEvent = "Auto-saved: {field} = {value} (row {rowId})"
+      hasChanges = false
+    }
+    onRowSave(rowId, changes) {
+      lastSaveEvent = "Row {rowId} saved"
+      hasChanges = false
+    }
   }
 
   layout: vertical, gap: spacing.5
@@ -102,7 +111,7 @@ surface EditableGridDemo() {
     Skeleton(height: "400px", width: "100%")
   }
 
-  // EditableGrid
+  // EditableGridSpec
   block {
     visibility: !productsLoading
     background: semantic.surface-raised
@@ -115,11 +124,11 @@ surface EditableGridDemo() {
       shadow: elevation.layered
     }
 
-    EditableGrid(
+    EditableGridSpec(
       rows: productList,
       columns: [
         { key: "id", label: "ID", width: "60px", editable: false },
-        { key: "name", label: "Product Name", editable: true, type: "text" },
+        { key: "name", label: "Product Name", editable: true, type: "text", required: true },
         { key: "category", label: "Category", editable: true, type: "select", options: ["Electronics", "Audio", "Furniture", "Accessories"] },
         { key: "price", label: "Price", editable: true, type: "number", format: "currency" },
         { key: "stock", label: "Stock", editable: true, type: "number", min: 0 },
@@ -132,6 +141,8 @@ surface EditableGridDemo() {
       activation: "click"
     ) {
       on cellEdit(e): { markDirty() }
+      on cellSave(e): { onCellSave(e.rowId, e.field, e.value) }
+      on rowSave(e): { onRowSave(e.rowId, e.changes) }
     }
   }
 
@@ -158,12 +169,17 @@ surface EditableGridDemo() {
         block {
           layout: horizontal, gap: spacing.2, align: center
           Icon(name: "check", size: icon.xs, color: semantic.text-secondary)
-          text("Modified cells show a blue indicator") { style: type.body-sm, color: semantic.text-secondary }
+          text("Modified cells show a yellow indicator") { style: type.body-sm, color: semantic.text-secondary }
         }
         block {
           layout: horizontal, gap: spacing.2, align: center
           Icon(name: "arrow-left", size: icon.xs, color: semantic.text-secondary)
           text("Ctrl+Z to undo, Ctrl+Y to redo") { style: type.body-sm, color: semantic.text-secondary }
+        }
+        block {
+          layout: horizontal, gap: spacing.2, align: center
+          Icon(name: "clipboard", size: icon.xs, color: semantic.text-secondary)
+          text("Ctrl+C to copy, Ctrl+V to paste, Ctrl+D to fill down") { style: type.body-sm, color: semantic.text-secondary }
         }
       }
     }
