@@ -35,6 +35,9 @@
   semantic.info-bg: "#e6f4ff"
   semantic.on-interactive: "#ffffff"
   semantic.focus-ring-shadow: "rgba(22,119,255,.12)"
+  // Aliases — semantic.primary and semantic.accent map to semantic.interactive
+  semantic.primary: "#1677ff"
+  semantic.accent: "#1677ff"
 
   // Semantic colors — destructive/error
   semantic.destructive: "#ff4d4f"
