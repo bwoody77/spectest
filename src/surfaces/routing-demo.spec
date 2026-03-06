@@ -70,7 +70,7 @@ component RouterUser(userId: string) {
         border-radius: "50%"
         background: semantic.primary
         layout: horizontal, justify: "center", align: "center"
-        text(userId[0]) { style: type.heading-sm, color: "#fff" }
+        text(userId ? userId[0] : "?") { style: type.heading-sm, color: "#fff" }
       }
       block {
         layout: vertical, gap: spacing.1
