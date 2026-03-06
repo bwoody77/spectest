@@ -50,6 +50,7 @@
 @import { FormDemo } from "./surfaces/form-demo.spec"
 @import { RoutingDemo } from "./surfaces/routing-demo.spec"
 @import { FeatureTest } from "./surfaces/feature-test.spec"
+@import { MobileDemo } from "./surfaces/mobile-demo.spec"
 // @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
@@ -157,6 +158,7 @@ surface App {
     showFormDemo: view == "formdemo"
     showRouting: view == "routing"
     showFeatureTest: view == "featuretest"
+    showMobileDemo: view == "mobiledemo"
     isLandingPage: view == "landing2"
 
     viewTitle: match view {
@@ -182,6 +184,7 @@ surface App {
       "formdemo" -> "Form Validation",
       "routing" -> "Routing",
       "featuretest" -> "Feature Test (P1-P8)",
+      "mobiledemo" -> "Mobile Demo",
       _ -> "Admin"
     }
 
@@ -208,6 +211,7 @@ surface App {
       "drag" -> "Components",
       "formdemo" -> "Components",
       "routing" -> "Components",
+      "mobiledemo" -> "Components",
       "featuretest" -> "Testing",
       _ -> "Overview"
     }
@@ -624,7 +628,8 @@ surface App {
           {id: "charts", label: "Charts", icon: "bar-chart"},
           {id: "drag", label: "Drag & Drop", icon: "layout"},
           {id: "formdemo", label: "Form Validation", icon: "edit"},
-          {id: "routing", label: "Routing", icon: "globe"}
+          {id: "routing", label: "Routing", icon: "globe"},
+          {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"}
         ]},
         {heading: "Testing", items: [
           {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle"}
@@ -792,6 +797,14 @@ surface App {
         RoutingDemo()
       }
 
+      // Mobile Demo
+      block {
+        role: "region"
+        aria-label: "Mobile demo"
+        visibility: showMobileDemo
+        MobileDemo()
+      }
+
       // Feature Test — P1-P8
       block {
         role: "region"
@@ -847,6 +860,7 @@ surface App {
       {id: "drag", label: "Drag & Drop", group: "Components", icon: "layout"},
       {id: "formdemo", label: "Form Validation", group: "Components", icon: "edit"},
       {id: "routing", label: "Routing", group: "Components", icon: "globe"},
+      {id: "mobiledemo", label: "Mobile Demo", group: "Components", icon: "smartphone"},
       {id: "featuretest", label: "Feature Test (P1-P8)", group: "Testing", icon: "check-circle"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
