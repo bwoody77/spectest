@@ -35,6 +35,10 @@ surface ThemePreview() {
     toastsVisible: true
     // Comparison section state
     cmpMsSpec: []
+    msDisplay: "chips"
+    msMode: "dropdown"
+    msSearchable: true
+    msShowCheckbox: true
     cmpToastSpecVisible: true
     treeExpandMode: "icon"
     treeSelectedName: ""
@@ -94,6 +98,10 @@ surface ThemePreview() {
     showToasts() { toastsVisible = true }
     // Comparison section actions
     setCmpMsSpec(v) { cmpMsSpec = v }
+    setMsDisplay(v) { msDisplay = v }
+    setMsMode(v) { msMode = v }
+    setMsSearchable(v) { msSearchable = v }
+    setMsShowCheckbox(v) { msShowCheckbox = v }
     dismissCmpToastSpec() { cmpToastSpecVisible = false }
     showCmpToasts() { cmpToastSpecVisible = true }
     toggleTreeExpandMode() { treeExpandMode = treeExpandMode == "icon" ? "row" : "icon" }
@@ -656,11 +664,58 @@ surface ThemePreview() {
               on change(v): setSelect(v)
             }
 
+            // MultiSelect configuration controls
+            block {
+              layout: vertical, gap: spacing.2
+              padding: spacing.3
+              background: semantic.surface-raised
+              border-radius: radius.sm
+              border: borders.default
+
+              text("MultiSelect options") { style: type.label-sm, color: semantic.text-secondary }
+
+              block {
+                layout: horizontal, gap: spacing.3, align: center
+                text("display:") { style: type.label-sm, color: semantic.text-tertiary }
+                Button(label: "chips", variant: msDisplay == "chips" ? "primary" : "ghost", size: "sm") {
+                  on click: setMsDisplay("chips")
+                }
+                Button(label: "text", variant: msDisplay == "text" ? "primary" : "ghost", size: "sm") {
+                  on click: setMsDisplay("text")
+                }
+              }
+
+              block {
+                layout: horizontal, gap: spacing.3, align: center
+                text("mode:") { style: type.label-sm, color: semantic.text-tertiary }
+                Button(label: "dropdown", variant: msMode == "dropdown" ? "primary" : "ghost", size: "sm") {
+                  on click: setMsMode("dropdown")
+                }
+                Button(label: "list", variant: msMode == "list" ? "primary" : "ghost", size: "sm") {
+                  on click: setMsMode("list")
+                }
+              }
+
+              block {
+                layout: horizontal, gap: spacing.3, align: center
+                Toggle(label: "searchable", checked: msSearchable) {
+                  on change(v): setMsSearchable(v)
+                }
+                Toggle(label: "showCheckbox", checked: msShowCheckbox) {
+                  on change(v): setMsShowCheckbox(v)
+                }
+              }
+            }
+
             MultiSelect(
               label: "Tags",
               options: [{value: "bug", label: "Bug"}, {value: "feature", label: "Feature"}, {value: "docs", label: "Docs"}, {value: "refactor", label: "Refactor"}],
               values: cmpMsSpec,
-              placeholder: "Select tags..."
+              placeholder: "Select tags...",
+              display: msDisplay,
+              mode: msMode,
+              searchable: msSearchable,
+              showCheckbox: msShowCheckbox
             ) {
               on change(v): setCmpMsSpec(v)
             }
