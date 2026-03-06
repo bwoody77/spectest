@@ -179,12 +179,21 @@ else {
 <body>
 <div id="app"></div>
 <script type="module">
-  import { mountApp } from '/bundle.js';
-  const mount = typeof mountApp === 'function' ? mountApp : null;
+  // Load bundle first (sets up __specRegisterThemes global).
+  const mod = await import('/bundle.js');
+
+  // Pre-load saved theme before mounting to prevent flash.
+  // @persist stores values via JSON.stringify, so strip surrounding quotes.
+  let _theme = localStorage.getItem('spec-state-App.themePreset')
+    || localStorage.getItem('spec-theme');
+  if (_theme) _theme = _theme.replace(/^"|"$/g, '');
+  if (_theme && _theme !== 'default') {
+    try { await import('/themes/' + _theme + '.js'); } catch(e) {}
+  }
+
+  const mount = typeof mod.mountApp === 'function' ? mod.mountApp : null;
   if (mount) mount(document.getElementById('app'));
   else {
-    // Fallback: find any mount* export
-    const mod = await import('/bundle.js');
     const mounts = Object.entries(mod).filter(([k]) => k.startsWith('mount'));
     const fn = (mounts.find(([k]) => k === 'mountApp') || mounts[mounts.length - 1])?.[1];
     if (typeof fn === 'function') fn(document.getElementById('app'));
@@ -254,6 +263,19 @@ else {
           res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
           res.end(content);
         }
+      } catch {
+        res.writeHead(404);
+        res.end('Not found');
+      }
+      return;
+    }
+
+    // Serve theme files from dist/themes/
+    if (url.startsWith('/themes/') && url.endsWith('.js')) {
+      try {
+        const content = await readFile(join(distDir, url));
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content);
       } catch {
         res.writeHead(404);
         res.end('Not found');

@@ -107,24 +107,68 @@ surface FeatureTest() {
   block {
     layout: horizontal, gap: spacing.2
 
-    each [
-      {id: "p1", label: "P1 · Slots"},
-      {id: "p2", label: "P2 · Router"},
-      {id: "p3", label: "P3 · Icons"},
-      {id: "p4", label: "P4 · Charts"},
-      {id: "p6", label: "P6 · @form"},
-      {id: "p7", label: "P7 · Drag"},
-      {id: "p8", label: "P8 · match"}
-    ] as tab {
-      block {
-        padding: "6px 12px"
-        border-radius: radius.md
-        cursor: "pointer"
-        background: activeTab == tab.id ? semantic.primary : semantic.surface-raised
-        border: borders.default
-        on click: setTab(tab.id)
-        text(tab.label) { style: type.body-sm, color: activeTab == tab.id ? "#fff" : semantic.text-primary }
-      }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP1 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p1")
+      text("P1 · Slots") { style: type.body-sm, color: isP1 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP2 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p2")
+      text("P2 · Router") { style: type.body-sm, color: isP2 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP3 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p3")
+      text("P3 · Icons") { style: type.body-sm, color: isP3 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP4 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p4")
+      text("P4 · Charts") { style: type.body-sm, color: isP4 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP6 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p6")
+      text("P6 · @form") { style: type.body-sm, color: isP6 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP7 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p7")
+      text("P7 · Drag") { style: type.body-sm, color: isP7 ? "#fff" : semantic.text-primary }
+    }
+    block {
+      padding: "6px 12px"
+      border-radius: radius.md
+      cursor: "pointer"
+      background: isP8 ? semantic.primary : semantic.surface-raised
+      border: borders.default
+      on click: setTab("p8")
+      text("P8 · match") { style: type.body-sm, color: isP8 ? "#fff" : semantic.text-primary }
     }
   }
 
@@ -523,16 +567,41 @@ surface FeatureTest() {
       block {
         layout: horizontal, gap: spacing.2
 
-        each ["A", "B", "C", "D"] as opt {
-          block {
-            padding: "6px 14px"
-            border-radius: radius.md
-            cursor: "pointer"
-            background: matchValue == opt ? semantic.primary : semantic.surface-raised
-            border: borders.default
-            on click: setMatch(opt)
-            text(opt) { style: type.body-sm, color: matchValue == opt ? "#fff" : semantic.text-primary }
-          }
+        block {
+          padding: "6px 14px"
+          border-radius: radius.md
+          cursor: "pointer"
+          background: matchValue == "A" ? semantic.primary : semantic.surface-raised
+          border: borders.default
+          on click: setMatch("A")
+          text("A") { style: type.body-sm, color: matchValue == "A" ? "#fff" : semantic.text-primary }
+        }
+        block {
+          padding: "6px 14px"
+          border-radius: radius.md
+          cursor: "pointer"
+          background: matchValue == "B" ? semantic.primary : semantic.surface-raised
+          border: borders.default
+          on click: setMatch("B")
+          text("B") { style: type.body-sm, color: matchValue == "B" ? "#fff" : semantic.text-primary }
+        }
+        block {
+          padding: "6px 14px"
+          border-radius: radius.md
+          cursor: "pointer"
+          background: matchValue == "C" ? semantic.primary : semantic.surface-raised
+          border: borders.default
+          on click: setMatch("C")
+          text("C") { style: type.body-sm, color: matchValue == "C" ? "#fff" : semantic.text-primary }
+        }
+        block {
+          padding: "6px 14px"
+          border-radius: radius.md
+          cursor: "pointer"
+          background: matchValue == "D" ? semantic.primary : semantic.surface-raised
+          border: borders.default
+          on click: setMatch("D")
+          text("D") { style: type.body-sm, color: matchValue == "D" ? "#fff" : semantic.text-primary }
         }
       }
 

@@ -45,6 +45,11 @@
 @import { ThemePreview } from "./surfaces/theme-preview.spec"
 @import { ThemeBuilder } from "./surfaces/theme-builder.spec"
 @import { ReactivityPerf } from "./surfaces/reactivity-perf.spec"
+@import { ChartDemo } from "./surfaces/chart-demo.spec"
+@import { DragDemo } from "./surfaces/drag-demo.spec"
+@import { FormDemo } from "./surfaces/form-demo.spec"
+@import { RoutingDemo } from "./surfaces/routing-demo.spec"
+@import { FeatureTest } from "./surfaces/feature-test.spec"
 // @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
@@ -147,6 +152,11 @@ surface App {
     showReactivityPerf: view == "reactivityperf"
     showThemePreview: view == "themepreview"
     showLanding2: view == "landing2"
+    showCharts: view == "charts"
+    showDrag: view == "drag"
+    showFormDemo: view == "formdemo"
+    showRouting: view == "routing"
+    showFeatureTest: view == "featuretest"
     isLandingPage: view == "landing2"
 
     viewTitle: match view {
@@ -167,6 +177,11 @@ surface App {
       "reactivityperf" -> "Reactivity Perf",
       "themepreview" -> "Theme Preview",
       "landing2" -> "Landing Page",
+      "charts" -> "Charts",
+      "drag" -> "Drag & Drop",
+      "formdemo" -> "Form Validation",
+      "routing" -> "Routing",
+      "featuretest" -> "Feature Test (P1-P8)",
       _ -> "Admin"
     }
 
@@ -189,6 +204,11 @@ surface App {
       "reactivityperf" -> "Performance",
       "themepreview" -> "Design",
       "landing2" -> "Marketing",
+      "charts" -> "Components",
+      "drag" -> "Components",
+      "formdemo" -> "Components",
+      "routing" -> "Components",
+      "featuretest" -> "Testing",
       _ -> "Overview"
     }
 
@@ -600,6 +620,15 @@ surface App {
         {heading: "Design", items: [
           {id: "themepreview", label: "Theme Preview", icon: "palette"}
         ]},
+        {heading: "Components", items: [
+          {id: "charts", label: "Charts", icon: "bar-chart"},
+          {id: "drag", label: "Drag & Drop", icon: "layout"},
+          {id: "formdemo", label: "Form Validation", icon: "edit"},
+          {id: "routing", label: "Routing", icon: "globe"}
+        ]},
+        {heading: "Testing", items: [
+          {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle"}
+        ]},
         {heading: "System", items: [
           {id: "settings", label: "Settings", icon: "settings"}
         ]}
@@ -731,6 +760,46 @@ surface App {
         ThemePreview()
       }
 
+      // Charts
+      block {
+        role: "region"
+        aria-label: "Chart components"
+        visibility: showCharts
+        ChartDemo()
+      }
+
+      // Drag & Drop
+      block {
+        role: "region"
+        aria-label: "Drag and drop"
+        visibility: showDrag
+        DragDemo()
+      }
+
+      // Form Validation
+      block {
+        role: "region"
+        aria-label: "Form validation demo"
+        visibility: showFormDemo
+        FormDemo()
+      }
+
+      // Routing
+      block {
+        role: "region"
+        aria-label: "Routing demo"
+        visibility: showRouting
+        RoutingDemo()
+      }
+
+      // Feature Test — P1-P8
+      block {
+        role: "region"
+        aria-label: "Feature test"
+        visibility: showFeatureTest
+        FeatureTest()
+      }
+
       // Performance: Grid 10K
       block {
         role: "region"
@@ -774,6 +843,11 @@ surface App {
       {id: "categories", label: "Categories", group: "Data", icon: "list"},
       {id: "landing2", label: "Landing Page", group: "Marketing", icon: "globe"},
       {id: "themepreview", label: "Theme Preview", group: "Design", icon: "palette"},
+      {id: "charts", label: "Charts", group: "Components", icon: "bar-chart"},
+      {id: "drag", label: "Drag & Drop", group: "Components", icon: "layout"},
+      {id: "formdemo", label: "Form Validation", group: "Components", icon: "edit"},
+      {id: "routing", label: "Routing", group: "Components", icon: "globe"},
+      {id: "featuretest", label: "Feature Test (P1-P8)", group: "Testing", icon: "check-circle"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
       {id: "reactivityperf", label: "Reactivity Perf", group: "Performance", icon: "zap"},

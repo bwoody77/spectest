@@ -8,15 +8,27 @@ const html = `<!DOCTYPE html>
 <head><meta charset="utf-8"><title>Spec Test</title></head>
 <body>
 <div id="app"></div>
-<script type="module" src="/bundle.js"></script>
 <script type="module">
-import { mountApp } from '/bundle.js';
-if (typeof mountApp === 'function') {
-  mountApp(document.getElementById('app'));
-  console.log('[spec] App mounted successfully');
-} else {
-  console.error('[spec] mountApp not found');
-}
+  // Load bundle first (sets up __specRegisterThemes global).
+  const mod = await import('/bundle.js');
+
+  // Pre-load saved theme before mounting (matches dev server behavior).
+  // Must happen AFTER bundle load (which sets up the global registry)
+  // but BEFORE mount (so theme is in registry when @persist restores it).
+  const _theme = localStorage.getItem('spec-state-App.themePreset')
+    || localStorage.getItem('spec-theme');
+  if (_theme && _theme !== 'default' && _theme !== '"default"') {
+    const clean = _theme.replace(/^"|"$/g, '');
+    try { await import('/themes/' + clean + '.js'); } catch(e) {
+      console.warn('[spec] theme preload failed for', clean, e);
+    }
+  }
+
+  if (typeof mod.mountApp === 'function') {
+    mod.mountApp(document.getElementById('app'));
+  } else {
+    console.error('[spec] mountApp not found in bundle');
+  }
 </script>
 </body>
 </html>`;
