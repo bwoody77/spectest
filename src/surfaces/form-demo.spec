@@ -146,7 +146,7 @@ surface FormDemo() {
               layout: vertical, gap: spacing.1
 
               text("First Name") { style: type.label-sm, color: semantic.text-primary }
-              Input(
+              TextInput(
                 type: "text",
                 value: firstName,
                 placeholder: "Jane",
@@ -167,7 +167,7 @@ surface FormDemo() {
               layout: vertical, gap: spacing.1
 
               text("Last Name") { style: type.label-sm, color: semantic.text-primary }
-              Input(
+              TextInput(
                 type: "text",
                 value: lastName,
                 placeholder: "Doe",
@@ -188,7 +188,7 @@ surface FormDemo() {
             layout: vertical, gap: spacing.1
 
             text("Email") { style: type.label-sm, color: semantic.text-primary }
-            Input(
+            TextInput(
               type: "email",
               value: email,
               placeholder: "jane@example.com",
@@ -208,7 +208,7 @@ surface FormDemo() {
             layout: vertical, gap: spacing.1
 
             text("Message") { style: type.label-sm, color: semantic.text-primary }
-            Input(
+            TextInput(
               type: "textarea",
               value: message,
               placeholder: "Tell us how we can help...",
@@ -369,7 +369,7 @@ surface FormDemo() {
             background: semantic.surface-raised
             border-radius: radius.md
             border: borders.default
-            text("Input(...) \{ on blur: _touchField(\"email\") \}\nButton(\"Submit\") \{ on click: _submitForm() \}") {
+            text("TextInput(...) \{ on blur: _touchField(\"email\") \}\nButton(\"Submit\") \{ on click: _submitForm() \}") {
               style: type.code
               color: semantic.text-primary
             }
