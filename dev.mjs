@@ -1,11 +1,9 @@
 /**
- * dev.mjs — Start mock API server + spec dev/prod/bytecode server.
+ * dev.mjs — Start mock API server + spec dev/prod server.
  *
  * Usage:
- *   pnpm dev          — dev server with hot reload (IR pipeline, default)
- *   pnpm dev --oldjs  — dev server with legacy js-generator codegen
- *   pnpm dev --prod   — production standalone JS bundle
- *   pnpm dev --byte   — production bytecode (.specbc) bundle
+ *   pnpm dev        — dev server with hot reload
+ *   pnpm dev --prod — production standalone JS bundle
  *
  * Kills stale processes on the ports first, then starts both.
  */
@@ -25,10 +23,7 @@ const args = process.argv.slice(2);
 
 const API_PORT = parseInt(args.find(a => a.startsWith('--api-port='))?.split('=')[1] ?? '4000');
 const CLIENT_PORT = parseInt(args.find(a => a.startsWith('--port='))?.split('=')[1] ?? '3000');
-const MODE = args.includes('--byte') ? 'byte'
-           : args.includes('--prod') ? 'prod'
-           : args.includes('--oldjs') ? 'oldjs'
-           : 'dev';
+const MODE = args.includes('--prod') ? 'prod' : 'dev';
 
 function killPort(port) {
   try {
@@ -98,12 +93,9 @@ try {
 // ---------------------------------------------------------------------------
 // Mode: dev (default) — hot-reload dev server
 // ---------------------------------------------------------------------------
-if (MODE === 'dev' || MODE === 'oldjs') {
-  const isLegacy = MODE === 'oldjs';
-  const devArgs = isLegacy ? ['spec', 'dev', '--legacy'] : ['spec', 'dev'];
-  const modeLabel = isLegacy ? 'development (legacy js-generator)' : 'development (IR pipeline)';
-  console.log(`Starting spec dev server (${isLegacy ? 'legacy' : 'IR pipeline'})...`);
-  const client = spawn('npx', devArgs, { stdio: 'inherit', shell: true });
+if (MODE === 'dev') {
+  console.log('Starting spec dev server...');
+  const client = spawn('npx', ['spec', 'dev'], { stdio: 'inherit', shell: true });
   client.on('error', (err) => { console.error('Dev server failed:', err.message); process.exit(1); });
 
   try {
@@ -117,7 +109,7 @@ if (MODE === 'dev' || MODE === 'oldjs') {
   }
 
   console.log('\n=========================================');
-  console.log(`  Mode:        ${modeLabel} (hot reload)`);
+  console.log(`  Mode:        development (hot reload)`);
   console.log(`  API server:  http://localhost:${API_PORT}`);
   console.log(`  Dev server:  http://localhost:${CLIENT_PORT}`);
   console.log('=========================================');
@@ -137,15 +129,9 @@ if (MODE === 'dev' || MODE === 'oldjs') {
 // Mode: prod / byte — compile then serve static files
 // ---------------------------------------------------------------------------
 else {
-  const isBytecode = MODE === 'byte';
-  const label = isBytecode ? 'bytecode' : 'production';
-
   // --- Compile ---
-  console.log(`\nCompiling (${label})...`);
-  const compileArgs = isBytecode
-    ? ['spec', 'compile', '--mode', 'prod', '--bytecode']
-    : ['spec', 'compile', '--mode', 'prod', '--standalone'];
-  const compile = spawn('npx', compileArgs, { stdio: 'inherit', shell: true });
+  console.log('\nCompiling (production)...');
+  const compile = spawn('npx', ['spec', 'compile', '--mode', 'prod', '--standalone'], { stdio: 'inherit', shell: true });
 
   const compileOk = await new Promise((resolve) => {
     compile.on('close', (code) => resolve(code === 0));
@@ -153,7 +139,7 @@ else {
   });
 
   if (!compileOk) {
-    console.error(`  ERROR: ${label} compilation failed`);
+    console.error('  ERROR: production compilation failed');
     api.kill();
     process.exit(1);
   }
@@ -161,9 +147,7 @@ else {
   // --- Resolve paths for the static server ---
   const distDir = join(process.cwd(), 'dist');
 
-  // Both prod and byte modes produce a self-contained bundle.js (no import map needed).
-
-  // --- Build HTML shells ---
+  // --- HTML shell ---
   const PROD_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,35 +186,10 @@ else {
 </body>
 </html>`;
 
-  const BYTE_HTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Spec — Bytecode</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1e293b; background: #f8fafc; line-height: 1.5; -webkit-font-smoothing: antialiased; }
-    #app { min-height: 100vh; }
-  </style>
-</head>
-<body>
-<div id="app"></div>
-<script type="module">
-  import { loadAndMount, components } from '/bundle.js';
-  await loadAndMount('/bundle.specbc', document.getElementById('app'), {
-    components,
-    surfaceName: 'App',
-  });
-</script>
-</body>
-</html>`;
-
   // --- Static file server ---
   const server = createServer(async (req, res) => {
     const url = req.url ?? '/';
 
-    // Serve the compiled JS bundle (both prod and bytecode modes)
     if (url === '/bundle.js') {
       try {
         const content = await readFile(join(distDir, 'bundle.js'));
@@ -241,26 +200,6 @@ else {
           res.end(compressed);
         } else {
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
-          res.end(content);
-        }
-      } catch {
-        res.writeHead(404);
-        res.end('Not found');
-      }
-      return;
-    }
-
-    // Serve the bytecode bundle
-    if (url === '/bundle.specbc' && isBytecode) {
-      try {
-        const content = await readFile(join(distDir, 'bundle.specbc'));
-        const acceptGzip = (req.headers['accept-encoding'] || '').includes('gzip');
-        if (acceptGzip) {
-          const compressed = await gzipAsync(content);
-          res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Encoding': 'gzip' });
-          res.end(compressed);
-        } else {
-          res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
           res.end(content);
         }
       } catch {
@@ -285,12 +224,12 @@ else {
 
     // Everything else → HTML shell
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(isBytecode ? BYTE_HTML : PROD_HTML);
+    res.end(PROD_HTML);
   });
 
   server.listen(CLIENT_PORT, '127.0.0.1', () => {
     console.log(`\n=========================================`);
-    console.log(`  Mode:        ${label}`);
+    console.log(`  Mode:        production`);
     console.log(`  API server:  http://localhost:${API_PORT}`);
     console.log(`  App server:  http://localhost:${CLIENT_PORT}`);
     console.log('=========================================');

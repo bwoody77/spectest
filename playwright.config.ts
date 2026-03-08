@@ -21,7 +21,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'node dev.mjs --byte',
+    command: 'node dev.mjs --prod',
     port: 3000,
     timeout: 120_000,
     reuseExistingServer: !process.env.CI,
