@@ -10,9 +10,12 @@
     "dev:prod": "node dev.mjs --prod",
     "dev:byte": "node dev.mjs --byte",
     "build": "spec compile",
-    "check": "spec check"
+    "check": "spec check",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@spec/cli": "file:../spec/packages/cli"
   }
 }
