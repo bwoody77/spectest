@@ -1,0 +1,1170 @@
+// Landing2 — Alternate marketing landing page for A/B testing
+// Full-viewport, breaks out of admin shell. Positions Spec as an
+// AI-optimized compiled UI language with verified technical claims.
+
+surface Landing2(view) {
+
+  @actions {
+    goToDashboard() { view = "dashboard" }
+  }
+
+  layout: vertical
+
+  // =========================================================================
+  // 1. HERO — full viewport
+  // =========================================================================
+  block {
+    min-height: "100vh"
+    background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
+    layout: vertical, gap: spacing.6, align: center, justify: center
+    padding: responsive(spacing.5, md: spacing.8)
+
+    // Headline
+    text('The UI language built for machines.') {
+      style: type.heading-lg
+      color: "#f1f5f9"
+      weight: 800
+      letter-spacing: "-0.03em"
+    }
+
+    // Subhead
+    block {
+      max-width: 720px
+      layout: vertical, align: center
+      text('Spec compiles declarative UI to the minimum possible code. No virtual DOM. No CSS runtime. No framework layer. Just direct DOM operations from a ~4KB runtime.') {
+        style: type.body-lg
+        color: "#94a3b8"
+      }
+    }
+
+    // CTAs
+    block {
+      layout: horizontal, gap: spacing.4, align: center
+
+      // Primary CTA
+      block {
+        padding-x: responsive(20px, md: 32px)
+        padding-y: responsive(10px, md: 14px)
+        background: "#818cf8"
+        border-radius: radius.full
+        cursor: pointer
+        transition: "background 150ms ease, transform 150ms ease"
+        on click: goToDashboard()
+        on hover {
+          background: "#6366f1"
+          transform: transform.lift-sm
+        }
+        text('Explore the Demo') {
+          color: "#0f172a"
+          weight: 600
+        }
+      }
+
+      // Secondary CTA
+      block {
+        padding-x: responsive(20px, md: 32px)
+        padding-y: responsive(10px, md: 14px)
+        background: "transparent"
+        border: "1px solid #475569"
+        border-radius: radius.full
+        cursor: pointer
+        transition: "border-color 150ms ease, transform 150ms ease"
+        on hover {
+          border: "1px solid #818cf8"
+          transform: transform.lift-sm
+        }
+        text('View on GitHub') {
+          color: "#e2e8f0"
+          weight: 500
+        }
+      }
+    }
+
+    // Quick stat badges
+    block {
+      layout: horizontal, gap: responsive(spacing.2, md: spacing.4), align: center
+
+      each [
+        {label: '~4KB runtime'},
+        {label: '142-line reactivity'},
+        {label: 'Zero CSS'},
+        {label: '31 themes'}
+      ] as badge {
+        block {
+          padding-x: responsive(10px, md: 16px)
+          padding-y: responsive(6px, md: 8px)
+          background: "rgba(255,255,255,0.05)"
+          border: "1px solid rgba(255,255,255,0.1)"
+          border-radius: radius.full
+
+          text(badge.label) {
+            color: "#94a3b8"
+            style: type.label-sm
+            weight: 500
+          }
+        }
+      }
+    }
+  }
+
+  // =========================================================================
+  // 2. THE PROBLEM — Framework Bloat
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#fafbfc"
+    layout: vertical, gap: spacing.8, align: center
+
+    // Section title
+    block {
+      max-width: 800px
+      layout: vertical, gap: spacing.4, align: center
+
+      text('Frameworks were built for humans.') {
+        style: type.heading-lg
+        color: "#0f172a"
+        weight: 700
+        letter-spacing: "-0.02em"
+      }
+      text('That was the right call — until now.') {
+        style: type.heading-md
+        color: "#64748b"
+        weight: 500
+        letter-spacing: "-0.01em"
+      }
+    }
+
+    // Two-column: text + visual
+    block {
+      max-width: 1100px
+      width: "100%"
+      layout: responsive(vertical, lg: horizontal), gap: spacing.8, align: center
+
+      // Text side
+      block {
+        width: responsive("100%", lg: "45%")
+        layout: vertical, gap: spacing.4
+
+        text('Every major framework optimizes for human DX. JSX, hooks, virtual DOM, CSS-in-JS — these abstractions exist because humans need them.') {
+          style: type.body-lg
+          color: "#334155"
+        }
+        text('When AI writes the code, you ship kilobytes of abstraction that benefits no one.') {
+          style: type.body-lg
+          color: "#0f172a"
+          weight: 600
+        }
+      }
+
+      // Visual: framework size comparison
+      block {
+        width: responsive("100%", lg: "55%")
+        padding: spacing.6
+        background: "#ffffff"
+        border-radius: radius.lg
+        border: "1px solid #e2e8f0"
+        shadow: elevation.layered
+        layout: vertical, gap: spacing.5
+
+        text('Gzipped runtime size') {
+          style: type.label-sm
+          color: "#64748b"
+          text-transform: "uppercase"
+          letter-spacing: "0.08em"
+        }
+
+        // React
+        block {
+          layout: vertical, gap: spacing.1
+          block {
+            layout: horizontal, justify: between, align: center
+            text('React') { weight: 600, color: "#0f172a" }
+            text('~44KB') { weight: 500, color: "#64748b", style: type.label-sm }
+          }
+          block {
+            height: 28px
+            background: "#f1f5f9"
+            border-radius: radius.sm
+            overflow: hidden
+            block {
+              width: "100%"
+              height: 28px
+              background: "linear-gradient(90deg, #61dafb, #087ea4)"
+              border-radius: radius.sm
+            }
+          }
+        }
+
+        // Vue
+        block {
+          layout: vertical, gap: spacing.1
+          block {
+            layout: horizontal, justify: between, align: center
+            text('Vue') { weight: 600, color: "#0f172a" }
+            text('~33KB') { weight: 500, color: "#64748b", style: type.label-sm }
+          }
+          block {
+            height: 28px
+            background: "#f1f5f9"
+            border-radius: radius.sm
+            overflow: hidden
+            block {
+              width: "75%"
+              height: 28px
+              background: "linear-gradient(90deg, #42b883, #35495e)"
+              border-radius: radius.sm
+            }
+          }
+        }
+
+        // Svelte
+        block {
+          layout: vertical, gap: spacing.1
+          block {
+            layout: horizontal, justify: between, align: center
+            text('Svelte') { weight: 600, color: "#0f172a" }
+            text('~8KB') { weight: 500, color: "#64748b", style: type.label-sm }
+          }
+          block {
+            height: 28px
+            background: "#f1f5f9"
+            border-radius: radius.sm
+            overflow: hidden
+            block {
+              width: "18%"
+              height: 28px
+              background: "linear-gradient(90deg, #ff3e00, #ff6b35)"
+              border-radius: radius.sm
+            }
+          }
+        }
+
+        // Spec
+        block {
+          layout: vertical, gap: spacing.1
+          block {
+            layout: horizontal, justify: between, align: center
+            text('Spec') { weight: 700, color: "#818cf8" }
+            text('~4KB') { weight: 700, color: "#818cf8", style: type.label-sm }
+          }
+          block {
+            height: 28px
+            background: "#f1f5f9"
+            border-radius: radius.sm
+            overflow: hidden
+            block {
+              width: "9%"
+              height: 28px
+              background: "linear-gradient(90deg, #818cf8, #6366f1)"
+              border-radius: radius.sm
+              min-width: 40px
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // =========================================================================
+  // 3. BY THE NUMBERS — Stats Grid
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#0f172a"
+    layout: vertical, gap: spacing.8, align: center
+
+    text('By the numbers') {
+      style: type.heading-lg
+      color: "#f1f5f9"
+      weight: 700
+      letter-spacing: "-0.02em"
+    }
+
+    block {
+      max-width: 1000px
+      width: "100%"
+      layout: grid, columns: responsive("1fr 1fr", lg: "1fr 1fr 1fr 1fr"), gap: spacing.4
+
+      // Row 1
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(129,140,248,0.15), rgba(99,102,241,0.05))"
+        border: "1px solid rgba(129,140,248,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('~4KB') { color: "#818cf8", weight: 800, style: type.heading-lg }
+        text('gzipped runtime') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(52,211,153,0.15), rgba(16,185,129,0.05))"
+        border: "1px solid rgba(52,211,153,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('142') { color: "#34d399", weight: 800, style: type.heading-lg }
+        text('lines of reactivity') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(251,191,36,0.15), rgba(245,158,11,0.05))"
+        border: "1px solid rgba(251,191,36,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('0') { color: "#fbbf24", weight: 800, style: type.heading-lg }
+        text('CSS files produced') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(244,114,182,0.15), rgba(236,72,153,0.05))"
+        border: "1px solid rgba(244,114,182,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('~15 bytes') { color: "#f472b6", weight: 800, style: type.heading-md }
+        text('per bytecoded DOM op') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      // Row 2
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(96,165,250,0.15), rgba(59,130,246,0.05))"
+        border: "1px solid rgba(96,165,250,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('~1,700') { color: "#60a5fa", weight: 800, style: type.heading-lg }
+        text('runtime source lines') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(167,139,250,0.15), rgba(139,92,246,0.05))"
+        border: "1px solid rgba(167,139,250,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('24+') { color: "#a78bfa", weight: 800, style: type.heading-lg }
+        text('built-in components') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(45,212,191,0.15), rgba(20,184,166,0.05))"
+        border: "1px solid rgba(45,212,191,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('31') { color: "#2dd4bf", weight: 800, style: type.heading-lg }
+        text('theme presets') { color: "#94a3b8", style: type.label-sm }
+      }
+
+      block {
+        padding: spacing.5
+        background: "linear-gradient(135deg, rgba(251,146,60,0.15), rgba(249,115,22,0.05))"
+        border: "1px solid rgba(251,146,60,0.2)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.2, align: center
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+        }
+        text('1.7KB') { color: "#fb923c", weight: 800, style: type.heading-lg }
+        text('bytecode VM gzipped') { color: "#94a3b8", style: type.label-sm }
+      }
+    }
+  }
+
+  // =========================================================================
+  // 4. HOW IT WORKS — 3-Step Pipeline
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#ffffff"
+    layout: vertical, gap: spacing.8, align: center
+
+    text('How it works') {
+      style: type.heading-lg
+      color: "#0f172a"
+      weight: 700
+      letter-spacing: "-0.02em"
+    }
+
+    // 3-step cards
+    block {
+      max-width: 1000px
+      width: "100%"
+      layout: responsive(vertical, md: horizontal), gap: spacing.5
+
+      // Step 1: Write
+      block {
+        grow: true
+        padding: spacing.6
+        background: "#f8fafc"
+        border: "1px solid #e2e8f0"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+          shadow: elevation.layered
+        }
+
+        block {
+          width: 40px
+          height: 40px
+          background: "#818cf8"
+          border-radius: radius.full
+          layout: horizontal, align: center, justify: center
+          text('1') { color: "#ffffff", weight: 700 }
+        }
+        text('Write') { weight: 700, color: "#0f172a", style: type.heading-md }
+        text('Declare your UI in .spec files. State, layout, styling, events — one unified syntax. No JSX, no templates, no CSS files.') {
+          color: "#64748b"
+          style: type.body-md
+        }
+      }
+
+      // Step 2: Compile
+      block {
+        grow: true
+        padding: spacing.6
+        background: "#f8fafc"
+        border: "1px solid #e2e8f0"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+          shadow: elevation.layered
+        }
+
+        block {
+          width: 40px
+          height: 40px
+          background: "#6366f1"
+          border-radius: radius.full
+          layout: horizontal, align: center, justify: center
+          text('2') { color: "#ffffff", weight: 700 }
+        }
+        text('Compile') { weight: 700, color: "#0f172a", style: type.heading-md }
+        text('Reactivity analysis, DOM optimization, and code generation. Every style becomes a direct element.style assignment.') {
+          color: "#64748b"
+          style: type.body-md
+        }
+      }
+
+      // Step 3: Run
+      block {
+        grow: true
+        padding: spacing.6
+        background: "#f8fafc"
+        border: "1px solid #e2e8f0"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3
+        transition: transition.card-lift
+        on hover {
+          transform: transform.lift-sm
+          shadow: elevation.layered
+        }
+
+        block {
+          width: 40px
+          height: 40px
+          background: "#4f46e5"
+          border-radius: radius.full
+          layout: horizontal, align: center, justify: center
+          text('3') { color: "#ffffff", weight: 700 }
+        }
+        text('Run') { weight: 700, color: "#0f172a", style: type.heading-md }
+        text('A ~4KB signal-based runtime handles reactivity. Fine-grained updates — only the exact DOM nodes that depend on changed state are touched.') {
+          color: "#64748b"
+          style: type.body-md
+        }
+      }
+    }
+
+    // Code comparison
+    block {
+      max-width: 1000px
+      width: "100%"
+      layout: responsive(vertical, md: horizontal), gap: spacing.4
+
+      // Spec source
+      block {
+        grow: true
+        padding: spacing.5
+        background: "#1e293b"
+        border-radius: radius.lg
+        border: "1px solid #334155"
+        layout: vertical, gap: spacing.3
+
+        text('INPUT.SPEC') {
+          style: type.label-sm
+          color: "#818cf8"
+          letter-spacing: "0.08em"
+        }
+
+        block {
+          padding: spacing.3
+          background: "#0f172a"
+          border-radius: radius.md
+          layout: vertical, gap: spacing.1
+
+          text('surface Counter {') { color: "#e2e8f0", style: type.body-sm }
+          text('  @state { count: 0 }') { color: "#e2e8f0", style: type.body-sm }
+          text('  text(count)') { color: "#e2e8f0", style: type.body-sm }
+          text('  Button(label: "+1") {') { color: "#e2e8f0", style: type.body-sm }
+          text('    on click: { count = count + 1 }') { color: "#e2e8f0", style: type.body-sm }
+          text('  }') { color: "#e2e8f0", style: type.body-sm }
+          text('}') { color: "#e2e8f0", style: type.body-sm }
+        }
+      }
+
+      // Compiled output
+      block {
+        grow: true
+        padding: spacing.5
+        background: "#1e293b"
+        border-radius: radius.lg
+        border: "1px solid #334155"
+        layout: vertical, gap: spacing.3
+
+        text('OUTPUT.JS') {
+          style: type.label-sm
+          color: "#34d399"
+          letter-spacing: "0.08em"
+        }
+
+        block {
+          padding: spacing.3
+          background: "#0f172a"
+          border-radius: radius.md
+          layout: vertical, gap: spacing.1
+
+          text('// Direct DOM — no VDOM diffing') { color: "#64748b", style: type.body-sm }
+          text('const _t = document.createTextNode("");') { color: "#e2e8f0", style: type.body-sm }
+          text('const [count, setCount] = createSignal(0);') { color: "#e2e8f0", style: type.body-sm }
+          text('bindText(_t, () => count());') { color: "#e2e8f0", style: type.body-sm }
+          text('_btn.onclick = () => setCount(count() + 1);') { color: "#e2e8f0", style: type.body-sm }
+        }
+      }
+    }
+
+    // Quote
+    block {
+      max-width: 720px
+      layout: vertical, align: center
+      text('Spec compiles your declarations to the minimum possible JavaScript. No virtual DOM. No reconciler. Nothing that exists only for a human\'s benefit.') {
+        color: "#64748b"
+        style: type.body-md
+      }
+    }
+  }
+
+  // =========================================================================
+  // 5. ZERO CSS — Deep Dive
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#f8fafc"
+    layout: vertical, gap: spacing.8, align: center
+
+    block {
+      max-width: 800px
+      layout: vertical, gap: spacing.3, align: center
+
+      text('No CSS...what??') {
+        style: type.heading-lg
+        color: "#0f172a"
+        weight: 700
+        letter-spacing: "-0.02em"
+      }
+      text('CSS is powerful but slow. Spec skips it entirely.') {
+        color: "#64748b"
+        style: type.body-lg
+      }
+    }
+
+    block {
+      max-width: 1000px
+      width: "100%"
+      layout: responsive(vertical, md: horizontal), gap: spacing.6
+
+      // Traditional CSS pipeline
+      block {
+        grow: true
+        padding: spacing.6
+        background: "#ffffff"
+        border-radius: radius.lg
+        border: "1px solid #e2e8f0"
+        shadow: elevation.raised
+        layout: vertical, gap: spacing.4
+
+        text('Traditional CSS Pipeline') {
+          weight: 600
+          color: "#0f172a"
+          style: type.heading-md
+        }
+
+        each [
+          {step: '1', label: 'Parse stylesheet'},
+          {step: '2', label: 'Selector matching'},
+          {step: '3', label: 'Cascade resolution'},
+          {step: '4', label: 'Specificity calculation'},
+          {step: '5', label: 'Layout reflow'}
+        ] as item {
+          block {
+            padding: spacing.3
+            background: "#fef2f2"
+            border-radius: radius.md
+            border-left: "3px solid #ef4444"
+            layout: horizontal, gap: spacing.3, align: center
+
+            block {
+              width: 24px
+              height: 24px
+              background: "#ef4444"
+              border-radius: radius.full
+              layout: horizontal, align: center, justify: center
+              text(item.step) { color: "#ffffff", weight: 600, style: type.label-sm }
+            }
+            text(item.label) { color: "#991b1b", weight: 500, style: type.body-md }
+          }
+        }
+      }
+
+      // Spec: direct assignment
+      block {
+        grow: true
+        padding: spacing.6
+        background: "#ffffff"
+        border-radius: radius.lg
+        border: "1px solid #e2e8f0"
+        shadow: elevation.raised
+        layout: vertical, gap: spacing.4
+
+        text('Spec') {
+          weight: 600
+          color: "#0f172a"
+          style: type.heading-md
+        }
+
+        block {
+          padding: spacing.5
+          background: "#f0fdf4"
+          border-radius: radius.md
+          border-left: "3px solid #22c55e"
+          layout: vertical, gap: spacing.3, align: center
+
+          block {
+            width: 40px
+            height: 40px
+            background: "#22c55e"
+            border-radius: radius.full
+            layout: horizontal, align: center, justify: center
+            text('1') { color: "#ffffff", weight: 700 }
+          }
+          text('element.style.prop = value') {
+            color: "#166534"
+            weight: 600
+            style: type.body-lg
+          }
+          text('Direct assignment. Done.') {
+            color: "#15803d"
+            style: type.body-md
+          }
+        }
+
+        block {
+          padding: spacing.4
+          background: "#f8fafc"
+          border-radius: radius.md
+          layout: vertical, gap: spacing.2
+
+          text('Result:') { weight: 600, color: "#334155", style: type.label-sm }
+          text('No selector matching. No cascade. No specificity wars. No reflow from stylesheet changes. 31 theme presets with zero CSS files.') {
+            color: "#64748b"
+            style: type.body-md
+          }
+        }
+      }
+    }
+  }
+
+  // =========================================================================
+  // 6. RUNTIME — "A runtime you can read in one sitting"
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#0f172a"
+    layout: vertical, gap: spacing.8, align: center
+
+    block {
+      max-width: 800px
+      layout: vertical, gap: spacing.3, align: center
+
+      text('A runtime you can read in one sitting') {
+        style: type.heading-lg
+        color: "#f1f5f9"
+        weight: 700
+        letter-spacing: "-0.02em"
+      }
+      text('The entire runtime is ~1,700 lines across 16 modules.') {
+        color: "#94a3b8"
+        style: type.body-lg
+      }
+    }
+
+    // Module grid
+    block {
+      max-width: 1000px
+      width: "100%"
+      layout: grid, columns: responsive("1fr 1fr", md: "1fr 1fr 1fr 1fr"), gap: spacing.3
+
+      each [
+        {name: 'signals', lines: '81'},
+        {name: 'scheduler', lines: '61'},
+        {name: 'bindings', lines: '89'},
+        {name: 'events', lines: '46'},
+        {name: 'collections', lines: '51'},
+        {name: 'theme', lines: '70'},
+        {name: 'dom', lines: '120'},
+        {name: 'breakpoints', lines: '85'},
+        {name: 'hash-sync', lines: '55'},
+        {name: 'source', lines: '180'},
+        {name: 'lazy-mount', lines: '95'},
+        {name: 'style', lines: '110'}
+      ] as mod {
+        block {
+          padding: spacing.4
+          background: "rgba(255,255,255,0.03)"
+          border: "1px solid rgba(255,255,255,0.08)"
+          border-radius: radius.md
+          layout: vertical, gap: spacing.1, align: center
+          transition: transition.subtle
+          on hover {
+            background: "rgba(255,255,255,0.06)"
+          }
+
+          text(mod.name) {
+            color: "#818cf8"
+            style: type.label-sm
+            weight: 600
+          }
+          text("{mod.lines} lines") {
+            color: "#64748b"
+            style: type.label-sm
+          }
+        }
+      }
+    }
+
+    // Contrast quote
+    block {
+      max-width: 720px
+      layout: vertical, align: center
+      text('React\'s reconciler alone is ~10,000 lines. Spec\'s entire runtime fits in a single code review.') {
+        color: "#94a3b8"
+        style: type.body-md
+      }
+    }
+  }
+
+  // =========================================================================
+  // 7. BYTECODE MODE
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#ffffff"
+    layout: vertical, gap: spacing.8, align: center
+
+    block {
+      max-width: 800px
+      layout: vertical, gap: spacing.3, align: center
+
+      text('Bytecode mode') {
+        style: type.heading-lg
+        color: "#0f172a"
+        weight: 700
+        letter-spacing: "-0.02em"
+      }
+      text('Compile to .specbc binary format. A stack machine with ~65 opcodes.') {
+        color: "#64748b"
+        style: type.body-lg
+      }
+    }
+
+    block {
+      max-width: 800px
+      width: "100%"
+      layout: vertical, gap: spacing.5
+
+      // JS output bar
+      block {
+        layout: vertical, gap: spacing.2
+        block {
+          layout: horizontal, justify: between, align: center
+          text('JavaScript output') { weight: 600, color: "#0f172a", style: type.body-md }
+          text('~150 bytes / DOM op') { weight: 500, color: "#64748b", style: type.label-sm }
+        }
+        block {
+          height: 36px
+          background: "#f1f5f9"
+          border-radius: radius.md
+          overflow: hidden
+          block {
+            width: "100%"
+            height: 36px
+            background: "linear-gradient(90deg, #fbbf24, #f59e0b)"
+            border-radius: radius.md
+          }
+        }
+      }
+
+      // Bytecode bar
+      block {
+        layout: vertical, gap: spacing.2
+        block {
+          layout: horizontal, justify: between, align: center
+          text('Bytecode output') { weight: 600, color: "#0f172a", style: type.body-md }
+          text('12-20 bytes / DOM op') { weight: 500, color: "#818cf8", style: type.label-sm }
+        }
+        block {
+          height: 36px
+          background: "#f1f5f9"
+          border-radius: radius.md
+          overflow: hidden
+          block {
+            width: "12%"
+            height: 36px
+            background: "linear-gradient(90deg, #818cf8, #6366f1)"
+            border-radius: radius.md
+            min-width: 60px
+          }
+        }
+      }
+
+      // VM stats
+      block {
+        padding: spacing.5
+        background: "#f8fafc"
+        border: "1px solid #e2e8f0"
+        border-radius: radius.lg
+        layout: responsive(vertical, md: horizontal), gap: spacing.6, justify: center
+
+        block {
+          layout: vertical, gap: spacing.1, align: center
+          text('5KB') { weight: 700, color: "#0f172a", style: type.heading-md }
+          text('VM minified') { color: "#64748b", style: type.label-sm }
+        }
+
+        block {
+          layout: vertical, gap: spacing.1, align: center
+          text('1.7KB') { weight: 700, color: "#0f172a", style: type.heading-md }
+          text('VM gzipped') { color: "#64748b", style: type.label-sm }
+        }
+
+        block {
+          layout: vertical, gap: spacing.1, align: center
+          text('~65') { weight: 700, color: "#0f172a", style: type.heading-md }
+          text('opcodes') { color: "#64748b", style: type.label-sm }
+        }
+      }
+    }
+  }
+
+  // =========================================================================
+  // 8. AI-NATIVE — Designed for AI
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#f8fafc"
+    layout: vertical, gap: spacing.8, align: center
+
+    block {
+      max-width: 800px
+      layout: vertical, gap: spacing.3, align: center
+
+      text('Designed for AI, not for humans') {
+        style: type.heading-lg
+        color: "#0f172a"
+        weight: 700
+        letter-spacing: "-0.02em"
+      }
+      text('One way to do everything. No ambiguity. AI models produce correct Spec code on the first try.') {
+        color: "#64748b"
+        style: type.body-lg
+      }
+    }
+
+    // Eliminated decisions grid
+    block {
+      max-width: 900px
+      width: "100%"
+      layout: grid, columns: responsive("1fr 1fr", md: "1fr 1fr 1fr"), gap: spacing.3
+
+      each [
+        {decision: 'JSX vs Templates'},
+        {decision: 'CSS Modules vs Tailwind'},
+        {decision: 'useState vs useReducer'},
+        {decision: 'VDOM overhead'},
+        {decision: 'Build tool config'},
+        {decision: 'CSS-in-JS runtime'},
+        {decision: 'Component file structure'},
+        {decision: 'State management library'},
+        {decision: 'Styling methodology'}
+      ] as item {
+        block {
+          padding: spacing.4
+          background: "#ffffff"
+          border: "1px solid #e2e8f0"
+          border-radius: radius.md
+          layout: horizontal, gap: spacing.3, align: center
+          opacity: 0.7
+          transition: transition.subtle
+
+          block {
+            width: 20px
+            height: 2px
+            background: "#ef4444"
+            transform: "rotate(-45deg)"
+          }
+
+          text(item.decision) {
+            color: "#94a3b8"
+            style: type.body-md
+            weight: 500
+            text-decoration: "line-through"
+          }
+        }
+      }
+    }
+
+    block {
+      max-width: 600px
+      layout: vertical, align: center
+      text('In Spec, there\'s one syntax for state, one for events, one for styles, one for layout. The compiler handles the rest.') {
+        color: "#64748b"
+        style: type.body-md
+      }
+    }
+  }
+
+  // =========================================================================
+  // 9. MULTI-TARGET — Web + Roadmap
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#0f172a"
+    layout: vertical, gap: spacing.8, align: center
+
+    text('Multi-target compilation') {
+      style: type.heading-lg
+      color: "#f1f5f9"
+      weight: 700
+      letter-spacing: "-0.02em"
+    }
+
+    block {
+      max-width: 800px
+      width: "100%"
+      layout: responsive(vertical, md: horizontal), gap: spacing.4
+
+      // Web — Shipping
+      block {
+        grow: true
+        padding: spacing.6
+        background: "rgba(52,211,153,0.1)"
+        border: "1px solid rgba(52,211,153,0.3)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3, align: center
+
+        block {
+          padding-x: spacing.3
+          padding-y: spacing.1
+          background: "rgba(52,211,153,0.2)"
+          border-radius: radius.full
+          text('SHIPPING') { color: "#34d399", style: type.label-sm, weight: 600, letter-spacing: "0.05em" }
+        }
+        text('Web') { color: "#f1f5f9", weight: 700, style: type.heading-md }
+        text('Full browser runtime with signal-based reactivity, 24+ components, 31 themes.') {
+          color: "#94a3b8"
+          style: type.body-md
+        }
+      }
+
+      // iOS — Roadmap
+      block {
+        grow: true
+        padding: spacing.6
+        background: "rgba(251,191,36,0.05)"
+        border: "1px solid rgba(251,191,36,0.15)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3, align: center
+        opacity: 0.6
+
+        block {
+          padding-x: spacing.3
+          padding-y: spacing.1
+          background: "rgba(251,191,36,0.15)"
+          border-radius: radius.full
+          text('ROADMAP') { color: "#fbbf24", style: type.label-sm, weight: 600, letter-spacing: "0.05em" }
+        }
+        text('iOS') { color: "#94a3b8", weight: 700, style: type.heading-md }
+        text('IR architecture designed for native compilation. Backend in development.') {
+          color: "#64748b"
+          style: type.body-md
+        }
+      }
+
+      // Android — Roadmap
+      block {
+        grow: true
+        padding: spacing.6
+        background: "rgba(251,191,36,0.05)"
+        border: "1px solid rgba(251,191,36,0.15)"
+        border-radius: radius.lg
+        layout: vertical, gap: spacing.3, align: center
+        opacity: 0.6
+
+        block {
+          padding-x: spacing.3
+          padding-y: spacing.1
+          background: "rgba(251,191,36,0.15)"
+          border-radius: radius.full
+          text('ROADMAP') { color: "#fbbf24", style: type.label-sm, weight: 600, letter-spacing: "0.05em" }
+        }
+        text('Android') { color: "#94a3b8", weight: 700, style: type.heading-md }
+        text('IR architecture designed for native compilation. Backend in development.') {
+          color: "#64748b"
+          style: type.body-md
+        }
+      }
+    }
+
+    block {
+      max-width: 720px
+      layout: vertical, align: center
+      text('Spec\'s IR architecture is designed for multi-target compilation. Web is shipping today. Native backends are on the roadmap.') {
+        color: "#64748b"
+        style: type.body-md
+      }
+    }
+  }
+
+  // =========================================================================
+  // 10. LIVE DEMO CTA — "This page is built with Spec"
+  // =========================================================================
+  block {
+    padding: responsive(spacing.8, lg: spacing.10)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%)"
+    layout: vertical, gap: spacing.5, align: center
+
+    text('This page is built with Spec') {
+      style: type.heading-lg
+      color: "#ffffff"
+      weight: 700
+      letter-spacing: "-0.02em"
+    }
+
+    block {
+      max-width: 600px
+      layout: vertical, align: center
+
+      text('Everything you see is a .spec file compiled to direct DOM operations.') {
+        color: "rgba(255,255,255,0.9)"
+        style: type.body-lg
+      }
+    }
+
+    // CTA button
+    block {
+      padding-x: responsive(24px, md: 36px)
+      padding-y: responsive(12px, md: 16px)
+      background: "#ffffff"
+      border-radius: radius.full
+      cursor: pointer
+      transition: "transform 150ms ease, box-shadow 150ms ease"
+      on click: goToDashboard()
+      on hover {
+        transform: transform.lift-sm
+        shadow: elevation.floating
+      }
+      text('Explore the Dashboard') {
+        color: "#4f46e5"
+        weight: 700
+        style: type.body-lg
+      }
+    }
+  }
+
+  // =========================================================================
+  // 11. FOOTER
+  // =========================================================================
+  block {
+    padding: responsive(spacing.6, md: spacing.8)
+    padding-x: responsive(spacing.4, md: spacing.8)
+    background: "#0f172a"
+    border-top: "1px solid #1e293b"
+    layout: vertical, gap: spacing.4, align: center
+
+    block {
+      layout: horizontal, gap: spacing.6, align: center
+
+      block {
+        cursor: pointer
+        text('Documentation') { color: "#818cf8", weight: 500, style: type.body-md }
+      }
+      block {
+        cursor: pointer
+        text('GitHub') { color: "#818cf8", weight: 500, style: type.body-md }
+      }
+      block {
+        cursor: pointer
+        on click: goToDashboard()
+        text('Dashboard Demo') { color: "#818cf8", weight: 500, style: type.body-md }
+      }
+    }
+
+    text('Built with Spec — the UI language for the age of AI.') {
+      color: "#475569"
+      style: type.label-sm
+    }
+  }
+}

@@ -29,3 +29,10 @@ If you make changes to the Spec compiler, language, or runtime in `C:/projects/s
 1. Rebuild: `cd C:/projects/spec && pnpm build`
 2. Run tests: `pnpm test`
 3. Consider whether docs need updating (see documentation protocol in `C:/projects/spec/CLAUDE.md`)
+
+## Knowledge system
+
+Structured knowledge and cross-project reference docs are available:
+
+- **Cross-project hub**: read `../.knowledge/_root.md` for pipeline docs, project registry, conventions
+- **Search**: `node ../.knowledge/bin/knowledge.js search "<query>"` (auto-syncs stale index)

@@ -1,3 +1,8 @@
 node_modules/
 dist/
+dist-test/
+hello-dev/
+hello-dist/
+hello-test/
+test-results/
 *.gz
