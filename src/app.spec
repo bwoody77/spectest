@@ -51,6 +51,7 @@
 @import { RoutingDemo } from "./surfaces/routing-demo.spec"
 @import { FeatureTest } from "./surfaces/feature-test.spec"
 @import { MobileDemo } from "./surfaces/mobile-demo.spec"
+@import { LayoutsDemo } from "./surfaces/layouts-demo.spec"
 // @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
@@ -159,6 +160,7 @@ surface App {
     showRouting: view == "routing"
     showFeatureTest: view == "featuretest"
     showMobileDemo: view == "mobiledemo"
+    showLayouts: view == "layouts"
     isLandingPage: view == "landing2"
 
     viewTitle: match view {
@@ -185,6 +187,7 @@ surface App {
       "routing" -> "Routing",
       "featuretest" -> "Feature Test (P1-P8)",
       "mobiledemo" -> "Mobile Demo",
+      "layouts" -> "Layout Packages",
       _ -> "Admin"
     }
 
@@ -212,6 +215,7 @@ surface App {
       "formdemo" -> "Components",
       "routing" -> "Components",
       "mobiledemo" -> "Components",
+      "layouts" -> "Components",
       "featuretest" -> "Testing",
       _ -> "Overview"
     }
@@ -629,7 +633,8 @@ surface App {
           {id: "drag", label: "Drag & Drop", icon: "layout"},
           {id: "formdemo", label: "Form Validation", icon: "edit"},
           {id: "routing", label: "Routing", icon: "globe"},
-          {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"}
+          {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"},
+          {id: "layouts", label: "Layout Packages", icon: "layout"}
         ]},
         {heading: "Testing", items: [
           {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle"}
@@ -805,6 +810,14 @@ surface App {
         MobileDemo()
       }
 
+      // Layout Packages
+      block {
+        role: "region"
+        aria-label: "Layout packages"
+        visibility: showLayouts
+        LayoutsDemo()
+      }
+
       // Feature Test — P1-P8
       block {
         role: "region"
@@ -861,6 +874,7 @@ surface App {
       {id: "formdemo", label: "Form Validation", group: "Components", icon: "edit"},
       {id: "routing", label: "Routing", group: "Components", icon: "globe"},
       {id: "mobiledemo", label: "Mobile Demo", group: "Components", icon: "smartphone"},
+      {id: "layouts", label: "Layout Packages", group: "Components", icon: "layout"},
       {id: "featuretest", label: "Feature Test (P1-P8)", group: "Testing", icon: "check-circle"},
       {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
       {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},

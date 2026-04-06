@@ -188,8 +188,8 @@ surface WizardDone {
   }
 }
 
-// Stepper indicator surface (Issue #18)
-surface WizardStepper(currentStep) {
+// Stepper indicator component (Issue #18)
+component WizardStepper(currentStep: string = "info") {
   Stepper(
     steps: [
       {id: "info", label: "Basic Info", description: "Title & assignee"},
