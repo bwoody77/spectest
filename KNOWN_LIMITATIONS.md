@@ -1,38 +1,55 @@
-# Known Limitations — Gate #16
+# Known Limitations
 
 Documented limitations of the spec language and runtime that affect this test app.
-These are language/runtime features for future issues, not Gate #16 blockers.
 
-## Async Actions
+## ~~Async Actions~~ (Resolved)
 
-`@actions` compile to synchronous JavaScript. `fetch()` calls within actions are
-fire-and-forget — the returned Promise is discarded with no `.then()` or `await`.
+`@actions` now support `await`. The compiler detects async usage and emits
+`async` function wrappers automatically. `await fetch(...)` works in actions
+and `@watch` blocks.
 
-**Impact:** `submitForm()` in TaskForm and `confirmDelete()` in TaskDetail fire
-network requests but cannot report success/failure back into signal state. The
-`submitting` flag is set before `fetch()` and reset immediately after (optimistic),
-not after the request completes.
+## ~~State Persistence~~ (Resolved)
 
-**Future:** Async action support (`await` in `@actions`, or `.then()` on fetch results).
+`@persist` annotation is implemented. State fields annotated with `@persist`
+are stored in localStorage with cross-tab sync. This app uses it for
+`themePreset: "default" @persist`.
 
-## State Persistence
-
-`@state` is in-memory only. All state — form fields, wizard progress, filter
-selections, overlay open/closed — resets on page refresh. `@route` covers hash-based
-view routing only (e.g. `view: "dashboard" @route`).
-
-**Impact:** The wizard (WizardStep1–3) loses all entered data on refresh. TaskTable
-filter selections reset. TaskForm field contents reset.
-
-**Future:** `@persist` annotation or similar mechanism for durable state.
+`@route` syncs state to the URL hash. `@undoable` provides undo/redo with
+automatic history tracking.
 
 ## Source Refetch
 
-`@source` exposes `loading`, `error`, and `data` signals automatically, but does
-not expose `invalidate()` or manual refetch to the surface. Data is fetched once
-on mount (with optional cache TTL and retry).
+The runtime has an `invalidate()` method on source results that clears the
+cache so the next fetch goes to the network. However, there is **no language-level
+syntax** to call `invalidate()` or `refetch()` from an `@actions` block.
 
-**Impact:** After creating or deleting a task via `fetch()`, the TaskTable source
+**Impact:** After creating or deleting a task via `fetch()`, the task list source
 does not refetch. The user must refresh the page to see updated data.
 
-**Future:** Imperative source actions (`source.invalidate()`, `source.refetch()`).
+**Workaround:** Parameterized sources auto-refetch when their parameter signal
+changes, but this doesn't help for imperative mutation-then-refetch flows.
+
+**Future:** Language syntax for `source.invalidate()` or `source.refetch()` in actions.
+
+## Source Maps
+
+The source map builder (`SourceMapBuilder` with V3/VLQ support) exists in the
+compiler but is **not wired into codegen**. `ir-to-js.ts` never calls it.
+The `--source-maps` CLI flag is accepted but produces no output.
+
+**Impact:** No mapping from generated JS back to `.spec` source in browser devtools.
+
+## SSR / SSG
+
+No server-side rendering or static site generation. The runtime is purely
+client-side DOM manipulation.
+
+**Impact:** No SEO support, no pre-rendered HTML, full JS required for first paint.
+
+## Hot Reload
+
+The dev server uses full page reload via SSE, not true Hot Module Replacement.
+All client state is lost on every file change.
+
+**Impact:** Theme selection, form inputs, scroll position, and navigation state
+reset on each save during development.

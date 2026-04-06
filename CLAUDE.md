@@ -13,6 +13,8 @@ Read the relevant reference docs from the main repo:
 | `docs/compiler-contributor-guide.md` | Navigating the compiler codebase, finding files | `C:/projects/spec/docs/compiler-contributor-guide.md` |
 | `CLAUDE.md` | Project conventions, build commands, package structure | `C:/projects/spec/CLAUDE.md` |
 | `docs/component-testing.md` | Writing component tests with mountForTest() | `C:/projects/spec/docs/component-testing.md` |
+| `docs/fn-reference.md` | Writing pure functions (`fn`) — stdlib, pipes, types | `C:/projects/spec/docs/fn-reference.md` |
+| `docs/layouts.md` | Using layout packages from the spec-registry | `C:/projects/spec/docs/layouts.md` |
 
 ## This project
 
