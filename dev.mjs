@@ -24,6 +24,8 @@ const args = process.argv.slice(2);
 const API_PORT = parseInt(args.find(a => a.startsWith('--api-port='))?.split('=')[1] ?? '4000');
 const CLIENT_PORT = parseInt(args.find(a => a.startsWith('--port='))?.split('=')[1] ?? '3000');
 const MODE = args.includes('--prod') ? 'prod' : 'dev';
+const REGISTRY = args.find(a => a.startsWith('--registry'))?.split('=')[1]
+  ?? (args.includes('--registry') ? args[args.indexOf('--registry') + 1] : undefined);
 
 function killPort(port) {
   try {
@@ -95,7 +97,9 @@ try {
 // ---------------------------------------------------------------------------
 if (MODE === 'dev') {
   console.log('Starting spec dev server...');
-  const client = spawn('npx', ['spec', 'dev'], { stdio: 'inherit', shell: true });
+  const devArgs = ['spec', 'dev'];
+  if (REGISTRY) devArgs.push('--registry', REGISTRY);
+  const client = spawn('npx', devArgs, { stdio: 'inherit', shell: true });
   client.on('error', (err) => { console.error('Dev server failed:', err.message); process.exit(1); });
 
   try {

@@ -6,6 +6,7 @@
     "api": "node server.mjs",
     "start": "node scripts/start.js",
     "dev": "node dev.mjs",
+    "dev:registry": "node dev.mjs --registry ../spec-registry",
     "dev:prod": "node dev.mjs --prod",
     "build": "spec compile",
     "check": "spec check",
