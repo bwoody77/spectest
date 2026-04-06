@@ -99,7 +99,7 @@ if (MODE === 'dev') {
   console.log('Starting spec dev server...');
   const devArgs = ['spec', 'dev'];
   if (REGISTRY) devArgs.push('--registry', REGISTRY);
-  const client = spawn('npx', devArgs, { stdio: 'inherit', shell: true });
+  const client = spawn('pnpm', ['exec', ...devArgs], { stdio: 'inherit', shell: true });
   client.on('error', (err) => { console.error('Dev server failed:', err.message); process.exit(1); });
 
   try {
@@ -135,7 +135,7 @@ if (MODE === 'dev') {
 else {
   // --- Compile ---
   console.log('\nCompiling (production)...');
-  const compile = spawn('npx', ['spec', 'compile', '--mode', 'prod', '--standalone'], { stdio: 'inherit', shell: true });
+  const compile = spawn('pnpm', ['exec', 'spec', 'compile', '--mode', 'prod', '--standalone'], { stdio: 'inherit', shell: true });
 
   const compileOk = await new Promise((resolve) => {
     compile.on('close', (code) => resolve(code === 0));
