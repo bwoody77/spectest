@@ -1,0 +1,53 @@
+import SwiftUI
+import SpecRuntime
+
+@Observable
+final class FABViewModel {
+  var icon: Any = "plus"
+  var label: Any = ""
+  var size: Any = "md"
+  var btnSize: Any { ({ () -> Any in switch specString(size) {
+case specString("sm"): return "40px"
+case specString("lg"): return "64px"
+default: return "56px"
+} })() }
+  var iconSize: Any { ({ () -> Any in switch specString(size) {
+case specString("sm"): return "18px"
+case specString("lg"): return "28px"
+default: return "24px"
+} })() }
+}
+
+struct FABView: View {
+  @State private var vm = FABViewModel()
+  var icon: Any = "plus"
+  var label: Any = ""
+  var size: Any = "md"
+  init(icon: Any = "plus", label: Any = "", size: Any = "md") { self._vm = State(initialValue: FABViewModel()); self.icon = icon; self.label = label; self.size = size }
+  var body: some View {
+    VStack() {
+      VStack() {
+        HStack(alignment: .center, spacing: CGFloat(8)) {
+          Image(systemName: specIconName(specString(vm.icon)))
+            .font(.system(size: specPx(vm.iconSize)))
+            .foregroundStyle(Color(hex: "white" as? String ?? "#000"))
+          Text(specString(vm.label))
+            .font(.body.bold())
+            .foregroundStyle(Color.white)
+          Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.leading, specPx(((specString(vm.label) != specString("")) ? "16px" : "0px")))
+        .padding(.trailing, specPx(((specString(vm.label) != specString("")) ? "16px" : "0px")))
+        .frame(width: specPx(((specString(vm.label) != specString("")) ? "auto" : vm.btnSize)))
+        .frame(height: specPx(vm.btnSize))
+        .frame(minWidth: specPx(vm.btnSize))
+        .background(Color.blue, in: RoundedRectangle(cornerRadius: specPx(((specString(vm.label) != specString("")) ? "28px" : "50%"))))
+        .onTapGesture { /* event callback */ }
+      }
+      .padding(.bottom, CGFloat(0))
+    }
+    .foregroundStyle(.primary)
+    .onAppear { vm.icon = icon; vm.size = size; vm.label = label }
+  }
+}

@@ -1,0 +1,29 @@
+name: Spectest
+options:
+  bundleIdPrefix: com.spectest
+  deploymentTarget:
+    iOS: "17.0"
+packages:
+  SpecRuntime:
+    path: ../SpecRuntime
+targets:
+  Spectest:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        excludes:
+          - Package.swift
+          - project.yml
+          - Info.plist
+          - "*.xcodeproj"
+    dependencies:
+      - package: SpecRuntime
+    info:
+      path: Info.plist
+      properties:
+        UILaunchScreen: {}
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.spectest.ios
+      INFOPLIST_FILE: Info.plist
+      GENERATE_INFOPLIST_FILE: false

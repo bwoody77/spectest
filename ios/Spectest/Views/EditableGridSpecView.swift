@@ -1,0 +1,4 @@
+import SwiftUI
+import SpecRuntime
+@Observable final class EditableGridSpecViewModel {}
+struct EditableGridSpecView: View { @State private var vm = EditableGridSpecViewModel(); var activation: Any = "enter"; var columns: Any = [] as [Any]; var height: Any = ""; var rowIdField: Any = "id"; var rows: Any = [] as [Any]; var saveMode: Any = "batch"; var undoDepth: Any = 50; init(activation: Any = "enter", columns: Any = [] as [Any], height: Any = "", rowIdField: Any = "id", rows: Any = [] as [Any], saveMode: Any = "batch", undoDepth: Any = 50) { self._vm = State(initialValue: EditableGridSpecViewModel()); self.activation = activation; self.columns = columns; self.height = height; self.rowIdField = rowIdField; self.rows = rows; self.saveMode = saveMode; self.undoDepth = undoDepth }; var body: some View { Text("Stub").foregroundStyle(.secondary) } }
