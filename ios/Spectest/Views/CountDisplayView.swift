@@ -16,15 +16,16 @@ struct CountDisplayView: View {
       VStack(spacing: CGFloat(4)) {
         Text(specString("Received value: \(specString(vm.value))"))
           .font(.body.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Text(specString("@watch fired \(specString(vm.changes)) time(s)"))
           .font(.callout.bold())
-          .foregroundStyle(Color.blue)
+          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
       }
       .padding(CGFloat(12))
-      .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value }
   }
 }

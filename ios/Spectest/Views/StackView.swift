@@ -31,7 +31,8 @@ struct StackView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.direction = direction; vm.gap = gap; vm.align = align; vm.wrap = wrap }
   }
 }

@@ -25,6 +25,7 @@ struct SplitRowView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

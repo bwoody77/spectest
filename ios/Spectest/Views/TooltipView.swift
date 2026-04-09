@@ -28,42 +28,43 @@ struct TooltipView: View {
           if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("top"))) {
             Text(specString(vm.text))
               .font(.body.bold())
-              .foregroundStyle(Color(.tertiarySystemGroupedBackground))
+              .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
         .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("bottom"))) {
             Text(specString(vm.text))
               .font(.body.bold())
-              .foregroundStyle(Color(.tertiarySystemGroupedBackground))
+              .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
         .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("left"))) {
             Text(specString(vm.text))
               .font(.body.bold())
-              .foregroundStyle(Color(.tertiarySystemGroupedBackground))
+              .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
         .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("right"))) {
             Text(specString(vm.text))
               .font(.body.bold())
-              .foregroundStyle(Color(.tertiarySystemGroupedBackground))
+              .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
         .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.text = text; vm.placement = placement }
   }
 }

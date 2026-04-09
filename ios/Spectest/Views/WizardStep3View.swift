@@ -17,7 +17,7 @@ struct WizardStep3View: View {
         .font(.title3.bold())
       Text(specString("Please review your task details and confirm submission."))
         .font(.callout.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .top, spacing: 12) {
         Image(systemName: specAlertIcon(specString("info")))
           .foregroundStyle(specAlertColor(specString("info")))
@@ -38,14 +38,14 @@ struct WizardStep3View: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { /* unsupported: dispatch */ Optional<Any>.none as Any }) {
+        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
           Text(specString("Back"))
             .font(.subheadline.weight(.medium))
             .foregroundStyle(.blue)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
-        Button(action: { /* unsupported: dispatch */ Optional<Any>.none as Any }) {
+        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
           Text(specString("Submit"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -57,6 +57,7 @@ struct WizardStep3View: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

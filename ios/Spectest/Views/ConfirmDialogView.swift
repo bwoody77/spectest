@@ -52,13 +52,13 @@ struct ConfirmDialogView: View {
           if (specString(vm.showing) == specString(true)) {
             Text(specString(vm.title))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
           Text(specString(vm.message))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(8)) {
-            Button(action: { Task { await vm.cancel() } }) {
+            Button(action: { Task { @MainActor in await vm.cancel() } }) {
               Text(specString(vm.cancelLabel))
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.blue)
@@ -68,7 +68,7 @@ struct ConfirmDialogView: View {
             }
             VStack() {
               if (specString(vm.destructive) == specString(false)) {
-                Button(action: { Task { await vm.confirm() } }) {
+                Button(action: { Task { @MainActor in await vm.confirm() } }) {
                   Text(specString(vm.confirmLabel))
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.white)
@@ -81,7 +81,7 @@ struct ConfirmDialogView: View {
 
             VStack() {
               if (specString(vm.destructive) == specString(true)) {
-                Button(action: { Task { await vm.confirm() } }) {
+                Button(action: { Task { @MainActor in await vm.confirm() } }) {
                   Text(specString(vm.confirmLabel))
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(specString("destructive") == "primary" ? .white : .blue)
@@ -98,11 +98,12 @@ struct ConfirmDialogView: View {
         .padding(CGFloat(20))
         .frame(width: CGFloat(440))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.message = message; vm.confirmLabel = confirmLabel; vm.cancelLabel = cancelLabel; vm.destructive = destructive }
   }
 }

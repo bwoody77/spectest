@@ -27,19 +27,19 @@ struct PaginationView: View {
       HStack(alignment: .center, spacing: CGFloat(8)) {
         Text(specString("\(specString(vm.startItem))-\(specString(vm.endItem)) of \(specString(vm.total))"))
           .font(.callout.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(4)) {
           HStack(alignment: .center, ) {
             Text(specString("u2039"))
               .font(.body.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
           .padding(CGFloat(8))
-          .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .opacity(specPx(((vm.hasPrev) as? Bool ?? false ? 1 : 0.4)))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { if vm.hasPrev as? Bool ?? false {
   /* event callback */
 } }
@@ -51,13 +51,13 @@ struct PaginationView: View {
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: ((specString(vm.currentPage) == specString(1)) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color(hex: ((specString(vm.currentPage) == specString(1)) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { /* event callback */ }
           HStack(alignment: .center, ) {
             if (((vm.currentPage as? Double ?? 0) > (3 as? Double ?? 0)) && ((vm.totalPages as? Double ?? 0) > (vm.maxButtons as? Double ?? 0))) {
               Text(specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
           .padding(CGFloat(8))
@@ -66,42 +66,42 @@ struct PaginationView: View {
             if (((vm.totalPages as? Double ?? 0) > (2 as? Double ?? 0)) && ((((vm.currentPage as? Double ?? 0) - (1 as? Double ?? 0)) as? Double ?? 0) > (1 as? Double ?? 0))) {
               Text(specString("\(specString(((vm.currentPage as? Double ?? 0) - (1 as? Double ?? 0))))"))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color.clear, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { /* event callback */ }
           HStack(alignment: .center, ) {
             if (((vm.currentPage as? Double ?? 0) > (1 as? Double ?? 0)) && ((vm.currentPage as? Double ?? 0) < (vm.totalPages as? Double ?? 0))) {
               Text(specString("\(specString(vm.currentPage))"))
                 .font(.body.bold())
-                .foregroundStyle(Color(.secondarySystemGroupedBackground))
+                .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
             }
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           HStack(alignment: .center, ) {
             if (((vm.totalPages as? Double ?? 0) > (2 as? Double ?? 0)) && ((specAdd(vm.currentPage, 1) as? Double ?? 0) < (vm.totalPages as? Double ?? 0))) {
               Text(specString("\(specString(specAdd(vm.currentPage, 1)))"))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color.clear, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { /* event callback */ }
           HStack(alignment: .center, ) {
             if (((vm.currentPage as? Double ?? 0) < (((vm.totalPages as? Double ?? 0) - (2 as? Double ?? 0)) as? Double ?? 0)) && ((vm.totalPages as? Double ?? 0) > (vm.maxButtons as? Double ?? 0))) {
               Text(specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
           .padding(CGFloat(8))
@@ -116,19 +116,19 @@ struct PaginationView: View {
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: ((specString(vm.currentPage) == specString(vm.totalPages)) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color(hex: ((specString(vm.currentPage) == specString(vm.totalPages)) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { /* event callback */ }
           HStack(alignment: .center, ) {
             Text(specString("u203A"))
               .font(.body.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
           .padding(CGFloat(8))
-          .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .opacity(specPx(((vm.hasNext) as? Bool ?? false ? 1 : 0.4)))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { if vm.hasNext as? Bool ?? false {
   /* event callback */
 } }
@@ -137,7 +137,8 @@ struct PaginationView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.total = total; vm.pageSize = pageSize; vm.page = page; vm.maxButtons = maxButtons }
   }
 }

@@ -35,7 +35,7 @@ struct BottomTabBarView: View {
               }
               .frame(width: CGFloat(24))
               .frame(height: CGFloat(2))
-              .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(1)))
+              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(1)))
             }
             .padding(.top, CGFloat(8))
             .padding(.bottom, CGFloat(4))
@@ -47,10 +47,11 @@ struct BottomTabBarView: View {
         }
       }
       .padding(.bottom, CGFloat(0))
-      .background(Color(.systemGroupedBackground))
-      .background(Color(.systemGroupedBackground))
+      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("semantic.surface"))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.tabs = tabs; vm.activeTab = activeTab; vm.showLabels = showLabels }
   }
 }

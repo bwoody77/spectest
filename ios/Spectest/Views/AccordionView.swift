@@ -31,23 +31,23 @@ struct AccordionView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Text(specString((item as? [String: Any])?["title"]))
                 .font(.body.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               Text(specString(({ () -> Any in switch specString(specIncludes(vm.openIds, (item as? [String: Any])?["id"])) {
 case specString(true): return "−"
 default: return "+"
 } })()))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
             .padding(CGFloat(12))
-            .background(Color(.systemGroupedBackground))
-            .background(Color(.systemGroupedBackground))
+            .background(ThemeManager.shared.color("semantic.surface"))
+            .background(ThemeManager.shared.color("semantic.surface"))
             .onTapGesture { vm.toggle((item as? [String: Any])?["id"]) }
             VStack() {
               VStack() {
                 Text(specString((item as? [String: Any])?["content"]))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(12))
             }
@@ -59,10 +59,11 @@ default: return "0"
 
         }
       }
-      .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
-      .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items; vm.multiple = multiple }
   }
 }

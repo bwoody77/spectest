@@ -22,18 +22,33 @@ struct TimelineView: View {
               .frame(height: CGFloat(12))
               .frame(minWidth: CGFloat(12))
               .frame(minHeight: CGFloat(12))
-              .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+              .background(Color(hex: ({ () -> Any in switch specString((item as? [String: Any])?["status"]) {
+case specString("completed"): return "#22c55e"
+case specString("active"): return "#3b82f6"
+case specString("error"): return "#ef4444"
+default: return "#9ca3af"
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
               VStack() {
                 if (specString(index) != specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) {
                 }
               }
-              .background(Color.primary)
+              .background(Color(hex: ({ () -> Any in switch specString((item as? [String: Any])?["status"]) {
+case specString("completed"): return "#22c55e"
+case specString("active"): return "#3b82f6"
+case specString("error"): return "#ef4444"
+default: return "#d1d5db"
+} })() as? String ?? "#000"))
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
               .frame(width: CGFloat(2))
               .frame(minWidth: CGFloat(2))
               .frame(minHeight: CGFloat(24))
-              .background(Color.primary)
+              .background(Color(hex: ({ () -> Any in switch specString((item as? [String: Any])?["status"]) {
+case specString("completed"): return "#22c55e"
+case specString("active"): return "#3b82f6"
+case specString("error"): return "#ef4444"
+default: return "#d1d5db"
+} })() as? String ?? "#000"))
               .frame(maxWidth: .infinity)
             }
             .frame(width: CGFloat(24))
@@ -43,18 +58,18 @@ struct TimelineView: View {
                 if (specString((item as? [String: Any])?["date"]) != specString("")) {
                   Text(specString((item as? [String: Any])?["date"]))
                     .font(.body.bold())
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 }
               }
 
               Text(specString((item as? [String: Any])?["title"]))
                 .font(.body.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack() {
                 if (specString((item as? [String: Any])?["description"]) != specString("")) {
                   Text(specString((item as? [String: Any])?["description"]))
                     .font(.body.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 }
               }
 
@@ -69,7 +84,8 @@ struct TimelineView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items }
   }
 }

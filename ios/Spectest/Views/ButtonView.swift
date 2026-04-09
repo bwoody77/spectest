@@ -22,7 +22,7 @@ struct ButtonView: View {
   init(disabled: Any = false, label: Any? = nil, loading: Any = false, pressed: Any = false, size: Any = "md", variant: Any = "primary") { self._vm = State(initialValue: ButtonViewModel()); self.disabled = disabled; self.label = label; self.loading = loading; self.pressed = pressed; self.size = size; self.variant = variant }
   var body: some View {
     VStack() {
-      Button(action: { /* event callback */ }) {
+      Button(action: {  }) {
         Text(specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.variant) {
@@ -75,9 +75,10 @@ case specString("ghost"): return "transparent"
 case specString("destructive"): return "#ef4444"
 default: return "#4f46e5"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.variant = variant; vm.disabled = disabled; vm.loading = loading; vm.pressed = pressed; vm.size = size }
   }
 }

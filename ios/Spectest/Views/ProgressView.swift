@@ -22,12 +22,13 @@ case specString(0): return "0%"
 default: return "\(specString(vm.value))%"
 } })()))
         .frame(height: CGFloat(8))
-        .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(4)))
+        .background(Color(hex: "#3b82f6"), in: RoundedRectangle(cornerRadius: CGFloat(4)))
       }
       .frame(height: CGFloat(8))
-      .background(Color(.separator), in: RoundedRectangle(cornerRadius: CGFloat(4)))
+      .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: CGFloat(4)))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value; vm.label = label }
   }
 }

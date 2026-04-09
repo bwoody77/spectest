@@ -77,7 +77,7 @@ struct AnalyticsViewView: View {
           }
         }
         .padding(CGFloat(20))
-        .background(LinearGradient(colors: [Color(hex: "#e6f4ff"), Color(hex: "#91caff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), ThemeManager.shared.color("semantic.focus-ring")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
             .font(.system(size: specPx("32px")))
@@ -88,7 +88,7 @@ struct AnalyticsViewView: View {
           }
         }
         .padding(CGFloat(20))
-        .background(LinearGradient(colors: [Color(hex: "#f6ffed"), Color(hex: "#d9f7be")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), ThemeManager.shared.color("semantic.success-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
             .font(.system(size: specPx("32px")))
@@ -99,7 +99,7 @@ struct AnalyticsViewView: View {
           }
         }
         .padding(CGFloat(20))
-        .background(LinearGradient(colors: [Color(hex: "#fffbe6"), Color(hex: "#fff1b8")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), ThemeManager.shared.color("semantic.warning-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
             .font(.system(size: specPx("32px")))
@@ -110,7 +110,7 @@ struct AnalyticsViewView: View {
           }
         }
         .padding(CGFloat(20))
-        .background(LinearGradient(colors: [Color(.systemGroupedBackground), Color(hex: "#bdc5d1")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.text-disabled")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
       }
 
       LazyVGrid(columns: [GridItem(.flexible())], spacing: CGFloat(20)) {
@@ -123,10 +123,10 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Text(specString("Completed"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#135200"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
                   Text(specString("\(specString(vm.done))"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#52c41a"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.success"))
                 }
 
                 ProgressView(value: (vm.donePercent as? Double ?? 0) / 100.0)
@@ -137,10 +137,10 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Text(specString("In Progress"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#614700"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.warning-text"))
                   Text(specString("\(specString(vm.inProgress))"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#faad14"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
                 }
 
                 ProgressView(value: (vm.inProgressPercent as? Double ?? 0) / 100.0)
@@ -151,10 +151,10 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Text(specString("Todo"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#3b4e68"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-strong"))
                   Text(specString("\(specString(vm.todo))"))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: "#5c7aa3"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-muted"))
                 }
 
                 ProgressView(value: (vm.todoPercent as? Double ?? 0) / 100.0)
@@ -193,7 +193,7 @@ struct AnalyticsViewView: View {
               }
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
-              .background(Color(hex: "#fff2f0"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.error-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("info")))
@@ -215,7 +215,7 @@ struct AnalyticsViewView: View {
               }
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
-              .background(Color(hex: "#fffbe6"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.warning-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("check")))
@@ -237,7 +237,7 @@ struct AnalyticsViewView: View {
               }
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
-              .background(Color(hex: "#f6ffed"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
 
           }
@@ -261,7 +261,7 @@ struct AnalyticsViewView: View {
               }
             }
             .padding(CGFloat(16))
-            .background(LinearGradient(colors: [Color(hex: "#e6f4ff"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
@@ -272,7 +272,7 @@ struct AnalyticsViewView: View {
               }
             }
             .padding(CGFloat(16))
-            .background(LinearGradient(colors: [Color(hex: "#f6ffed"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
@@ -283,7 +283,7 @@ struct AnalyticsViewView: View {
               }
             }
             .padding(CGFloat(16))
-            .background(LinearGradient(colors: [Color(hex: "#fffbe6"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
 
         }
@@ -291,7 +291,8 @@ struct AnalyticsViewView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

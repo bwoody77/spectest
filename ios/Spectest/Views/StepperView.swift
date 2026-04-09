@@ -42,7 +42,7 @@ default: return "#496183"
 case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
 case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
 default: return "#ffffff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
                 Text(specString((step as? [String: Any])?["label"]))
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
@@ -97,7 +97,7 @@ default: return "#496183"
 case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
 case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
 default: return "#ffffff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
                 .onTapGesture { if (vm.allowBack as? Bool ?? false && ((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))) as? Bool ?? false {
   /* event callback */
 } }
@@ -127,7 +127,7 @@ default: return "#92a2b9"
                   if (step as? [String: Any])?["description"] != nil {
                     Text(specString((step as? [String: Any])?["description"]))
                       .font(.body.bold())
-                      .foregroundStyle(.tertiary)
+                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   }
                 }
 
@@ -140,7 +140,8 @@ default: return "#92a2b9"
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.steps = steps; vm.activeStep = activeStep; vm.orientation = orientation; vm.allowBack = allowBack }
   }
 }

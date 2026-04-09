@@ -67,7 +67,7 @@ struct NotificationsPanelView: View {
         HStack(alignment: .center, spacing: CGFloat(8)) {
           Text(specString("Filter:"))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
           Picker("", selection: Binding(get: { specString(vm.severityFilter) }, set: { vm.severityFilter = $0 })) {
             Text("All").tag("all")
@@ -141,7 +141,7 @@ default: return "#1677ff"
               SeverityBadgeView(severity: (notif as? [String: Any])?["severity"])
               Text(specString((notif as? [String: Any])?["createdAt"]))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -152,7 +152,7 @@ default: return "#1677ff"
         }
         .frame(maxWidth: .infinity)
         .padding(CGFloat(12))
-        .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: (((notif as? [String: Any])?["read"]) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       VStack() {
         if vm.hasNoNotifications as? Bool ?? false {
@@ -162,7 +162,8 @@ default: return "#1677ff"
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

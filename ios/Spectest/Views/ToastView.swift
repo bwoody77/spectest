@@ -51,7 +51,7 @@ default: return "#1e40af"
         HStack(alignment: .center, ) {
           Text(specString("✕"))
             .font(.body.bold())
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         }
         .padding(CGFloat(8))
         .frame(minWidth: CGFloat(24))
@@ -65,9 +65,10 @@ case specString("success"): return "#f0fdf4"
 case specString("error"): return "#fef2f2"
 case specString("warning"): return "#fffbeb"
 default: return "#eff6ff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.message = message; vm.severity = severity; vm.duration = duration }
   }
 }

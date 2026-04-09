@@ -15,13 +15,14 @@ struct InfoBoxView: View {
       VStack(spacing: CGFloat(8)) {
         Text(specString(vm.title))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         // slot
       }
       .padding(CGFloat(16))
-      .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.title = title }
   }
 }

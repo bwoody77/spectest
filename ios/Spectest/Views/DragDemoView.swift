@@ -28,24 +28,24 @@ struct DragDemoView: View {
     VStack(spacing: CGFloat(20)) {
       Text(specString("Drag & Drop"))
         .font(.title2.bold())
-        .foregroundStyle(.primary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
       Text(specString("Sortable lists and Kanban boards with HTML5 drag-and-drop. Zero external dependencies."))
         .font(.body.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
         VStack() {
           Text(specString("Sortable List"))
             .foregroundStyle(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setActiveDemo("sortable") }
         VStack() {
           Text(specString("Kanban Board"))
             .foregroundStyle(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setActiveDemo("kanban") }
       }
 
@@ -58,10 +58,10 @@ struct DragDemoView: View {
                   HStack(alignment: .center, ) {
                     Text(specString("Task Priority Queue"))
                       .font(.headline.bold())
-                      .foregroundStyle(.primary)
+                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     Text(specString("Drag to reorder"))
                       .font(.callout.bold())
-                      .foregroundStyle(.tertiary)
+                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   }
 
                   SortableView(badgeColors: ["Critical": "#fef2f2" as Any, "High": "#fef9c3" as Any, "Medium": "#ede9fe" as Any, "Low": "#f0fdf4" as Any] as [String: Any], badgeKey: "priority", gap: "6px", items: vm.sortableItems, labelKey: "name")
@@ -78,10 +78,10 @@ struct DragDemoView: View {
                 VStack(spacing: CGFloat(12)) {
                   Text(specString("How it works"))
                     .font(.headline.bold())
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   Text(specString("Drag any row by its handle icon to change the order. The onReorder callback fires with the updated array."))
                     .font(.callout.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   VStack() {
                     if (specString(vm.lastReorder) != specString("")) {
                       Text(specString(vm.lastReorder))
@@ -90,10 +90,10 @@ struct DragDemoView: View {
                     }
                   }
                   .padding(CGFloat(12))
-                  .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+                  .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   Text(specString("Items: \(specString(specLength(vm.sortableItems)))"))
                     .font(.callout.bold())
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 }
                 .padding(CGFloat(20))
               }
@@ -110,11 +110,11 @@ struct DragDemoView: View {
           HStack(alignment: .center, ) {
             Text(specString("Project Board"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               Text(specString("Drag cards between columns. The In Progress column has a WIP limit of 3."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               VStack() {
                 if (specString(vm.lastMove) != specString("")) {
                   Text(specString(vm.lastMove))
@@ -123,7 +123,7 @@ struct DragDemoView: View {
                 }
               }
               .padding(CGFloat(0))
-              .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
 
           }
@@ -136,6 +136,7 @@ struct DragDemoView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

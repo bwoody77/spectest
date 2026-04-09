@@ -28,7 +28,8 @@ struct RadioGroupView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.value = value; vm.disabled = disabled }
   }
 }

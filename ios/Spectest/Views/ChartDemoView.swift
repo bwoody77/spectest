@@ -28,45 +28,45 @@ struct ChartDemoView: View {
     VStack(spacing: CGFloat(20)) {
       Text(specString("Chart Component"))
         .font(.title2.bold())
-        .foregroundStyle(.primary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
       Text(specString("Built-in SVG charts — no external library required. Supports line, bar, area, pie, and donut types."))
         .font(.body.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
         VStack() {
           Text(specString("Line"))
             .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("line") }
         VStack() {
           Text(specString("Bar"))
             .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("bar") }
         VStack() {
           Text(specString("Area"))
             .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("area") }
         VStack() {
           Text(specString("Pie"))
             .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("pie") }
         VStack() {
           Text(specString("Donut"))
             .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("donut") }
       }
 
@@ -77,14 +77,14 @@ struct ChartDemoView: View {
               HStack(alignment: .center, ) {
                 Text(specString("Monthly Revenue"))
                   .font(.headline.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
                   Text(specString("Grid"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 .onTapGesture { vm.toggleGrid() }
               }
 
@@ -100,7 +100,7 @@ struct ChartDemoView: View {
               )
               Text(specString("Monthly revenue vs target. Multi-series line chart with legend."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(20))
           }
@@ -115,14 +115,14 @@ struct ChartDemoView: View {
               HStack(alignment: .center, ) {
                 Text(specString("Sales by Region"))
                   .font(.headline.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
                   Text(specString("Values"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 .onTapGesture { vm.toggleValues() }
               }
 
@@ -138,7 +138,7 @@ struct ChartDemoView: View {
               )
               Text(specString("Grouped bar chart — quarterly sales per region. Toggle Values for labels."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(20))
           }
@@ -152,7 +152,7 @@ struct ChartDemoView: View {
             VStack(spacing: CGFloat(16)) {
               Text(specString("Active Users (Last 30 Days)"))
                 .font(.headline.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               SpecChartView(
                 type: specString("area"), data: [["day": "1" as Any, "users": 1200 as Any] as [String: Any], ["day": "2" as Any, "users": 1350 as Any] as [String: Any], ["day": "3" as Any, "users": 1180 as Any] as [String: Any], ["day": "4" as Any, "users": 1420 as Any] as [String: Any], ["day": "5" as Any, "users": 1680 as Any] as [String: Any], ["day": "6" as Any, "users": 1950 as Any] as [String: Any], ["day": "7" as Any, "users": 2100 as Any] as [String: Any], ["day": "8" as Any, "users": 1870 as Any] as [String: Any], ["day": "9" as Any, "users": 1640 as Any] as [String: Any], ["day": "10" as Any, "users": 1820 as Any] as [String: Any], ["day": "11" as Any, "users": 2050 as Any] as [String: Any], ["day": "12" as Any, "users": 2280 as Any] as [String: Any], ["day": "13" as Any, "users": 2150 as Any] as [String: Any], ["day": "14" as Any, "users": 2400 as Any] as [String: Any], ["day": "15" as Any, "users": 2650 as Any] as [String: Any], ["day": "16" as Any, "users": 2480 as Any] as [String: Any], ["day": "17" as Any, "users": 2710 as Any] as [String: Any], ["day": "18" as Any, "users": 2890 as Any] as [String: Any], ["day": "19" as Any, "users": 2730 as Any] as [String: Any], ["day": "20" as Any, "users": 3010 as Any] as [String: Any], ["day": "21" as Any, "users": 3250 as Any] as [String: Any], ["day": "22" as Any, "users": 3080 as Any] as [String: Any], ["day": "23" as Any, "users": 3320 as Any] as [String: Any], ["day": "24" as Any, "users": 3150 as Any] as [String: Any], ["day": "25" as Any, "users": 3480 as Any] as [String: Any], ["day": "26" as Any, "users": 3620 as Any] as [String: Any], ["day": "27" as Any, "users": 3390 as Any] as [String: Any], ["day": "28" as Any, "users": 3750 as Any] as [String: Any], ["day": "29" as Any, "users": 3920 as Any] as [String: Any], ["day": "30" as Any, "users": 4100 as Any] as [String: Any]] as [Any],
                 xKey: specString("day"), yKey: specString("users"),
@@ -165,7 +165,7 @@ struct ChartDemoView: View {
               )
               Text(specString("Single-series area chart with filled region. Good for trends over time."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(20))
           }
@@ -180,14 +180,14 @@ struct ChartDemoView: View {
               HStack(alignment: .center, ) {
                 Text(specString("Revenue by Category"))
                   .font(.headline.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
                   Text(specString("Values"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 .onTapGesture { vm.toggleValues() }
               }
 
@@ -203,7 +203,7 @@ struct ChartDemoView: View {
               )
               Text(specString("Pie chart with legend. Toggle Values to show amounts inside segments."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(20))
           }
@@ -217,7 +217,7 @@ struct ChartDemoView: View {
             VStack(spacing: CGFloat(16)) {
               Text(specString("Task Status Distribution"))
                 .font(.headline.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               SpecChartView(
                 type: specString("donut"), data: [["status": "Done" as Any, "count": 142 as Any] as [String: Any], ["status": "In Progress" as Any, "count": 38 as Any] as [String: Any], ["status": "Review" as Any, "count": 24 as Any] as [String: Any], ["status": "Blocked" as Any, "count": 11 as Any] as [String: Any], ["status": "Todo" as Any, "count": 67 as Any] as [String: Any]] as [Any],
                 xKey: specString("x"), yKey: specString("y"),
@@ -230,7 +230,7 @@ struct ChartDemoView: View {
               )
               Text(specString("Donut chart — total shown in center ring. Good for part-to-whole relationships."))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(20))
           }
@@ -239,6 +239,7 @@ struct ChartDemoView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

@@ -15,38 +15,39 @@ struct RouterUserView: View {
       VStack(spacing: CGFloat(12)) {
         Text(specString("User Profile"))
           .font(.headline.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Text(specString("Route: /users/\(specString(vm.userId))"))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         Text(specString("The ':id' segment from the URL pattern is extracted into _routeParams.id and passed as a prop."))
           .font(.callout.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(12)) {
           HStack(alignment: .center, ) {
             Text(specString(((vm.userId) as? Bool ?? false ? (vm.userId as? [Any])?[0 as? Int ?? 0] : "?")))
               .font(.headline.bold())
-              .foregroundStyle(Color(.secondarySystemGroupedBackground))
+              .foregroundStyle(Color(hex: "#fff"))
           }
           .frame(width: CGFloat(40))
           .frame(height: CGFloat(40))
-          .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(0)))
+          .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
           VStack(spacing: CGFloat(4)) {
             Text(specString("User #\(specString(vm.userId))"))
               .font(.body.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             Text(specString("user\(specString(vm.userId))@example.com"))
               .font(.callout.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
 
         }
         .padding(CGFloat(16))
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       .padding(CGFloat(20))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.userId = userId }
   }
 }

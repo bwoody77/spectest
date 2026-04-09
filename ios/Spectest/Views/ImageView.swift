@@ -36,13 +36,14 @@ struct ImageView: View {
           if (specString(vm.loaded) == specString(false)) {
           }
         }
-        .background(Color(.secondarySystemGroupedBackground))
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.on-destructive"))
+        .background(ThemeManager.shared.color("semantic.on-destructive"))
         AsyncImage(url: URL(string: "" as? String ?? ""))
       }
       .frame(width: CGFloat(0))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.src = src; vm.alt = alt; vm.aspectRatio = aspectRatio; vm.lazy = lazy; vm.fallbackSrc = fallbackSrc }
   }
 }

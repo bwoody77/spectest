@@ -50,16 +50,16 @@ struct DrawerView: View {
             HStack(alignment: .center, ) {
               Text(specString(vm.title))
                 .font(.headline.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, ) {
                 Text(specString("u00D7"))
                   .font(.headline.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .frame(width: CGFloat(32))
               .frame(height: CGFloat(32))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.doClose() }
             }
             .padding(CGFloat(16))
@@ -73,26 +73,26 @@ struct DrawerView: View {
           .frame(maxWidth: .infinity)
           .scrollIndicators(.visible)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.surface"))
         .frame(width: specPx(vm.width))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.surface"))
         .scrollIndicators(.visible)
         VStack() {
           if ((specString(vm.showing) == specString(true)) && (specString(vm.side) == specString("right"))) {
             HStack(alignment: .center, ) {
               Text(specString(vm.title))
                 .font(.headline.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, ) {
                 Text(specString("u00D7"))
                   .font(.headline.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .frame(width: CGFloat(32))
               .frame(height: CGFloat(32))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.doClose() }
             }
             .padding(CGFloat(16))
@@ -106,15 +106,16 @@ struct DrawerView: View {
           .frame(maxWidth: .infinity)
           .scrollIndicators(.visible)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.surface"))
         .frame(width: specPx(vm.width))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.surface"))
         .scrollIndicators(.visible)
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.side = side; vm.width = width }
   }
 }

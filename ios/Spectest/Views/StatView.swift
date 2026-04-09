@@ -23,10 +23,10 @@ struct StatView: View {
       VStack() {
         Text(specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         Text(specString(vm.value))
           .font(.body.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         HStack(alignment: .center, spacing: CGFloat(4)) {
           if (specString(vm.trend) != specString("")) {
             Text(specString(({ () -> Any in switch specString(vm.trend) {
@@ -52,11 +52,12 @@ default: return "#92a2b9"
 
         Text(specString(vm.helpText))
           .font(.body.bold())
-          .foregroundStyle(.tertiary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.value = value; vm.trend = trend; vm.trendValue = trendValue; vm.helpText = helpText }
   }
 }

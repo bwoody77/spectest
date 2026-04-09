@@ -112,7 +112,7 @@ struct MultiSelectView: View {
           if (specString(vm.label) != specString("")) {
             Text(specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
@@ -125,18 +125,18 @@ struct MultiSelectView: View {
                     HStack(alignment: .center, spacing: CGFloat(4)) {
                       Text(specString((opt as? [String: Any])?["label"]))
                         .font(.body.bold())
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                       VStack() {
                         Text(specString("u00D7"))
                           .font(.body.bold())
-                          .foregroundStyle(.tertiary)
+                          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                       }
 
                       .onTapGesture { vm.removeTag((opt as? [String: Any])?["value"]) }
                     }
                     .padding(.leading, CGFloat(8))
                     .padding(.trailing, CGFloat(4))
-                    .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                    .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   }
                 }
               }
@@ -145,7 +145,7 @@ struct MultiSelectView: View {
                 if (vm.hasSelections as? Bool ?? false && (specString(vm.display) == specString("text"))) {
                   Text(specString(vm.displayText))
                     .font(.body.bold())
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
               }
 
@@ -154,13 +154,13 @@ struct MultiSelectView: View {
                   if (specString(vm.hasSelections) == specString(false)) {
                     Text(specString(vm.placeholder))
                       .font(.body.bold())
-                      .foregroundStyle(.tertiary)
+                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   }
                 }
 
                 Text(specString("u25BE"))
                   .font(.body.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
@@ -170,7 +170,7 @@ struct MultiSelectView: View {
             .padding(CGFloat(8))
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
             .frame(minHeight: CGFloat(40))
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
           VStack() {
             if (specString(vm.open) == specString(true)) {
@@ -191,14 +191,14 @@ struct MultiSelectView: View {
               VStack() {
                 Text(specString("Select all"))
                   .font(.body.bold())
-                  .foregroundStyle(Color.blue)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               }
 
               .onTapGesture { vm.selectAll() }
               VStack() {
                 Text(specString("Clear all"))
                   .font(.body.bold())
-                  .foregroundStyle(Color.blue)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               }
 
               .onTapGesture { vm.clearAll() }
@@ -214,7 +214,7 @@ case specString(true): return ((specIncludes(vm.safeSelected, (option as? [Strin
 default: return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2713" : "")
 } })()))
                         .font(.body.bold())
-                        .foregroundStyle(Color.blue)
+                        .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                       Text(specString((option as? [String: Any])?["label"]))
                         .font(.body.bold())
                         .foregroundStyle(Color(hex: ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
@@ -227,7 +227,7 @@ default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, 
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                     .onTapGesture { vm.toggleOption((option as? [String: Any])?["value"]) }
                   }
                 }
@@ -238,14 +238,14 @@ default: return "transparent"
               if (specString(vm.hasOptions) == specString(false)) {
                 Text(specString("No options"))
                   .font(.body.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
             }
             .padding(CGFloat(12))
           }
           .padding(CGFloat(4))
           .frame(maxHeight: CGFloat(280))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .scrollIndicators(.visible)
         }
 
@@ -255,7 +255,7 @@ default: return "transparent"
               if vm.hasSelections as? Bool ?? false {
                 Text(specString(specAdd(specLength(vm.safeSelected), " selected")))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
             }
             .padding(CGFloat(8))
@@ -270,14 +270,14 @@ default: return "transparent"
             VStack() {
               Text(specString("Select all"))
                 .font(.body.bold())
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
 
             .onTapGesture { vm.selectAll() }
             VStack() {
               Text(specString("Clear all"))
                 .font(.body.bold())
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
 
             .onTapGesture { vm.clearAll() }
@@ -293,7 +293,7 @@ case specString(true): return ((specIncludes(vm.safeSelected, (option as? [Strin
 default: return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2713" : "")
 } })()))
                       .font(.body.bold())
-                      .foregroundStyle(Color.blue)
+                      .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                     Text(specString((option as? [String: Any])?["label"]))
                       .font(.body.bold())
                       .foregroundStyle(Color(hex: ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
@@ -306,20 +306,20 @@ default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, 
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   .onTapGesture { vm.toggleOption((option as? [String: Any])?["value"]) }
                 }
               }
             }
           }
           .frame(maxHeight: CGFloat(280))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .scrollIndicators(.visible)
           HStack(alignment: .center, ) {
             if (specString(vm.hasOptions) == specString(false)) {
               Text(specString("No options"))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
           .padding(CGFloat(12))
@@ -328,7 +328,8 @@ default: return "transparent"
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.values = values; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label; vm.display = display; vm.showCheckbox = showCheckbox; vm.mode = mode }
   }
 }

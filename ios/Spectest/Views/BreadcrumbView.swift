@@ -26,7 +26,7 @@ struct BreadcrumbView: View {
             if (((index as? Double ?? 0) > (0 as? Double ?? 0)) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || ((specLength(vm.items) as? Double ?? 0) <= (vm.maxVisible as? Double ?? 0)) as? Bool ?? false) || (specString(index) == specString(1))) || ((index as? Double ?? 0) >= (specAdd(((specLength(vm.items) as? Double ?? 0) - (vm.maxVisible as? Double ?? 0)), 1) as? Double ?? 0)) as? Bool ?? false)) {
               Text(specString(vm.separator))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
 
@@ -34,7 +34,7 @@ struct BreadcrumbView: View {
             if (((!(vm.expanded as? Bool ?? false) && ((vm.maxVisible as? Double ?? 0) > (0 as? Double ?? 0))) && ((specLength(vm.items) as? Double ?? 0) > (vm.maxVisible as? Double ?? 0))) && (specString(index) == specString(1))) {
               Text(specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
           }
 
@@ -43,7 +43,7 @@ struct BreadcrumbView: View {
             if ((specString(index) != specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || ((specLength(vm.items) as? Double ?? 0) <= (vm.maxVisible as? Double ?? 0)) as? Bool ?? false) || (specString(index) == specString(0))) || ((index as? Double ?? 0) >= (specAdd(((specLength(vm.items) as? Double ?? 0) - (vm.maxVisible as? Double ?? 0)), 1) as? Double ?? 0)) as? Bool ?? false)) {
               Text(specString((item as? [String: Any])?["label"]))
                 .font(.body.bold())
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
           }
 
@@ -52,7 +52,7 @@ struct BreadcrumbView: View {
             if (specString(index) == specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) {
               Text(specString((item as? [String: Any])?["label"]))
                 .font(.body.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
           }
 
@@ -60,7 +60,8 @@ struct BreadcrumbView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items; vm.separator = separator; vm.maxVisible = maxVisible }
   }
 }

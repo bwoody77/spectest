@@ -41,7 +41,7 @@ struct SnackbarView: View {
               if (specString(vm.actionLabel) != specString("")) {
                 Text(specString(vm.actionLabel))
                   .font(.body.bold())
-                  .foregroundStyle(Color.blue)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               }
             }
 
@@ -50,10 +50,10 @@ struct SnackbarView: View {
               Text(specString("u00D7"))
                 .foregroundStyle(Color(.sRGB, red: 1.0000, green: 1.0000, blue: 1.0000, opacity: 0.7))
             }
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(12)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
             .frame(width: CGFloat(24))
             .frame(height: CGFloat(24))
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(12)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
             .onTapGesture { vm.doClose() }
           }
           .padding(.leading, CGFloat(16))
@@ -61,12 +61,13 @@ struct SnackbarView: View {
           .padding(.top, CGFloat(12))
           .padding(.bottom, CGFloat(12))
           .frame(maxWidth: CGFloat(560))
-          .background(Color(.sRGB, red: 0.1176, green: 0.1176, blue: 0.1176), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(Color(.sRGB, red: 0.1176, green: 0.1176, blue: 0.1176), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
       }
       .padding(.bottom, CGFloat(0))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.message = message; vm.duration = duration; vm.actionLabel = actionLabel }
   }
 }

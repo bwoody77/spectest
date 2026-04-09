@@ -57,7 +57,8 @@ struct TreeView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.nodes = nodes; vm.selection = selection; vm.selected = selected; vm.expanded = expanded; vm.expandMode = expandMode }
   }
 }

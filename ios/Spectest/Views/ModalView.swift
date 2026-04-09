@@ -41,16 +41,16 @@ struct ModalView: View {
             HStack(alignment: .center, ) {
               Text(specString(vm.title))
                 .font(.headline.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, ) {
                 Text(specString("u00D7"))
                   .font(.headline.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .frame(width: CGFloat(32))
               .frame(height: CGFloat(32))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.doClose() }
             }
             .padding(CGFloat(16))
@@ -67,12 +67,13 @@ struct ModalView: View {
         .frame(width: specPx(vm.width))
         .frame(maxWidth: CGFloat(0))
         .frame(maxHeight: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
         .scrollIndicators(.visible)
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.width = width }
   }
 }

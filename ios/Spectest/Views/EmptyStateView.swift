@@ -20,14 +20,15 @@ struct EmptyStateView: View {
           .foregroundStyle(Color(hex: "#92a2b9" as? String ?? "#000"))
         Text(specString(vm.message))
           .font(.headline.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Text(specString(vm.description))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
       .padding(CGFloat(24))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.message = message; vm.description = description }
   }
 }

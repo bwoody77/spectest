@@ -53,7 +53,7 @@ struct TreeNodeView: View {
             if vm.hasChildren as? Bool ?? false {
               Text(specString(vm.toggleIcon))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
           }
           .frame(width: CGFloat(20))
@@ -93,7 +93,8 @@ struct TreeNodeView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.node = node; vm.level = level; vm.expandedIds = expandedIds; vm.selectedIds = selectedIds; vm.selectionMode = selectionMode; vm.expandMode = expandMode }
   }
 }

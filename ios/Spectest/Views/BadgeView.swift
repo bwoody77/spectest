@@ -37,9 +37,10 @@ case specString("warning"): return "#fffbeb"
 case specString("error"): return "#fef2f2"
 case specString("neutral"): return "#f1f5f9"
 default: return "#f1f5f9"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.text = text; vm.variant = variant }
   }
 }

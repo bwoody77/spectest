@@ -53,12 +53,12 @@ struct CommandPaletteView: View {
                         VStack(spacing: CGFloat(4)) {
                           Text(specString((cmd as? [String: Any])?["label"]))
                             .font(.body.bold())
-                            .foregroundStyle(.primary)
+                            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                           VStack() {
                             if (cmd as? [String: Any])?["description"] != nil {
                               Text(specString((cmd as? [String: Any])?["description"]))
                                 .font(.body.bold())
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                             }
                           }
 
@@ -68,11 +68,11 @@ struct CommandPaletteView: View {
                           if (cmd as? [String: Any])?["shortcut"] != nil {
                             Text(specString((cmd as? [String: Any])?["shortcut"]))
                               .font(.body.bold())
-                              .foregroundStyle(.secondary)
+                              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                           }
                         }
                         .padding(CGFloat(4))
-                        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                       }
                       .padding(CGFloat(12))
                       .background(Color(hex: ((specString(idx) == specString(vm.highlightIndex)) ? "#ffffff" : "transparent") as? String ?? "#000"))
@@ -87,7 +87,7 @@ struct CommandPaletteView: View {
                 if ((specString(vm.hasResults) == specString(false)) && (specString(vm.query) != specString(""))) {
                   Text(specString("No matching commands"))
                     .font(.body.bold())
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 }
               }
               .padding(CGFloat(16))
@@ -98,7 +98,7 @@ struct CommandPaletteView: View {
           .frame(width: CGFloat(560))
           .frame(maxWidth: CGFloat(0))
           .frame(maxHeight: CGFloat(480))
-          .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           .onTapGesture {  }
         }
       }
@@ -106,7 +106,8 @@ struct CommandPaletteView: View {
       .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.5))
       .onTapGesture { vm.dismiss() }
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.commands = commands; vm.open = open; vm.placeholder = placeholder; vm.maxResults = maxResults }
   }
 }

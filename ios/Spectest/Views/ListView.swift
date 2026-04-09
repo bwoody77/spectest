@@ -76,14 +76,15 @@ struct ListView: View {
           if (specString(vm.hasItems) == specString(false)) {
             Text(specString("No items"))
               .font(.body.bold())
-              .foregroundStyle(.tertiary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           }
         }
         .padding(CGFloat(12))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items; vm.selection = selection; vm.selected = selected; vm.searchable = searchable; vm.searchPlaceholder = searchPlaceholder; vm.height = height }
   }
 }

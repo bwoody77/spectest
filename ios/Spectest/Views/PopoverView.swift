@@ -39,7 +39,7 @@ struct PopoverView: View {
         .padding(CGFloat(16))
         .frame(minWidth: CGFloat(240))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(8)) {
           if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("top"))) {
             // slot
@@ -48,7 +48,7 @@ struct PopoverView: View {
         .padding(CGFloat(16))
         .frame(minWidth: CGFloat(240))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(8)) {
           if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("left"))) {
             // slot
@@ -57,7 +57,7 @@ struct PopoverView: View {
         .padding(CGFloat(16))
         .frame(minWidth: CGFloat(240))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         VStack(spacing: CGFloat(8)) {
           if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("right"))) {
             // slot
@@ -66,11 +66,12 @@ struct PopoverView: View {
         .padding(CGFloat(16))
         .frame(minWidth: CGFloat(240))
         .frame(maxWidth: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.placement = placement }
   }
 }

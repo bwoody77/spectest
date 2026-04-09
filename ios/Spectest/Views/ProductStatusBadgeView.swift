@@ -34,7 +34,8 @@ case specString("discontinued"): return "error"
 default: return "neutral"
 } })())), in: Capsule())
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.status = status }
   }
 }

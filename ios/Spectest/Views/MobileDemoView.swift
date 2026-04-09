@@ -53,30 +53,30 @@ struct MobileDemoView: View {
         VStack() {
           Text(specString("Mobile Demo"))
             .font(.title2.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Text(specString("Gesture events, bottom sheet, safe areas"))
             .font(.callout.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
         .padding(.top, CGFloat(0))
-        .background(Color(.systemGroupedBackground))
-        .background(Color(.systemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.surface"))
+        .background(ThemeManager.shared.color("semantic.surface"))
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
             Text(specString("Swipe Zone"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             Text(specString("Swipe left for snackbar, right for bottom sheet"))
               .font(.callout.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack(spacing: CGFloat(8)) {
             Text(specString("Scroll Snap Carousel"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(16)) {
               ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
                 VStack() {
@@ -89,7 +89,7 @@ struct MobileDemoView: View {
                 }
                 .padding(CGFloat(20))
                 .frame(minWidth: CGFloat(280))
-                .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(12)))
+                .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
               }
             }
             .scrollIndicators(.visible)
@@ -98,7 +98,7 @@ struct MobileDemoView: View {
           VStack(spacing: CGFloat(8)) {
             Text(specString("Components"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(8)) {
               VStack() {
                 Text(specString("Bottom Sheet"))
@@ -109,7 +109,7 @@ struct MobileDemoView: View {
               .padding(.trailing, CGFloat(16))
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
-              .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.openSheet() }
               VStack() {
                 Text(specString("Action Sheet"))
@@ -120,7 +120,7 @@ struct MobileDemoView: View {
               .padding(.trailing, CGFloat(16))
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
-              .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.openActionSheet() }
               VStack() {
                 Text(specString("Snackbar"))
@@ -131,7 +131,7 @@ struct MobileDemoView: View {
               .padding(.trailing, CGFloat(16))
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
-              .background(Color.blue, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.showSnackbar() }
             }
 
@@ -140,23 +140,23 @@ struct MobileDemoView: View {
           VStack(spacing: CGFloat(8)) {
             Text(specString("Long Press"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             Text(specString("Long press this card to open the action sheet"))
               .font(.callout.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack() {
             Text(specString("Visibility Trigger"))
               .font(.headline.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             Text(specString("Snackbar shown when this card scrolled into view"))
               .font(.callout.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         }
         .padding(CGFloat(16))
         .padding(.bottom, CGFloat(80))
@@ -181,12 +181,13 @@ struct MobileDemoView: View {
         }
         FABView(icon: "plus")
       }
-      .background(Color(.systemGroupedBackground))
+      .background(ThemeManager.shared.color("semantic.surface"))
       .frame(width: CGFloat(0))
       .frame(minHeight: CGFloat(0))
-      .background(Color(.systemGroupedBackground))
+      .background(ThemeManager.shared.color("semantic.surface"))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.api = api }
   }
 }

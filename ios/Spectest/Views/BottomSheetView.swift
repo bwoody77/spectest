@@ -91,7 +91,7 @@ struct BottomSheetView: View {
                 .opacity(CGFloat(0.4))
                 .frame(width: CGFloat(36))
                 .frame(height: CGFloat(4))
-                .background(Color(.tertiaryLabel), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
               }
             }
             .padding(.top, CGFloat(8))
@@ -108,11 +108,12 @@ struct BottomSheetView: View {
         }
         .frame(height: specPx(vm.sheetHeight))
         .frame(maxHeight: CGFloat(0))
-        .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.snapPoints = snapPoints; vm.initialSnap = initialSnap; vm.showHandle = showHandle; vm.backdrop = backdrop }
   }
 }

@@ -48,7 +48,7 @@ struct ChartView: View {
           if (specString(vm.title) != specString("")) {
             Text(specString(vm.title))
               .font(.body.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
         }
         .padding(.bottom, CGFloat(4))
@@ -64,7 +64,7 @@ struct ChartView: View {
           if vm.isEmpty as? Bool ?? false {
             Text(specString("No data"))
               .font(.body.bold())
-              .foregroundStyle(.tertiary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           }
         }
         .frame(minHeight: CGFloat(0))
@@ -78,10 +78,10 @@ struct ChartView: View {
                 }
                 .frame(width: CGFloat(10))
                 .frame(height: CGFloat(10))
-                .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(6)))
+                .background(Color(hex: (item as? [String: Any])?["color"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 Text(specString((item as? [String: Any])?["label"]))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
 
             }
@@ -92,7 +92,8 @@ struct ChartView: View {
       .frame(width: CGFloat(0))
       .frame(height: specPx(vm.height))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.type = type; vm.data = data; vm.series = series; vm.xKey = xKey; vm.yKey = yKey; vm.labelKey = labelKey; vm.valueKey = valueKey; vm.color = color; vm.colors = colors; vm.height = height; vm.title = title; vm.showLegend = showLegend; vm.showGrid = showGrid; vm.showValues = showValues }
   }
 }

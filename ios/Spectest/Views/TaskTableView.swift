@@ -39,7 +39,7 @@ struct TaskTableView: View {
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
         Text(specString("Tasks"))
           .font(.title3.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
@@ -47,7 +47,7 @@ struct TaskTableView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Text(specString(vm.taskCount))
           .font(.callout.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         Spacer(minLength: 0)
         Picker("", selection: Binding(get: { specString(vm.filter) }, set: { vm.filter = $0 })) {
           Text("All").tag("all")
@@ -59,7 +59,7 @@ struct TaskTableView: View {
       }
       .frame(maxWidth: .infinity)
       .padding(CGFloat(12))
-      .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(8)) {
         if vm.tasksLoading as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
@@ -106,14 +106,14 @@ struct TaskTableView: View {
           HStack(alignment: .center, spacing: CGFloat(12)) {
             Text(specString("\(specString(index))"))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             VStack(spacing: CGFloat(4)) {
               Text(specString((task as? [String: Any])?["title"]))
                 .font(.body.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               Text(specString((task as? [String: Any])?["assignee"]))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
 
             Spacer(minLength: 0)
@@ -122,7 +122,7 @@ struct TaskTableView: View {
           }
           .frame(maxWidth: .infinity)
           .padding(CGFloat(12))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .onTapGesture { vm.selectTask(task) }
         }
       }
@@ -134,7 +134,8 @@ struct TaskTableView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
     .onAppear { vm.selectedTask = selectedTask; vm.view = view }

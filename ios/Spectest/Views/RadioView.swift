@@ -18,7 +18,7 @@ struct RadioView: View {
   init(checked: Any = false, disabled: Any = false, label: Any? = nil, value: Any = "") { self._vm = State(initialValue: RadioViewModel()); self.checked = checked; self.disabled = disabled; self.label = label; self.value = value }
   var body: some View {
     VStack() {
-      Button(action: { /* event callback */ }) {
+      Button(action: {  }) {
         HStack(alignment: .center, ) {
           VStack() {
             if (specString(vm.checked) == specString(true)) {
@@ -26,17 +26,17 @@ struct RadioView: View {
           }
           .frame(width: CGFloat(8))
           .frame(height: CGFloat(8))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(18))
         .frame(height: CGFloat(18))
         .background(Color(hex: ({ () -> Any in switch specString(vm.checked) {
 case specString(true): return "#4f46e5"
 default: return "transparent"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         Text(specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
       .padding(CGFloat(0))
       .background(Color.clear)
@@ -46,7 +46,8 @@ default: return 1
 } })()))
       .background(Color.clear)
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.value = value; vm.checked = checked; vm.disabled = disabled }
   }
 }

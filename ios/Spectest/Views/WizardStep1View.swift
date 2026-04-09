@@ -24,7 +24,7 @@ struct WizardStep1View: View {
         .font(.title3.bold())
       Text(specString("Provide the core details for this task."))
         .font(.callout.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(4)) {
@@ -36,7 +36,7 @@ struct WizardStep1View: View {
               if vm.showTitleError as? Bool ?? false {
                 Text(specString("Title is required"))
                   .font(.callout.bold())
-                  .foregroundStyle(Color.red)
+                  .foregroundStyle(Color(hex: "#db2424"))
               }
             }
 
@@ -53,7 +53,7 @@ struct WizardStep1View: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { /* unsupported: dispatch */ Optional<Any>.none as Any }) {
+        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
           Text(specString("Next"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -65,6 +65,7 @@ struct WizardStep1View: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

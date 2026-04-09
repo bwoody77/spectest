@@ -56,7 +56,7 @@ struct EditableGridDemoView: View {
               .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
             Text(specString("Editable Inventory"))
               .font(.title2.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
@@ -70,7 +70,7 @@ struct EditableGridDemoView: View {
             }
 
             Spacer(minLength: 0)
-            Button(action: { Task { await vm.saveChanges() } }) {
+            Button(action: { Task { @MainActor in await vm.saveChanges() } }) {
               Text(specString("Save All Changes"))
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.white)
@@ -102,7 +102,7 @@ struct EditableGridDemoView: View {
 
       }
       .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       HStack(alignment: .center, spacing: CGFloat(12)) {
         if vm.showSaved as? Bool ?? false {
           Image(systemName: specIconName(specString("check")))
@@ -110,8 +110,8 @@ struct EditableGridDemoView: View {
             .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
           Text(specString("Changes saved successfully!"))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: "#135200"))
-          Button(action: { Task { await vm.dismissSaved() } }) {
+            .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
+          Button(action: { Task { @MainActor in await vm.dismissSaved() } }) {
             Text(specString("Dismiss"))
               .font(.subheadline.weight(.medium))
               .foregroundStyle(.blue)
@@ -121,7 +121,7 @@ struct EditableGridDemoView: View {
         }
       }
       .padding(CGFloat(12))
-      .background(Color(hex: "#f6ffed"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
         if vm.productsLoading as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
@@ -140,12 +140,12 @@ struct EditableGridDemoView: View {
           EditableGridSpecView(activation: "click", columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "editable": false as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "editable": true as Any, "type": "text" as Any, "required": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "editable": true as Any, "type": "select" as Any, "options": ["Electronics", "Audio", "Furniture", "Accessories"] as [Any] as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "editable": true as Any, "type": "number" as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "editable": true as Any, "type": "select" as Any, "options": ["active", "out-of-stock", "discontinued"] as [Any] as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any, "max": 5 as Any, "step": 0.1 as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any, "editable": false as Any] as [String: Any]] as [Any], rows: vm.productList, saveMode: "batch", undoDepth: 50)
         }
       }
-      .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(12)) {
           Text(specString("Editing Instructions"))
             .font(.headline.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           VStack(spacing: CGFloat(8)) {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("edit")))
@@ -153,7 +153,7 @@ struct EditableGridDemoView: View {
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
               Text(specString("Click any editable cell to start editing"))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -164,7 +164,7 @@ struct EditableGridDemoView: View {
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
               Text(specString("Use Tab/Arrow keys to navigate between cells"))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -175,7 +175,7 @@ struct EditableGridDemoView: View {
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
               Text(specString("Modified cells show a yellow indicator"))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -186,7 +186,7 @@ struct EditableGridDemoView: View {
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
               Text(specString("Ctrl+Z to undo, Ctrl+Y to redo"))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -197,7 +197,7 @@ struct EditableGridDemoView: View {
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
               Text(specString("Ctrl+C to copy, Ctrl+V to paste, Ctrl+D to fill down"))
                 .font(.callout.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -209,7 +209,8 @@ struct EditableGridDemoView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

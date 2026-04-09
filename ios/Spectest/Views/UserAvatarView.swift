@@ -17,12 +17,13 @@ struct UserAvatarView: View {
       HStack(alignment: .center, ) {
         Text(specString(vm.name))
           .font(.body.bold())
-          .foregroundStyle(Color(.secondarySystemGroupedBackground))
+          .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
       }
       .padding(CGFloat(12))
-      .background(Color(hex: vm.bgColor as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+      .background(Color(hex: vm.bgColor as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.name = name; vm.bgColor = bgColor }
   }
 }

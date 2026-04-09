@@ -71,7 +71,7 @@ struct TaskFormView: View {
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
         Text(specString("Create New Task"))
           .font(.title2.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
         EmptyView().popover(isPresented: .constant(false)) {
         }
@@ -80,7 +80,7 @@ struct TaskFormView: View {
 
       Text(specString(vm.formSummary))
         .font(.callout.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack() {
         if vm.successVisible as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
@@ -125,7 +125,7 @@ struct TaskFormView: View {
               if vm.hasTitleError as? Bool ?? false {
                 Text(specString(vm.titleError))
                   .font(.callout.bold())
-                  .foregroundStyle(Color.red)
+                  .foregroundStyle(Color(hex: "#db2424"))
               }
             }
 
@@ -147,7 +147,7 @@ struct TaskFormView: View {
                 if vm.hasAssigneeError as? Bool ?? false {
                   Text(specString(vm.assigneeError))
                     .font(.callout.bold())
-                    .foregroundStyle(Color.red)
+                    .foregroundStyle(Color(hex: "#db2424"))
                 }
               }
 
@@ -180,9 +180,9 @@ struct TaskFormView: View {
             }
           }
           .padding(CGFloat(12))
-          .background(Color(hex: "#e6f4ff"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(ThemeManager.shared.color("semantic.info-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           HStack(alignment: .center, spacing: CGFloat(12)) {
-            Button(action: { Task { await vm.submitForm() } }) {
+            Button(action: { Task { @MainActor in await vm.submitForm() } }) {
               Text(specString("Create Task"))
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.white)
@@ -204,6 +204,7 @@ struct TaskFormView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

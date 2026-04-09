@@ -42,12 +42,13 @@ struct FABView: View {
         .frame(width: specPx(((specString(vm.label) != specString("")) ? "auto" : vm.btnSize)))
         .frame(height: specPx(vm.btnSize))
         .frame(minWidth: specPx(vm.btnSize))
-        .background(Color.blue, in: RoundedRectangle(cornerRadius: specPx(((specString(vm.label) != specString("")) ? "28px" : "50%"))))
+        .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: specPx(((specString(vm.label) != specString("")) ? "28px" : "50%"))))
         .onTapGesture { /* event callback */ }
       }
       .padding(.bottom, CGFloat(0))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.icon = icon; vm.size = size; vm.label = label }
   }
 }

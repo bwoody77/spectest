@@ -43,28 +43,31 @@ struct ActionSheetView: View {
             VStack() {
               Text(specString(vm.title))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               LazyVStack(spacing: CGFloat(8)) {
                 ForEach(Array((vm.actions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, action in
                   HStack(alignment: .center, ) {
                     Text(specString((action as? [String: Any])?["label"]))
                       .font(.body.bold())
-                      .foregroundStyle(Color.primary)
+                      .foregroundStyle(Color(hex: ({ () -> Any in switch specString((action as? [String: Any])?["destructive"]) {
+case specString(true): return "rgb(239, 68, 68)"
+default: return "#1677ff"
+} })() as? String ?? "#000"))
                   }
                   .padding(CGFloat(12))
                   .onTapGesture { vm.selectAction((action as? [String: Any])?["id"]) }
                 }
               }
             }
-            .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
           }
           HStack(alignment: .center, ) {
             Text(specString("Cancel"))
               .font(.body.bold())
-              .foregroundStyle(Color.blue)
+              .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
           }
           .padding(CGFloat(12))
-          .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
           .onTapGesture { vm.doClose() }
         }
         .padding(CGFloat(8))
@@ -72,7 +75,8 @@ struct ActionSheetView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.actions = actions }
   }
 }

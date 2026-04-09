@@ -14,7 +14,8 @@ struct WizardStepperView: View {
     VStack() {
       StepperView(activeStep: vm.currentStep, orientation: "horizontal", steps: [["id": "info" as Any, "label": "Basic Info" as Any, "description": "Title & assignee" as Any] as [String: Any], ["id": "options" as Any, "label": "Options" as Any, "description": "Priority & dates" as Any] as [String: Any], ["id": "review" as Any, "label": "Review" as Any, "description": "Confirm details" as Any] as [String: Any], ["id": "done" as Any, "label": "Done" as Any, "description": "Task created" as Any] as [String: Any]] as [Any])
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.currentStep = currentStep }
   }
 }

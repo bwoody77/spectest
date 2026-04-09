@@ -70,11 +70,11 @@ default: return "#1e40af"
 } })() as? String ?? "#000"))
           }
         }
-        .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         .frame(width: CGFloat(24))
         .frame(height: CGFloat(24))
         .frame(minWidth: CGFloat(24))
-        .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         .onTapGesture { /* event callback */ }
       }
       .padding(CGFloat(12))
@@ -84,9 +84,10 @@ case specString("success"): return "#f0fdf4"
 case specString("warning"): return "#fffbeb"
 case specString("error"): return "#fef2f2"
 default: return "#eff6ff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.message = message; vm.severity = severity; vm.title = title; vm.dismissible = dismissible }
   }
 }

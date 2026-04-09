@@ -113,7 +113,7 @@ struct TeamDirectoryView: View {
                   .background(specBadgeBackground(specString("neutral")), in: Capsule())
                 Text(specString((user as? [String: Any])?["email"]))
                   .font(.callout.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
 
               HStack(alignment: .center, spacing: CGFloat(8)) {
@@ -136,8 +136,8 @@ struct TeamDirectoryView: View {
 
             }
             .padding(CGFloat(20))
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(12)))
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(12)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -151,7 +151,8 @@ struct TeamDirectoryView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

@@ -176,7 +176,7 @@ struct AppView: View {
           VStack() {
             HStack(alignment: .center, spacing: CGFloat(16)) {
               HStack(alignment: .center, spacing: CGFloat(12)) {
-                Button(action: { Task { await vm.toggleSidebar() } }) {
+                Button(action: { Task { @MainActor in await vm.toggleSidebar() } }) {
                   Text(specString("☰"))
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.blue)
@@ -188,13 +188,13 @@ struct AppView: View {
                   .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
                 Text(specString("Spec Admin"))
                   .font(.title2.bold())
-                  .foregroundStyle(Color.primary)
+                  .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
                 Spacer(minLength: 0)
               }
               .frame(maxWidth: .infinity)
 
               HStack(alignment: .center, spacing: CGFloat(8)) {
-                Button(action: { Task { await vm.toggleThemeDrawer() } }) {
+                Button(action: { Task { @MainActor in await vm.toggleThemeDrawer() } }) {
                   Text(specString("Theme"))
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.blue)
@@ -202,7 +202,7 @@ struct AppView: View {
                     .padding(.vertical, 8)
                     .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8))
                 }
-                Button(action: { Task { await vm.openThemeBuilder() } }) {
+                Button(action: { Task { @MainActor in await vm.openThemeBuilder() } }) {
                   Text(specString("Build Theme"))
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.blue)
@@ -219,7 +219,7 @@ struct AppView: View {
                 }
 
                 Spacer(minLength: 0)
-                Button(action: { Task { await vm.openCommandPalette() } }) {
+                Button(action: { Task { @MainActor in await vm.openCommandPalette() } }) {
                   Text(specString("⌘K"))
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.blue)
@@ -234,16 +234,16 @@ struct AppView: View {
             .padding(.trailing, CGFloat(0))
             .padding(.top, CGFloat(0))
             .padding(.bottom, CGFloat(0))
-            .background(Color.primary)
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-background)"))
+            .background(Color(hex: "var(--spec-background)"))
             VStack() {
               if vm.themeDrawerOpen as? Bool ?? false {
                 HStack(alignment: .center, ) {
                   Text(specString("Themes"))
                     .font(.headline.bold())
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
                   Spacer(minLength: 0)
-                  Button(action: { Task { await vm.closeThemeDrawer() } }) {
+                  Button(action: { Task { @MainActor in await vm.closeThemeDrawer() } }) {
                     Text(specString("✕"))
                       .font(.subheadline.weight(.medium))
                       .foregroundStyle(.blue)
@@ -262,34 +262,34 @@ struct AppView: View {
                         VStack() {
                         }
                         .frame(height: CGFloat(4))
-                        .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                        .background(Color(hex: (theme as? [String: Any])?["accent"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
                         Text(specString("Aa"))
                           .font(.body.bold())
-                          .foregroundStyle(Color.primary)
+                          .foregroundStyle(Color(hex: (theme as? [String: Any])?["fg"] as? String ?? "#000"))
                         Text(specString((theme as? [String: Any])?["label"]))
                           .font(.callout.bold())
-                          .foregroundStyle(Color.primary)
+                          .foregroundStyle(Color(hex: (theme as? [String: Any])?["fg"] as? String ?? "#000"))
                         HStack(alignment: .center, spacing: CGFloat(4)) {
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
                           .frame(height: CGFloat(10))
-                          .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .background(Color(hex: (theme as? [String: Any])?["fg"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
                           .frame(height: CGFloat(10))
-                          .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .background(Color(hex: (theme as? [String: Any])?["accent"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
                           .frame(height: CGFloat(10))
-                          .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .background(Color(hex: (theme as? [String: Any])?["bdr"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                         }
 
                       }
                       .padding(CGFloat(8))
-                      .background(Color.primary, in: RoundedRectangle(cornerRadius: CGFloat(8)))
+                      .background(Color(hex: (theme as? [String: Any])?["bg"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                       .onTapGesture { vm.setThemePreset((theme as? [String: Any])?["value"]) }
                     }
                   }
@@ -302,9 +302,9 @@ struct AppView: View {
               .frame(maxWidth: .infinity)
               .scrollIndicators(.visible)
             }
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             .frame(width: CGFloat(0))
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             VStack() {
               if vm.themeBuilderOpen as? Bool ?? false {
                 HStack(alignment: .center, ) {
@@ -314,13 +314,13 @@ struct AppView: View {
                       .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
                     Text(specString("Theme Builder"))
                       .font(.headline.bold())
-                      .foregroundStyle(Color.primary)
+                      .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
                     Spacer(minLength: 0)
                   }
                   .frame(maxWidth: .infinity)
 
                   Spacer(minLength: 0)
-                  Button(action: { Task { await vm.cancelThemeBuilder() } }) {
+                  Button(action: { Task { @MainActor in await vm.cancelThemeBuilder() } }) {
                     Text(specString("✕"))
                       .font(.subheadline.weight(.medium))
                       .foregroundStyle(.blue)
@@ -340,7 +340,7 @@ struct AppView: View {
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   TextField("", text: Binding(get: { vm.builderSaveName as? String ?? "" }, set: { vm.builderSaveName = $0 }))
-                  Button(action: { Task { await vm.saveBuilderTheme() } }) {
+                  Button(action: { Task { @MainActor in await vm.saveBuilderTheme() } }) {
                     Text(specString("Save"))
                       .font(.subheadline.weight(.semibold))
                       .foregroundStyle(.white)
@@ -351,7 +351,7 @@ struct AppView: View {
                   .disabled((specString(vm.builderSaveName) == specString("")) as? Bool ?? false)
                 }
 
-                Button(action: { Task { await vm.cancelThemeBuilder() } }) {
+                Button(action: { Task { @MainActor in await vm.cancelThemeBuilder() } }) {
                   Text(specString("Cancel — restore previous theme"))
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.blue)
@@ -361,12 +361,12 @@ struct AppView: View {
                 }
               }
               .padding(CGFloat(12))
-              .background(Color.primary)
-              .background(Color.primary)
+              .background(Color(hex: "var(--spec-surface)"))
+              .background(Color(hex: "var(--spec-surface)"))
             }
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             .frame(width: CGFloat(0))
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             VStack() {
               if (specString(vm.themePreset) == specString("stranger-things")) {
               }
@@ -392,9 +392,9 @@ struct AppView: View {
               .padding(.top, CGFloat(0))
               .padding(.bottom, CGFloat(0))
             }
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             .frame(maxHeight: CGFloat(0))
-            .background(Color.primary)
+            .background(Color(hex: "var(--spec-surface-raised)"))
             HStack(alignment: .center, ) {
               SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: [["heading": "Overview" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "bar-chart" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Tasks" as Any, "items": [["id": "detail" as Any, "label": "Task Detail" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Data" as Any, "items": [["id": "datagrid" as Any, "label": "Product Catalog" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "People" as Any, "items": [["id": "team" as Any, "label": "Team" as Any, "icon": "user" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Monitoring" as Any, "items": [["id": "activity" as Any, "label": "Activity" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "icon": "bell" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Performance" as Any, "items": [["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "icon": "zap" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Marketing" as Any, "items": [["id": "landing2" as Any, "label": "Landing Page" as Any, "icon": "globe" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Design" as Any, "items": [["id": "themepreview" as Any, "label": "Theme Preview" as Any, "icon": "palette" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Components" as Any, "items": [["id": "charts" as Any, "label": "Charts" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "icon": "smartphone" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Testing" as Any, "items": [["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "icon": "check-circle" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "System" as Any, "items": [["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any])
               VStack(spacing: CGFloat(20)) {
@@ -542,11 +542,11 @@ struct AppView: View {
 
               }
               .padding(CGFloat(0))
-              .background(Color.primary)
+              .background(Color(hex: "var(--spec-surface)"))
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
               .frame(width: specPx(vm.fullWidth))
-              .background(Color.primary)
+              .background(Color(hex: "var(--spec-surface)"))
               .frame(maxWidth: .infinity)
               .scrollIndicators(.visible)
               Spacer(minLength: 0)
@@ -557,18 +557,19 @@ struct AppView: View {
             .frame(maxWidth: .infinity)
             CommandPaletteView(commands: [["id": "dashboard" as Any, "label": "Dashboard" as Any, "group": "Views" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "group": "Views" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "team" as Any, "label": "Team Directory" as Any, "group": "Views" as Any, "icon": "user" as Any] as [String: Any], ["id": "activity" as Any, "label": "Activity Feed" as Any, "group": "Views" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "group": "Views" as Any, "icon": "bell" as Any] as [String: Any], ["id": "detail" as Any, "label": "Task Detail" as Any, "group": "Tasks" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "group": "Tasks" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "group": "Tasks" as Any, "icon": "list" as Any] as [String: Any], ["id": "datagrid" as Any, "label": "Product Catalog" as Any, "group": "Data" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "group": "Data" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "group": "Data" as Any, "icon": "list" as Any] as [String: Any], ["id": "landing2" as Any, "label": "Landing Page" as Any, "group": "Marketing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "themepreview" as Any, "label": "Theme Preview" as Any, "group": "Design" as Any, "icon": "palette" as Any] as [String: Any], ["id": "charts" as Any, "label": "Charts" as Any, "group": "Components" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "group": "Components" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "group": "Components" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "group": "Components" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "group": "Components" as Any, "icon": "smartphone" as Any] as [String: Any], ["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "group": "Testing" as Any, "icon": "check-circle" as Any] as [String: Any], ["id": "perfgrid" as Any, "label": "Grid Performance" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Performance" as Any, "group": "Performance" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "group": "System" as Any, "icon": "settings" as Any] as [String: Any]] as [Any], open: vm.commandPaletteOpen, placeholder: "Search views, actions...")
           }
-          .background(Color.primary)
+          .background(Color(hex: "var(--spec-surface)"))
           .frame(minHeight: CGFloat(0))
           .frame(minWidth: CGFloat(0))
-          .background(Color.primary)
+          .background(Color(hex: "var(--spec-surface)"))
           .frame(maxWidth: .infinity)
         }
       }
-      .background(Color.primary)
+      .background(Color(hex: "none"))
       .frame(height: specPx(vm.fullHeight))
-      .background(Color.primary)
+      .background(Color(hex: "none"))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

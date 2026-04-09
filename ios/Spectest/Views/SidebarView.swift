@@ -26,12 +26,12 @@ struct SidebarView: View {
             HStack(alignment: .center, ) {
               Text(specString("u00BB"))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .frame(width: CGFloat(32))
             .frame(height: CGFloat(32))
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { /* event callback */ }
           }
         }
@@ -41,12 +41,12 @@ struct SidebarView: View {
             HStack(alignment: .center, ) {
               Text(specString("u00AB"))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .frame(width: CGFloat(32))
             .frame(height: CGFloat(32))
-            .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { /* event callback */ }
           }
         }
@@ -57,7 +57,7 @@ struct SidebarView: View {
               if ((specString(vm.collapsed) == specString(false)) && (section as? [String: Any])?["title"] != nil) {
                 Text(specString((section as? [String: Any])?["title"]))
                   .font(.body.bold())
-                  .foregroundStyle(.tertiary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
             }
             .padding(CGFloat(8))
@@ -83,7 +83,7 @@ struct SidebarView: View {
                   .opacity(specPx(((specString(vm.collapsed) == specString(false)) ? 1 : 0)))
                 }
                 .padding(CGFloat(8))
-                .background(Color(hex: ((specString((item as? [String: Any])?["id"]) == specString(vm.activeItem)) ? "#ffffff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+                .background(Color(hex: ((specString((item as? [String: Any])?["id"]) == specString(vm.activeItem)) ? "#ffffff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 .onTapGesture { /* event callback */ }
               }
             }
@@ -95,13 +95,14 @@ struct SidebarView: View {
         .frame(maxWidth: .infinity)
         .scrollIndicators(.visible)
       }
-      .background(Color(.systemGroupedBackground))
+      .background(ThemeManager.shared.color("semantic.surface"))
       .frame(width: specPx(((vm.collapsed) as? Bool ?? false ? vm.collapsedWidth : vm.width)))
       .frame(height: CGFloat(0))
       .frame(minWidth: specPx(((vm.collapsed) as? Bool ?? false ? vm.collapsedWidth : vm.width)))
-      .background(Color(.systemGroupedBackground))
+      .background(ThemeManager.shared.color("semantic.surface"))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.sections = sections; vm.activeItem = activeItem; vm.collapsed = collapsed; vm.width = width; vm.collapsedWidth = collapsedWidth }
   }
 }

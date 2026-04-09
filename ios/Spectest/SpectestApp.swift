@@ -10,6 +10,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
   case activity, notifications
   case perfgrid, perfsignals, reactivityperf
   case themepreview
+  case themepicker
   case charts, drag, formdemo, routing, mobiledemo
   case featuretest
   case settings
@@ -33,6 +34,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .perfsignals: return "Signal Test"
     case .reactivityperf: return "Reactivity Perf"
     case .themepreview: return "Theme Preview"
+    case .themepicker: return "Change Theme"
     case .charts: return "Charts"
     case .drag: return "Drag & Drop"
     case .formdemo: return "Form Validation"
@@ -60,6 +62,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .perfsignals: return "waveform.path.ecg"
     case .reactivityperf: return "gauge.with.dots.needle.67percent"
     case .themepreview: return "paintpalette.fill"
+    case .themepicker: return "paintbrush.fill"
     case .charts: return "chart.pie.fill"
     case .drag: return "hand.draw.fill"
     case .formdemo: return "doc.text.fill"
@@ -78,7 +81,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
       ("People", [.team]),
       ("Monitoring", [.activity, .notifications]),
       ("Performance", [.perfgrid, .perfsignals, .reactivityperf]),
-      ("Design", [.themepreview]),
+      ("Design", [.themepreview, .themepicker]),
       ("Components", [.charts, .drag, .formdemo, .routing, .mobiledemo]),
       ("Testing", [.featuretest]),
       ("System", [.settings]),
@@ -90,6 +93,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
 
 struct ContentDestinationView: View {
   let destination: NavDestination
+  @State private var showThemeDrawer = false
 
   var body: some View {
     ScrollView {
@@ -99,6 +103,31 @@ struct ContentDestinationView: View {
     }
     .navigationTitle(destination.title)
     .navigationBarTitleDisplayMode(.large)
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button {
+          showThemeDrawer = true
+        } label: {
+          Image(systemName: "paintpalette")
+        }
+      }
+    }
+    .sheet(isPresented: $showThemeDrawer) {
+      NavigationStack {
+        ScrollView {
+          SpecThemePickerView()
+            .padding()
+        }
+        .navigationTitle("Theme")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            Button("Done") { showThemeDrawer = false }
+          }
+        }
+      }
+      .presentationDetents([.medium, .large])
+    }
   }
 
   @ViewBuilder
@@ -123,6 +152,7 @@ struct ContentDestinationView: View {
     case .perfsignals: PerfSignalsView()
     case .reactivityperf: ReactivityPerfView()
     case .themepreview: ThemePreviewView()
+    case .themepicker: SpecThemePickerView()
     case .charts: ChartDemoView()
     case .drag: DragDemoView()
     case .formdemo: FormDemoView()
@@ -269,6 +299,11 @@ struct AdaptiveRootView: View {
 
 @main
 struct SpectestApp: App {
+  init() {
+    SpecThemeRegistry.registerAll()
+    SpecThemeRegistry.loadSavedTheme()
+  }
+
   var body: some Scene {
     WindowGroup {
       AdaptiveRootView()

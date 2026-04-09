@@ -4,6 +4,63 @@
 
 import Foundation
 import SwiftUI
+import SpecRuntime
+
+// MARK: - Theme Picker
+
+struct SpecThemePickerView: View {
+    var body: some View {
+        LazyVStack(spacing: 8) {
+            ForEach(SpecThemeRegistry.allThemeNames, id: \.self) { name in
+                SpecThemeRow(name: name, isActive: name == ThemeManager.shared.activeTheme)
+            }
+        }
+    }
+}
+
+private struct SpecThemeRow: View {
+    let name: String
+    let isActive: Bool
+    private var tokens: [String: String] { SpecThemeRegistry.tokens(for: name) }
+
+    var body: some View {
+        Button {
+            ThemeManager.shared.applyThemeByName(name)
+        } label: {
+            HStack(spacing: 12) {
+                HStack(spacing: 3) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color(hex: tokens["semantic.surface"] ?? "#f7f7f8"))
+                        .frame(width: 20, height: 28)
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color(hex: tokens["semantic.interactive"] ?? "#3b82f6"))
+                        .frame(width: 20, height: 28)
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color(hex: tokens["semantic.text-primary"] ?? "#202732"))
+                        .frame(width: 20, height: 28)
+                }
+                .padding(4)
+                .background(Color(hex: tokens["semantic.background"] ?? "#f7f7f8"), in: RoundedRectangle(cornerRadius: 6))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(name.capitalized.replacingOccurrences(of: "-", with: " "))
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(.primary)
+                    if isActive {
+                        Text("Active").font(.caption).foregroundStyle(.blue)
+                    }
+                }
+                Spacer()
+                if isActive {
+                    Image(systemName: "checkmark.circle.fill").foregroundStyle(.blue).font(.title3)
+                }
+            }
+            .padding(12)
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+    }
+}
 
 // MARK: - Chart (Swift Charts)
 

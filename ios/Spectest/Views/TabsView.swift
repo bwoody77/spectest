@@ -46,7 +46,8 @@ default: return "#496183"
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.tabs = tabs; vm.activeTab = activeTab }
   }
 }

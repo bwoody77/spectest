@@ -16,15 +16,15 @@ struct WizardDoneView: View {
           .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
         Text(specString("Task Created!"))
           .font(.title2.bold())
-          .foregroundStyle(Color(hex: "#135200"))
+          .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
         Text(specString("Your task has been successfully submitted."))
           .font(.body.bold())
-          .foregroundStyle(Color(hex: "#389e0d"))
+          .foregroundStyle(ThemeManager.shared.color("semantic.success-mid"))
       }
       .padding(CGFloat(24))
-      .background(LinearGradient(colors: [Color(hex: "#f6ffed"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(12)))
+      .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { Task { await vm.dispatch("restart") } }) {
+        Button(action: { Task { @MainActor in await vm.dispatch("restart") } }) {
           Text(specString("Create Another"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -35,6 +35,7 @@ struct WizardDoneView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

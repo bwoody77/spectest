@@ -30,7 +30,8 @@ case specString("deploy"): return "#06b6d4"
 default: return "#64748b"
 } })() as? String ?? "#000"))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.activityType = activityType }
   }
 }

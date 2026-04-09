@@ -22,7 +22,7 @@ struct TableView: View {
             VStack() {
               Text(specString((col as? [String: Any])?["header"]))
                 .font(.body.bold())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(12))
             .frame(minHeight: CGFloat(0))
@@ -31,8 +31,8 @@ struct TableView: View {
             .frame(maxWidth: .infinity)
           }
         }
-        .background(Color(.secondarySystemGroupedBackground))
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(ThemeManager.shared.color("semantic.on-destructive"))
+        .background(ThemeManager.shared.color("semantic.on-destructive"))
         ForEach(Array((vm.rows as? [Any] ?? []).enumerated()), id: \.offset) { rowIndex, row in
           HStack(alignment: .center, ) {
             ForEach(Array((vm.columns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
@@ -40,7 +40,7 @@ struct TableView: View {
                 // slot
                 Text(specString((row as? [Any])?[(col as? [String: Any])?["key"] as? Int ?? 0]))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
               .frame(minHeight: CGFloat(0))
@@ -65,11 +65,12 @@ default: return "transparent"
 } })() as? String ?? "#000"))
         }
       }
-      .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
-      .clipShape(RoundedRectangle(cornerRadius: CGFloat(8)))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       .scrollIndicators(.visible)
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.columns = columns; vm.rows = rows; vm.striped = striped }
   }
 }

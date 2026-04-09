@@ -89,7 +89,7 @@ struct SettingsPanelView: View {
 
       Text(specString(vm.settingsSummary))
         .font(.callout.bold())
-        .foregroundStyle(.secondary)
+        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack() {
         if vm.savedVisible as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
@@ -129,7 +129,7 @@ struct SettingsPanelView: View {
                 if vm.hasNameError as? Bool ?? false {
                   Text(specString(vm.nameError))
                     .font(.callout.bold())
-                    .foregroundStyle(Color.red)
+                    .foregroundStyle(Color(hex: "#db2424"))
                 }
               }
 
@@ -144,7 +144,7 @@ struct SettingsPanelView: View {
                 if vm.hasEmailError as? Bool ?? false {
                   Text(specString(vm.emailError))
                     .font(.callout.bold())
-                    .foregroundStyle(Color.red)
+                    .foregroundStyle(Color(hex: "#db2424"))
                 }
               }
 
@@ -248,7 +248,7 @@ struct SettingsPanelView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { Task { await vm.saveSettings() } }) {
+        Button(action: { Task { @MainActor in await vm.saveSettings() } }) {
           Text(specString("Save Settings"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -266,6 +266,7 @@ struct SettingsPanelView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

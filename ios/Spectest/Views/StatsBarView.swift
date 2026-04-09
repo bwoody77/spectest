@@ -28,7 +28,7 @@ struct StatsBarView: View {
             .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
           Text(specString("Total Tasks"))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
@@ -39,7 +39,7 @@ struct StatsBarView: View {
         }
       }
       .padding(CGFloat(16))
-      .background(LinearGradient(colors: [Color(hex: "#e6f4ff"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
@@ -47,7 +47,7 @@ struct StatsBarView: View {
             .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
           Text(specString("Completed"))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
@@ -60,7 +60,7 @@ struct StatsBarView: View {
           .tint(.accentColor)
       }
       .padding(CGFloat(16))
-      .background(LinearGradient(colors: [Color(hex: "#f6ffed"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
@@ -68,7 +68,7 @@ struct StatsBarView: View {
             .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
           Text(specString("In Progress"))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
@@ -81,7 +81,7 @@ struct StatsBarView: View {
           .tint(.accentColor)
       }
       .padding(CGFloat(16))
-      .background(LinearGradient(colors: [Color(hex: "#fffbe6"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
@@ -89,7 +89,7 @@ struct StatsBarView: View {
             .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "#000"))
           Text(specString("Todo"))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
@@ -102,9 +102,10 @@ struct StatsBarView: View {
           .tint(.accentColor)
       }
       .padding(CGFloat(16))
-      .background(LinearGradient(colors: [Color(.systemGroupedBackground), Color(.separator)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.border")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.total = total; vm.done = done; vm.inProgress = inProgress; vm.todo = todo }
   }
 }

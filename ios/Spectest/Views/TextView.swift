@@ -20,7 +20,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("heading-xl")) {
           Text(specString(vm.content))
             .font(.title.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
       }
 
@@ -28,7 +28,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("heading-lg")) {
           Text(specString(vm.content))
             .font(.title2.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
       }
 
@@ -36,7 +36,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("heading-md")) {
           Text(specString(vm.content))
             .font(.title3.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
       }
 
@@ -44,7 +44,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("heading-sm")) {
           Text(specString(vm.content))
             .font(.headline.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
       }
 
@@ -52,7 +52,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("body-lg")) {
           Text(specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
       }
 
@@ -60,7 +60,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("body-md")) {
           Text(specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
       }
 
@@ -68,7 +68,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("body-sm")) {
           Text(specString(vm.content))
             .font(.callout.bold())
-            .foregroundStyle(.secondary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
       }
 
@@ -76,7 +76,7 @@ struct TextView: View {
         if (specString(vm.variant) == specString("label-sm")) {
           Text(specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
       }
 
@@ -84,12 +84,13 @@ struct TextView: View {
         if (specString(vm.variant) == specString("caption")) {
           Text(specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         }
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.content = content; vm.variant = variant; vm.selectable = selectable }
   }
 }

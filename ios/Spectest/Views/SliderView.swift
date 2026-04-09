@@ -33,18 +33,18 @@ struct SliderView: View {
           if (specString(vm.label) != specString("")) {
             Text(specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           Text(specString("\(specString(vm.displayValue))"))
             .font(.body.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
 
         HStack(alignment: .center, ) {
           if (specString(vm.label) == specString("")) {
             Text(specString("\(specString(vm.displayValue))"))
               .font(.body.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
         }
 
@@ -52,7 +52,8 @@ struct SliderView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.min = min; vm.max = max; vm.step = step; vm.value = value; vm.label = label; vm.disabled = disabled }
   }
 }

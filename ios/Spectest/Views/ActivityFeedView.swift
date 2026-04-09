@@ -147,20 +147,21 @@ struct ActivityFeedView: View {
                   .font(.callout.bold())
                 Text(specString((item as? [String: Any])?["timestamp"]))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
 
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
             .padding(CGFloat(12))
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
         }
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

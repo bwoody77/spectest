@@ -19,26 +19,26 @@ struct SkeletonView: View {
         }
         .opacity(CGFloat(0.7))
         .frame(height: CGFloat(80))
-        .background(Color(.separator), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         HStack(alignment: .center, spacing: CGFloat(12)) {
           VStack() {
           }
           .opacity(CGFloat(0.7))
           .frame(width: CGFloat(48))
           .frame(height: CGFloat(48))
-          .background(Color(.separator), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+          .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
           VStack(spacing: CGFloat(8)) {
             VStack() {
             }
             .opacity(CGFloat(0.7))
             .frame(height: CGFloat(14))
-            .background(Color(.separator), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+            .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
             VStack() {
             }
             .opacity(CGFloat(0.7))
             .frame(width: CGFloat(0))
             .frame(height: CGFloat(14))
-            .background(Color(.separator), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+            .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           }
           .frame(minHeight: CGFloat(0))
           .frame(minWidth: CGFloat(0))
@@ -49,7 +49,8 @@ struct SkeletonView: View {
       .frame(width: specPx(vm.width))
       .frame(height: specPx(vm.height))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.width = width; vm.height = height }
   }
 }

@@ -43,7 +43,7 @@ struct TextInputView: View {
           if (specString(vm.label) != specString("")) {
             Text(specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
@@ -52,7 +52,7 @@ struct TextInputView: View {
             if (specString(vm.prefix) != specString("")) {
               Text(specString(vm.prefix))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
 
@@ -76,18 +76,18 @@ struct TextInputView: View {
             if (specString(vm.suffix) != specString("")) {
               Text(specString(vm.suffix))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
 
         }
         .padding(CGFloat(8))
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
           if (specString(vm.error) == specString(true)) {
             Text(specString(vm.errorMessage))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: "#ff4d4f"))
+              .foregroundStyle(ThemeManager.shared.color("semantic.destructive"))
           }
         }
 
@@ -97,7 +97,8 @@ case specString(true): return 0.5
 default: return 1
 } })()))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.type = type; vm.label = label; vm.placeholder = placeholder; vm.value = value; vm.disabled = disabled; vm.readonly = readonly; vm.prefix = prefix; vm.suffix = suffix; vm.error = error; vm.errorMessage = errorMessage }
   }
 }

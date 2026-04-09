@@ -36,12 +36,12 @@ struct TreeDemoView: View {
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
         Text(specString("Category Browser"))
           .font(.title2.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
       .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(8)) {
         if vm.categoriesLoading as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
@@ -100,7 +100,7 @@ struct TreeDemoView: View {
             TreeView(expanded: [] as [Any], nodes: vm.categoryList, selection: "single")
           }
           .padding(CGFloat(12))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .scrollIndicators(.visible)
         }
         VStack(spacing: CGFloat(16)) {
@@ -115,30 +115,30 @@ struct TreeDemoView: View {
             if vm.hasSelection as? Bool ?? false {
               Text(specString(vm.selectedLabel))
                 .font(.title2.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             VStack(spacing: CGFloat(12)) {
               HStack(alignment: .center, spacing: CGFloat(8)) {
                 Text(specString("ID:"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.selectedId))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
 
               HStack(alignment: .center, spacing: CGFloat(8)) {
                 Text(specString("Name:"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.selectedLabel))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
 
             }
             .padding(CGFloat(16))
-            .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               Button(action: {  }) {
                 Text(specString("Add Subcategory"))
@@ -170,11 +170,12 @@ struct TreeDemoView: View {
 
         }
         .padding(CGFloat(20))
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       .frame(minHeight: specPx(vm.treeMinHeight))
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

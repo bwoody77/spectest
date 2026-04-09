@@ -16,7 +16,7 @@ struct CheckboxView: View {
   init(checked: Any = false, disabled: Any = false, label: Any? = nil) { self._vm = State(initialValue: CheckboxViewModel()); self.checked = checked; self.disabled = disabled; self.label = label }
   var body: some View {
     VStack() {
-      Button(action: { /* event callback */ }) {
+      Button(action: {  }) {
         HStack(alignment: .center, ) {
           VStack() {
             if (specString(vm.checked) == specString(true)) {
@@ -35,7 +35,7 @@ default: return "transparent"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(5)))
         Text(specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
       .padding(CGFloat(0))
       .background(Color.clear)
@@ -45,7 +45,8 @@ default: return 1
 } })()))
       .background(Color.clear)
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.checked = checked; vm.disabled = disabled }
   }
 }

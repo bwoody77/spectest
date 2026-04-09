@@ -52,7 +52,7 @@ struct TimePickerView: View {
           if (specString(vm.label) != specString("")) {
             Text(specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
@@ -60,37 +60,37 @@ struct TimePickerView: View {
           VStack(spacing: CGFloat(4)) {
             Text(specString("Hr"))
               .font(.body.bold())
-              .foregroundStyle(.tertiary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             HStack(alignment: .center, spacing: CGFloat(4)) {
               VStack() {
                 Text(specString("u25BC"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .onTapGesture { if (specString(vm.disabled) == specString(false)) as? Bool ?? false {
   vm.decHour()
 } }
               HStack(alignment: .center, ) {
                 Text(specString(vm.formattedH))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
-              .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               VStack() {
                 Text(specString("u25B2"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .onTapGesture { if (specString(vm.disabled) == specString(false)) as? Bool ?? false {
   vm.incHour()
 } }
@@ -100,41 +100,41 @@ struct TimePickerView: View {
 
           Text(specString(":"))
             .font(.headline.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           VStack(spacing: CGFloat(4)) {
             Text(specString("Min"))
               .font(.body.bold())
-              .foregroundStyle(.tertiary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             HStack(alignment: .center, spacing: CGFloat(4)) {
               VStack() {
                 Text(specString("u25BC"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .onTapGesture { if (specString(vm.disabled) == specString(false)) as? Bool ?? false {
   vm.decMinute()
 } }
               HStack(alignment: .center, ) {
                 Text(specString(vm.formattedM))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
-              .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+              .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               VStack() {
                 Text(specString("u25B2"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(6)))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .onTapGesture { if (specString(vm.disabled) == specString(false)) as? Bool ?? false {
   vm.incMinute()
 } }
@@ -151,13 +151,13 @@ struct TimePickerView: View {
             HStack(alignment: .center, ) {
               Text(specString(vm.ampm))
                 .font(.body.bold())
-                .foregroundStyle(.primary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             .padding(CGFloat(8))
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
             .frame(minWidth: CGFloat(48))
             .frame(minHeight: CGFloat(36))
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { if (specString(vm.disabled) == specString(false)) as? Bool ?? false {
   vm.toggleAmPm()
 } }
@@ -168,7 +168,8 @@ struct TimePickerView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value; vm.format = format; vm.minuteStep = minuteStep; vm.label = label; vm.disabled = disabled }
   }
 }

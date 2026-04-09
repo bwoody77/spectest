@@ -53,17 +53,17 @@ struct DataGridDemoView: View {
             .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
           Text(specString("Product Catalog"))
             .font(.title2.bold())
-            .foregroundStyle(.primary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
 
         Text(specString(vm.productCount))
           .font(.callout.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
       .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
         if vm.productsLoading as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
@@ -98,7 +98,7 @@ struct DataGridDemoView: View {
           DataGridView(columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any], rows: vm.pagedProducts, selection: "single")
         }
       }
-      .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       HStack(alignment: .center, ) {
         if !(vm.productsLoading as? Bool ?? false) {
           HStack(spacing: 8) {
@@ -121,7 +121,7 @@ struct DataGridDemoView: View {
           VStack(spacing: CGFloat(16)) {
             Text(specString(vm.selectedName))
               .font(.title2.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             VStack() {
               if vm.stockWarning as? Bool ?? false {
                 HStack(alignment: .top, spacing: 12) {
@@ -143,10 +143,10 @@ struct DataGridDemoView: View {
                 VStack(spacing: CGFloat(4)) {
                   Text(specString("Category"))
                     .font(.body.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   Text(specString(vm.selectedCategory))
                     .font(.body.bold())
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(12))
               }
@@ -155,10 +155,10 @@ struct DataGridDemoView: View {
                 VStack(spacing: CGFloat(4)) {
                   Text(specString("Price"))
                     .font(.body.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   Text(specString(vm.selectedPrice))
                     .font(.title3.bold())
-                    .foregroundStyle(Color.blue)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                 }
                 .padding(CGFloat(12))
               }
@@ -167,7 +167,7 @@ struct DataGridDemoView: View {
                 VStack(spacing: CGFloat(4)) {
                   Text(specString("Stock"))
                     .font(.body.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   VStack(alignment: .leading, spacing: 4) {
                     Text(specString("\(specString(vm.selectedStock))")).font(.system(size: 32, weight: .bold, design: .rounded))
                     Text(specString("units")).font(.subheadline).foregroundStyle(.secondary)
@@ -180,10 +180,10 @@ struct DataGridDemoView: View {
                 VStack(spacing: CGFloat(4)) {
                   Text(specString("Rating"))
                     .font(.body.bold())
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   Text(specString(vm.selectedRating))
                     .font(.body.bold())
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(12))
               }
@@ -194,10 +194,10 @@ struct DataGridDemoView: View {
               VStack(spacing: CGFloat(4)) {
                 Text(specString("SKU"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.selectedSku))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
 
               Spacer(minLength: 0)
@@ -210,9 +210,9 @@ struct DataGridDemoView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(CGFloat(12))
-            .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             HStack(alignment: .center, spacing: CGFloat(12)) {
-              Button(action: { Task { await vm.closeDrawer() } }) {
+              Button(action: { Task { @MainActor in await vm.closeDrawer() } }) {
                 Text(specString("Edit Product"))
                   .font(.subheadline.weight(.semibold))
                   .foregroundStyle(.white)
@@ -220,7 +220,7 @@ struct DataGridDemoView: View {
                   .padding(.vertical, 8)
                   .background(.blue, in: RoundedRectangle(cornerRadius: 8))
               }
-              Button(action: { Task { await vm.closeDrawer() } }) {
+              Button(action: { Task { @MainActor in await vm.closeDrawer() } }) {
                 Text(specString("Close"))
                   .font(.subheadline.weight(.medium))
                   .foregroundStyle(.blue)
@@ -236,7 +236,8 @@ struct DataGridDemoView: View {
         .presentationDetents([.medium, .large])
       }
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
   }

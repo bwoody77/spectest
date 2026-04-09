@@ -16,16 +16,16 @@ struct ToggleView: View {
   init(checked: Any = false, disabled: Any = false, label: Any? = nil) { self._vm = State(initialValue: ToggleViewModel()); self.checked = checked; self.disabled = disabled; self.label = label }
   var body: some View {
     VStack() {
-      Button(action: { /* event callback */ }) {
+      Button(action: {  }) {
         Text(specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(.secondary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack() {
           VStack() {
           }
           .frame(width: CGFloat(18))
           .frame(height: CGFloat(18))
-          .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(9999)))
+          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(44))
         .frame(height: CGFloat(24))
@@ -42,7 +42,8 @@ default: return 1
 } })()))
       .background(Color.clear)
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.checked = checked; vm.disabled = disabled }
   }
 }

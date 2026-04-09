@@ -45,7 +45,7 @@ struct TaskDetailView: View {
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
         Text(specString("Task Detail"))
           .font(.title2.bold())
-          .foregroundStyle(.primary)
+          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
@@ -62,10 +62,10 @@ struct TaskDetailView: View {
           VStack() {
             Text(specString(vm.detailHeading))
               .font(.title3.bold())
-              .foregroundStyle(.primary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
           .padding(CGFloat(16))
-          .background(Color(.systemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           AsyncImage(url: URL(string: specString("https://via.placeholder.com/64"))) { image in
             image.resizable().aspectRatio(contentMode: .fit)
           } placeholder: {
@@ -77,7 +77,7 @@ struct TaskDetailView: View {
               VStack(spacing: CGFloat(8)) {
                 Text(specString("Status"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 SpecStatusPill(status: specString(vm.taskStatus))
               }
               .padding(CGFloat(12))
@@ -87,7 +87,7 @@ struct TaskDetailView: View {
               VStack(spacing: CGFloat(8)) {
                 Text(specString("Priority"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 SpecPriorityPill(priority: specString(vm.taskPriority))
               }
               .padding(CGFloat(12))
@@ -97,10 +97,10 @@ struct TaskDetailView: View {
               VStack(spacing: CGFloat(8)) {
                 Text(specString("Assignee"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.taskAssignee))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
             }
@@ -109,10 +109,10 @@ struct TaskDetailView: View {
               VStack(spacing: CGFloat(8)) {
                 Text(specString("Created"))
                   .font(.body.bold())
-                  .foregroundStyle(.secondary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.taskDate))
                   .font(.body.bold())
-                  .foregroundStyle(.primary)
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
             }
@@ -120,7 +120,7 @@ struct TaskDetailView: View {
           }
 
           HStack(alignment: .center, spacing: CGFloat(12)) {
-            Button(action: { Task { await vm.goBack() } }) {
+            Button(action: { Task { @MainActor in await vm.goBack() } }) {
               Text(specString("Back to Dashboard"))
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.blue)
@@ -128,7 +128,7 @@ struct TaskDetailView: View {
                 .padding(.vertical, 8)
                 .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8))
             }
-            Button(action: { Task { await vm.showDeleteConfirm() } }) {
+            Button(action: { Task { @MainActor in await vm.showDeleteConfirm() } }) {
               Text(specString("Delete Task"))
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(specString("destructive") == "primary" ? .white : .blue)
@@ -139,7 +139,7 @@ struct TaskDetailView: View {
           }
 
           EmptyView().confirmationDialog(specString("Delete Task"), isPresented: Binding(get: { vm.confirmingDelete as? Bool ?? false }, set: { vm.confirmingDelete = $0 })) {
-            Button("Confirm") { Task { await vm.confirmDelete() } }
+            Button("Confirm") { Task { @MainActor in await vm.confirmDelete() } }
             Button("Cancel", role: .cancel) {}
           } message: {
             Text(specString("Are you sure you want to delete this task? This action cannot be undone."))
@@ -148,7 +148,8 @@ struct TaskDetailView: View {
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.task = task; vm.view = view }
   }
 }

@@ -73,7 +73,7 @@ struct SelectView: View {
           if (specString(vm.label) != specString("")) {
             Text(specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(.secondary)
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
@@ -83,12 +83,12 @@ struct SelectView: View {
             .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "#000"))
           Text(specString("u25BE"))
             .font(.body.bold())
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         }
         .padding(CGFloat(8))
         .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
         .frame(minHeight: CGFloat(40))
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.toggleOpen() }
         VStack() {
           if (specString(vm.open) == specString(true)) {
@@ -121,7 +121,7 @@ default: return ({ () -> Any in switch specString((specString((option as? [Strin
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(6)))
+} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   .onTapGesture { vm.selectOption((option as? [String: Any])?["value"]) }
                 }
               }
@@ -132,19 +132,20 @@ default: return "transparent"
             if (specString(vm.hasOptions) == specString(false)) {
               Text(specString("No options"))
                 .font(.body.bold())
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
           .padding(CGFloat(12))
         }
         .padding(CGFloat(4))
         .frame(maxHeight: CGFloat(240))
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: CGFloat(8)))
+        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .scrollIndicators(.visible)
       }
 
     }
-    .foregroundStyle(.primary)
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.value = value; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label }
   }
 }
