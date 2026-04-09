@@ -35,6 +35,7 @@ final class TimePickerViewModel {
     ampm = ((specString(ampm) == specString("AM")) ? "PM" : "AM")
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TimePickerView: View {
@@ -169,6 +170,7 @@ struct TimePickerView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value; vm.format = format; vm.minuteStep = minuteStep; vm.label = label; vm.disabled = disabled }
   }

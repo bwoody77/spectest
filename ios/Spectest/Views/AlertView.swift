@@ -7,6 +7,7 @@ final class AlertViewModel {
   var message: Any? = nil
   var severity: Any = "info"
   var title: Any = ""
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct AlertView: View {
@@ -87,6 +88,7 @@ default: return "#eff6ff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.message = message; vm.severity = severity; vm.title = title; vm.dismissible = dismissible }
   }

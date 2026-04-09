@@ -16,6 +16,7 @@ default: return [id] as [Any]
 } })()
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct AccordionView: View {
@@ -63,6 +64,7 @@ default: return "0"
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items; vm.multiple = multiple }
   }

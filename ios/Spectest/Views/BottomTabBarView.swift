@@ -9,6 +9,7 @@ final class BottomTabBarViewModel {
   func selectTab(_ tabId: Any) {
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct BottomTabBarView: View {
@@ -51,6 +52,7 @@ struct BottomTabBarView: View {
       .background(ThemeManager.shared.color("semantic.surface"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.tabs = tabs; vm.activeTab = activeTab; vm.showLabels = showLabels }
   }

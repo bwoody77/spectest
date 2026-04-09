@@ -5,6 +5,7 @@ import SpecRuntime
 final class SkeletonViewModel {
   var height: Any = ""
   var width: Any = "100%"
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SkeletonView: View {
@@ -50,6 +51,7 @@ struct SkeletonView: View {
       .frame(height: specPx(vm.height))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.width = width; vm.height = height }
   }

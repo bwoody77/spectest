@@ -21,6 +21,7 @@ final class TaskTableViewModel {
     selectedTask = t
     view = "detail"
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await tasksSource.fetch()
   }
@@ -135,6 +136,7 @@ struct TaskTableView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

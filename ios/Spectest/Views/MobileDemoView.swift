@@ -41,6 +41,7 @@ final class MobileDemoViewModel {
   func handleSwipeRight() {
     openSheet()
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct MobileDemoView: View {
@@ -187,6 +188,7 @@ struct MobileDemoView: View {
       .background(ThemeManager.shared.color("semantic.surface"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.api = api }
   }

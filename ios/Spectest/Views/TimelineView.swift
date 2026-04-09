@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class TimelineViewModel {
   var items: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TimelineView: View {
@@ -85,6 +86,7 @@ default: return "#d1d5db"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items }
   }

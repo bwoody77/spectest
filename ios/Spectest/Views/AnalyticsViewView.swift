@@ -25,6 +25,7 @@ final class AnalyticsViewViewModel {
   var tasks: Any? { tasksSource.data }
   var tasksLoading: Bool { tasksSource.loading }
   var tasksError: String? { tasksSource.error }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await statsSource.fetch()
     await tasksSource.fetch()
@@ -292,6 +293,7 @@ struct AnalyticsViewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

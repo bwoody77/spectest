@@ -5,6 +5,7 @@ import SpecRuntime
 final class UserAvatarViewModel {
   var bgColor: Any? = nil
   var name: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct UserAvatarView: View {
@@ -23,6 +24,7 @@ struct UserAvatarView: View {
       .background(Color(hex: vm.bgColor as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.name = name; vm.bgColor = bgColor }
   }

@@ -22,6 +22,7 @@ final class ChartViewModel {
   var resolvedSeries: Any { resolveSeries(type, series, yKey, color, colors) }
   var legendItems: Any { ((isPie) as? Bool ?? false ? resolveSegmentMeta(data, colors, labelKey) : resolvedSeries) }
   var showLegendBar: Any { (showLegend as? Bool ?? false && (isPie as? Bool ?? false || ((specLength(resolvedSeries) as? Double ?? 0) > (1 as? Double ?? 0)))) }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ChartView: View {
@@ -93,6 +94,7 @@ struct ChartView: View {
       .frame(height: specPx(vm.height))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.type = type; vm.data = data; vm.series = series; vm.xKey = xKey; vm.yKey = yKey; vm.labelKey = labelKey; vm.valueKey = valueKey; vm.color = color; vm.colors = colors; vm.height = height; vm.title = title; vm.showLegend = showLegend; vm.showGrid = showGrid; vm.showValues = showValues }
   }

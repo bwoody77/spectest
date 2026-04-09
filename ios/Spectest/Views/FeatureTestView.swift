@@ -40,6 +40,7 @@ default: return "many"
   }
   func noOp(_ items: Any) {
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct FeatureTestView: View {
@@ -545,6 +546,7 @@ struct FeatureTestView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

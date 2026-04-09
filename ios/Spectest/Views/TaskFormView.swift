@@ -59,6 +59,7 @@ final class TaskFormViewModel {
   func dismissSuccess() {
     submitted = false
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TaskFormView: View {
@@ -205,6 +206,7 @@ struct TaskFormView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

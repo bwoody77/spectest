@@ -8,6 +8,7 @@ final class StepperViewModel {
   var orientation: Any = "horizontal"
   var steps: Any = [] as [Any]
   var stepCount: Any { specLength(steps) }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct StepperView: View {
@@ -141,6 +142,7 @@ default: return "#92a2b9"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.steps = steps; vm.activeStep = activeStep; vm.orientation = orientation; vm.allowBack = allowBack }
   }

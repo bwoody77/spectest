@@ -191,6 +191,7 @@ final class ThemePreviewViewModel {
   func setTreeSelected(_ id: Any) {
     treeSelectedName = id
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ThemePreviewView: View {
@@ -1398,6 +1399,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

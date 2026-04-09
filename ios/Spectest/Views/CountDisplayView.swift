@@ -5,6 +5,7 @@ import SpecRuntime
 final class CountDisplayViewModel {
   var value: Any? = nil
   var changes: Any = 0
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct CountDisplayView: View {
@@ -25,6 +26,7 @@ struct CountDisplayView: View {
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value }
   }

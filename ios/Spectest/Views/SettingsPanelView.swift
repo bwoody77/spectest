@@ -71,6 +71,7 @@ final class SettingsPanelViewModel {
   func dismissSaved() {
     saved = false
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SettingsPanelView: View {
@@ -267,6 +268,7 @@ struct SettingsPanelView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

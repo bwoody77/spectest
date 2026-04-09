@@ -5,6 +5,7 @@ import SpecRuntime
 final class TabsViewModel {
   var activeTab: Any = ""
   var tabs: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TabsView: View {
@@ -47,6 +48,7 @@ default: return "#496183"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.tabs = tabs; vm.activeTab = activeTab }
   }

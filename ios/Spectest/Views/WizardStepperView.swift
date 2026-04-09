@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class WizardStepperViewModel {
   var currentStep: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct WizardStepperView: View {
@@ -15,6 +16,7 @@ struct WizardStepperView: View {
       StepperView(activeStep: vm.currentStep, orientation: "horizontal", steps: [["id": "info" as Any, "label": "Basic Info" as Any, "description": "Title & assignee" as Any] as [String: Any], ["id": "options" as Any, "label": "Options" as Any, "description": "Priority & dates" as Any] as [String: Any], ["id": "review" as Any, "label": "Review" as Any, "description": "Confirm details" as Any] as [String: Any], ["id": "done" as Any, "label": "Done" as Any, "description": "Task created" as Any] as [String: Any]] as [Any])
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.currentStep = currentStep }
   }

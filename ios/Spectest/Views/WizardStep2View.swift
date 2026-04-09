@@ -15,6 +15,7 @@ final class WizardStep2ViewModel {
   func setAutoAssign(_ v: Any) {
     autoAssign = v
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct WizardStep2View: View {
@@ -60,6 +61,7 @@ struct WizardStep2View: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

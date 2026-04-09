@@ -55,6 +55,7 @@ final class SelectViewModel {
       selectOption(((filteredOptions as? [Any])?[highlightIndex as? Int ?? 0] as? [String: Any])?["value"])
     }
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SelectView: View {
@@ -145,6 +146,7 @@ default: return "transparent"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.value = value; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label }
   }

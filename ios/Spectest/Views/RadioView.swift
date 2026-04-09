@@ -7,6 +7,7 @@ final class RadioViewModel {
   var disabled: Any = false
   var label: Any? = nil
   var value: Any = ""
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct RadioView: View {
@@ -47,6 +48,7 @@ default: return 1
       .background(Color.clear)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.value = value; vm.checked = checked; vm.disabled = disabled }
   }

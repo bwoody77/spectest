@@ -20,6 +20,7 @@ final class ActionSheetViewModel {
     /* event callback */
     doClose()
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ActionSheetView: View {
@@ -76,6 +77,7 @@ default: return "#1677ff"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.actions = actions }
   }

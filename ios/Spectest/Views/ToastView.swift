@@ -16,6 +16,7 @@ final class ToastViewModel {
   func resumeDismiss() {
     // unsupported: delay
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ToastView: View {
@@ -68,6 +69,7 @@ default: return "#eff6ff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.message = message; vm.severity = severity; vm.duration = duration }
   }

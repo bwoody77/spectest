@@ -21,6 +21,7 @@ final class TextInputViewModel {
     focused = false
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TextInputView: View {
@@ -98,6 +99,7 @@ default: return 1
 } })()))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.type = type; vm.label = label; vm.placeholder = placeholder; vm.value = value; vm.disabled = disabled; vm.readonly = readonly; vm.prefix = prefix; vm.suffix = suffix; vm.error = error; vm.errorMessage = errorMessage }
   }

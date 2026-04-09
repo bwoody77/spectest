@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class RouterUserViewModel {
   var userId: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct RouterUserView: View {
@@ -47,6 +48,7 @@ struct RouterUserView: View {
       .padding(CGFloat(20))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.userId = userId }
   }

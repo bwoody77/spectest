@@ -6,6 +6,7 @@ final class TableViewModel {
   var columns: Any? = nil
   var rows: Any? = nil
   var striped: Any = false
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TableView: View {
@@ -70,6 +71,7 @@ default: return "transparent"
       .scrollIndicators(.visible)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.columns = columns; vm.rows = rows; vm.striped = striped }
   }

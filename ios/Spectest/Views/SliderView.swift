@@ -15,6 +15,7 @@ final class SliderViewModel {
     currentValue = v
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SliderView: View {
@@ -53,6 +54,7 @@ struct SliderView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.min = min; vm.max = max; vm.step = step; vm.value = value; vm.label = label; vm.disabled = disabled }
   }

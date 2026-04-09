@@ -5,6 +5,7 @@ import SpecRuntime
 final class ProgressViewModel {
   var label: Any = ""
   var value: Any = 0
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ProgressView: View {
@@ -28,6 +29,7 @@ default: return "\(specString(vm.value))%"
       .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: CGFloat(4)))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.value = value; vm.label = label }
   }

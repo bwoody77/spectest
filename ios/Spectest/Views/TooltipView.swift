@@ -13,6 +13,7 @@ final class TooltipViewModel {
     // unsupported: clear-delay
     visible = false
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TooltipView: View {
@@ -64,6 +65,7 @@ struct TooltipView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.text = text; vm.placement = placement }
   }

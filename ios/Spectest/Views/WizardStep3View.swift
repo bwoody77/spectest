@@ -7,6 +7,7 @@ final class WizardStep3ViewModel {
   func setConfirmed(_ v: Any) {
     confirmed = v
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct WizardStep3View: View {
@@ -58,6 +59,7 @@ struct WizardStep3View: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

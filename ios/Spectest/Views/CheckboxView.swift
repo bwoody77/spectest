@@ -6,6 +6,7 @@ final class CheckboxViewModel {
   var checked: Any = false
   var disabled: Any = false
   var label: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct CheckboxView: View {
@@ -46,6 +47,7 @@ default: return 1
       .background(Color.clear)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.checked = checked; vm.disabled = disabled }
   }

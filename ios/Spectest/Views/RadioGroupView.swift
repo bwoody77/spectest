@@ -6,6 +6,7 @@ final class RadioGroupViewModel {
   var disabled: Any = false
   var options: Any = [] as [Any]
   var value: Any = ""
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct RadioGroupView: View {
@@ -29,6 +30,7 @@ struct RadioGroupView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.value = value; vm.disabled = disabled }
   }

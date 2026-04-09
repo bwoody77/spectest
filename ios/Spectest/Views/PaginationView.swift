@@ -13,6 +13,7 @@ final class PaginationViewModel {
   var endItem: Any { (((((currentPage as? Double ?? 0) * (pageSize as? Double ?? 0)) as? Double ?? 0) > (total as? Double ?? 0)) ? total : ((currentPage as? Double ?? 0) * (pageSize as? Double ?? 0))) }
   var hasPrev: Any { ((currentPage as? Double ?? 0) > (1 as? Double ?? 0)) }
   var hasNext: Any { ((currentPage as? Double ?? 0) < (totalPages as? Double ?? 0)) }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct PaginationView: View {
@@ -138,6 +139,7 @@ struct PaginationView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.total = total; vm.pageSize = pageSize; vm.page = page; vm.maxButtons = maxButtons }
   }

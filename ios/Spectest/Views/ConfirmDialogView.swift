@@ -28,6 +28,7 @@ final class ConfirmDialogViewModel {
     doClose()
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ConfirmDialogView: View {
@@ -103,6 +104,7 @@ struct ConfirmDialogView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.message = message; vm.confirmLabel = confirmLabel; vm.cancelLabel = cancelLabel; vm.destructive = destructive }
   }

@@ -3,6 +3,7 @@ import SpecRuntime
 
 @Observable
 final class SplitRowViewModel {
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SplitRowView: View {
@@ -26,6 +27,7 @@ struct SplitRowView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

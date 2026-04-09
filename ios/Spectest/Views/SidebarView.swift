@@ -8,6 +8,7 @@ final class SidebarViewModel {
   var collapsedWidth: Any = "56px"
   var sections: Any? = nil
   var width: Any = "240px"
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SidebarView: View {
@@ -102,6 +103,7 @@ struct SidebarView: View {
       .background(ThemeManager.shared.color("semantic.surface"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.sections = sections; vm.activeItem = activeItem; vm.collapsed = collapsed; vm.width = width; vm.collapsedWidth = collapsedWidth }
   }

@@ -162,6 +162,7 @@ default: return "Overview"
     currentLocale = lang
     switchLocale(lang)
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await statsSource.fetch()
   }
@@ -401,10 +402,10 @@ struct AppView: View {
                 VStack(spacing: CGFloat(20)) {
                   if vm.showDashboard as? Bool ?? false {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                      SpecStatCard(title: "Total", value: nil, color: .blue, icon: "list.clipboard", gradientFrom: Color(hex: "#e6f4ff"), gradientTo: Color(hex: "#bae0ff"))
-                      SpecStatCard(title: "Done", value: nil, total: nil, color: .green, icon: "checkmark.circle.fill", gradientFrom: Color(hex: "#f6ffed"), gradientTo: Color(hex: "#b7eb8f"))
-                      SpecStatCard(title: "In Progress", value: nil, total: nil, color: .orange, icon: "arrow.triangle.2.circlepath", gradientFrom: Color(hex: "#fffbe6"), gradientTo: Color(hex: "#ffe58f"))
-                      SpecStatCard(title: "Todo", value: nil, total: nil, color: .purple, icon: "circle.dashed", gradientFrom: Color(hex: "#f7f7f8"), gradientTo: Color(hex: "#dce0e5"))
+                      SpecStatCard(title: "Total", value: vm.statsTotal, color: .blue, icon: "list.clipboard", gradientFrom: Color(hex: "#e6f4ff"), gradientTo: Color(hex: "#bae0ff"))
+                      SpecStatCard(title: "Done", value: vm.statsDone, total: vm.statsTotal, color: .green, icon: "checkmark.circle.fill", gradientFrom: Color(hex: "#f6ffed"), gradientTo: Color(hex: "#b7eb8f"))
+                      SpecStatCard(title: "In Progress", value: vm.statsInProgress, total: vm.statsTotal, color: .orange, icon: "arrow.triangle.2.circlepath", gradientFrom: Color(hex: "#fffbe6"), gradientTo: Color(hex: "#ffe58f"))
+                      SpecStatCard(title: "Todo", value: vm.statsTodo, total: vm.statsTotal, color: .purple, icon: "circle.dashed", gradientFrom: Color(hex: "#f7f7f8"), gradientTo: Color(hex: "#dce0e5"))
                     }
                     TaskTableView(selectedTask: vm.selectedTask, view: vm.view)
                   }
@@ -569,6 +570,7 @@ struct AppView: View {
       .background(Color(hex: "none"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

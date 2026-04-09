@@ -20,6 +20,7 @@ final class ChartDemoViewModel {
   func toggleValues() {
     showValues = !(showValues as? Bool ?? false)
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ChartDemoView: View {
@@ -240,6 +241,7 @@ struct ChartDemoView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

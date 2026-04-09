@@ -79,6 +79,7 @@ final class ThemeBuilderViewModel {
   func setSection(_ s: Any) {
     activeSection = s
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ThemeBuilderView: View {
@@ -652,6 +653,7 @@ struct ThemeBuilderView: View {
       .scrollIndicators(.visible)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

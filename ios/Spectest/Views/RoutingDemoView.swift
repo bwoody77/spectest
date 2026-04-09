@@ -8,6 +8,7 @@ final class RoutingDemoViewModel {
   func navigate(_ path: Any) {
     /* runtime: navigate */  _ = Optional<Any>.none
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct RoutingDemoView: View {
@@ -96,6 +97,7 @@ struct RoutingDemoView: View {
       .frame(maxWidth: .infinity)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

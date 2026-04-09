@@ -10,6 +10,7 @@ final class StatsBarViewModel {
   var donePercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((done as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
   var inProgressPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((inProgress as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
   var todoPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((todo as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct StatsBarView: View {
@@ -105,6 +106,7 @@ struct StatsBarView: View {
       .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.border")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.total = total; vm.done = done; vm.inProgress = inProgress; vm.todo = todo }
   }

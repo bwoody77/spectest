@@ -16,6 +16,7 @@ case specString("sm"): return "18px"
 case specString("lg"): return "28px"
 default: return "24px"
 } })() }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct FABView: View {
@@ -48,6 +49,7 @@ struct FABView: View {
       .padding(.bottom, CGFloat(0))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.icon = icon; vm.size = size; vm.label = label }
   }

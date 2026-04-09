@@ -11,6 +11,7 @@ final class PopoverViewModel {
   func close() {
     open = false
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct PopoverView: View {
@@ -71,6 +72,7 @@ struct PopoverView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.placement = placement }
   }

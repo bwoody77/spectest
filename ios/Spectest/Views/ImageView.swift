@@ -19,6 +19,7 @@ final class ImageViewModel {
     errored = true
     loaded = true
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ImageView: View {
@@ -43,6 +44,7 @@ struct ImageView: View {
       .frame(width: CGFloat(0))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.src = src; vm.alt = alt; vm.aspectRatio = aspectRatio; vm.lazy = lazy; vm.fallbackSrc = fallbackSrc }
   }

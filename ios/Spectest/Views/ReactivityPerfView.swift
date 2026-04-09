@@ -13,6 +13,7 @@ final class ReactivityPerfViewModel {
   var last5: Any { specSlice(input, -5) }
   var words: Any { specAdd(specLength((input as? String ?? "").components(separatedBy: " " as? String ?? "")), " words") }
   var chars: Any { specAdd(specLength(input), " chars") }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ReactivityPerfView: View {
@@ -586,6 +587,7 @@ struct ReactivityPerfView: View {
       .padding(CGFloat(20))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

@@ -34,6 +34,7 @@ final class TreeNodeViewModel {
       handleSelect()
     }
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TreeNodeView: View {
@@ -94,6 +95,7 @@ struct TreeNodeView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.node = node; vm.level = level; vm.expandedIds = expandedIds; vm.selectedIds = selectedIds; vm.selectionMode = selectionMode; vm.expandMode = expandMode }
   }

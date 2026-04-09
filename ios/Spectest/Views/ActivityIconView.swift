@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class ActivityIconViewModel {
   var activityType: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ActivityIconView: View {
@@ -31,6 +32,7 @@ default: return "#64748b"
 } })() as? String ?? "#000"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.activityType = activityType }
   }

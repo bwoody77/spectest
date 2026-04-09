@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class SeverityBadgeViewModel {
   var severity: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SeverityBadgeView: View {
@@ -38,6 +39,7 @@ default: return "neutral"
 } })())), in: Capsule())
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.severity = severity }
   }

@@ -39,6 +39,7 @@ final class EditableGridDemoViewModel {
     lastSaveEvent = "Row \(specString(rowId)) saved"
     hasChanges = false
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await productsSource.fetch()
   }
@@ -210,6 +211,7 @@ struct EditableGridDemoView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

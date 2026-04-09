@@ -20,6 +20,7 @@ final class SnackbarViewModel {
     /* event callback */
     doClose()
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct SnackbarView: View {
@@ -67,6 +68,7 @@ struct SnackbarView: View {
       .padding(.bottom, CGFloat(0))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.message = message; vm.duration = duration; vm.actionLabel = actionLabel }
   }

@@ -30,6 +30,7 @@ final class TaskDetailViewModel {
     task = nil
     view = "dashboard"
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TaskDetailView: View {
@@ -149,6 +150,7 @@ struct TaskDetailView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.task = task; vm.view = view }
   }

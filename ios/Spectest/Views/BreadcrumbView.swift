@@ -10,6 +10,7 @@ final class BreadcrumbViewModel {
   func expand() {
     expanded = true
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct BreadcrumbView: View {
@@ -61,6 +62,7 @@ struct BreadcrumbView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.items = items; vm.separator = separator; vm.maxVisible = maxVisible }
   }

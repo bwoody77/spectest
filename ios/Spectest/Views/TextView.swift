@@ -6,6 +6,7 @@ final class TextViewModel {
   var content: Any? = nil
   var selectable: Any = true
   var variant: Any = "body-md"
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct TextView: View {
@@ -90,6 +91,7 @@ struct TextView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.content = content; vm.variant = variant; vm.selectable = selectable }
   }

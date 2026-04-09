@@ -62,6 +62,7 @@ default: return resetPosition()
     snapIndex = index
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct BottomSheetView: View {
@@ -113,6 +114,7 @@ struct BottomSheetView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.snapPoints = snapPoints; vm.initialSnap = initialSnap; vm.showHandle = showHandle; vm.backdrop = backdrop }
   }

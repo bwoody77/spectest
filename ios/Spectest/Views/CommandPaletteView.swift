@@ -26,6 +26,7 @@ final class CommandPaletteViewModel {
     query = ""
     highlightIndex = 0
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct CommandPaletteView: View {
@@ -107,6 +108,7 @@ struct CommandPaletteView: View {
       .onTapGesture { vm.dismiss() }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.commands = commands; vm.open = open; vm.placeholder = placeholder; vm.maxResults = maxResults }
   }

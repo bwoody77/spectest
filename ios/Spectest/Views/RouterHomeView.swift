@@ -3,6 +3,7 @@ import SpecRuntime
 
 @Observable
 final class RouterHomeViewModel {
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct RouterHomeView: View {
@@ -20,6 +21,7 @@ struct RouterHomeView: View {
       .padding(CGFloat(20))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

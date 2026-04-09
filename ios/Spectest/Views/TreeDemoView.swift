@@ -21,6 +21,7 @@ final class TreeDemoViewModel {
   func setSearch(_ v: Any) {
     searchQuery = v
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await categoriesSource.fetch()
   }
@@ -175,6 +176,7 @@ struct TreeDemoView: View {
       .frame(minHeight: specPx(vm.treeMinHeight))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

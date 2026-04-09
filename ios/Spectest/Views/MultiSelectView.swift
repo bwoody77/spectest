@@ -91,6 +91,7 @@ final class MultiSelectViewModel {
       /* event callback */
     }
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct MultiSelectView: View {
@@ -329,6 +330,7 @@ default: return "transparent"
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.options = options; vm.values = values; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label; vm.display = display; vm.showCheckbox = showCheckbox; vm.mode = mode }
   }

@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class ProductStatusBadgeViewModel {
   var status: Any? = nil
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ProductStatusBadgeView: View {
@@ -35,6 +36,7 @@ default: return "neutral"
 } })())), in: Capsule())
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.status = status }
   }

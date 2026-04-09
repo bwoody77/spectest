@@ -18,6 +18,7 @@ final class ModalViewModel {
     // unsupported: builtin-call
     /* event callback */
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ModalView: View {
@@ -73,6 +74,7 @@ struct ModalView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.open = open; vm.title = title; vm.width = width }
   }

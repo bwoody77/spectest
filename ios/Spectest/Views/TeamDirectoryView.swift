@@ -20,6 +20,7 @@ final class TeamDirectoryViewModel {
   func setRoleFilter(_ v: Any) {
     roleFilter = v
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
   func loadSources() async {
     await usersSource.fetch()
   }
@@ -152,6 +153,7 @@ struct TeamDirectoryView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }

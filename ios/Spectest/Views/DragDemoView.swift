@@ -20,6 +20,7 @@ final class DragDemoViewModel {
   func moveCard(_ cardId: Any, _ fromCol: Any, _ toCol: Any, _ idx: Any) {
     lastMove = specAdd(specAdd(specAdd("Moved card to ", toCol), " at position "), idx)
   }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct DragDemoView: View {
@@ -137,6 +138,7 @@ struct DragDemoView: View {
 
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
 }

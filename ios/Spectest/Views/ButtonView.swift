@@ -9,6 +9,7 @@ final class ButtonViewModel {
   var pressed: Any = false
   var size: Any = "md"
   var variant: Any = "primary"
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
 struct ButtonView: View {
@@ -78,6 +79,7 @@ default: return "#4f46e5"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.label = label; vm.variant = variant; vm.disabled = disabled; vm.loading = loading; vm.pressed = pressed; vm.size = size }
   }
