@@ -1,0 +1,7 @@
+{
+  "src": "src",
+  "outDir": "dist",
+  "ios": {
+    "exclude": ["PerfGrid", "PerfSignals"]
+  }
+}

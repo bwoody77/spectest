@@ -831,7 +831,14 @@ struct ThemePreviewView: View {
                   Text(specString("Disabled")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Disabled"), text: .constant(""))
                 }
-                DatePickerView(label: "Pick a Date", placeholder: "Choose date...")
+                VStack(alignment: .leading, spacing: 4) {
+                  if !specString("Pick a Date").isEmpty {
+                    Text(specString("Pick a Date")).font(.subheadline).foregroundStyle(.secondary)
+                  }
+                  DatePicker("", selection: .constant(Date()), displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                }
                 Picker(specString("Dropdown"), selection: Binding(get: { specString(vm.selectValue) }, set: { vm.selectValue = $0 })) {
                   ForEach(Array(([["value": "react" as Any, "label": "React" as Any] as [String: Any], ["value": "vue" as Any, "label": "Vue" as Any] as [String: Any], ["value": "angular" as Any, "label": "Angular" as Any] as [String: Any], ["value": "svelte" as Any, "label": "Svelte" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
                     Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))

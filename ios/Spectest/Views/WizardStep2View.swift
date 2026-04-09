@@ -35,7 +35,14 @@ struct WizardStep2View: View {
             }
           }
           .pickerStyle(.menu)
-          DatePickerView(label: "Due Date", placeholder: "Select deadline", value: vm.dueDate)
+          VStack(alignment: .leading, spacing: 4) {
+            if !specString("Due Date").isEmpty {
+              Text(specString("Due Date")).font(.subheadline).foregroundStyle(.secondary)
+            }
+            DatePicker("", selection: Binding(get: { (vm.dueDate as? Date) ?? Date() }, set: { vm.dueDate = $0 }), displayedComponents: .date)
+              .datePickerStyle(.compact)
+              .labelsHidden()
+          }
           Toggle(specString("Auto-assign reviewer"), isOn: Binding(get: { vm.autoAssign as? Bool ?? false }, set: { vm.autoAssign = $0 }))
         }
         .padding(CGFloat(16))
