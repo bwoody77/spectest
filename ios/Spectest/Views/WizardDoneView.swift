@@ -2,7 +2,8 @@ import SwiftUI
 import SpecRuntime
 
 @Observable
-final class WizardDoneViewModel { func dispatch(_ event: Any) {}
+final class WizardDoneViewModel {
+  func dispatch(_ event: Any) {}
 }
 
 struct WizardDoneView: View {

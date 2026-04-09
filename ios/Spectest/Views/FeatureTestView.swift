@@ -316,7 +316,16 @@ struct FeatureTestView: View {
           Text(specString("Built-in SVG charts — line, bar, area, pie, donut. Zero external dependencies. Responsive via ResizeObserver."))
             .font(.body.bold())
             .foregroundStyle(.secondary)
-          ChartView(data: [["label": "P1" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P2" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P3" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P4" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P5" as Any, "done": 0 as Any, "skipped": 1 as Any] as [String: Any], ["label": "P6" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P7" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P8" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any]] as [Any], height: "200px", series: [["key": "done" as Any, "label": "Done" as Any, "color": "#10b981" as Any] as [String: Any], ["key": "skipped" as Any, "label": "Deferred" as Any, "color": "#f59e0b" as Any] as [String: Any]] as [Any], showGrid: true, showLegend: true, showValues: true, type: "bar", xKey: "label")
+          SpecChartView(
+            type: specString("bar"), data: [["label": "P1" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P2" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P3" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P4" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P5" as Any, "done": 0 as Any, "skipped": 1 as Any] as [String: Any], ["label": "P6" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P7" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any], ["label": "P8" as Any, "done": 1 as Any, "skipped": 0 as Any] as [String: Any]] as [Any],
+            xKey: specString("label"), yKey: specString("y"),
+            labelKey: specString("label"), valueKey: specString("value"),
+            series: [["key": "done" as Any, "label": "Done" as Any, "color": "#10b981" as Any] as [String: Any], ["key": "skipped" as Any, "label": "Deferred" as Any, "color": "#f59e0b" as Any] as [String: Any]] as [Any], color: specString(""), colors: [] as [Any],
+            title: specString(""), height: specPx("200px"),
+            showGrid: true as? Bool ?? true,
+            showValues: true as? Bool ?? false,
+            showLegend: true as? Bool ?? true
+          )
           Text(specString("Supported types: line · bar · area · pie · donut"))
             .font(.callout.bold())
             .foregroundStyle(.secondary)

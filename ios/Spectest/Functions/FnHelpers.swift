@@ -5,6 +5,148 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Chart (Swift Charts)
+
+import Charts
+
+/// Wraps Swift Charts to render line, bar, area, pie, and donut charts from Spec data.
+struct SpecChartView: View {
+    let type: String
+    let data: Any
+    let xKey: String
+    let yKey: String
+    let labelKey: String
+    let valueKey: String
+    let series: Any
+    let color: String
+    let colors: Any
+    let title: String
+    let height: CGFloat
+    let showGrid: Bool
+    let showValues: Bool
+    let showLegend: Bool
+
+    private var rows: [[String: Any]] { data as? [[String: Any]] ?? [] }
+    private var colorList: [String] {
+        if let arr = colors as? [Any] { return arr.compactMap { $0 as? String } }
+        return []
+    }
+    private static let defaultColors: [Color] = [.indigo, .green, .orange, .red, .blue, .purple, .pink, .teal, .yellow, .mint]
+    private func chartColor(_ index: Int) -> Color {
+        if index < colorList.count, let hex = colorList[index] as String? { return Color(hex: hex) }
+        if !color.isEmpty && index == 0 { return Color(hex: color) }
+        return Self.defaultColors[index % Self.defaultColors.count]
+    }
+
+    private var seriesList: [(key: String, label: String, color: Color)] {
+        if let arr = series as? [[String: Any]], !arr.isEmpty {
+            return arr.enumerated().map { i, s in
+                (key: s["key"] as? String ?? "y",
+                 label: s["label"] as? String ?? s["key"] as? String ?? "Series \(i)",
+                 color: (s["color"] as? String).map { Color(hex: $0) } ?? chartColor(i))
+            }
+        }
+        return [(key: yKey, label: yKey, color: chartColor(0))]
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if !title.isEmpty {
+                Text(title).font(.headline)
+            }
+            Group {
+                switch type {
+                case "pie", "donut":
+                    pieChart
+                default:
+                    cartesianChart
+                }
+            }
+            .frame(height: height > 0 ? height : 300)
+
+            if showLegend && (type == "pie" || type == "donut" || seriesList.count > 1) {
+                legendBar
+            }
+        }
+    }
+
+    // MARK: - Cartesian (line, bar, area)
+
+    @ViewBuilder
+    private var cartesianChart: some View {
+        Chart {
+            ForEach(Array(rows.enumerated()), id: \.offset) { idx, row in
+                let xVal = specString(row[xKey])
+                ForEach(Array(seriesList.enumerated()), id: \.offset) { sIdx, s in
+                    let yVal = (row[s.key] as? Double) ?? (row[s.key] as? Int).map(Double.init) ?? 0
+                    switch type {
+                    case "bar":
+                        BarMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                            .foregroundStyle(s.color)
+                            .position(by: .value("Series", s.label))
+                    case "area":
+                        AreaMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                            .foregroundStyle(s.color.opacity(0.3))
+                        LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                            .foregroundStyle(s.color)
+                    default: // line
+                        LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                            .foregroundStyle(s.color)
+                            .symbol(Circle())
+                    }
+                    if showValues {
+                        PointMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                            .annotation(position: .top) {
+                                Text(specString(yVal)).font(.caption2).foregroundStyle(.secondary)
+                            }
+                    }
+                }
+            }
+        }
+        .chartXAxis { AxisMarks(values: .automatic) { _ in AxisValueLabel(); if showGrid { AxisGridLine() } } }
+        .chartYAxis { AxisMarks { _ in AxisValueLabel(); if showGrid { AxisGridLine() } } }
+    }
+
+    // MARK: - Pie / Donut
+
+    @ViewBuilder
+    private var pieChart: some View {
+        Chart {
+            ForEach(Array(rows.enumerated()), id: \.offset) { idx, row in
+                let label = specString(row[labelKey])
+                let value = (row[valueKey] as? Double) ?? (row[valueKey] as? Int).map(Double.init) ?? 0
+                SectorMark(angle: .value(label, value), innerRadius: type == "donut" ? .ratio(0.5) : .ratio(0), angularInset: 1.5)
+                    .foregroundStyle(chartColor(idx))
+                    .annotation(position: .overlay) {
+                        if showValues {
+                            Text(specString(value)).font(.caption2.bold()).foregroundStyle(.white)
+                        }
+                    }
+            }
+        }
+    }
+
+    // MARK: - Legend
+
+    @ViewBuilder
+    private var legendBar: some View {
+        let items: [(label: String, color: Color)] = {
+            if type == "pie" || type == "donut" {
+                return rows.enumerated().map { i, row in (specString(row[labelKey]), chartColor(i)) }
+            }
+            return seriesList.map { ($0.label, $0.color) }
+        }()
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 4) {
+            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
+                HStack(spacing: 4) {
+                    Circle().fill(item.color).frame(width: 8, height: 8)
+                    Text(item.label).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Badge & Alert helpers
 
 func specBadgeForeground(_ variant: String) -> Color {
