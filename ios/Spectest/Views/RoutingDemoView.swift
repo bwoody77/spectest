@@ -3,10 +3,10 @@ import SpecRuntime
 
 @Observable
 final class RoutingDemoViewModel {
-  var _routePath: Any? = /* runtime: _getPathname */  _ = Optional<Any>.none
+  var _routePath: Any? = /* runtime: _getPathname */  Optional<Any>.none as Any
   var _routeParams: Any = [String: Any]()
   func navigate(_ path: Any) {
-    /* runtime: navigate */  _ = Optional<Any>.none
+    /* runtime: navigate */  Optional<Any>.none as Any
   }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }

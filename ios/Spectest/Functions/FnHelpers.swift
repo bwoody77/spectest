@@ -459,6 +459,20 @@ func specPx(_ val: Any) -> CGFloat {
     return CGFloat(0)
 }
 
+/// Create a regex pattern (returns the pattern string for use with specRegexTest).
+func specRegex(_ pattern: Any) -> Any {
+    return specString(pattern)
+}
+
+/// Test if a string matches a regex pattern. regex.test(value) in JS.
+func specRegexTest(_ pattern: Any, _ value: Any) -> Bool {
+    let pat = specString(pattern)
+    let str = specString(value)
+    guard let regex = try? NSRegularExpression(pattern: pat) else { return false }
+    let range = NSRange(str.startIndex..., in: str)
+    return regex.firstMatch(in: str, range: range) != nil
+}
+
 /// Dynamic addition: supports String concatenation and numeric addition.
 func specAdd(_ a: Any, _ b: Any) -> Any {
     if let sa = a as? String { return sa + String(describing: b) }
