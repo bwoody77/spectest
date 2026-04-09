@@ -490,18 +490,26 @@ func specLength(_ val: Any) -> Double {
 
 /// Substring extraction (0-based indices).
 func specSlice(_ val: Any, _ start: Any, _ end: Any? = nil) -> Any {
+    // Safe conversion to Int
+    func toInt(_ v: Any) -> Int {
+        if let d = v as? Double { return Int(d) }
+        if let i = v as? Int { return i }
+        if let s = v as? String, let d = Double(s) { return Int(d) }
+        return 0
+    }
+
     guard let s = val as? String else {
         if let a = val as? [Any] {
-            let si = Int(start as! Double)
-            let ei = end != nil ? Int(end as! Double) : a.count
-            return Array(a[max(0, si)..<min(a.count, ei)])
+            let si = toInt(start)
+            let ei = end.map { toInt($0) } ?? a.count
+            return Array(a[max(0, min(a.count, si))..<max(0, min(a.count, ei))])
         }
         return ""
     }
-    let si = s.index(s.startIndex, offsetBy: max(0, min(s.count, Int(start as! Double))))
+    let si = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(start))))
     let ei: String.Index
     if let e = end {
-        ei = s.index(s.startIndex, offsetBy: max(0, min(s.count, Int(e as! Double))))
+        ei = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(e))))
     } else {
         ei = s.endIndex
     }
@@ -573,7 +581,12 @@ struct SpecDataGridView: View {
         columns as? [[String: Any]] ?? []
     }
     private var rowData: [[String: Any]] {
-        rows as? [[String: Any]] ?? []
+        if let typedRows = rows as? [[String: Any]] { return typedRows }
+        // Handle [Any] where each element needs individual casting
+        if let anyRows = rows as? [Any] {
+            return anyRows.compactMap { $0 as? [String: Any] }
+        }
+        return []
     }
 
     var body: some View {
