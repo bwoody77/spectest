@@ -543,3 +543,69 @@ func specTypeOf(_ val: Any) -> String {
     if val is NSNull || val as AnyObject === NSNull() { return "object" }
     return "undefined"
 }
+
+// MARK: - DataGrid (List-based dynamic data grid)
+
+/// Renders a data grid with dynamic columns using a List with header row.
+/// Since SwiftUI `Table` requires statically-defined `TableColumn` entries,
+/// this uses a List with HStack rows to support dynamic column definitions.
+struct SpecDataGridView: View {
+    let columns: Any
+    let rows: Any
+    let selection: String
+    let height: CGFloat
+
+    private var columnDefs: [[String: Any]] {
+        columns as? [[String: Any]] ?? []
+    }
+    private var rowData: [[String: Any]] {
+        rows as? [[String: Any]] ?? []
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header row
+            if !columnDefs.isEmpty {
+                HStack(spacing: 0) {
+                    ForEach(Array(columnDefs.enumerated()), id: \.offset) { _, col in
+                        let label = specString((col["header"] as Any?) ?? (col["label"] as Any?) ?? (col["key"] as Any?))
+                        let w = (col["width"] as? Double).map { CGFloat($0) }
+                        Text(label)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: w ?? .infinity, alignment: .leading)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 6)
+                    }
+                }
+                .background(Color(.tertiarySystemGroupedBackground))
+            }
+
+            Divider()
+
+            // Data rows
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(Array(rowData.enumerated()), id: \.offset) { rowIdx, row in
+                        HStack(spacing: 0) {
+                            ForEach(Array(columnDefs.enumerated()), id: \.offset) { _, col in
+                                let key = specString(col["key"])
+                                let w = (col["width"] as? Double).map { CGFloat($0) }
+                                Text(specString(row[key]))
+                                    .font(.subheadline)
+                                    .frame(maxWidth: w ?? .infinity, alignment: .leading)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 6)
+                            }
+                        }
+                        Divider()
+                    }
+                }
+            }
+        }
+        .frame(height: height > 0 ? height : 400)
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator).opacity(0.3)))
+    }
+}

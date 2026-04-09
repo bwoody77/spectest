@@ -96,7 +96,12 @@ struct DataGridDemoView: View {
 
       VStack() {
         if !(vm.productsLoading as? Bool ?? false) {
-          DataGridView(columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any], rows: vm.pagedProducts, selection: "single")
+          SpecDataGridView(
+            columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any],
+            rows: vm.pagedProducts,
+            selection: specString("single"),
+            height: specPx("400px")
+          )
         }
       }
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
