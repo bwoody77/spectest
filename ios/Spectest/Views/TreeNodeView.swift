@@ -11,7 +11,7 @@ final class TreeNodeViewModel {
   var selectionMode: Any = "none"
   var isExpanded: Any { specIncludes(expandedIds, (node as? [String: Any])?["id"]) }
   var isSelected: Any { specIncludes(selectedIds, (node as? [String: Any])?["id"]) }
-  var hasChildren: Any { ((node as? [String: Any])?["children"] != nil && ((specLength((node as? [String: Any])?["children"]) as? Double ?? 0) > (0 as? Double ?? 0))) }
+  var hasChildren: Any { ((node as? [String: Any])?["children"] != nil && (specDouble(specLength((node as? [String: Any])?["children"])) > specDouble(0))) }
   var toggleIcon: Any { ((isExpanded) as? Bool ?? false ? "▾" : "▸") }
   func handleToggle() {
     if (specString(expandMode) == specString("icon")) as? Bool ?? false {

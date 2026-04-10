@@ -51,14 +51,14 @@ struct TableView: View {
             }
           }
           .background(Color(hex: ({ () -> Any in switch specString(vm.striped) {
-case specString(true): return ({ () -> Any in switch specString(((rowIndex as? Double ?? 0) .truncatingRemainder(dividingBy: (2 as? Double ?? 0)))) {
+case specString(true): return ({ () -> Any in switch specString((specDouble(rowIndex) .truncatingRemainder(dividingBy: specDouble(2)))) {
 case specString(0): return "transparent"
 default: return "#ffffff"
 } })()
 default: return "transparent"
 } })() as? String ?? "#000"))
           .background(Color(hex: ({ () -> Any in switch specString(vm.striped) {
-case specString(true): return ({ () -> Any in switch specString(((rowIndex as? Double ?? 0) .truncatingRemainder(dividingBy: (2 as? Double ?? 0)))) {
+case specString(true): return ({ () -> Any in switch specString((specDouble(rowIndex) .truncatingRemainder(dividingBy: specDouble(2)))) {
 case specString(0): return "transparent"
 default: return "#ffffff"
 } })()

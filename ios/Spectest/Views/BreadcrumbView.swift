@@ -24,7 +24,7 @@ struct BreadcrumbView: View {
       HStack(alignment: .center, spacing: CGFloat(4)) {
         ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { index, item in
           VStack() {
-            if (((index as? Double ?? 0) > (0 as? Double ?? 0)) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || ((specLength(vm.items) as? Double ?? 0) <= (vm.maxVisible as? Double ?? 0)) as? Bool ?? false) || (specString(index) == specString(1))) || ((index as? Double ?? 0) >= (specAdd(((specLength(vm.items) as? Double ?? 0) - (vm.maxVisible as? Double ?? 0)), 1) as? Double ?? 0)) as? Bool ?? false)) {
+            if ((specDouble(index) > specDouble(0)) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible)) as? Bool ?? false) || (specString(index) == specString(1))) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))) as? Bool ?? false)) {
               Text(specString(vm.separator))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
@@ -32,7 +32,7 @@ struct BreadcrumbView: View {
           }
 
           VStack() {
-            if (((!(vm.expanded as? Bool ?? false) && ((vm.maxVisible as? Double ?? 0) > (0 as? Double ?? 0))) && ((specLength(vm.items) as? Double ?? 0) > (vm.maxVisible as? Double ?? 0))) && (specString(index) == specString(1))) {
+            if (((!(vm.expanded as? Bool ?? false) && (specDouble(vm.maxVisible) > specDouble(0))) && (specDouble(specLength(vm.items)) > specDouble(vm.maxVisible))) && (specString(index) == specString(1))) {
               Text(specString("u2026"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
@@ -41,7 +41,7 @@ struct BreadcrumbView: View {
 
           .onTapGesture { vm.expand() }
           VStack() {
-            if ((specString(index) != specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || ((specLength(vm.items) as? Double ?? 0) <= (vm.maxVisible as? Double ?? 0)) as? Bool ?? false) || (specString(index) == specString(0))) || ((index as? Double ?? 0) >= (specAdd(((specLength(vm.items) as? Double ?? 0) - (vm.maxVisible as? Double ?? 0)), 1) as? Double ?? 0)) as? Bool ?? false)) {
+            if ((specString(index) != specString((specDouble(specLength(vm.items)) - specDouble(1)))) && ((((vm.expanded as? Bool ?? false || (specString(vm.maxVisible) == specString(0))) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible)) as? Bool ?? false) || (specString(index) == specString(0))) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))) as? Bool ?? false)) {
               Text(specString((item as? [String: Any])?["label"]))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
@@ -50,7 +50,7 @@ struct BreadcrumbView: View {
 
           .onTapGesture { /* event callback */ }
           VStack() {
-            if (specString(index) == specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) {
+            if (specString(index) == specString((specDouble(specLength(vm.items)) - specDouble(1)))) {
               Text(specString((item as? [String: Any])?["label"]))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

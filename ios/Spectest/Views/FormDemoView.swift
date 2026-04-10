@@ -25,11 +25,11 @@ final class FormDemoViewModel {
   var _fld_firstName_error: Any {
     if ((!(_fld_firstName_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((firstName as? Bool ?? false && ((specLength(specString(firstName)) as? Double ?? 0) < (2 as? Double ?? 0))) ? "Must be at least 2 characters" : nil))
+      return (((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((firstName as? Bool ?? false && (specDouble(specLength(specString(firstName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((firstName as? Bool ?? false && ((specLength(specString(firstName)) as? Double ?? 0) > (50 as? Double ?? 0)))) ? "Must be 50 characters or fewer" : nil
+      return ((firstName as? Bool ?? false && (specDouble(specLength(specString(firstName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
@@ -37,11 +37,11 @@ final class FormDemoViewModel {
   var _fld_lastName_error: Any {
     if ((!(_fld_lastName_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((lastName as? Bool ?? false && ((specLength(specString(lastName)) as? Double ?? 0) < (2 as? Double ?? 0))) ? "Must be at least 2 characters" : nil))
+      return (((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((lastName as? Bool ?? false && (specDouble(specLength(specString(lastName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((lastName as? Bool ?? false && ((specLength(specString(lastName)) as? Double ?? 0) > (50 as? Double ?? 0)))) ? "Must be 50 characters or fewer" : nil
+      return ((lastName as? Bool ?? false && (specDouble(specLength(specString(lastName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
@@ -61,11 +61,11 @@ final class FormDemoViewModel {
   var _fld_message_error: Any {
     if ((!(_fld_message_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((message as? Bool ?? false && ((specLength(specString(message)) as? Double ?? 0) < (10 as? Double ?? 0))) ? "Must be at least 10 characters" : nil))
+      return (((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((message as? Bool ?? false && (specDouble(specLength(specString(message))) < specDouble(10))) ? "Must be at least 10 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((message as? Bool ?? false && ((specLength(specString(message)) as? Double ?? 0) > (500 as? Double ?? 0)))) ? "Must be 500 characters or fewer" : nil
+      return ((message as? Bool ?? false && (specDouble(specLength(specString(message))) > specDouble(500)))) ? "Must be 500 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any

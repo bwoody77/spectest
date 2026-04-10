@@ -20,12 +20,12 @@ default: return "translateY(0)"
 default: return "translateY(100%)"
 } })() }
   var sheetHeight: Any { ({ () -> Any in switch specString(snapIndex) {
-case specString(0): return ({ () -> Any in switch specString(((specLength(snapPoints) as? Double ?? 0) > (0 as? Double ?? 0))) {
-case specString(true): return specAdd((((snapPoints as? [Any])?[0 as? Int ?? 0] as? Double ?? 0) * (100 as? Double ?? 0)), "vh")
+case specString(0): return ({ () -> Any in switch specString((specDouble(specLength(snapPoints)) > specDouble(0))) {
+case specString(true): return specAdd((specDouble((snapPoints as? [Any])?[0 as? Int ?? 0]) * specDouble(100)), "vh")
 default: return "50vh"
 } })()
-default: return ({ () -> Any in switch specString(((specLength(snapPoints) as? Double ?? 0) > (snapIndex as? Double ?? 0))) {
-case specString(true): return specAdd((((snapPoints as? [Any])?[snapIndex as? Int ?? 0] as? Double ?? 0) * (100 as? Double ?? 0)), "vh")
+default: return ({ () -> Any in switch specString((specDouble(specLength(snapPoints)) > specDouble(snapIndex))) {
+case specString(true): return specAdd((specDouble((snapPoints as? [Any])?[snapIndex as? Int ?? 0]) * specDouble(100)), "vh")
 default: return "100vh"
 } })()
 } })() }
@@ -43,14 +43,14 @@ default: return "100vh"
   }
   func handleDrag(_ delta: Any) {
     dragging = true
-    currentY = ({ () -> Any in switch specString((((delta as? [String: Any])?["y"] as? Double ?? 0) > (0 as? Double ?? 0))) {
+    currentY = ({ () -> Any in switch specString((specDouble((delta as? [String: Any])?["y"]) > specDouble(0))) {
 case specString(true): return (delta as? [String: Any])?["y"]
 default: return 0
 } })()
   }
   func handleDragEnd(_ delta: Any) {
     dragging = false
-    ({ () -> Any in switch specString(((((delta as? [String: Any])?["velocityY"] as? Double ?? 0) > (500 as? Double ?? 0)) || ((currentY as? Double ?? 0) > (150 as? Double ?? 0)))) {
+    ({ () -> Any in switch specString(((specDouble((delta as? [String: Any])?["velocityY"]) > specDouble(500)) || (specDouble(currentY) > specDouble(150)))) {
 case specString(true): return doClose()
 default: return resetPosition()
 } })()

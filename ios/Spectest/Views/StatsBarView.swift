@@ -7,9 +7,9 @@ final class StatsBarViewModel {
   var inProgress: Any? = nil
   var todo: Any? = nil
   var total: Any? = nil
-  var donePercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((done as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
-  var inProgressPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((inProgress as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
-  var todoPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((todo as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
+  var donePercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(done) * specDouble(100))) / specDouble(total)) : 0) }
+  var inProgressPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(inProgress) * specDouble(100))) / specDouble(total)) : 0) }
+  var todoPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(todo) * specDouble(100))) / specDouble(total)) : 0) }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 

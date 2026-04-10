@@ -72,10 +72,10 @@ final class ThemePreviewViewModel {
     activeTab = id
   }
   func nextStep() {
-    stepperStep = (((stepperStep as? Double ?? 0) < (4 as? Double ?? 0)) ? specAdd(stepperStep, 1) : 1)
+    stepperStep = ((specDouble(stepperStep) < specDouble(4)) ? specAdd(stepperStep, 1) : 1)
   }
   func prevStep() {
-    stepperStep = (((stepperStep as? Double ?? 0) > (1 as? Double ?? 0)) ? ((stepperStep as? Double ?? 0) - (1 as? Double ?? 0)) : 1)
+    stepperStep = ((specDouble(stepperStep) > specDouble(1)) ? (specDouble(stepperStep) - specDouble(1)) : 1)
   }
   func setDate(_ d: Any) {
     pickedDate = d
@@ -153,10 +153,10 @@ final class ThemePreviewViewModel {
     stepper2Step = n
   }
   func nextStepper2() {
-    stepper2Step = (((stepper2Step as? Double ?? 0) < (3 as? Double ?? 0)) ? specAdd(stepper2Step, 1) : 0)
+    stepper2Step = ((specDouble(stepper2Step) < specDouble(3)) ? specAdd(stepper2Step, 1) : 0)
   }
   func prevStepper2() {
-    stepper2Step = (((stepper2Step as? Double ?? 0) > (0 as? Double ?? 0)) ? ((stepper2Step as? Double ?? 0) - (1 as? Double ?? 0)) : 0)
+    stepper2Step = ((specDouble(stepper2Step) > specDouble(0)) ? (specDouble(stepper2Step) - specDouble(1)) : 0)
   }
   func dismissToasts() {
     toastsVisible = false

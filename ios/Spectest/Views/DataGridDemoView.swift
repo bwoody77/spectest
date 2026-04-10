@@ -8,7 +8,7 @@ final class DataGridDemoViewModel {
   var page: Any = 1
   var pageSize: Any = 10
   var productList: Any { (products != nil ? products : [] as [Any]) }
-  var pagedProducts: Any { specSlice(productList, ((((page as? Double ?? 0) - (1 as? Double ?? 0)) as? Double ?? 0) * (pageSize as? Double ?? 0)), ((page as? Double ?? 0) * (pageSize as? Double ?? 0))) }
+  var pagedProducts: Any { specSlice(productList, (specDouble((specDouble(page) - specDouble(1))) * specDouble(pageSize)), (specDouble(page) * specDouble(pageSize))) }
   var productCount: Any { "\(specString(specLength(productList))) products" }
   var hasSelection: Any { selectedProduct != nil }
   var selectedName: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["name"] : "") }
@@ -18,7 +18,7 @@ final class DataGridDemoViewModel {
   var selectedRating: Any { (selectedProduct != nil ? specAdd((selectedProduct as? [String: Any])?["rating"], " / 5") : "") }
   var selectedSku: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["sku"] : "") }
   var selectedStatus: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["status"] : "") }
-  var stockWarning: Any { (selectedProduct != nil ? (((selectedProduct as? [String: Any])?["stock"] as? Double ?? 0) < (10 as? Double ?? 0)) : false) }
+  var stockWarning: Any { (selectedProduct != nil ? (specDouble((selectedProduct as? [String: Any])?["stock"]) < specDouble(10)) : false) }
   let productsSource = DataSource(endpoint: "http://localhost:4000/api/products", method: "GET")
   var products: Any? { productsSource.data }
   var productsLoading: Bool { productsSource.loading }

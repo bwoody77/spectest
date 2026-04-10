@@ -9,7 +9,7 @@ final class NotificationsPanelViewModel {
   var filteredNotifications: Any { ((specString(severityFilter) == specString("all")) ? allNotifications : (allNotifications as? [Any] ?? []).filter { { n in (specString((n as? [String: Any])?["severity"]) == specString(severityFilter)) }($0) as? Bool ?? false }) }
   var notifCount: Any { "\(specString(specLength(filteredNotifications))) notifications" }
   var unreadCount: Any { specLength((allNotifications as? [Any] ?? []).filter { { n in !((n as? [String: Any])?["read"] as? Bool ?? false) }($0) as? Bool ?? false }) }
-  var hasUnread: Any { ((unreadCount as? Double ?? 0) > (0 as? Double ?? 0)) }
+  var hasUnread: Any { (specDouble(unreadCount) > specDouble(0)) }
   var unreadLabel: Any { "\(specString(unreadCount)) unread" }
   var hasNoNotifications: Any { (specString(specLength(filteredNotifications)) == specString(0)) }
   let notificationsSource = DataSource(endpoint: "http://localhost:4000/api/notifications", method: "GET")

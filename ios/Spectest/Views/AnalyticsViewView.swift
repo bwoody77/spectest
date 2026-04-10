@@ -7,9 +7,9 @@ final class AnalyticsViewViewModel {
   var done: Any { (stats != nil ? (stats as? [String: Any])?["done"] : 0) }
   var inProgress: Any { (stats != nil ? (stats as? [String: Any])?["inProgress"] : 0) }
   var todo: Any { (stats != nil ? (stats as? [String: Any])?["todo"] : 0) }
-  var donePercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((done as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
-  var inProgressPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((inProgress as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
-  var todoPercent: Any { (((total as? Double ?? 0) > (0 as? Double ?? 0)) ? ((((todo as? Double ?? 0) * (100 as? Double ?? 0)) as? Double ?? 0) / (total as? Double ?? 0)) : 0) }
+  var donePercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(done) * specDouble(100))) / specDouble(total)) : 0) }
+  var inProgressPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(inProgress) * specDouble(100))) / specDouble(total)) : 0) }
+  var todoPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(todo) * specDouble(100))) / specDouble(total)) : 0) }
   var taskList: Any { (tasks != nil ? tasks : [] as [Any]) }
   var highCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["priority"]) == specString("high")) }($0) as? Bool ?? false }) }
   var mediumCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["priority"]) == specString("medium")) }($0) as? Bool ?? false }) }

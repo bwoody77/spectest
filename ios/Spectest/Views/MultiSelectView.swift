@@ -24,8 +24,8 @@ final class MultiSelectViewModel {
   var safeSelected: Any { (selected != nil ? selected : [] as [Any]) }
   var filteredOptions: Any { ((searchable as? Bool ?? false && (specString(query) != specString(""))) ? (safeOptions as? [Any] ?? []).filter { { o in specIncludes(((o as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : safeOptions) }
   var selectedOptions: Any { (safeOptions as? [Any] ?? []).filter { { o in specIncludes(safeSelected, (o as? [String: Any])?["value"]) }($0) as? Bool ?? false } }
-  var hasSelections: Any { ((specLength(safeSelected) as? Double ?? 0) > (0 as? Double ?? 0)) }
-  var hasOptions: Any { ((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) }
+  var hasSelections: Any { (specDouble(specLength(safeSelected)) > specDouble(0)) }
+  var hasOptions: Any { (specDouble(specLength(filteredOptions)) > specDouble(0)) }
   var displayPlaceholder: Any { ((specString(hasSelections) == specString(false)) ? placeholder : "") }
   var displayText: Any { ((selectedOptions as? [Any] ?? []).map { { o in (o as? [String: Any])?["label"] }($0) } as? [Any] ?? []).map { String(describing: $0) }.joined(separator: ", " as? String ?? "") }
   var isDropdownMode: Any { (specString(mode) == specString("dropdown")) }
@@ -76,18 +76,18 @@ final class MultiSelectViewModel {
     /* event callback */
   }
   func moveHighlight(_ delta: Any) {
-    if ((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) as? Bool ?? false {
+    if (specDouble(specLength(filteredOptions)) > specDouble(0)) as? Bool ?? false {
       highlightIndex = wrapIndex(highlightIndex, delta, specLength(filteredOptions))
     }
   }
   func toggleHighlighted() {
-    if (((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) && ((highlightIndex as? Double ?? 0) < (specLength(filteredOptions) as? Double ?? 0))) as? Bool ?? false {
+    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) as? Bool ?? false {
       toggleOption(((filteredOptions as? [Any])?[highlightIndex as? Int ?? 0] as? [String: Any])?["value"])
     }
   }
   func removeLastTag() {
-    if ((specLength(safeSelected) as? Double ?? 0) > (0 as? Double ?? 0)) as? Bool ?? false {
-      selected = specSlice(selected, 0, ((specLength(selected) as? Double ?? 0) - (1 as? Double ?? 0)))
+    if (specDouble(specLength(safeSelected)) > specDouble(0)) as? Bool ?? false {
+      selected = specSlice(selected, 0, (specDouble(specLength(selected)) - specDouble(1)))
       /* event callback */
     }
   }

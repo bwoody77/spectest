@@ -17,7 +17,7 @@ final class SelectViewModel {
   var filteredOptions: Any { ((searchable as? Bool ?? false && (specString(query) != specString(""))) ? (safeOptions as? [Any] ?? []).filter { { o in specIncludes(((o as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : safeOptions) }
   var selectedOption: Any { (safeOptions as? [Any] ?? []).first(where: { { o in (specString((o as? [String: Any])?["value"]) == specString(value)) }($0) as? Bool ?? false }) }
   var displayText: Any { (selectedOption != nil ? (selectedOption as? [String: Any])?["label"] : placeholder) }
-  var hasOptions: Any { ((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) }
+  var hasOptions: Any { (specDouble(specLength(filteredOptions)) > specDouble(0)) }
   func toggleOpen() {
     if (specString(disabled) == specString(false)) as? Bool ?? false {
       open = (specString(open) == specString(false))
@@ -46,12 +46,12 @@ final class SelectViewModel {
     highlightIndex = 0
   }
   func moveHighlight(_ delta: Any) {
-    if ((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) as? Bool ?? false {
+    if (specDouble(specLength(filteredOptions)) > specDouble(0)) as? Bool ?? false {
       highlightIndex = wrapIndex(highlightIndex, delta, specLength(filteredOptions))
     }
   }
   func selectHighlighted() {
-    if (((specLength(filteredOptions) as? Double ?? 0) > (0 as? Double ?? 0)) && ((highlightIndex as? Double ?? 0) < (specLength(filteredOptions) as? Double ?? 0))) as? Bool ?? false {
+    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) as? Bool ?? false {
       selectOption(((filteredOptions as? [Any])?[highlightIndex as? Int ?? 0] as? [String: Any])?["value"])
     }
   }

@@ -21,7 +21,7 @@ final class ChartViewModel {
   var isPie: Any { ((specString(type) == specString("pie")) || (specString(type) == specString("donut"))) }
   var resolvedSeries: Any { resolveSeries(type, series, yKey, color, colors) }
   var legendItems: Any { ((isPie) as? Bool ?? false ? resolveSegmentMeta(data, colors, labelKey) : resolvedSeries) }
-  var showLegendBar: Any { (showLegend as? Bool ?? false && (isPie as? Bool ?? false || ((specLength(resolvedSeries) as? Double ?? 0) > (1 as? Double ?? 0)))) }
+  var showLegendBar: Any { (showLegend as? Bool ?? false && (isPie as? Bool ?? false || (specDouble(specLength(resolvedSeries)) > specDouble(1)))) }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 

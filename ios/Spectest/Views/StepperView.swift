@@ -27,12 +27,12 @@ struct StepperView: View {
               VStack(spacing: CGFloat(4)) {
                 HStack(alignment: .center, ) {
                   Text(specString(({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "u2713"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
 } })()))
                     .font(.body.bold())
                     .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) <= (vm.activeStep as? Double ?? 0))): return "#ffffff"
+case specString((specDouble(i) <= specDouble(vm.activeStep))): return "#ffffff"
 default: return "#496183"
 } })() as? String ?? "#000"))
                 }
@@ -40,7 +40,7 @@ default: return "#496183"
                 .frame(height: CGFloat(32))
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
 default: return "#ffffff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
@@ -48,24 +48,24 @@ default: return "#ffffff"
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specString(i) == specString(vm.activeStep))): return "#202732"
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
 } })() as? String ?? "#000"))
               }
 
-              .onTapGesture { if (vm.allowBack as? Bool ?? false && ((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))) as? Bool ?? false {
+              .onTapGesture { if (vm.allowBack as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) as? Bool ?? false {
   /* event callback */
 } }
               VStack() {
-                if ((i as? Double ?? 0) < (((vm.stepCount as? Double ?? 0) - (1 as? Double ?? 0)) as? Double ?? 0)) {
+                if (specDouble(i) < specDouble((specDouble(vm.stepCount) - specDouble(1)))) {
                 }
               }
-              .background(Color(hex: (((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
               .frame(height: CGFloat(2))
               .frame(minHeight: CGFloat(2))
-              .background(Color(hex: (((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
               .frame(maxWidth: .infinity)
             }
             .frame(minHeight: CGFloat(0))
@@ -82,12 +82,12 @@ default: return "#92a2b9"
               VStack() {
                 HStack(alignment: .center, ) {
                   Text(specString(({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "u2713"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
 } })()))
                     .font(.body.bold())
                     .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) <= (vm.activeStep as? Double ?? 0))): return "#ffffff"
+case specString((specDouble(i) <= specDouble(vm.activeStep))): return "#ffffff"
 default: return "#496183"
 } })() as? String ?? "#000"))
                 }
@@ -95,23 +95,23 @@ default: return "#496183"
                 .frame(height: CGFloat(32))
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
 default: return "#ffffff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                .onTapGesture { if (vm.allowBack as? Bool ?? false && ((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))) as? Bool ?? false {
+                .onTapGesture { if (vm.allowBack as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) as? Bool ?? false {
   /* event callback */
 } }
                 VStack() {
-                  if ((i as? Double ?? 0) < (((vm.stepCount as? Double ?? 0) - (1 as? Double ?? 0)) as? Double ?? 0)) {
+                  if (specDouble(i) < specDouble((specDouble(vm.stepCount) - specDouble(1)))) {
                   }
                 }
-                .background(Color(hex: (((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
                 .frame(minHeight: CGFloat(0))
                 .frame(minWidth: CGFloat(0))
                 .frame(width: CGFloat(2))
                 .frame(minHeight: CGFloat(24))
-                .background(Color(hex: (((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
                 .frame(maxWidth: .infinity)
               }
               .frame(width: CGFloat(32))
@@ -121,7 +121,7 @@ default: return "#ffffff"
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specString(i) == specString(vm.activeStep))): return "#202732"
-case specString(((i as? Double ?? 0) < (vm.activeStep as? Double ?? 0))): return "#22c55e"
+case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
 } })() as? String ?? "#000"))
                 VStack() {

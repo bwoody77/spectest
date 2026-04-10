@@ -30,7 +30,7 @@ case specString("error"): return "#ef4444"
 default: return "#9ca3af"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
               VStack() {
-                if (specString(index) != specString(((specLength(vm.items) as? Double ?? 0) - (1 as? Double ?? 0)))) {
+                if (specString(index) != specString((specDouble(specLength(vm.items)) - specDouble(1)))) {
                 }
               }
               .background(Color(hex: ({ () -> Any in switch specString((item as? [String: Any])?["status"]) {

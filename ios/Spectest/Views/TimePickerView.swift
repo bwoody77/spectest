@@ -11,24 +11,24 @@ final class TimePickerViewModel {
   var hours: Any = 12
   var minutes: Any = 0
   var ampm: Any = "AM"
-  var displayHours: Any { ((specString(format) == specString("12")) ? ((specString(hours) == specString(0)) ? 12 : (((hours as? Double ?? 0) > (12 as? Double ?? 0)) ? ((hours as? Double ?? 0) - (12 as? Double ?? 0)) : hours)) : hours) }
-  var formattedH: Any { (((displayHours as? Double ?? 0) < (10 as? Double ?? 0)) ? "0\(specString(displayHours))" : "\(specString(displayHours))") }
-  var formattedM: Any { (((minutes as? Double ?? 0) < (10 as? Double ?? 0)) ? "0\(specString(minutes))" : "\(specString(minutes))") }
+  var displayHours: Any { ((specString(format) == specString("12")) ? ((specString(hours) == specString(0)) ? 12 : ((specDouble(hours) > specDouble(12)) ? (specDouble(hours) - specDouble(12)) : hours)) : hours) }
+  var formattedH: Any { ((specDouble(displayHours) < specDouble(10)) ? "0\(specString(displayHours))" : "\(specString(displayHours))") }
+  var formattedM: Any { ((specDouble(minutes) < specDouble(10)) ? "0\(specString(minutes))" : "\(specString(minutes))") }
   var timeString: Any { ((specString(format) == specString("12")) ? "\(specString(formattedH)):\(specString(formattedM)) \(specString(ampm))" : "\(specString(formattedH)):\(specString(formattedM))") }
   func incHour() {
-    hours = ((specString(format) == specString("24")) ? ((specAdd(hours, 1) as? Double ?? 0) .truncatingRemainder(dividingBy: (24 as? Double ?? 0))) : ((specAdd(hours, 1) as? Double ?? 0) .truncatingRemainder(dividingBy: (12 as? Double ?? 0))))
+    hours = ((specString(format) == specString("24")) ? (specDouble(specAdd(hours, 1)) .truncatingRemainder(dividingBy: specDouble(24))) : (specDouble(specAdd(hours, 1)) .truncatingRemainder(dividingBy: specDouble(12))))
     /* event callback */
   }
   func decHour() {
-    hours = ((specString(format) == specString("24")) ? ((specAdd(hours, 23) as? Double ?? 0) .truncatingRemainder(dividingBy: (24 as? Double ?? 0))) : ((specAdd(hours, 11) as? Double ?? 0) .truncatingRemainder(dividingBy: (12 as? Double ?? 0))))
+    hours = ((specString(format) == specString("24")) ? (specDouble(specAdd(hours, 23)) .truncatingRemainder(dividingBy: specDouble(24))) : (specDouble(specAdd(hours, 11)) .truncatingRemainder(dividingBy: specDouble(12))))
     /* event callback */
   }
   func incMinute() {
-    minutes = ((specAdd(minutes, minuteStep) as? Double ?? 0) .truncatingRemainder(dividingBy: (60 as? Double ?? 0)))
+    minutes = (specDouble(specAdd(minutes, minuteStep)) .truncatingRemainder(dividingBy: specDouble(60)))
     /* event callback */
   }
   func decMinute() {
-    minutes = ((specAdd(((minutes as? Double ?? 0) - (minuteStep as? Double ?? 0)), 60) as? Double ?? 0) .truncatingRemainder(dividingBy: (60 as? Double ?? 0)))
+    minutes = (specDouble(specAdd((specDouble(minutes) - specDouble(minuteStep)), 60)) .truncatingRemainder(dividingBy: specDouble(60)))
     /* event callback */
   }
   func toggleAmPm() {

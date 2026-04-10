@@ -10,8 +10,8 @@ final class CommandPaletteViewModel {
   var query: Any = ""
   var highlightIndex: Any = 0
   var filtered: Any { ((specString(query) != specString("")) ? (commands as? [Any] ?? []).filter { { c in specIncludes(((c as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : commands) }
-  var results: Any { (((specLength(filtered) as? Double ?? 0) > (maxResults as? Double ?? 0)) ? specSlice(filtered, 0, maxResults) : filtered) }
-  var hasResults: Any { ((specLength(results) as? Double ?? 0) > (0 as? Double ?? 0)) }
+  var results: Any { ((specDouble(specLength(filtered)) > specDouble(maxResults)) ? specSlice(filtered, 0, maxResults) : filtered) }
+  var hasResults: Any { (specDouble(specLength(results)) > specDouble(0)) }
   func setQuery(_ v: Any) {
     query = v
     highlightIndex = 0

@@ -15,7 +15,7 @@ final class DragDemoViewModel {
   }
   func reorderItems(_ items: Any) {
     sortableItems = items
-    lastReorder = specAdd(specAdd(specAdd("Reordered to: ", ((items as? [Any])?[0 as? Int ?? 0] as? [String: Any])?["name"]), " → "), ((items as? [Any])?[((specLength(items) as? Double ?? 0) - (1 as? Double ?? 0)) as? Int ?? 0] as? [String: Any])?["name"])
+    lastReorder = specAdd(specAdd(specAdd("Reordered to: ", ((items as? [Any])?[0 as? Int ?? 0] as? [String: Any])?["name"]), " → "), ((items as? [Any])?[(specDouble(specLength(items)) - specDouble(1)) as? Int ?? 0] as? [String: Any])?["name"])
   }
   func moveCard(_ cardId: Any, _ fromCol: Any, _ toCol: Any, _ idx: Any) {
     lastMove = specAdd(specAdd(specAdd("Moved card to ", toCol), " at position "), idx)

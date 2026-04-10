@@ -15,7 +15,7 @@ final class ListViewModel {
     selectedIds = selected
   }
   var filteredItems: Any { ((specString(searchQuery) != specString("")) ? (items as? [Any] ?? []).filter { { item in specIncludes(((item as? [String: Any])?["label"] as? String ?? "").lowercased(), (searchQuery as? String ?? "").lowercased()) }($0) as? Bool ?? false } : items) }
-  var hasItems: Any { ((specLength(filteredItems) as? Double ?? 0) > (0 as? Double ?? 0)) }
+  var hasItems: Any { (specDouble(specLength(filteredItems)) > specDouble(0)) }
   func setSearch(_ v: Any) {
     searchQuery = v
     /* event callback */

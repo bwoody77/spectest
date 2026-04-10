@@ -459,6 +459,20 @@ func specPx(_ val: Any) -> CGFloat {
     return CGFloat(0)
 }
 
+/// Safely convert Any to Double — handles Int, Double, String, and Optional.
+func specDouble(_ val: Any?) -> Double {
+    guard let v = val else { return 0 }
+    if let d = v as? Double { return d }
+    if let i = v as? Int { return Double(i) }
+    if let s = v as? String, let d = Double(s) { return d }
+    // Unwrap nested Optional
+    let mirror = Mirror(reflecting: v)
+    if mirror.displayStyle == .optional, let child = mirror.children.first {
+        return specDouble(child.value)
+    }
+    return 0
+}
+
 /// Create a regex pattern (returns the pattern string for use with specRegexTest).
 func specRegex(_ pattern: Any) -> Any {
     return specString(pattern)
@@ -609,6 +623,12 @@ struct SpecDataGridView: View {
             }
 
             Divider()
+
+            // Debug: show row count
+            if rowData.isEmpty {
+                Text("No data (\(specString(rows)) — cols: \(columnDefs.count))")
+                    .font(.caption).foregroundStyle(.red).padding(4)
+            }
 
             // Data rows
             ScrollView {
