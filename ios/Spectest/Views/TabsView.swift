@@ -20,9 +20,9 @@ struct TabsView: View {
           LazyVStack(spacing: CGFloat(8)) {
             ForEach(Array((vm.tabs as? [Any] ?? []).enumerated()), id: \.offset) { _idx, tab in
               VStack() {
-                Text(specString((tab as? [String: Any])?["label"]))
+                Text(verbatim: specString(specGet(tab, "label")))
                   .font(.body.bold())
-                  .foregroundStyle(Color(hex: ({ () -> Any in switch specString((specString((tab as? [String: Any])?["id"]) == specString(vm.activeTab))) {
+                  .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
 case specString(true): return "#1677ff"
 default: return "#496183"
 } })() as? String ?? "#000"))

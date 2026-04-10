@@ -17,11 +17,11 @@ final class ChartViewModel {
   var valueKey: Any = "value"
   var xKey: Any = "x"
   var yKey: Any = "y"
-  var isEmpty: Any { (data == nil || (specString(specLength(data)) == specString(0))) }
-  var isPie: Any { ((specString(type) == specString("pie")) || (specString(type) == specString("donut"))) }
+  var isEmpty: Any { (data == nil || specEq(specLength(data), 0)) }
+  var isPie: Any { (specEq(type, "pie") || specEq(type, "donut")) }
   var resolvedSeries: Any { resolveSeries(type, series, yKey, color, colors) }
   var legendItems: Any { ((isPie) as? Bool ?? false ? resolveSegmentMeta(data, colors, labelKey) : resolvedSeries) }
-  var showLegendBar: Any { (showLegend as? Bool ?? false && (isPie as? Bool ?? false || (specDouble(specLength(resolvedSeries)) > specDouble(1)))) }
+  var showLegendBar: Any { ((showLegend) as? Bool ?? false && ((isPie) as? Bool ?? false || (specDouble(specLength(resolvedSeries)) > specDouble(1)))) }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
 
@@ -46,15 +46,15 @@ struct ChartView: View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
         HStack(alignment: .center, ) {
-          if (specString(vm.title) != specString("")) {
-            Text(specString(vm.title))
+          if specNeq(vm.title, "") {
+            Text(verbatim: specString(vm.title))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
         }
         .padding(.bottom, CGFloat(4))
         VStack() {
-          if (specString(vm.isEmpty) == specString(false)) {
+          if specEq(vm.isEmpty, false) {
             // mount: ChartSVG
           }
         }
@@ -62,8 +62,8 @@ struct ChartView: View {
         .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, ) {
-          if vm.isEmpty as? Bool ?? false {
-            Text(specString("No data"))
+          if (vm.isEmpty) as? Bool ?? false {
+            Text(verbatim: specString("No data"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           }
@@ -72,15 +72,15 @@ struct ChartView: View {
         .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, spacing: CGFloat(12)) {
-          if vm.showLegendBar as? Bool ?? false {
+          if (vm.showLegendBar) as? Bool ?? false {
             ForEach(Array((vm.legendItems as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
               HStack(alignment: .center, spacing: CGFloat(4)) {
                 VStack() {
                 }
                 .frame(width: CGFloat(10))
                 .frame(height: CGFloat(10))
-                .background(Color(hex: (item as? [String: Any])?["color"] as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                Text(specString((item as? [String: Any])?["label"]))
+                .background(Color(hex: specGet(item, "color") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                Text(verbatim: specString(specGet(item, "label")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }

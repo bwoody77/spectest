@@ -405,6 +405,50 @@ struct SpecPriorityPill: View {
     }
 }
 
+// MARK: - HTTP / JSON
+
+/// Async HTTP fetch — bridges spec's `fetch(url, options)` to URLSession.
+/// Returns the decoded JSON body as Any (or nil on error).
+@discardableResult
+func fetch(_ url: Any, _ options: Any? = nil) async -> Any? {
+    guard let urlStr = url as? String, let u = URL(string: urlStr) else { return nil }
+    var req = URLRequest(url: u)
+    if let opts = options as? [String: Any] {
+        if let m = opts["method"] as? String { req.httpMethod = m }
+        if let body = opts["body"] {
+            if let s = body as? String { req.httpBody = s.data(using: .utf8) }
+            else if let d = try? JSONSerialization.data(withJSONObject: body) { req.httpBody = d }
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        if let headers = opts["headers"] as? [String: Any] {
+            for (k, v) in headers { req.setValue(specString(v), forHTTPHeaderField: k) }
+        }
+    }
+    do {
+        let (data, _) = try await URLSession.shared.data(for: req)
+        if data.isEmpty { return nil }
+        return try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])
+    } catch {
+        return nil
+    }
+}
+
+/// Bridges JS `JSON.stringify()` and `JSON.parse()`.
+enum JSON {
+    static func stringify(_ value: Any?) -> String {
+        guard let v = value else { return "null" }
+        if let data = try? JSONSerialization.data(withJSONObject: v, options: [.fragmentsAllowed]),
+           let s = String(data: data, encoding: .utf8) {
+            return s
+        }
+        return "null"
+    }
+    static func parse(_ text: Any?) -> Any? {
+        guard let s = specString(text).data(using: .utf8) else { return nil }
+        return try? JSONSerialization.jsonObject(with: s, options: [.fragmentsAllowed])
+    }
+}
+
 // MARK: - Extern stubs (JS functions not yet available in iOS)
 
 /// Stub for @extern functions that reference JavaScript modules.
@@ -499,7 +543,80 @@ func specAdd(_ a: Any, _ b: Any) -> Any {
 func specLength(_ val: Any) -> Double {
     if let s = val as? String { return Double(s.count) }
     if let a = val as? [Any] { return Double(a.count) }
+    if let d = val as? [String: Any] { return Double(d.count) }
     return 0.0
+}
+
+/// String equality on dynamic Any values — equivalent to
+/// `specString(a) == specString(b)` but as a single typed call.
+func specEq(_ a: Any?, _ b: Any?) -> Bool {
+    return specString(a) == specString(b)
+}
+
+func specNeq(_ a: Any?, _ b: Any?) -> Bool {
+    return specString(a) != specString(b)
+}
+
+/// Functional helpers — typed wrappers around Array operations so the
+/// compiler doesn't have to infer through `as?` casts inside expressions.
+func specFirst(_ arr: Any?, _ predicate: (Any) -> Bool) -> Any? {
+    guard let a = arr as? [Any] else { return nil }
+    return a.first(where: predicate)
+}
+
+func specFilter(_ arr: Any?, _ predicate: (Any) -> Bool) -> [Any] {
+    guard let a = arr as? [Any] else { return [] }
+    return a.filter(predicate)
+}
+
+func specMap(_ arr: Any?, _ transform: (Any) -> Any) -> [Any] {
+    guard let a = arr as? [Any] else { return [] }
+    return a.map(transform)
+}
+
+func specMapIndexed(_ arr: Any?, _ transform: (Any, Int) -> Any) -> [Any] {
+    guard let a = arr as? [Any] else { return [] }
+    return a.enumerated().map { transform($1, $0) }
+}
+
+func specSome(_ arr: Any?, _ predicate: (Any) -> Bool) -> Bool {
+    guard let a = arr as? [Any] else { return false }
+    return a.contains(where: predicate)
+}
+
+func specConcat(_ a: Any?, _ b: Any?) -> [Any] {
+    let aa = (a as? [Any]) ?? []
+    let bb = (b as? [Any]) ?? []
+    return aa + bb
+}
+
+/// Dynamic indexing: handles array index (Int / Double / numeric String)
+/// and dictionary key (String). Returns nil if the lookup fails.
+func specGet(_ obj: Any?, _ key: Any?) -> Any? {
+    guard let obj = obj, let key = key else { return nil }
+    // Unwrap nested optional
+    let objMirror = Mirror(reflecting: obj)
+    let unwrapped: Any
+    if objMirror.displayStyle == .optional {
+        guard let child = objMirror.children.first else { return nil }
+        unwrapped = child.value
+    } else {
+        unwrapped = obj
+    }
+    // Dictionary lookup by String key
+    if let dict = unwrapped as? [String: Any] {
+        if let s = key as? String { return dict[s] }
+        return dict[String(describing: key)]
+    }
+    // Array lookup by numeric index
+    if let arr = unwrapped as? [Any] {
+        var idx: Int? = nil
+        if let i = key as? Int { idx = i }
+        else if let d = key as? Double { idx = Int(d) }
+        else if let s = key as? String, let d = Double(s) { idx = Int(d) }
+        if let i = idx, i >= 0, i < arr.count { return arr[i] }
+    }
+    return nil
 }
 
 /// Substring extraction (0-based indices).
@@ -580,79 +697,7 @@ func specTypeOf(_ val: Any) -> String {
     return "undefined"
 }
 
-// MARK: - DataGrid (List-based dynamic data grid)
-
-/// Renders a data grid with dynamic columns using a List with header row.
-/// Since SwiftUI `Table` requires statically-defined `TableColumn` entries,
-/// this uses a List with HStack rows to support dynamic column definitions.
-struct SpecDataGridView: View {
-    let columns: Any
-    let rows: Any
-    let selection: String
-    let height: CGFloat
-
-    private var columnDefs: [[String: Any]] {
-        columns as? [[String: Any]] ?? []
-    }
-    private var rowData: [[String: Any]] {
-        if let typedRows = rows as? [[String: Any]] { return typedRows }
-        // Handle [Any] where each element needs individual casting
-        if let anyRows = rows as? [Any] {
-            return anyRows.compactMap { $0 as? [String: Any] }
-        }
-        return []
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            // Header row
-            if !columnDefs.isEmpty {
-                HStack(spacing: 0) {
-                    ForEach(Array(columnDefs.enumerated()), id: \.offset) { _, col in
-                        let label = specString((col["header"] as Any?) ?? (col["label"] as Any?) ?? (col["key"] as Any?))
-                        let w = (col["width"] as? Double).map { CGFloat($0) }
-                        Text(label)
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: w ?? .infinity, alignment: .leading)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 6)
-                    }
-                }
-                .background(Color(.tertiarySystemGroupedBackground))
-            }
-
-            Divider()
-
-            // Debug: show row count
-            if rowData.isEmpty {
-                Text("No data (\(specString(rows)) — cols: \(columnDefs.count))")
-                    .font(.caption).foregroundStyle(.red).padding(4)
-            }
-
-            // Data rows
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(rowData.enumerated()), id: \.offset) { rowIdx, row in
-                        HStack(spacing: 0) {
-                            ForEach(Array(columnDefs.enumerated()), id: \.offset) { _, col in
-                                let key = specString(col["key"])
-                                let w = (col["width"] as? Double).map { CGFloat($0) }
-                                Text(specString(row[key]))
-                                    .font(.subheadline)
-                                    .frame(maxWidth: w ?? .infinity, alignment: .leading)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 6)
-                            }
-                        }
-                        Divider()
-                    }
-                }
-            }
-        }
-        .frame(height: height > 0 ? height : 400)
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator).opacity(0.3)))
-    }
-}
+// DataGridSpec/EditableGridSpec are now compiled directly from their .spec
+// sources in @spec/components/spec/. The previous hand-written SpecDataGridView
+// fallback was deleted along with the iOS emitter short-circuit that used it
+// (see docs/ios-emitter-coverage.md and the editable-grid migration).

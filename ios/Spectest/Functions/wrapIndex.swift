@@ -1,6 +1,9 @@
-func wrapIndex(_ index: Any, _ delta: Any, _ len: Any) -> Any {
-  if ((len as! Double) <= 0.0) {
+func wrapIndex(_ index: Any, _ delta: Any, _ len: Any) -> Any? {
+  let index = specDouble(index)
+  let delta = specDouble(delta)
+  let len = specDouble(len)
+  if (len <= 0.0) {
     return 0.0
   }
-  return (specAdd((specAdd(index, delta) as! Double).truncatingRemainder(dividingBy: (len as! Double)), len) as! Double).truncatingRemainder(dividingBy: (len as! Double))
+  return ((index + delta).truncatingRemainder(dividingBy: len) + len).truncatingRemainder(dividingBy: len)
 }

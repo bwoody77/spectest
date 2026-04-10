@@ -7,9 +7,9 @@ final class TaskTableViewModel {
   var view: Any? = nil
   var filter: Any = "all"
   var taskList: Any { (tasks != nil ? tasks : [] as [Any]) }
-  var filteredTasks: Any { ((specString(filter) == specString("all")) ? taskList : (taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["status"]) == specString(filter)) }($0) as? Bool ?? false }) }
+  var filteredTasks: Any { (specEq(filter, "all") ? taskList : specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "status"), filter) })) }
   var taskCount: Any { "\(specString(specLength(filteredTasks))) tasks" }
-  var hasNoResults: Any { (specString(specLength(filteredTasks)) == specString(0)) }
+  var hasNoResults: Any { specEq(specLength(filteredTasks), 0) }
   let tasksSource = DataSource(endpoint: "http://localhost:4000/api/tasks", method: "GET")
   var tasks: Any? { tasksSource.data }
   var tasksLoading: Bool { tasksSource.loading }
@@ -38,7 +38,7 @@ struct TaskTableView: View {
         Image(systemName: specIconName(specString("list")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Tasks"))
+        Text(verbatim: specString("Tasks"))
           .font(.title3.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
@@ -46,7 +46,7 @@ struct TaskTableView: View {
       .frame(maxWidth: .infinity)
 
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Text(specString(vm.taskCount))
+        Text(verbatim: specString(vm.taskCount))
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         Spacer(minLength: 0)
@@ -62,7 +62,7 @@ struct TaskTableView: View {
       .padding(CGFloat(12))
       .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(8)) {
-        if vm.tasksLoading as? Bool ?? false {
+        if (vm.tasksLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("48px"))
@@ -87,7 +87,7 @@ struct TaskTableView: View {
       }
 
       VStack() {
-        if vm.tasksError as? Bool ?? false {
+        if (vm.tasksError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -105,21 +105,21 @@ struct TaskTableView: View {
       LazyVStack(spacing: CGFloat(8)) {
         ForEach(Array((vm.filteredTasks as? [Any] ?? []).enumerated()), id: \.offset) { index, task in
           HStack(alignment: .center, spacing: CGFloat(12)) {
-            Text(specString("\(specString(index))"))
+            Text(verbatim: specString("\(specString(index))"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             VStack(spacing: CGFloat(4)) {
-              Text(specString((task as? [String: Any])?["title"]))
+              Text(verbatim: specString(specGet(task, "title")))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString((task as? [String: Any])?["assignee"]))
+              Text(verbatim: specString(specGet(task, "assignee")))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
 
             Spacer(minLength: 0)
-            SpecStatusPill(status: specString((task as? [String: Any])?["status"]))
-            Text(specString("Priority: \(specString((task as? [String: Any])?["priority"]))")).font(.caption).foregroundStyle(.tertiary)
+            SpecStatusPill(status: specString(specGet(task, "status")))
+            Text(specString("Priority: \(specString(specGet(task, "priority")))")).font(.caption).foregroundStyle(.tertiary)
           }
           .frame(maxWidth: .infinity)
           .padding(CGFloat(12))
@@ -128,7 +128,7 @@ struct TaskTableView: View {
         }
       }
       VStack() {
-        if vm.hasNoResults as? Bool ?? false {
+        if (vm.hasNoResults) as? Bool ?? false {
           ContentUnavailableView(specString("No Tasks Found"), systemImage: "tray", description: Text(specString("No tasks match the current filter. Try changing your filter criteria.")))
             .frame(height: 200)
         }

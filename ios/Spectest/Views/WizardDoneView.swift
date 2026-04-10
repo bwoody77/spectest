@@ -14,10 +14,10 @@ struct WizardDoneView: View {
         Image(systemName: specIconName(specString("check")))
           .font(.system(size: specPx("48px")))
           .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
-        Text(specString("Task Created!"))
+        Text(verbatim: specString("Task Created!"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
-        Text(specString("Your task has been successfully submitted."))
+        Text(verbatim: specString("Your task has been successfully submitted."))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.success-mid"))
       }

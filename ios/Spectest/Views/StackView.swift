@@ -20,13 +20,13 @@ struct StackView: View {
   var body: some View {
     VStack() {
       VStack() {
-        if (specString(vm.direction) == specString("vertical")) {
+        if specEq(vm.direction, "vertical") {
           // slot
         }
       }
 
       HStack(alignment: .center, ) {
-        if (specString(vm.direction) == specString("horizontal")) {
+        if specEq(vm.direction, "horizontal") {
           // slot
         }
       }

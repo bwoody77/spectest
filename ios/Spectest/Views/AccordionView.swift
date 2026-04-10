@@ -8,9 +8,9 @@ final class AccordionViewModel {
   var openIds: Any = [] as [Any]
   func toggle(_ id: Any) {
     openIds = ({ () -> Any in switch specString(specIncludes(openIds, id)) {
-case specString(true): return (openIds as? [Any] ?? []).filter { { x in (specString(x) != specString(id)) }($0) as? Bool ?? false }
+case specString(true): return specFilter(openIds, { (x: Any) -> Bool in return specNeq(x, id) })
 default: return ({ () -> Any in switch specString(multiple) {
-case specString(true): return ((openIds as? [Any] ?? []) + ([id] as [Any] as? [Any] ?? []))
+case specString(true): return specConcat(openIds, [id] as [Any])
 default: return [id] as [Any]
 } })()
 } })()
@@ -30,10 +30,10 @@ struct AccordionView: View {
         ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
           VStack() {
             HStack(alignment: .center, spacing: CGFloat(8)) {
-              Text(specString((item as? [String: Any])?["title"]))
+              Text(verbatim: specString(specGet(item, "title")))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString(({ () -> Any in switch specString(specIncludes(vm.openIds, (item as? [String: Any])?["id"])) {
+              Text(verbatim: specString(({ () -> Any in switch specString(specIncludes(vm.openIds, specGet(item, "id"))) {
 case specString(true): return "−"
 default: return "+"
 } })()))
@@ -43,16 +43,16 @@ default: return "+"
             .padding(CGFloat(12))
             .background(ThemeManager.shared.color("semantic.surface"))
             .background(ThemeManager.shared.color("semantic.surface"))
-            .onTapGesture { vm.toggle((item as? [String: Any])?["id"]) }
+            .onTapGesture { vm.toggle(specGet(item, "id")) }
             VStack() {
               VStack() {
-                Text(specString((item as? [String: Any])?["content"]))
+                Text(verbatim: specString(specGet(item, "content")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
               .padding(CGFloat(12))
             }
-            .frame(maxHeight: specPx(({ () -> Any in switch specString(specIncludes(vm.openIds, (item as? [String: Any])?["id"])) {
+            .frame(maxHeight: specPx(({ () -> Any in switch specString(specIncludes(vm.openIds, specGet(item, "id"))) {
 case specString(true): return "500px"
 default: return "0"
 } })()))

@@ -24,7 +24,7 @@ struct ButtonView: View {
   var body: some View {
     VStack() {
       Button(action: {  }) {
-        Text(specString(vm.label))
+        Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.variant) {
 case specString("primary"): return "#fff"

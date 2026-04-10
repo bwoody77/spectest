@@ -6,10 +6,10 @@ final class TeamDirectoryViewModel {
   var search: Any = ""
   var roleFilter: Any = "all"
   var userList: Any { (users != nil ? users : [] as [Any]) }
-  var filteredUsers: Any { ((specString(roleFilter) == specString("all")) ? userList : (userList as? [Any] ?? []).filter { { u in (specString((u as? [String: Any])?["role"]) == specString(roleFilter)) }($0) as? Bool ?? false }) }
-  var searchResults: Any { ((specString(search) == specString("")) ? filteredUsers : (filteredUsers as? [Any] ?? []).filter { { u in specIncludes(((u as? [String: Any])?["name"] as? String ?? "").lowercased(), (search as? String ?? "").lowercased()) }($0) as? Bool ?? false }) }
+  var filteredUsers: Any { (specEq(roleFilter, "all") ? userList : specFilter(userList, { (u: Any) -> Bool in return specEq(specGet(u, "role"), roleFilter) })) }
+  var searchResults: Any { (specEq(search, "") ? filteredUsers : specFilter(filteredUsers, { (u: Any) -> Bool in return specIncludes((specGet(u, "name") as? String ?? "").lowercased(), (search as? String ?? "").lowercased()) })) }
   var userCount: Any { "\(specString(specLength(searchResults))) members" }
-  var hasNoUsers: Any { (specString(specLength(searchResults)) == specString(0)) }
+  var hasNoUsers: Any { specEq(specLength(searchResults), 0) }
   let usersSource = DataSource(endpoint: "http://localhost:4000/api/users", method: "GET")
   var users: Any? { usersSource.data }
   var usersLoading: Bool { usersSource.loading }
@@ -34,7 +34,7 @@ struct TeamDirectoryView: View {
         Image(systemName: specIconName(specString("user")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Team Directory"))
+        Text(verbatim: specString("Team Directory"))
           .font(.title2.bold())
         Spacer(minLength: 0)
       }
@@ -66,7 +66,7 @@ struct TeamDirectoryView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-        if vm.usersLoading as? Bool ?? false {
+        if (vm.usersLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("180px"))
@@ -83,7 +83,7 @@ struct TeamDirectoryView: View {
       }
 
       VStack() {
-        if vm.usersError as? Bool ?? false {
+        if (vm.usersError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -102,17 +102,17 @@ struct TeamDirectoryView: View {
         ForEach(Array((vm.searchResults as? [Any] ?? []).enumerated()), id: \.offset) { idx, user in
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              UserAvatarView(bgColor: "#1677ff", name: (user as? [String: Any])?["name"])
+              UserAvatarView(bgColor: "#1677ff", name: specGet(user, "name"))
               VStack(spacing: CGFloat(4)) {
-                Text(specString((user as? [String: Any])?["name"]))
+                Text(verbatim: specString(specGet(user, "name")))
                   .font(.body.bold())
-                Text(specString((user as? [String: Any])?["role"]))
+                Text(specString(specGet(user, "role")))
                   .font(.caption.weight(.medium))
                   .padding(.horizontal, 8)
                   .padding(.vertical, 4)
                   .foregroundStyle(specBadgeForeground(specString("neutral")))
                   .background(specBadgeBackground(specString("neutral")), in: Capsule())
-                Text(specString((user as? [String: Any])?["email"]))
+                Text(verbatim: specString(specGet(user, "email")))
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
@@ -145,7 +145,7 @@ struct TeamDirectoryView: View {
       }
 
       VStack() {
-        if vm.hasNoUsers as? Bool ?? false {
+        if (vm.hasNoUsers) as? Bool ?? false {
           ContentUnavailableView(specString("No Team Members Found"), systemImage: "tray", description: Text(specString("No team members match your search criteria.")))
             .frame(height: 200)
         }

@@ -10,7 +10,7 @@ final class ImageViewModel {
   var src: Any? = nil
   var loaded: Any = false
   var errored: Any = false
-  var displaySrc: Any { ((errored) as? Bool ?? false ? ((specString(fallbackSrc) != specString("")) ? fallbackSrc : src) : src) }
+  var displaySrc: Any { ((errored) as? Bool ?? false ? (specNeq(fallbackSrc, "") ? fallbackSrc : src) : src) }
   var loadingAttr: Any { ((lazy) as? Bool ?? false ? "lazy" : "eager") }
   func handleLoad() {
     loaded = true
@@ -33,15 +33,17 @@ struct ImageView: View {
   var body: some View {
     VStack() {
       VStack() {
-        VStack() {
-          if (specString(vm.loaded) == specString(false)) {
-          }
-        }
-        .background(ThemeManager.shared.color("semantic.on-destructive"))
-        .background(ThemeManager.shared.color("semantic.on-destructive"))
         AsyncImage(url: URL(string: "" as? String ?? ""))
       }
       .frame(width: CGFloat(0))
+      .overlay {
+        if specEq(vm.loaded, false) {
+          ZStack {
+            if specEq(vm.loaded, false) {
+            }
+          }
+        }
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

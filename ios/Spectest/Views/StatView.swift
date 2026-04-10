@@ -22,15 +22,15 @@ struct StatView: View {
   var body: some View {
     VStack() {
       VStack() {
-        Text(specString(vm.label))
+        Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-        Text(specString(vm.value))
+        Text(verbatim: specString(vm.value))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         HStack(alignment: .center, spacing: CGFloat(4)) {
-          if (specString(vm.trend) != specString("")) {
-            Text(specString(({ () -> Any in switch specString(vm.trend) {
+          if specNeq(vm.trend, "") {
+            Text(verbatim: specString(({ () -> Any in switch specString(vm.trend) {
 case specString("up"): return "↑"
 case specString("down"): return "↓"
 default: return "→"
@@ -42,7 +42,7 @@ case specString("down"): return "#ef4444"
 default: return "#92a2b9"
 } })() as? String ?? "#000"))
           }
-          Text(specString(vm.trendValue))
+          Text(verbatim: specString(vm.trendValue))
             .font(.body.bold())
             .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.trend) {
 case specString("up"): return "#22c55e"
@@ -51,7 +51,7 @@ default: return "#92a2b9"
 } })() as? String ?? "#000"))
         }
 
-        Text(specString(vm.helpText))
+        Text(verbatim: specString(vm.helpText))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
       }

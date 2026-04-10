@@ -41,8 +41,8 @@ struct TextInputView: View {
     VStack() {
       VStack(spacing: CGFloat(6)) {
         VStack() {
-          if (specString(vm.label) != specString("")) {
-            Text(specString(vm.label))
+          if specNeq(vm.label, "") {
+            Text(verbatim: specString(vm.label))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
@@ -50,15 +50,15 @@ struct TextInputView: View {
 
         HStack(alignment: .center, spacing: CGFloat(8)) {
           VStack() {
-            if (specString(vm.prefix) != specString("")) {
-              Text(specString(vm.prefix))
+            if specNeq(vm.prefix, "") {
+              Text(verbatim: specString(vm.prefix))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
           }
 
           VStack() {
-            if (specString(vm.type) != specString("textarea")) {
+            if specNeq(vm.type, "textarea") {
               TextField("", text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
             }
           }
@@ -66,7 +66,7 @@ struct TextInputView: View {
           .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
           VStack() {
-            if (specString(vm.type) == specString("textarea")) {
+            if specEq(vm.type, "textarea") {
               TextEditor(text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
             }
           }
@@ -74,8 +74,8 @@ struct TextInputView: View {
           .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
           VStack() {
-            if (specString(vm.suffix) != specString("")) {
-              Text(specString(vm.suffix))
+            if specNeq(vm.suffix, "") {
+              Text(verbatim: specString(vm.suffix))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
@@ -85,8 +85,8 @@ struct TextInputView: View {
         .padding(CGFloat(8))
         .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
-          if (specString(vm.error) == specString(true)) {
-            Text(specString(vm.errorMessage))
+          if specEq(vm.error, true) {
+            Text(verbatim: specString(vm.errorMessage))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.destructive"))
           }

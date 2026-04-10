@@ -3,20 +3,20 @@ import SpecRuntime
 
 @Observable
 final class AnalyticsViewViewModel {
-  var total: Any { (stats != nil ? (stats as? [String: Any])?["total"] : 0) }
-  var done: Any { (stats != nil ? (stats as? [String: Any])?["done"] : 0) }
-  var inProgress: Any { (stats != nil ? (stats as? [String: Any])?["inProgress"] : 0) }
-  var todo: Any { (stats != nil ? (stats as? [String: Any])?["todo"] : 0) }
+  var total: Any { (stats != nil ? specGet(stats, "total") : 0) }
+  var done: Any { (stats != nil ? specGet(stats, "done") : 0) }
+  var inProgress: Any { (stats != nil ? specGet(stats, "inProgress") : 0) }
+  var todo: Any { (stats != nil ? specGet(stats, "todo") : 0) }
   var donePercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(done) * specDouble(100))) / specDouble(total)) : 0) }
   var inProgressPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(inProgress) * specDouble(100))) / specDouble(total)) : 0) }
   var todoPercent: Any { ((specDouble(total) > specDouble(0)) ? (specDouble((specDouble(todo) * specDouble(100))) / specDouble(total)) : 0) }
   var taskList: Any { (tasks != nil ? tasks : [] as [Any]) }
-  var highCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["priority"]) == specString("high")) }($0) as? Bool ?? false }) }
-  var mediumCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["priority"]) == specString("medium")) }($0) as? Bool ?? false }) }
-  var lowCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["priority"]) == specString("low")) }($0) as? Bool ?? false }) }
-  var aliceCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["assignee"]) == specString("Alice")) }($0) as? Bool ?? false }) }
-  var bobCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["assignee"]) == specString("Bob")) }($0) as? Bool ?? false }) }
-  var carolCount: Any { specLength((taskList as? [Any] ?? []).filter { { t in (specString((t as? [String: Any])?["assignee"]) == specString("Carol")) }($0) as? Bool ?? false }) }
+  var highCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "priority"), "high") })) }
+  var mediumCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "priority"), "medium") })) }
+  var lowCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "priority"), "low") })) }
+  var aliceCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Alice") })) }
+  var bobCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Bob") })) }
+  var carolCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Carol") })) }
   let statsSource = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
@@ -40,14 +40,14 @@ struct AnalyticsViewView: View {
         Image(systemName: specIconName(specString("bar-chart")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Analytics"))
+        Text(verbatim: specString("Analytics"))
           .font(.title2.bold())
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
 
       LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-        if vm.statsLoading as? Bool ?? false {
+        if (vm.statsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("100px"))
@@ -117,15 +117,15 @@ struct AnalyticsViewView: View {
       LazyVGrid(columns: [GridItem(.flexible())], spacing: CGFloat(20)) {
         VStack(alignment: .leading) {
           VStack(spacing: CGFloat(16)) {
-            Text(specString("Status Breakdown"))
+            Text(verbatim: specString("Status Breakdown"))
               .font(.title3.bold())
             VStack(spacing: CGFloat(12)) {
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
-                  Text(specString("Completed"))
+                  Text(verbatim: specString("Completed"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
-                  Text(specString("\(specString(vm.done))"))
+                  Text(verbatim: specString("\(specString(vm.done))"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.success"))
                 }
@@ -136,10 +136,10 @@ struct AnalyticsViewView: View {
 
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
-                  Text(specString("In Progress"))
+                  Text(verbatim: specString("In Progress"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.warning-text"))
-                  Text(specString("\(specString(vm.inProgress))"))
+                  Text(verbatim: specString("\(specString(vm.inProgress))"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
                 }
@@ -150,10 +150,10 @@ struct AnalyticsViewView: View {
 
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
-                  Text(specString("Todo"))
+                  Text(verbatim: specString("Todo"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-strong"))
-                  Text(specString("\(specString(vm.todo))"))
+                  Text(verbatim: specString("\(specString(vm.todo))"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-muted"))
                 }
@@ -170,7 +170,7 @@ struct AnalyticsViewView: View {
         .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         VStack(alignment: .leading) {
           VStack(spacing: CGFloat(16)) {
-            Text(specString("Priority Breakdown"))
+            Text(verbatim: specString("Priority Breakdown"))
               .font(.title3.bold())
             VStack(spacing: CGFloat(12)) {
               HStack(alignment: .center, spacing: CGFloat(12)) {
@@ -178,7 +178,7 @@ struct AnalyticsViewView: View {
                   Image(systemName: specIconName(specString("alert-triangle")))
                     .font(.system(size: specPx("18px")))
                     .foregroundStyle(Color(hex: "#ff4d4f" as? String ?? "#000"))
-                  Text(specString("High Priority"))
+                  Text(verbatim: specString("High Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
                 }
@@ -200,7 +200,7 @@ struct AnalyticsViewView: View {
                   Image(systemName: specIconName(specString("info")))
                     .font(.system(size: specPx("18px")))
                     .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
-                  Text(specString("Medium Priority"))
+                  Text(verbatim: specString("Medium Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
                 }
@@ -222,7 +222,7 @@ struct AnalyticsViewView: View {
                   Image(systemName: specIconName(specString("check")))
                     .font(.system(size: specPx("18px")))
                     .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
-                  Text(specString("Low Priority"))
+                  Text(verbatim: specString("Low Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
                 }
@@ -249,7 +249,7 @@ struct AnalyticsViewView: View {
 
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Workload Distribution"))
+          Text(verbatim: specString("Workload Distribution"))
             .font(.title3.bold())
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: CGFloat(16)) {
             VStack(spacing: CGFloat(8)) {

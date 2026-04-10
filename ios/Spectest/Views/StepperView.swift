@@ -21,12 +21,12 @@ struct StepperView: View {
   var body: some View {
     VStack() {
       HStack(alignment: .center, ) {
-        if (specString(vm.orientation) == specString("horizontal")) {
+        if specEq(vm.orientation, "horizontal") {
           ForEach(Array((vm.steps as? [Any] ?? []).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, ) {
               VStack(spacing: CGFloat(4)) {
                 HStack(alignment: .center, ) {
-                  Text(specString(({ () -> Any in switch specString(true) {
+                  Text(verbatim: specString(({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
 } })()))
@@ -41,19 +41,19 @@ default: return "#496183"
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
-case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
+case specString(specEq(i, vm.activeStep)): return "#1677ff"
 default: return "#ffffff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                Text(specString((step as? [String: Any])?["label"]))
+                Text(verbatim: specString(specGet(step, "label")))
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
-case specString((specString(i) == specString(vm.activeStep))): return "#202732"
+case specString(specEq(i, vm.activeStep)): return "#202732"
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
 } })() as? String ?? "#000"))
               }
 
-              .onTapGesture { if (vm.allowBack as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) as? Bool ?? false {
+              .onTapGesture { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
   /* event callback */
 } }
               VStack() {
@@ -76,12 +76,12 @@ default: return "#92a2b9"
       }
 
       VStack() {
-        if (specString(vm.orientation) == specString("vertical")) {
+        if specEq(vm.orientation, "vertical") {
           ForEach(Array((vm.steps as? [Any] ?? []).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
                 HStack(alignment: .center, ) {
-                  Text(specString(({ () -> Any in switch specString(true) {
+                  Text(verbatim: specString(({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
 } })()))
@@ -96,10 +96,10 @@ default: return "#496183"
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
-case specString((specString(i) == specString(vm.activeStep))): return "#1677ff"
+case specString(specEq(i, vm.activeStep)): return "#1677ff"
 default: return "#ffffff"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                .onTapGesture { if (vm.allowBack as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) as? Bool ?? false {
+                .onTapGesture { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
   /* event callback */
 } }
                 VStack() {
@@ -117,16 +117,16 @@ default: return "#ffffff"
               .frame(width: CGFloat(32))
               .frame(minWidth: CGFloat(32))
               VStack(spacing: CGFloat(4)) {
-                Text(specString((step as? [String: Any])?["label"]))
+                Text(verbatim: specString(specGet(step, "label")))
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
-case specString((specString(i) == specString(vm.activeStep))): return "#202732"
+case specString(specEq(i, vm.activeStep)): return "#202732"
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
 } })() as? String ?? "#000"))
                 VStack() {
-                  if (step as? [String: Any])?["description"] != nil {
-                    Text(specString((step as? [String: Any])?["description"]))
+                  if specGet(step, "description") != nil {
+                    Text(verbatim: specString(specGet(step, "description")))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   }

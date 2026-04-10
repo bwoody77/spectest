@@ -52,10 +52,10 @@ struct MobileDemoView: View {
     VStack() {
       VStack() {
         VStack() {
-          Text(specString("Mobile Demo"))
+          Text(verbatim: specString("Mobile Demo"))
             .font(.title2.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("Gesture events, bottom sheet, safe areas"))
+          Text(verbatim: specString("Gesture events, bottom sheet, safe areas"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
@@ -65,26 +65,26 @@ struct MobileDemoView: View {
         .background(ThemeManager.shared.color("semantic.surface"))
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Swipe Zone"))
+            Text(verbatim: specString("Swipe Zone"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("Swipe left for snackbar, right for bottom sheet"))
+            Text(verbatim: specString("Swipe left for snackbar, right for bottom sheet"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Scroll Snap Carousel"))
+            Text(verbatim: specString("Scroll Snap Carousel"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(16)) {
               ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
                 VStack() {
-                  Text(specString((item as? [String: Any])?["title"]))
+                  Text(verbatim: specString(specGet(item, "title")))
                     .font(.headline.bold())
                     .foregroundStyle(Color.white)
-                  Text(specString((item as? [String: Any])?["subtitle"]))
+                  Text(verbatim: specString(specGet(item, "subtitle")))
                     .font(.callout.bold())
                     .foregroundStyle(Color(.sRGB, red: 1.0000, green: 1.0000, blue: 1.0000, opacity: 0.8))
                 }
@@ -97,12 +97,12 @@ struct MobileDemoView: View {
           }
 
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Components"))
+            Text(verbatim: specString("Components"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(8)) {
               VStack() {
-                Text(specString("Bottom Sheet"))
+                Text(verbatim: specString("Bottom Sheet"))
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
@@ -113,7 +113,7 @@ struct MobileDemoView: View {
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.openSheet() }
               VStack() {
-                Text(specString("Action Sheet"))
+                Text(verbatim: specString("Action Sheet"))
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
@@ -124,7 +124,7 @@ struct MobileDemoView: View {
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.openActionSheet() }
               VStack() {
-                Text(specString("Snackbar"))
+                Text(verbatim: specString("Snackbar"))
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
@@ -139,20 +139,20 @@ struct MobileDemoView: View {
           }
 
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Long Press"))
+            Text(verbatim: specString("Long Press"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("Long press this card to open the action sheet"))
+            Text(verbatim: specString("Long press this card to open the action sheet"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack() {
-            Text(specString("Visibility Trigger"))
+            Text(verbatim: specString("Visibility Trigger"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("Snackbar shown when this card scrolled into view"))
+            Text(verbatim: specString("Snackbar shown when this card scrolled into view"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }

@@ -6,19 +6,19 @@ final class ChartDemoViewModel {
   var activeChart: Any = "line"
   var showGrid: Any = true
   var showValues: Any = false
-  var isLine: Any { (specString(activeChart) == specString("line")) }
-  var isBar: Any { (specString(activeChart) == specString("bar")) }
-  var isArea: Any { (specString(activeChart) == specString("area")) }
-  var isPie: Any { (specString(activeChart) == specString("pie")) }
-  var isDonut: Any { (specString(activeChart) == specString("donut")) }
+  var isLine: Any { specEq(activeChart, "line") }
+  var isBar: Any { specEq(activeChart, "bar") }
+  var isArea: Any { specEq(activeChart, "area") }
+  var isPie: Any { specEq(activeChart, "pie") }
+  var isDonut: Any { specEq(activeChart, "donut") }
   func setChart(_ t: Any) {
     activeChart = t
   }
   func toggleGrid() {
-    showGrid = !(showGrid as? Bool ?? false)
+    showGrid = (!((showGrid) as? Bool ?? false))
   }
   func toggleValues() {
-    showValues = !(showValues as? Bool ?? false)
+    showValues = (!((showValues) as? Bool ?? false))
   }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }
@@ -27,43 +27,43 @@ struct ChartDemoView: View {
   @State private var vm = ChartDemoViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Chart Component"))
+      Text(verbatim: specString("Chart Component"))
         .font(.title2.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-      Text(specString("Built-in SVG charts — no external library required. Supports line, bar, area, pie, and donut types."))
+      Text(verbatim: specString("Built-in SVG charts — no external library required. Supports line, bar, area, pie, and donut types."))
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
         VStack() {
-          Text(specString("Line"))
+          Text(verbatim: specString("Line"))
             .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
         .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("line") }
         VStack() {
-          Text(specString("Bar"))
+          Text(verbatim: specString("Bar"))
             .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
         .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("bar") }
         VStack() {
-          Text(specString("Area"))
+          Text(verbatim: specString("Area"))
             .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
         .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("area") }
         VStack() {
-          Text(specString("Pie"))
+          Text(verbatim: specString("Pie"))
             .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
         .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setChart("pie") }
         VStack() {
-          Text(specString("Donut"))
+          Text(verbatim: specString("Donut"))
             .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
@@ -72,15 +72,15 @@ struct ChartDemoView: View {
       }
 
       VStack() {
-        if vm.isLine as? Bool ?? false {
+        if (vm.isLine) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
               HStack(alignment: .center, ) {
-                Text(specString("Monthly Revenue"))
+                Text(verbatim: specString("Monthly Revenue"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("Grid"))
+                  Text(verbatim: specString("Grid"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
@@ -99,7 +99,7 @@ struct ChartDemoView: View {
                 showValues: false as? Bool ?? false,
                 showLegend: true as? Bool ?? true
               )
-              Text(specString("Monthly revenue vs target. Multi-series line chart with legend."))
+              Text(verbatim: specString("Monthly revenue vs target. Multi-series line chart with legend."))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -110,15 +110,15 @@ struct ChartDemoView: View {
       }
 
       VStack() {
-        if vm.isBar as? Bool ?? false {
+        if (vm.isBar) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
               HStack(alignment: .center, ) {
-                Text(specString("Sales by Region"))
+                Text(verbatim: specString("Sales by Region"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("Values"))
+                  Text(verbatim: specString("Values"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
@@ -137,7 +137,7 @@ struct ChartDemoView: View {
                 showValues: vm.showValues as? Bool ?? false,
                 showLegend: true as? Bool ?? true
               )
-              Text(specString("Grouped bar chart — quarterly sales per region. Toggle Values for labels."))
+              Text(verbatim: specString("Grouped bar chart — quarterly sales per region. Toggle Values for labels."))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -148,10 +148,10 @@ struct ChartDemoView: View {
       }
 
       VStack() {
-        if vm.isArea as? Bool ?? false {
+        if (vm.isArea) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Active Users (Last 30 Days)"))
+              Text(verbatim: specString("Active Users (Last 30 Days)"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               SpecChartView(
@@ -164,7 +164,7 @@ struct ChartDemoView: View {
                 showValues: false as? Bool ?? false,
                 showLegend: true as? Bool ?? true
               )
-              Text(specString("Single-series area chart with filled region. Good for trends over time."))
+              Text(verbatim: specString("Single-series area chart with filled region. Good for trends over time."))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -175,15 +175,15 @@ struct ChartDemoView: View {
       }
 
       VStack() {
-        if vm.isPie as? Bool ?? false {
+        if (vm.isPie) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
               HStack(alignment: .center, ) {
-                Text(specString("Revenue by Category"))
+                Text(verbatim: specString("Revenue by Category"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("Values"))
+                  Text(verbatim: specString("Values"))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
                 }
@@ -202,7 +202,7 @@ struct ChartDemoView: View {
                 showValues: vm.showValues as? Bool ?? false,
                 showLegend: true as? Bool ?? true
               )
-              Text(specString("Pie chart with legend. Toggle Values to show amounts inside segments."))
+              Text(verbatim: specString("Pie chart with legend. Toggle Values to show amounts inside segments."))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -213,10 +213,10 @@ struct ChartDemoView: View {
       }
 
       VStack() {
-        if vm.isDonut as? Bool ?? false {
+        if (vm.isDonut) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Task Status Distribution"))
+              Text(verbatim: specString("Task Status Distribution"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               SpecChartView(
@@ -229,7 +229,7 @@ struct ChartDemoView: View {
                 showValues: true as? Bool ?? false,
                 showLegend: true as? Bool ?? true
               )
-              Text(specString("Donut chart — total shown in center ring. Good for part-to-whole relationships."))
+              Text(verbatim: specString("Donut chart — total shown in center ring. Good for part-to-whole relationships."))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }

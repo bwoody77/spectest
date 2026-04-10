@@ -6,8 +6,8 @@ final class WizardStep1ViewModel {
   var title: Any = ""
   var assignee: Any = ""
   var titleTouched: Any = false
-  var titleFilled: Any { (specString(title) != specString("")) }
-  var showTitleError: Any { (titleTouched as? Bool ?? false && (specString(title) == specString(""))) }
+  var titleFilled: Any { specNeq(title, "") }
+  var showTitleError: Any { ((titleTouched) as? Bool ?? false && specEq(title, "")) }
   func setTitle(_ v: Any) {
     title = v
   }
@@ -21,9 +21,9 @@ struct WizardStep1View: View {
   @State private var vm = WizardStep1ViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Step 1: Basic Info"))
+      Text(verbatim: specString("Step 1: Basic Info"))
         .font(.title3.bold())
-      Text(specString("Provide the core details for this task."))
+      Text(verbatim: specString("Provide the core details for this task."))
         .font(.callout.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack(alignment: .leading) {
@@ -34,8 +34,8 @@ struct WizardStep1View: View {
               TextField(specString("Task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
             }
             VStack() {
-              if vm.showTitleError as? Bool ?? false {
-                Text(specString("Title is required"))
+              if (vm.showTitleError) as? Bool ?? false {
+                Text(verbatim: specString("Title is required"))
                   .font(.callout.bold())
                   .foregroundStyle(Color(hex: "#db2424"))
               }
@@ -62,7 +62,7 @@ struct WizardStep1View: View {
             .padding(.vertical, 8)
             .background(.blue, in: RoundedRectangle(cornerRadius: 8))
         }
-        .disabled(!(vm.titleFilled as? Bool ?? false) as? Bool ?? false)
+        .disabled((!((vm.titleFilled) as? Bool ?? false)) as? Bool ?? false)
       }
 
     }

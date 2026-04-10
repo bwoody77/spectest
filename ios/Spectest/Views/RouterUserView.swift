@@ -14,18 +14,21 @@ struct RouterUserView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(12)) {
-        Text(specString("User Profile"))
+        Text(verbatim: specString("User Profile"))
           .font(.headline.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-        Text(specString("Route: /users/\(specString(vm.userId))"))
+        Text(verbatim: specString("Route: /users/\(specString(vm.userId))"))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-        Text(specString("The ':id' segment from the URL pattern is extracted into _routeParams.id and passed as a prop."))
+        Text(verbatim: specString("The ':id' segment from the URL pattern is extracted into _routeParams.id and passed as a prop."))
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(12)) {
           HStack(alignment: .center, ) {
-            Text(specString(((vm.userId) as? Bool ?? false ? (vm.userId as? [Any])?[0 as? Int ?? 0] : "?")))
+            Text(verbatim: ({ () -> String in
+          if (vm.userId) as? Bool ?? false { return specString((vm.userId as? [Any])?[0]) }
+          return specString("?")
+        })())
               .font(.headline.bold())
               .foregroundStyle(Color(hex: "#fff"))
           }
@@ -33,10 +36,10 @@ struct RouterUserView: View {
           .frame(height: CGFloat(40))
           .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
           VStack(spacing: CGFloat(4)) {
-            Text(specString("User #\(specString(vm.userId))"))
+            Text(verbatim: specString("User #\(specString(vm.userId))"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("user\(specString(vm.userId))@example.com"))
+            Text(verbatim: specString("user\(specString(vm.userId))@example.com"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }

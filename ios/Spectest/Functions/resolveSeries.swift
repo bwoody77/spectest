@@ -1,12 +1,17 @@
-func resolveSeries(_ type: Any, _ series: Any, _ yKey: Any, _ color: Any, _ colors: Any) -> Any {
-  if ((String(describing: type) == String(describing: "pie")) || (String(describing: type) == String(describing: "donut"))) {
-    return []
+func resolveSeries(_ type: Any, _ series: Any, _ yKey: Any, _ color: Any, _ colors: Any) -> Any? {
+  let type = specString(type)
+  let series = (series as? [Any]) ?? []
+  let yKey = specString(yKey)
+  let color = specString(color)
+  let colors = (colors as? [Any]) ?? []
+  if ((type == "pie") || (type == "donut")) {
+    return ([] as [Any])
   }
-  if (series != nil && (specLength(series) > 0.0)) {
-    return (series as! [Any]).enumerated().map { (i, el) in ({ (s, i) -> Any in
-  return ["key": (s as! [String: Any])["key"]!, "label": ((s as! [String: Any])["label"]! ?? (s as! [String: Any])["key"]!), "color": ((s as! [String: Any])["color"]! ?? ((colors as? [String: Any])?[(i as! String)] ?? _defaultColor(i)))]
+  if (series != nil && (Double(series.count) > 0.0)) {
+    return series.enumerated().map { (i, el) in ({ (s, i) -> Any in
+  return ["key": specGet(s, "key"), "label": (specGet(s, "label") ?? specGet(s, "key")), "color": (specGet(s, "color") ?? (specGet(colors, i) ?? _defaultColor(i)))]
 })(el, Double(i)) }
   }
-  var k = (yKey ?? "y")
-  return [["key": k as Any, "label": k as Any, "color": (color ?? _defaultColor(0.0))]]
+  var k: Any = ((yKey ?? "y") as Any)
+  return [["key": k, "label": k, "color": (color ?? _defaultColor(0.0))]] as [Any]
 }

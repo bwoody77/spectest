@@ -6,7 +6,7 @@ final class PopoverViewModel {
   var placement: Any = "bottom"
   var open: Any = false
   func toggle() {
-    open = (specString(open) == specString(false))
+    open = specEq(open, false)
   }
   func close() {
     open = false
@@ -26,50 +26,55 @@ struct PopoverView: View {
         }
 
         .onTapGesture { vm.toggle() }
-        VStack() {
-          if (specString(vm.open) == specString(true)) {
-          }
-        }
-
-        .onTapGesture { vm.close() }
-        VStack(spacing: CGFloat(8)) {
-          if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("bottom"))) {
-            // slot
-          }
-        }
-        .padding(CGFloat(16))
-        .frame(minWidth: CGFloat(240))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-        VStack(spacing: CGFloat(8)) {
-          if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("top"))) {
-            // slot
-          }
-        }
-        .padding(CGFloat(16))
-        .frame(minWidth: CGFloat(240))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-        VStack(spacing: CGFloat(8)) {
-          if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("left"))) {
-            // slot
-          }
-        }
-        .padding(CGFloat(16))
-        .frame(minWidth: CGFloat(240))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-        VStack(spacing: CGFloat(8)) {
-          if ((specString(vm.open) == specString(true)) && (specString(vm.placement) == specString("right"))) {
-            // slot
-          }
-        }
-        .padding(CGFloat(16))
-        .frame(minWidth: CGFloat(240))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
       }
 
+      .overlay {
+        if specEq(vm.open, true) {
+          ZStack {
+            Color.black.opacity(0.15)
+              .ignoresSafeArea()
+              .onTapGesture { vm.close() }
+            if specEq(vm.open, true) {
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.open, true) && specEq(vm.placement, "bottom")) {
+          ZStack {
+            if (specEq(vm.open, true) && specEq(vm.placement, "bottom")) {
+              // slot
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.open, true) && specEq(vm.placement, "top")) {
+          ZStack {
+            if (specEq(vm.open, true) && specEq(vm.placement, "top")) {
+              // slot
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.open, true) && specEq(vm.placement, "left")) {
+          ZStack {
+            if (specEq(vm.open, true) && specEq(vm.placement, "left")) {
+              // slot
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.open, true) && specEq(vm.placement, "right")) {
+          ZStack {
+            if (specEq(vm.open, true) && specEq(vm.placement, "right")) {
+              // slot
+            }
+          }
+        }
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

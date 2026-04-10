@@ -21,11 +21,11 @@ default: return "translateY(100%)"
 } })() }
   var sheetHeight: Any { ({ () -> Any in switch specString(snapIndex) {
 case specString(0): return ({ () -> Any in switch specString((specDouble(specLength(snapPoints)) > specDouble(0))) {
-case specString(true): return specAdd((specDouble((snapPoints as? [Any])?[0 as? Int ?? 0]) * specDouble(100)), "vh")
+case specString(true): return specAdd((specDouble((snapPoints as? [Any])?[0]) * specDouble(100)), "vh")
 default: return "50vh"
 } })()
 default: return ({ () -> Any in switch specString((specDouble(specLength(snapPoints)) > specDouble(snapIndex))) {
-case specString(true): return specAdd((specDouble((snapPoints as? [Any])?[snapIndex as? Int ?? 0]) * specDouble(100)), "vh")
+case specString(true): return specAdd((specDouble(specGet(snapPoints, snapIndex)) * specDouble(100)), "vh")
 default: return "100vh"
 } })()
 } })() }
@@ -43,14 +43,14 @@ default: return "100vh"
   }
   func handleDrag(_ delta: Any) {
     dragging = true
-    currentY = ({ () -> Any in switch specString((specDouble((delta as? [String: Any])?["y"]) > specDouble(0))) {
-case specString(true): return (delta as? [String: Any])?["y"]
+    currentY = ({ () -> Any in switch specString((specDouble(specGet(delta, "y")) > specDouble(0))) {
+case specString(true): return specGet(delta, "y")
 default: return 0
 } })()
   }
   func handleDragEnd(_ delta: Any) {
     dragging = false
-    ({ () -> Any in switch specString(((specDouble((delta as? [String: Any])?["velocityY"]) > specDouble(500)) || (specDouble(currentY) > specDouble(150)))) {
+    ({ () -> Any in switch specString(((specDouble(specGet(delta, "velocityY")) > specDouble(500)) || (specDouble(currentY) > specDouble(150)))) {
 case specString(true): return doClose()
 default: return resetPosition()
 } })()
@@ -76,42 +76,47 @@ struct BottomSheetView: View {
   var body: some View {
     VStack() {
       VStack() {
-        VStack() {
-          if ((specString(vm.showing) == specString(true)) && (specString(vm.backdrop) == specString(true))) {
-          }
-        }
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .onTapGesture { vm.doClose() }
-        VStack() {
-          if (specString(vm.showing) == specString(true)) {
-            HStack(alignment: .center, ) {
-              if (specString(vm.showHandle) == specString(true)) {
-                VStack() {
-                }
-                .opacity(CGFloat(0.4))
-                .frame(width: CGFloat(36))
-                .frame(height: CGFloat(4))
-                .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
-              }
-            }
-            .padding(.top, CGFloat(8))
-            .padding(.bottom, CGFloat(8))
-          }
-          VStack() {
-            // slot
-          }
-          .padding(.bottom, CGFloat(0))
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
-          .frame(maxWidth: .infinity)
-          .scrollIndicators(.visible)
-        }
-        .frame(height: specPx(vm.sheetHeight))
-        .frame(maxHeight: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
       }
 
+      .overlay {
+        if (specEq(vm.showing, true) && specEq(vm.backdrop, true)) {
+          ZStack {
+            Color.black.opacity(0.15)
+              .ignoresSafeArea()
+              .onTapGesture { vm.doClose() }
+            if (specEq(vm.showing, true) && specEq(vm.backdrop, true)) {
+            }
+          }
+        }
+      }
+      .overlay {
+        if specEq(vm.showing, true) {
+          ZStack {
+            if specEq(vm.showing, true) {
+              HStack(alignment: .center, ) {
+                if specEq(vm.showHandle, true) {
+                  VStack() {
+                  }
+                  .opacity(CGFloat(0.4))
+                  .frame(width: CGFloat(36))
+                  .frame(height: CGFloat(4))
+                  .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                }
+              }
+              .padding(.top, CGFloat(8))
+              .padding(.bottom, CGFloat(8))
+            }
+            VStack() {
+              // slot
+            }
+            .padding(.bottom, CGFloat(0))
+            .frame(minHeight: CGFloat(0))
+            .frame(minWidth: CGFloat(0))
+            .frame(maxWidth: .infinity)
+            .scrollIndicators(.visible)
+          }
+        }
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

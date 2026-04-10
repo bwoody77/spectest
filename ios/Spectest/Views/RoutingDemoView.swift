@@ -16,47 +16,47 @@ struct RoutingDemoView: View {
   var body: some View {
     HStack(alignment: .center, spacing: CGFloat(0)) {
       VStack(spacing: CGFloat(4)) {
-        Text(specString("Navigation"))
+        Text(verbatim: specString("Navigation"))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         VStack() {
-          Text(specString("Home"))
+          Text(verbatim: specString("Home"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((specString(vm._routePath) == specString("/")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: (specEq(vm._routePath, "/") ? "#1677ff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((specString(vm._routePath) == specString("/")) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(Color(hex: (specEq(vm._routePath, "/") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.navigate("/") }
         VStack() {
-          Text(specString("About"))
+          Text(verbatim: specString("About"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((specString(vm._routePath) == specString("/about")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: (specEq(vm._routePath, "/about") ? "#1677ff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((specString(vm._routePath) == specString("/about")) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(Color(hex: (specEq(vm._routePath, "/about") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.navigate("/about") }
-        Text(specString("Users"))
+        Text(verbatim: specString("Users"))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         LazyVStack(spacing: CGFloat(8)) {
           ForEach(Array(([["id": "1" as Any] as [String: Any], ["id": "2" as Any] as [String: Any], ["id": "3" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, user in
             VStack() {
-              Text(specString("User #\(specString((user as? [String: Any])?["id"]))"))
+              Text(verbatim: specString("User #\(specString(specGet(user, "id")))"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: ((specString(vm._routePath) == specString(specAdd("/users/", (user as? [String: Any])?["id"]))) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? "#1677ff" : "#202732") as? String ?? "#000"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: ((specString(vm._routePath) == specString(specAdd("/users/", (user as? [String: Any])?["id"]))) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.navigate(specAdd("/users/", (user as? [String: Any])?["id"])) }
+            .background(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .onTapGesture { vm.navigate(specAdd("/users/", specGet(user, "id"))) }
           }
         }
         VStack() {
-          Text(specString("Unknown route →"))
+          Text(verbatim: specString("Unknown route →"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: "#dc2626"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((specString(vm._routePath) == specString("/nowhere")) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(Color(hex: (specEq(vm._routePath, "/nowhere") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.navigate("/nowhere") }
       }
       .padding(CGFloat(12))
@@ -66,25 +66,25 @@ struct RoutingDemoView: View {
       .background(ThemeManager.shared.color("semantic.on-destructive"))
       VStack() {
         VStack() {
-          if (specString(vm._routePath) == specString("/")) {
+          if specEq(vm._routePath, "/") {
             RouterHomeView()
           }
         }
 
         VStack() {
-          if (specString(vm._routePath) == specString("/about")) {
+          if specEq(vm._routePath, "/about") {
             RouterAboutView()
           }
         }
 
         VStack() {
-          if (((specString(vm._routePath) != specString("/")) && (specString(vm._routePath) != specString("/about"))) && (vm._routeParams as? [String: Any])?["id"] != nil) {
-            RouterUserView(userId: (vm._routeParams as? [String: Any])?["id"])
+          if ((specNeq(vm._routePath, "/") && specNeq(vm._routePath, "/about")) && specGet(vm._routeParams, "id") != nil) {
+            RouterUserView(userId: specGet(vm._routeParams, "id"))
           }
         }
 
         VStack() {
-          if (((specString(vm._routePath) != specString("/")) && (specString(vm._routePath) != specString("/about"))) && (vm._routeParams as? [String: Any])?["id"] == nil) {
+          if ((specNeq(vm._routePath, "/") && specNeq(vm._routePath, "/about")) && specGet(vm._routeParams, "id") == nil) {
             RouterNotFoundView()
           }
         }

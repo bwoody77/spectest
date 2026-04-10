@@ -20,7 +20,7 @@ struct CheckboxView: View {
       Button(action: {  }) {
         HStack(alignment: .center, ) {
           VStack() {
-            if (specString(vm.checked) == specString(true)) {
+            if specEq(vm.checked, true) {
               Image(systemName: specIconName(specString("check")))
                 .font(.system(size: specPx("14px")))
                 .foregroundStyle(Color(hex: "#ffffff" as? String ?? "#000"))
@@ -34,7 +34,7 @@ struct CheckboxView: View {
 case specString(true): return "#4f46e5"
 default: return "transparent"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(5)))
-        Text(specString(vm.label))
+        Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }

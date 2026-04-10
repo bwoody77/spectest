@@ -23,9 +23,9 @@ struct SidebarView: View {
     VStack() {
       VStack() {
         HStack(alignment: .center, ) {
-          if (specString(vm.collapsed) == specString(true)) {
+          if specEq(vm.collapsed, true) {
             HStack(alignment: .center, ) {
-              Text(specString("u00BB"))
+              Text(verbatim: specString("u00BB"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -38,9 +38,9 @@ struct SidebarView: View {
         }
         .padding(CGFloat(8))
         HStack(alignment: .center, ) {
-          if (specString(vm.collapsed) == specString(false)) {
+          if specEq(vm.collapsed, false) {
             HStack(alignment: .center, ) {
-              Text(specString("u00AB"))
+              Text(verbatim: specString("u00AB"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -55,36 +55,36 @@ struct SidebarView: View {
         VStack(spacing: CGFloat(4)) {
           ForEach(Array((vm.sections as? [Any] ?? []).enumerated()), id: \.offset) { _idx, section in
             VStack() {
-              if ((specString(vm.collapsed) == specString(false)) && (section as? [String: Any])?["title"] != nil) {
-                Text(specString((section as? [String: Any])?["title"]))
+              if (specEq(vm.collapsed, false) && specGet(section, "title") != nil) {
+                Text(verbatim: specString(specGet(section, "title")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
             }
             .padding(CGFloat(8))
-            .opacity(specPx(((specString(vm.collapsed) == specString(false)) ? 1 : 0)))
+            .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
             LazyVStack(spacing: CGFloat(8)) {
-              ForEach(Array(((section as? [String: Any])?["items"] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
+              ForEach(Array((specGet(section, "items") as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   HStack(alignment: .center, ) {
-                    Image(systemName: specIconName(specString(((item as? [String: Any])?["icon"] != nil ? (item as? [String: Any])?["icon"] : "circle"))))
+                    Image(systemName: specIconName(specString((specGet(item, "icon") != nil ? specGet(item, "icon") : "circle"))))
                       .font(.system(size: specPx(18)))
-                      .foregroundStyle(Color(hex: ((specString((item as? [String: Any])?["id"]) == specString(vm.activeItem)) ? "#1677ff" : "#496183") as? String ?? "#000"))
+                      .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#1677ff" : "#496183") as? String ?? "#000"))
                   }
                   .frame(width: CGFloat(24))
                   .frame(height: CGFloat(24))
                   .frame(minWidth: CGFloat(24))
                   VStack() {
-                    if (specString(vm.collapsed) == specString(false)) {
-                      Text(specString((item as? [String: Any])?["label"]))
+                    if specEq(vm.collapsed, false) {
+                      Text(verbatim: specString(specGet(item, "label")))
                         .font(.body.bold())
-                        .foregroundStyle(Color(hex: ((specString((item as? [String: Any])?["id"]) == specString(vm.activeItem)) ? "#202732" : "#496183") as? String ?? "#000"))
+                        .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#202732" : "#496183") as? String ?? "#000"))
                     }
                   }
-                  .opacity(specPx(((specString(vm.collapsed) == specString(false)) ? 1 : 0)))
+                  .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
                 }
                 .padding(CGFloat(8))
-                .background(Color(hex: ((specString((item as? [String: Any])?["id"]) == specString(vm.activeItem)) ? "#ffffff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#ffffff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 .onTapGesture { /* event callback */ }
               }
             }

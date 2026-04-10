@@ -9,7 +9,7 @@ final class CommandPaletteViewModel {
   var placeholder: Any = "Type a command..."
   var query: Any = ""
   var highlightIndex: Any = 0
-  var filtered: Any { ((specString(query) != specString("")) ? (commands as? [Any] ?? []).filter { { c in specIncludes(((c as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : commands) }
+  var filtered: Any { (specNeq(query, "") ? specFilter(commands, { (c: Any) -> Bool in return specIncludes((specGet(c, "label") as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }) : commands) }
   var results: Any { ((specDouble(specLength(filtered)) > specDouble(maxResults)) ? specSlice(filtered, 0, maxResults) : filtered) }
   var hasResults: Any { (specDouble(specLength(results)) > specDouble(0)) }
   func setQuery(_ v: Any) {
@@ -38,76 +38,80 @@ struct CommandPaletteView: View {
   init(commands: Any = [] as [Any], maxResults: Any = 50, open: Any = false, placeholder: Any = "Type a command...") { self._vm = State(initialValue: CommandPaletteViewModel()); self.commands = commands; self.maxResults = maxResults; self.open = open; self.placeholder = placeholder }
   var body: some View {
     VStack() {
-      HStack(alignment: .center, ) {
-        if (specString(vm.open) == specString(true)) {
-          VStack() {
-            VStack() {
-              TextField(specString(vm.placeholder), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
-            }
-            .padding(CGFloat(12))
+    }
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .overlay {
+      if specEq(vm.open, true) {
+        ZStack {
+          Color.black.opacity(0.15)
+            .ignoresSafeArea()
+            .onTapGesture { vm.dismiss() }
+          if specEq(vm.open, true) {
             VStack() {
               VStack() {
-                if vm.hasResults as? Bool ?? false {
-                  LazyVStack(spacing: CGFloat(8)) {
-                    ForEach(Array((vm.results as? [Any] ?? []).enumerated()), id: \.offset) { idx, cmd in
-                      HStack(alignment: .center, ) {
-                        VStack(spacing: CGFloat(4)) {
-                          Text(specString((cmd as? [String: Any])?["label"]))
-                            .font(.body.bold())
-                            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                TextField(specString(vm.placeholder), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+              }
+              .padding(CGFloat(12))
+              VStack() {
+                VStack() {
+                  if (vm.hasResults) as? Bool ?? false {
+                    LazyVStack(spacing: CGFloat(8)) {
+                      ForEach(Array((vm.results as? [Any] ?? []).enumerated()), id: \.offset) { idx, cmd in
+                        HStack(alignment: .center, ) {
+                          VStack(spacing: CGFloat(4)) {
+                            Text(verbatim: specString(specGet(cmd, "label")))
+                              .font(.body.bold())
+                              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                            VStack() {
+                              if specGet(cmd, "description") != nil {
+                                Text(verbatim: specString(specGet(cmd, "description")))
+                                  .font(.body.bold())
+                                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                              }
+                            }
+
+                          }
+
                           VStack() {
-                            if (cmd as? [String: Any])?["description"] != nil {
-                              Text(specString((cmd as? [String: Any])?["description"]))
+                            if specGet(cmd, "shortcut") != nil {
+                              Text(verbatim: specString(specGet(cmd, "shortcut")))
                                 .font(.body.bold())
-                                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                             }
                           }
-
+                          .padding(CGFloat(4))
+                          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                         }
-
-                        VStack() {
-                          if (cmd as? [String: Any])?["shortcut"] != nil {
-                            Text(specString((cmd as? [String: Any])?["shortcut"]))
-                              .font(.body.bold())
-                              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                          }
-                        }
-                        .padding(CGFloat(4))
-                        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                        .padding(CGFloat(12))
+                        .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
+                        .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
+                        .onTapGesture { vm.selectItem(specGet(cmd, "id")) }
                       }
-                      .padding(CGFloat(12))
-                      .background(Color(hex: ((specString(idx) == specString(vm.highlightIndex)) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                      .background(Color(hex: ((specString(idx) == specString(vm.highlightIndex)) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                      .onTapGesture { vm.selectItem((cmd as? [String: Any])?["id"]) }
                     }
                   }
                 }
-              }
 
-              HStack(alignment: .center, ) {
-                if ((specString(vm.hasResults) == specString(false)) && (specString(vm.query) != specString(""))) {
-                  Text(specString("No matching commands"))
-                    .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                HStack(alignment: .center, ) {
+                  if (specEq(vm.hasResults, false) && specNeq(vm.query, "")) {
+                    Text(verbatim: specString("No matching commands"))
+                      .font(.body.bold())
+                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  }
                 }
+                .padding(CGFloat(16))
               }
-              .padding(CGFloat(16))
+              .frame(maxHeight: CGFloat(360))
+              .scrollIndicators(.visible)
             }
-            .frame(maxHeight: CGFloat(360))
-            .scrollIndicators(.visible)
+            .frame(width: CGFloat(560))
+            .frame(maxWidth: CGFloat(0))
+            .frame(maxHeight: CGFloat(480))
+            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+            .onTapGesture {  }
           }
-          .frame(width: CGFloat(560))
-          .frame(maxWidth: CGFloat(0))
-          .frame(maxHeight: CGFloat(480))
-          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-          .onTapGesture {  }
         }
       }
-      .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.5))
-      .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.5))
-      .onTapGesture { vm.dismiss() }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.commands = commands; vm.open = open; vm.placeholder = placeholder; vm.maxResults = maxResults }

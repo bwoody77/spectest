@@ -9,23 +9,23 @@ final class TreeNodeViewModel {
   var node: Any? = nil
   var selectedIds: Any = [] as [Any]
   var selectionMode: Any = "none"
-  var isExpanded: Any { specIncludes(expandedIds, (node as? [String: Any])?["id"]) }
-  var isSelected: Any { specIncludes(selectedIds, (node as? [String: Any])?["id"]) }
-  var hasChildren: Any { ((node as? [String: Any])?["children"] != nil && (specDouble(specLength((node as? [String: Any])?["children"])) > specDouble(0))) }
+  var isExpanded: Any { specIncludes(expandedIds, specGet(node, "id")) }
+  var isSelected: Any { specIncludes(selectedIds, specGet(node, "id")) }
+  var hasChildren: Any { (specGet(node, "children") != nil && (specDouble(specLength(specGet(node, "children"))) > specDouble(0))) }
   var toggleIcon: Any { ((isExpanded) as? Bool ?? false ? "▾" : "▸") }
   func handleToggle() {
-    if (specString(expandMode) == specString("icon")) as? Bool ?? false {
+    if specEq(expandMode, "icon") {
       /* event callback */
     }
   }
   func handleSelect() {
-    if ((specString((node as? [String: Any])?["disabled"]) != specString(true)) && (specString(selectionMode) != specString("none"))) as? Bool ?? false {
+    if (specNeq(specGet(node, "disabled"), true) && specNeq(selectionMode, "none")) {
       /* event callback */
     }
   }
   func handleRowClick() {
-    if (specString(expandMode) == specString("row")) as? Bool ?? false {
-      if hasChildren as? Bool ?? false {
+    if specEq(expandMode, "row") {
+      if (hasChildren) as? Bool ?? false {
         /* event callback */
       } else {
         handleSelect()
@@ -51,8 +51,8 @@ struct TreeNodeView: View {
       VStack() {
         HStack(alignment: .center, ) {
           VStack() {
-            if vm.hasChildren as? Bool ?? false {
-              Text(specString(vm.toggleIcon))
+            if (vm.hasChildren) as? Bool ?? false {
+              Text(verbatim: specString(vm.toggleIcon))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -61,31 +61,31 @@ struct TreeNodeView: View {
           .frame(minWidth: CGFloat(20))
           .onTapGesture { vm.handleToggle() }
           VStack() {
-            if (specString(vm.hasChildren) == specString(false)) {
+            if specEq(vm.hasChildren, false) {
             }
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
           HStack(alignment: .center, ) {
-            if (vm.node as? [String: Any])?["icon"] != nil {
-              Image(systemName: specIconName(specString(((vm.node as? [String: Any])?["icon"] != nil ? (vm.node as? [String: Any])?["icon"] : ""))))
+            if specGet(vm.node, "icon") != nil {
+              Image(systemName: specIconName(specString((specGet(vm.node, "icon") != nil ? specGet(vm.node, "icon") : ""))))
                 .font(.system(size: specPx(16)))
                 .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
             }
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
-          Text(specString((vm.node as? [String: Any])?["label"]))
+          Text(verbatim: specString(specGet(vm.node, "label")))
             .font(.body.bold())
             .foregroundStyle(Color(hex: ((vm.isSelected) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
         }
         .padding(.top, CGFloat(4))
         .padding(.bottom, CGFloat(4))
-        .opacity(specPx(((specString((vm.node as? [String: Any])?["disabled"]) == specString(true)) ? 0.5 : 1)))
+        .opacity(specPx((specEq(specGet(vm.node, "disabled"), true) ? 0.5 : 1)))
         .onTapGesture { vm.handleRowClick() }
         VStack() {
-          if (vm.isExpanded as? Bool ?? false && vm.hasChildren as? Bool ?? false) as? Bool ?? false {
-            ForEach(Array(((vm.node as? [String: Any])?["children"] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, child in
+          if ((vm.isExpanded) as? Bool ?? false && (vm.hasChildren) as? Bool ?? false) {
+            ForEach(Array((specGet(vm.node, "children") as? [Any] ?? []).enumerated()), id: \.offset) { _idx, child in
               TreeNodeView(expandedIds: vm.expandedIds, expandMode: vm.expandMode, level: specAdd(vm.level, 1), node: child, selectedIds: vm.selectedIds, selectionMode: vm.selectionMode)
             }
           }

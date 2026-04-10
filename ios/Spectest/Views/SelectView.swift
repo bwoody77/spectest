@@ -14,19 +14,19 @@ final class SelectViewModel {
   var highlightIndex: Any = 0
   var focused: Any = false
   var safeOptions: Any { (options != nil ? options : [] as [Any]) }
-  var filteredOptions: Any { ((searchable as? Bool ?? false && (specString(query) != specString(""))) ? (safeOptions as? [Any] ?? []).filter { { o in specIncludes(((o as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : safeOptions) }
-  var selectedOption: Any { (safeOptions as? [Any] ?? []).first(where: { { o in (specString((o as? [String: Any])?["value"]) == specString(value)) }($0) as? Bool ?? false }) }
-  var displayText: Any { (selectedOption != nil ? (selectedOption as? [String: Any])?["label"] : placeholder) }
+  var filteredOptions: Any { (((searchable) as? Bool ?? false && specNeq(query, "")) ? specFilter(safeOptions, { (o: Any) -> Bool in return specIncludes((specGet(o, "label") as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }) : safeOptions) }
+  var selectedOption: Any { specFirst(safeOptions, { (o: Any) -> Bool in return specEq(specGet(o, "value"), value) }) }
+  var displayText: Any { (selectedOption != nil ? specGet(selectedOption, "label") : placeholder) }
   var hasOptions: Any { (specDouble(specLength(filteredOptions)) > specDouble(0)) }
   func toggleOpen() {
-    if (specString(disabled) == specString(false)) as? Bool ?? false {
-      open = (specString(open) == specString(false))
+    if specEq(disabled, false) {
+      open = specEq(open, false)
       query = ""
       highlightIndex = 0
     }
   }
   func openDropdown() {
-    if ((specString(disabled) == specString(false)) && (specString(open) == specString(false))) as? Bool ?? false {
+    if (specEq(disabled, false) && specEq(open, false)) {
       open = true
       query = ""
       highlightIndex = 0
@@ -46,13 +46,13 @@ final class SelectViewModel {
     highlightIndex = 0
   }
   func moveHighlight(_ delta: Any) {
-    if (specDouble(specLength(filteredOptions)) > specDouble(0)) as? Bool ?? false {
+    if (specDouble(specLength(filteredOptions)) > specDouble(0)) {
       highlightIndex = wrapIndex(highlightIndex, delta, specLength(filteredOptions))
     }
   }
   func selectHighlighted() {
-    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) as? Bool ?? false {
-      selectOption(((filteredOptions as? [Any])?[highlightIndex as? Int ?? 0] as? [String: Any])?["value"])
+    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) {
+      selectOption(specGet(specGet(filteredOptions, highlightIndex), "value"))
     }
   }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
@@ -71,18 +71,18 @@ struct SelectView: View {
     VStack() {
       VStack(spacing: CGFloat(4)) {
         VStack() {
-          if (specString(vm.label) != specString("")) {
-            Text(specString(vm.label))
+          if specNeq(vm.label, "") {
+            Text(verbatim: specString(vm.label))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
         HStack(alignment: .center, ) {
-          Text(specString(vm.displayText))
+          Text(verbatim: specString(vm.displayText))
             .font(.body.bold())
             .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "#000"))
-          Text(specString("u25BE"))
+          Text(verbatim: specString("u25BE"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         }
@@ -91,59 +91,64 @@ struct SelectView: View {
         .frame(minHeight: CGFloat(40))
         .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.toggleOpen() }
-        VStack() {
-          if (specString(vm.open) == specString(true)) {
+      }
+
+      .overlay {
+        if specEq(vm.open, true) {
+          ZStack {
+            Color.black.opacity(0.15)
+              .ignoresSafeArea()
+              .onTapGesture { vm.closeDropdown() }
+            if specEq(vm.open, true) {
+            }
           }
         }
-
-        .onTapGesture { vm.closeDropdown() }
-        VStack() {
-          if (specString(vm.open) == specString(true)) {
-            VStack() {
-              if vm.searchable as? Bool ?? false {
-                TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+      }
+      .overlay {
+        if specEq(vm.open, true) {
+          ZStack {
+            if specEq(vm.open, true) {
+              VStack() {
+                if (vm.searchable) as? Bool ?? false {
+                  TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                }
               }
+              .padding(CGFloat(8))
             }
-            .padding(CGFloat(8))
-          }
-          VStack() {
-            if vm.hasOptions as? Bool ?? false {
-              LazyVStack(spacing: CGFloat(8)) {
-                ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
-                  VStack() {
-                    Text(specString((option as? [String: Any])?["label"]))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: ((specString((option as? [String: Any])?["value"]) == specString(vm.value)) ? "#1677ff" : "#202732") as? String ?? "#000"))
-                  }
-                  .padding(CGFloat(8))
-                  .background(Color(hex: ({ () -> Any in switch specString((specString(idx) == specString(vm.highlightIndex))) {
+            VStack() {
+              if (vm.hasOptions) as? Bool ?? false {
+                LazyVStack(spacing: CGFloat(8)) {
+                  ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
+                    VStack() {
+                      Text(verbatim: specString(specGet(option, "label")))
+                        .font(.body.bold())
+                        .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                    }
+                    .padding(CGFloat(8))
+                    .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString((specString((option as? [String: Any])?["value"]) == specString(vm.value))) {
+default: return ({ () -> Any in switch specString(specEq(specGet(option, "value"), vm.value)) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                  .onTapGesture { vm.selectOption((option as? [String: Any])?["value"]) }
+                    .onTapGesture { vm.selectOption(specGet(option, "value")) }
+                  }
                 }
               }
             }
-          }
 
-          HStack(alignment: .center, ) {
-            if (specString(vm.hasOptions) == specString(false)) {
-              Text(specString("No options"))
-                .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+            HStack(alignment: .center, ) {
+              if specEq(vm.hasOptions, false) {
+                Text(verbatim: specString("No options"))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+              }
             }
+            .padding(CGFloat(12))
           }
-          .padding(CGFloat(12))
         }
-        .padding(CGFloat(4))
-        .frame(maxHeight: CGFloat(240))
-        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .scrollIndicators(.visible)
       }
-
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

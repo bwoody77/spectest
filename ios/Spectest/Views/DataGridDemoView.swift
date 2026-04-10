@@ -11,14 +11,14 @@ final class DataGridDemoViewModel {
   var pagedProducts: Any { specSlice(productList, (specDouble((specDouble(page) - specDouble(1))) * specDouble(pageSize)), (specDouble(page) * specDouble(pageSize))) }
   var productCount: Any { "\(specString(specLength(productList))) products" }
   var hasSelection: Any { selectedProduct != nil }
-  var selectedName: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["name"] : "") }
-  var selectedCategory: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["category"] : "") }
-  var selectedPrice: Any { (selectedProduct != nil ? specAdd("$", (selectedProduct as? [String: Any])?["price"]) : "") }
-  var selectedStock: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["stock"] : 0) }
-  var selectedRating: Any { (selectedProduct != nil ? specAdd((selectedProduct as? [String: Any])?["rating"], " / 5") : "") }
-  var selectedSku: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["sku"] : "") }
-  var selectedStatus: Any { (selectedProduct != nil ? (selectedProduct as? [String: Any])?["status"] : "") }
-  var stockWarning: Any { (selectedProduct != nil ? (specDouble((selectedProduct as? [String: Any])?["stock"]) < specDouble(10)) : false) }
+  var selectedName: Any { (selectedProduct != nil ? specGet(selectedProduct, "name") : "") }
+  var selectedCategory: Any { (selectedProduct != nil ? specGet(selectedProduct, "category") : "") }
+  var selectedPrice: Any { (selectedProduct != nil ? specAdd("$", specGet(selectedProduct, "price")) : "") }
+  var selectedStock: Any { (selectedProduct != nil ? specGet(selectedProduct, "stock") : 0) }
+  var selectedRating: Any { (selectedProduct != nil ? specAdd(specGet(selectedProduct, "rating"), " / 5") : "") }
+  var selectedSku: Any { (selectedProduct != nil ? specGet(selectedProduct, "sku") : "") }
+  var selectedStatus: Any { (selectedProduct != nil ? specGet(selectedProduct, "status") : "") }
+  var stockWarning: Any { (selectedProduct != nil ? (specDouble(specGet(selectedProduct, "stock")) < specDouble(10)) : false) }
   let productsSource = DataSource(endpoint: "http://localhost:4000/api/products", method: "GET")
   var products: Any? { productsSource.data }
   var productsLoading: Bool { productsSource.loading }
@@ -52,21 +52,21 @@ struct DataGridDemoView: View {
           Image(systemName: specIconName(specString("layout")))
             .font(.system(size: specPx("24px")))
             .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-          Text(specString("Product Catalog"))
+          Text(verbatim: specString("Product Catalog"))
             .font(.title2.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
 
-        Text(specString(vm.productCount))
+        Text(verbatim: specString(vm.productCount))
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
       .padding(CGFloat(20))
       .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(12)) {
-        if vm.productsLoading as? Bool ?? false {
+        if (vm.productsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("40px"))
@@ -79,7 +79,7 @@ struct DataGridDemoView: View {
       }
 
       VStack() {
-        if vm.productsError as? Bool ?? false {
+        if (vm.productsError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -95,18 +95,13 @@ struct DataGridDemoView: View {
       }
 
       VStack() {
-        if !(vm.productsLoading as? Bool ?? false) {
-          SpecDataGridView(
-            columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any],
-            rows: vm.pagedProducts,
-            selection: specString("single"),
-            height: specPx("400px")
-          )
+        if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
+          DataGridSpecView(columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any], rows: vm.pagedProducts, selection: "single")
         }
       }
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       HStack(alignment: .center, ) {
-        if !(vm.productsLoading as? Bool ?? false) {
+        if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
           HStack(spacing: 8) {
             Button(action: { vm.page = (vm.page as? Int ?? 1) - 1 }) {
               Image(systemName: "chevron.left")
@@ -125,11 +120,11 @@ struct DataGridDemoView: View {
       EmptyView().sheet(isPresented: Binding(get: { vm.drawerOpen as? Bool ?? false }, set: { vm.drawerOpen = $0 })) {
         VStack {
           VStack(spacing: CGFloat(16)) {
-            Text(specString(vm.selectedName))
+            Text(verbatim: specString(vm.selectedName))
               .font(.title2.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             VStack() {
-              if vm.stockWarning as? Bool ?? false {
+              if (vm.stockWarning) as? Bool ?? false {
                 HStack(alignment: .top, spacing: 12) {
                   Image(systemName: specAlertIcon(specString("warning")))
                     .foregroundStyle(specAlertColor(specString("warning")))
@@ -147,10 +142,10 @@ struct DataGridDemoView: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Category"))
+                  Text(verbatim: specString("Category"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(vm.selectedCategory))
+                  Text(verbatim: specString(vm.selectedCategory))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
@@ -159,10 +154,10 @@ struct DataGridDemoView: View {
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Price"))
+                  Text(verbatim: specString("Price"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(vm.selectedPrice))
+                  Text(verbatim: specString(vm.selectedPrice))
                     .font(.title3.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                 }
@@ -171,7 +166,7 @@ struct DataGridDemoView: View {
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Stock"))
+                  Text(verbatim: specString("Stock"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   VStack(alignment: .leading, spacing: 4) {
@@ -184,10 +179,10 @@ struct DataGridDemoView: View {
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Rating"))
+                  Text(verbatim: specString("Rating"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(vm.selectedRating))
+                  Text(verbatim: specString(vm.selectedRating))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
@@ -198,10 +193,10 @@ struct DataGridDemoView: View {
 
             HStack(alignment: .center, spacing: CGFloat(16)) {
               VStack(spacing: CGFloat(4)) {
-                Text(specString("SKU"))
+                Text(verbatim: specString("SKU"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString(vm.selectedSku))
+                Text(verbatim: specString(vm.selectedSku))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }

@@ -7,12 +7,12 @@ final class TaskDetailViewModel {
   var view: Any? = nil
   var confirmingDelete: Any = false
   var hasTask: Any { task != nil }
-  var taskTitle: Any { (task != nil ? (task as? [String: Any])?["title"] : "") }
-  var taskStatus: Any { (task != nil ? (task as? [String: Any])?["status"] : "") }
-  var taskAssignee: Any { (task != nil ? (task as? [String: Any])?["assignee"] : "") }
-  var taskPriority: Any { (task != nil ? (task as? [String: Any])?["priority"] : "") }
-  var taskDate: Any { (task != nil ? (task as? [String: Any])?["createdAt"] : "") }
-  var taskId: Any { (task != nil ? (task as? [String: Any])?["id"] : "") }
+  var taskTitle: Any { (task != nil ? specGet(task, "title") : "") }
+  var taskStatus: Any { (task != nil ? specGet(task, "status") : "") }
+  var taskAssignee: Any { (task != nil ? specGet(task, "assignee") : "") }
+  var taskPriority: Any { (task != nil ? specGet(task, "priority") : "") }
+  var taskDate: Any { (task != nil ? specGet(task, "createdAt") : "") }
+  var taskId: Any { (task != nil ? specGet(task, "id") : "") }
   var detailHeading: Any { "Task: \(specString(taskTitle))" }
   func goBack() {
     task = nil
@@ -25,7 +25,7 @@ final class TaskDetailViewModel {
     confirmingDelete = false
   }
   func confirmDelete() async {
-    /* await not yet supported */  _ = Optional<Any>.none
+    await fetch(specAdd("http://localhost:4000/api/tasks/", taskId), ["method": "DELETE" as Any] as [String: Any])
     confirmingDelete = false
     task = nil
     view = "dashboard"
@@ -44,7 +44,7 @@ struct TaskDetailView: View {
         Image(systemName: specIconName(specString("eye")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Task Detail"))
+        Text(verbatim: specString("Task Detail"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
@@ -52,16 +52,16 @@ struct TaskDetailView: View {
       .frame(maxWidth: .infinity)
 
       VStack() {
-        if !(vm.hasTask as? Bool ?? false) {
+        if ((!((vm.hasTask) as? Bool ?? false))) as? Bool ?? false {
           ContentUnavailableView(specString("No Task Selected"), systemImage: "tray", description: Text(specString("Select a task from the Dashboard to view its details here.")))
             .frame(height: 200)
         }
       }
 
       VStack(spacing: CGFloat(12)) {
-        if vm.hasTask as? Bool ?? false {
+        if (vm.hasTask) as? Bool ?? false {
           VStack() {
-            Text(specString(vm.detailHeading))
+            Text(verbatim: specString(vm.detailHeading))
               .font(.title3.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
@@ -76,7 +76,7 @@ struct TaskDetailView: View {
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(12)) {
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Status"))
+                Text(verbatim: specString("Status"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 SpecStatusPill(status: specString(vm.taskStatus))
@@ -86,7 +86,7 @@ struct TaskDetailView: View {
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Priority"))
+                Text(verbatim: specString("Priority"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 SpecPriorityPill(priority: specString(vm.taskPriority))
@@ -96,10 +96,10 @@ struct TaskDetailView: View {
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Assignee"))
+                Text(verbatim: specString("Assignee"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString(vm.taskAssignee))
+                Text(verbatim: specString(vm.taskAssignee))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
@@ -108,10 +108,10 @@ struct TaskDetailView: View {
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Created"))
+                Text(verbatim: specString("Created"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString(vm.taskDate))
+                Text(verbatim: specString(vm.taskDate))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }

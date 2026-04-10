@@ -7,8 +7,8 @@ final class TreeDemoViewModel {
   var searchQuery: Any = ""
   var categoryList: Any { (categories != nil ? categories : [] as [Any]) }
   var hasSelection: Any { selectedNode != nil }
-  var selectedLabel: Any { (selectedNode != nil ? (selectedNode as? [String: Any])?["label"] : "No selection") }
-  var selectedId: Any { (selectedNode != nil ? (selectedNode as? [String: Any])?["id"] : "") }
+  var selectedLabel: Any { (selectedNode != nil ? specGet(selectedNode, "label") : "No selection") }
+  var selectedId: Any { (selectedNode != nil ? specGet(selectedNode, "id") : "") }
   var treeMinHeight: Any { "400px" }
   var treeCols: Any { "280px 1fr" }
   let categoriesSource = DataSource(endpoint: "http://localhost:4000/api/categories", method: "GET")
@@ -35,7 +35,7 @@ struct TreeDemoView: View {
         Image(systemName: specIconName(specString("list")))
           .font(.system(size: specPx("24px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Category Browser"))
+        Text(verbatim: specString("Category Browser"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
@@ -44,7 +44,7 @@ struct TreeDemoView: View {
       .padding(CGFloat(20))
       .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(8)) {
-        if vm.categoriesLoading as? Bool ?? false {
+        if (vm.categoriesLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("32px"))
@@ -73,7 +73,7 @@ struct TreeDemoView: View {
       }
 
       VStack() {
-        if vm.categoriesError as? Bool ?? false {
+        if (vm.categoriesError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -89,7 +89,7 @@ struct TreeDemoView: View {
       }
 
       HStack(alignment: .center, spacing: CGFloat(20)) {
-        if !(vm.categoriesLoading as? Bool ?? false) {
+        if ((!((vm.categoriesLoading) as? Bool ?? false))) as? Bool ?? false {
           VStack(spacing: CGFloat(12)) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Filter categories")).font(.subheadline).foregroundStyle(.secondary)
@@ -106,33 +106,33 @@ struct TreeDemoView: View {
         }
         VStack(spacing: CGFloat(16)) {
           VStack() {
-            if !(vm.hasSelection as? Bool ?? false) {
+            if ((!((vm.hasSelection) as? Bool ?? false))) as? Bool ?? false {
               ContentUnavailableView(specString("No Category Selected"), systemImage: "tray", description: Text(specString("Select a category from the tree to view its details.")))
                 .frame(height: 200)
             }
           }
 
           VStack(spacing: CGFloat(16)) {
-            if vm.hasSelection as? Bool ?? false {
-              Text(specString(vm.selectedLabel))
+            if (vm.hasSelection) as? Bool ?? false {
+              Text(verbatim: specString(vm.selectedLabel))
                 .font(.title2.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             VStack(spacing: CGFloat(12)) {
               HStack(alignment: .center, spacing: CGFloat(8)) {
-                Text(specString("ID:"))
+                Text(verbatim: specString("ID:"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString(vm.selectedId))
+                Text(verbatim: specString(vm.selectedId))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
 
               HStack(alignment: .center, spacing: CGFloat(8)) {
-                Text(specString("Name:"))
+                Text(verbatim: specString("Name:"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString(vm.selectedLabel))
+                Text(verbatim: specString(vm.selectedLabel))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }

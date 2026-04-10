@@ -21,7 +21,7 @@ struct TableView: View {
         HStack(alignment: .center, ) {
           ForEach(Array((vm.columns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
             VStack() {
-              Text(specString((col as? [String: Any])?["header"]))
+              Text(verbatim: specString(specGet(col, "header")))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -39,7 +39,7 @@ struct TableView: View {
             ForEach(Array((vm.columns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
               VStack() {
                 // slot
-                Text(specString((row as? [Any])?[(col as? [String: Any])?["key"] as? Int ?? 0]))
+                Text(verbatim: specString(specGet(row, specGet(col, "key"))))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }

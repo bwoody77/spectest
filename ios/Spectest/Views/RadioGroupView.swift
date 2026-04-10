@@ -19,7 +19,7 @@ struct RadioGroupView: View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
         ForEach(Array((vm.options as? [Any] ?? []).enumerated()), id: \.offset) { _idx, option in
-          Picker(specString((option as? [String: Any])?["label"]), selection: .constant("")) {
+          Picker(specString(specGet(option, "label")), selection: .constant("")) {
             ForEach(Array(([] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
               Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
             }

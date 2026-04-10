@@ -1,13 +1,15 @@
-func _applyFilters(_ rows: Any, _ filters: Any) -> Any {
-  var activeFilters = (filters as! [Any]).filter { { f in ((f as! [String: Any])["value"]! != nil && (specLength((f as! [String: Any])["value"]!) > 0.0)) }($0) as! Bool }
-  if (Double(activeFilters.count) == 0.0) {
+func _applyFilters(_ rows: Any, _ filters: Any) -> Any? {
+  let rows = (rows as? [Any]) ?? []
+  let filters = (filters as? [Any]) ?? []
+  var activeFilters: Any = (filters.filter { { f in (specGet(f, "value") != nil && (specLength(specGet(f, "value")) > 0.0)) }($0) as! Bool } as Any)
+  if (specLength(activeFilters) == 0.0) {
     return rows
   }
-  return (rows as! [Any]).filter { { (row) -> Any in
-  for _item in activeFilters {
+  return rows.filter { { (row) -> Any in
+  for _item in (activeFilters as! [Any]) {
     let key = (_item as! [String: Any])["key"]!
     let value = (_item as! [String: Any])["value"]!
-    var val = (row as! [String: Any])[(key as! String)]
+    var val: Any = specGet(row, key)
     if val == nil {
       return false
     }

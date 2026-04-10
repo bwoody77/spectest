@@ -18,15 +18,10 @@ struct ToggleView: View {
   var body: some View {
     VStack() {
       Button(action: {  }) {
-        Text(specString(vm.label))
+        Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack() {
-          VStack() {
-          }
-          .frame(width: CGFloat(18))
-          .frame(height: CGFloat(18))
-          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(44))
         .frame(height: CGFloat(24))
@@ -34,6 +29,8 @@ struct ToggleView: View {
 case specString(true): return "#4f46e5"
 default: return "#cbd5e1"
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(999)))
+        .overlay {
+        }
       }
       .padding(CGFloat(0))
       .background(Color.clear)

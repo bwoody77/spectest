@@ -17,11 +17,11 @@ final class SettingsPanelViewModel {
   var dateFormat: Any = "iso"
   var saved: Any = false
   var bio: Any = ""
-  var nameError: Any { ((specString(displayName) == specString("")) ? "Display name is required" : "") }
-  var emailError: Any { ((specString(email) == specString("")) ? "Email is required" : "") }
-  var hasNameError: Any { (specString(nameError) != specString("")) }
-  var hasEmailError: Any { (specString(emailError) != specString("")) }
-  var isValid: Any { ((specString(nameError) == specString("")) && (specString(emailError) == specString(""))) }
+  var nameError: Any { (specEq(displayName, "") ? "Display name is required" : "") }
+  var emailError: Any { (specEq(email, "") ? "Email is required" : "") }
+  var hasNameError: Any { specNeq(nameError, "") }
+  var hasEmailError: Any { specNeq(emailError, "") }
+  var isValid: Any { (specEq(nameError, "") && specEq(emailError, "")) }
   var savedVisible: Any { saved }
   var settingsSummary: Any { "Logged in as \(specString(displayName)) (\(specString(email)))" }
   func setDisplayName(_ v: Any) {
@@ -64,7 +64,7 @@ final class SettingsPanelViewModel {
     bio = v
   }
   func saveSettings() {
-    if isValid as? Bool ?? false {
+    if (isValid) as? Bool ?? false {
       saved = true
     }
   }
@@ -82,17 +82,17 @@ struct SettingsPanelView: View {
         Image(systemName: specIconName(specString("settings")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Settings"))
+        Text(verbatim: specString("Settings"))
           .font(.title2.bold())
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
 
-      Text(specString(vm.settingsSummary))
+      Text(verbatim: specString(vm.settingsSummary))
         .font(.callout.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack() {
-        if vm.savedVisible as? Bool ?? false {
+        if (vm.savedVisible) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("success")))
               .foregroundStyle(specAlertColor(specString("success")))
@@ -114,7 +114,7 @@ struct SettingsPanelView: View {
             Image(systemName: specIconName(specString("user")))
               .font(.system(size: specPx("18px")))
               .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-            Text(specString("Profile"))
+            Text(verbatim: specString("Profile"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
@@ -127,8 +127,8 @@ struct SettingsPanelView: View {
                 TextField(specString("Your name"), text: Binding(get: { vm.displayName as? String ?? "" }, set: { vm.displayName = $0 }))
               }
               VStack() {
-                if vm.hasNameError as? Bool ?? false {
-                  Text(specString(vm.nameError))
+                if (vm.hasNameError) as? Bool ?? false {
+                  Text(verbatim: specString(vm.nameError))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: "#db2424"))
                 }
@@ -142,8 +142,8 @@ struct SettingsPanelView: View {
                 TextField(specString("Your email"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
               }
               VStack() {
-                if vm.hasEmailError as? Bool ?? false {
-                  Text(specString(vm.emailError))
+                if (vm.hasEmailError) as? Bool ?? false {
+                  Text(verbatim: specString(vm.emailError))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: "#db2424"))
                 }
@@ -167,7 +167,7 @@ struct SettingsPanelView: View {
             Image(systemName: specIconName(specString("globe")))
               .font(.system(size: specPx("18px")))
               .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-            Text(specString("Localization"))
+            Text(verbatim: specString("Localization"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
@@ -204,7 +204,7 @@ struct SettingsPanelView: View {
             Image(systemName: specIconName(specString("bell")))
               .font(.system(size: specPx("18px")))
               .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-            Text(specString("Notifications"))
+            Text(verbatim: specString("Notifications"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
@@ -226,7 +226,7 @@ struct SettingsPanelView: View {
             Image(systemName: specIconName(specString("monitor")))
               .font(.system(size: specPx("18px")))
               .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-            Text(specString("Display"))
+            Text(verbatim: specString("Display"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }

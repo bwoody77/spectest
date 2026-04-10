@@ -15,10 +15,10 @@ struct CountDisplayView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(4)) {
-        Text(specString("Received value: \(specString(vm.value))"))
+        Text(verbatim: specString("Received value: \(specString(vm.value))"))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-        Text(specString("@watch fired \(specString(vm.changes)) time(s)"))
+        Text(verbatim: specString("@watch fired \(specString(vm.changes)) time(s)"))
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
       }

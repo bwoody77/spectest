@@ -14,7 +14,7 @@ struct InfoBoxView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
-        Text(specString(vm.title))
+        Text(verbatim: specString(vm.title))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         // slot

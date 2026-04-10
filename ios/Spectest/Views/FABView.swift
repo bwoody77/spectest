@@ -27,28 +27,27 @@ struct FABView: View {
   init(icon: Any = "plus", label: Any = "", size: Any = "md") { self._vm = State(initialValue: FABViewModel()); self.icon = icon; self.label = label; self.size = size }
   var body: some View {
     VStack() {
-      VStack() {
+    }
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .overlay {
         HStack(alignment: .center, spacing: CGFloat(8)) {
           Image(systemName: specIconName(specString(vm.icon)))
             .font(.system(size: specPx(vm.iconSize)))
             .foregroundStyle(Color(hex: "white" as? String ?? "#000"))
-          Text(specString(vm.label))
+          Text(verbatim: specString(vm.label))
             .font(.body.bold())
             .foregroundStyle(Color.white)
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
-        .padding(.leading, specPx(((specString(vm.label) != specString("")) ? "16px" : "0px")))
-        .padding(.trailing, specPx(((specString(vm.label) != specString("")) ? "16px" : "0px")))
-        .frame(width: specPx(((specString(vm.label) != specString("")) ? "auto" : vm.btnSize)))
+        .padding(.leading, specPx((specNeq(vm.label, "") ? "16px" : "0px")))
+        .padding(.trailing, specPx((specNeq(vm.label, "") ? "16px" : "0px")))
+        .frame(width: specPx((specNeq(vm.label, "") ? "auto" : vm.btnSize)))
         .frame(height: specPx(vm.btnSize))
         .frame(minWidth: specPx(vm.btnSize))
-        .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: specPx(((specString(vm.label) != specString("")) ? "28px" : "50%"))))
+        .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: specPx((specNeq(vm.label, "") ? "28px" : "50%"))))
         .onTapGesture { /* event callback */ }
-      }
-      .padding(.bottom, CGFloat(0))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { vm.icon = icon; vm.size = size; vm.label = label }

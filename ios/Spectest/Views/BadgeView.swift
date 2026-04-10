@@ -16,7 +16,7 @@ struct BadgeView: View {
   var body: some View {
     VStack() {
       HStack(alignment: .center, spacing: CGFloat(4)) {
-        Text(specString(vm.text))
+        Text(verbatim: specString(vm.text))
           .font(.body.bold())
           .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.variant) {
 case specString("info"): return "#3b82f6"

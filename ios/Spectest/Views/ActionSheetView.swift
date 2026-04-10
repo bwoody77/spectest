@@ -32,49 +32,55 @@ struct ActionSheetView: View {
   var body: some View {
     VStack() {
       VStack() {
-        VStack() {
-          if (specString(vm.showing) == specString(true)) {
+      }
+
+      .overlay {
+        if specEq(vm.showing, true) {
+          ZStack {
+            Color.black.opacity(0.15)
+              .ignoresSafeArea()
+              .onTapGesture { vm.doClose() }
+            if specEq(vm.showing, true) {
+            }
           }
         }
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .onTapGesture { vm.doClose() }
-        VStack(spacing: CGFloat(8)) {
-          if (specString(vm.showing) == specString(true)) {
-            VStack() {
-              Text(specString(vm.title))
-                .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-              LazyVStack(spacing: CGFloat(8)) {
-                ForEach(Array((vm.actions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, action in
-                  HStack(alignment: .center, ) {
-                    Text(specString((action as? [String: Any])?["label"]))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: ({ () -> Any in switch specString((action as? [String: Any])?["destructive"]) {
+      }
+      .overlay {
+        if specEq(vm.showing, true) {
+          ZStack {
+            if specEq(vm.showing, true) {
+              VStack() {
+                Text(verbatim: specString(vm.title))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                LazyVStack(spacing: CGFloat(8)) {
+                  ForEach(Array((vm.actions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, action in
+                    HStack(alignment: .center, ) {
+                      Text(verbatim: specString(specGet(action, "label")))
+                        .font(.body.bold())
+                        .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
 case specString(true): return "rgb(239, 68, 68)"
 default: return "#1677ff"
 } })() as? String ?? "#000"))
+                    }
+                    .padding(CGFloat(12))
+                    .onTapGesture { vm.selectAction(specGet(action, "id")) }
                   }
-                  .padding(CGFloat(12))
-                  .onTapGesture { vm.selectAction((action as? [String: Any])?["id"]) }
                 }
               }
+              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
             }
+            HStack(alignment: .center, ) {
+              Text(verbatim: specString("Cancel"))
+                .font(.body.bold())
+                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+            }
+            .padding(CGFloat(12))
             .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+            .onTapGesture { vm.doClose() }
           }
-          HStack(alignment: .center, ) {
-            Text(specString("Cancel"))
-              .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-          }
-          .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
-          .onTapGesture { vm.doClose() }
         }
-        .padding(CGFloat(8))
-        .padding(.bottom, CGFloat(0))
       }
-
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

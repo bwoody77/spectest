@@ -1,5 +1,238 @@
-// @speckeep
 import SwiftUI
 import SpecRuntime
-@Observable final class DataGridSpecViewModel {}
-struct DataGridSpecView: View { @State private var vm = DataGridSpecViewModel(); var body: some View { SpecDataGridView(columns: [] as [Any], rows: [] as [Any], selection: "none", height: CGFloat(300)) } }
+
+@Observable
+final class DataGridSpecViewModel {
+  var columns: Any? = nil
+  var height: Any = ""
+  var rows: Any? = nil
+  var selected: Any = [] as [Any]
+  var selection: Any = "none"
+  var sort: Any = [] as [Any]
+  var striped: Any = false
+  var sortState: Any? = nil as Any? as Any
+  var selectedSet: Any? = nil as Any? as Any
+  var filters: Any = [] as [Any]
+  var focusedRow: Any = 0
+  var focusedCol: Any = 0
+  init() {
+    sortState = sort
+    selectedSet = selected
+  }
+  var visibleColumns: Any { specFilter(columns, { (c: Any) -> Bool in return specNeq(specGet(c, "visible"), false) }) }
+  var processedRows: Any { applySortAndFilter(rows, sortState, filters) }
+  var hasFilters: Any { specSome(columns, { (c: Any) -> Bool in return specEq(specGet(c, "filterable"), true) }) }
+  var allSelected: Any { (specEq(specLength(selectedSet), specLength(processedRows)) && (specDouble(specLength(processedRows)) > specDouble(0))) }
+  func toggleSortCol(_ colKey: Any) {
+    sortState = toggleSortState(sortState, colKey)
+    /* event callback */
+  }
+  func setFilter(_ colKey: Any, _ value: Any) {
+    var existing = specFirst(filters, { (f: Any) -> Bool in return specEq(specGet(f, "key"), colKey) })
+    if existing != nil {
+      if specEq(value, "") {
+        filters = specFilter(filters, { (f: Any) -> Bool in return specNeq(specGet(f, "key"), colKey) })
+      } else {
+        filters = specMap(filters, { (f: Any) -> Any in return (specEq(specGet(f, "key"), colKey) ? ["key": colKey as Any, "value": value as Any] as [String: Any] : f) })
+      }
+    } else {
+      if specNeq(value, "") {
+        filters = specConcat(filters, [["key": colKey as Any, "value": value as Any] as [String: Any]] as [Any])
+      }
+    }
+    /* event callback */
+  }
+  func selectRow(_ idx: Any) {
+    if specEq(selection, "single") {
+      selectedSet = [idx] as [Any]
+      /* event callback */
+    } else {
+      if specEq(selection, "multi") {
+        if specIncludes(selectedSet, idx) {
+          selectedSet = specFilter(selectedSet, { (i: Any) -> Bool in return specNeq(i, idx) })
+        } else {
+          selectedSet = specConcat(selectedSet, [idx] as [Any])
+        }
+        /* event callback */
+      }
+    }
+  }
+  func selectAllRows() {
+    selectedSet = specMapIndexed(processedRows, { (row: Any, i: Int) -> Any in return i })
+    /* event callback */
+  }
+  func clearSelection() {
+    selectedSet = [] as [Any]
+    /* event callback */
+  }
+  func clickRow(_ row: Any, _ idx: Any) {
+    selectRow(idx)
+    /* event callback */
+  }
+  func moveUp() {
+    if (specDouble(focusedRow) > specDouble(0)) {
+      focusedRow = (specDouble(focusedRow) - specDouble(1))
+    }
+  }
+  func moveDown() {
+    if (specDouble(focusedRow) < specDouble((specDouble(specLength(processedRows)) - specDouble(1)))) {
+      focusedRow = specAdd(focusedRow, 1)
+    }
+  }
+  func moveLeft() {
+    if (specDouble(focusedCol) > specDouble(0)) {
+      focusedCol = (specDouble(focusedCol) - specDouble(1))
+    }
+  }
+  func moveRight() {
+    if (specDouble(focusedCol) < specDouble((specDouble(specLength(visibleColumns)) - specDouble(1)))) {
+      focusedCol = specAdd(focusedCol, 1)
+    }
+  }
+  func selectFocused() {
+    selectRow(focusedRow)
+  }
+  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+}
+
+struct DataGridSpecView: View {
+  @State private var vm = DataGridSpecViewModel()
+  var columns: Any? = nil
+  var height: Any = ""
+  var rows: Any? = nil
+  var selected: Any = [] as [Any]
+  var selection: Any = "none"
+  var sort: Any = [] as [Any]
+  var striped: Any = false
+  init(columns: Any? = nil, height: Any = "", rows: Any? = nil, selected: Any = [] as [Any], selection: Any = "none", sort: Any = [] as [Any], striped: Any = false) { self._vm = State(initialValue: DataGridSpecViewModel()); self.columns = columns; self.height = height; self.rows = rows; self.selected = selected; self.selection = selection; self.sort = sort; self.striped = striped }
+  var body: some View {
+    VStack() {
+      VStack() {
+        VStack() {
+          HStack(alignment: .center, ) {
+            HStack(alignment: .center, ) {
+              if specEq(vm.selection, "multi") {
+                Toggle(specString(""), isOn: .constant(vm.allSelected as? Bool ?? false))
+                  .toggleStyle(.automatic)
+              }
+            }
+            .padding(CGFloat(8))
+            .frame(width: CGFloat(40))
+            LazyVStack(spacing: CGFloat(8)) {
+              ForEach(Array((vm.visibleColumns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
+                HStack(alignment: .center, spacing: CGFloat(4)) {
+                  Text(verbatim: ({ () -> String in
+          let _h0: Any? = specGet(col, "header")
+          if _h0 != nil { return specString(specGet(col, "header")) }
+          let _h1: Any? = specGet(col, "label")
+          if _h1 != nil { return specString(specGet(col, "label")) }
+          return specString(specGet(col, "key"))
+        })())
+                    .font(.body.bold())
+                  Text(verbatim: ({ () -> String in
+          let _h0: Any? = specFirst(vm.sortState, { (s: Any) -> Bool in return specEq(specGet(s, "key"), specGet(col, "key")) })
+          if _h0 != nil {
+            let _h1: String = specString(specGet(specFirst(vm.sortState, { (s: Any) -> Bool in return specEq(specGet(s, "key"), specGet(col, "key")) }), "direction"))
+            let _h2: String = specString("asc")
+            if _h1 == _h2 { return specString("u2191") }
+            return specString("u2193")
+          }
+          return specString("")
+        })())
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                }
+                .padding(CGFloat(8))
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(minWidth: CGFloat(100))
+                .frame(maxWidth: .infinity)
+                .onTapGesture { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSortCol(specGet(col, "key")) } }
+              }
+            }
+          }
+          .background(ThemeManager.shared.color("semantic.on-destructive"))
+          .background(ThemeManager.shared.color("semantic.on-destructive"))
+          HStack(alignment: .center, ) {
+            if (vm.hasFilters) as? Bool ?? false {
+              VStack() {
+                if specEq(vm.selection, "multi") {
+                }
+              }
+              .frame(width: CGFloat(40))
+            }
+            ForEach(Array((vm.visibleColumns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
+              VStack() {
+                VStack() {
+                  if specEq(specGet(col, "filterable"), true) {
+                    TextField("", text: Binding(get: { vm.filters as? String ?? "" }, set: { vm.filters = $0 }))
+                  }
+                }
+
+              }
+              .padding(CGFloat(4))
+              .frame(minHeight: CGFloat(0))
+              .frame(minWidth: CGFloat(0))
+              .frame(minWidth: CGFloat(100))
+              .frame(maxWidth: .infinity)
+            }
+          }
+          .background(ThemeManager.shared.color("semantic.surface"))
+          .background(ThemeManager.shared.color("semantic.surface"))
+          LazyVStack(spacing: CGFloat(8)) {
+            ForEach(Array((vm.processedRows as? [Any] ?? []).enumerated()), id: \.offset) { rowIdx, row in
+              HStack(alignment: .center, ) {
+                HStack(alignment: .center, ) {
+                  if specEq(vm.selection, "multi") {
+                    Toggle(specString(""), isOn: .constant(false))
+                      .toggleStyle(.automatic)
+                  }
+                }
+                .padding(CGFloat(8))
+                .frame(width: CGFloat(40))
+                ForEach(Array((vm.visibleColumns as? [Any] ?? []).enumerated()), id: \.offset) { colIdx, col in
+                  VStack() {
+                    // slot
+                    Text(verbatim: ({ () -> String in
+          let _h0: Any? = specGet(row, specGet(col, "key"))
+          if _h0 != nil { return specString(specAdd(specGet(row, specGet(col, "key")), "")) }
+          return specString("")
+        })())
+                      .font(.callout.bold())
+                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  }
+                  .padding(CGFloat(8))
+                  .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "#000"))
+                  .frame(minHeight: CGFloat(0))
+                  .frame(minWidth: CGFloat(0))
+                  .frame(minWidth: CGFloat(100))
+                  .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "#000"))
+                  .frame(maxWidth: .infinity)
+                }
+              }
+              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "#000"))
+              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "#000"))
+              .onTapGesture { vm.clickRow(row, rowIdx) }
+            }
+          }
+          HStack(alignment: .center, ) {
+            if specEq(specLength(vm.processedRows), 0) {
+              Text(verbatim: specString("No rows"))
+                .font(.body.bold())
+                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+            }
+          }
+          .padding(CGFloat(24))
+        }
+        .frame(height: CGFloat(0))
+        .scrollIndicators(.visible)
+      }
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+    }
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
+    .fontDesign(ThemeManager.shared.fontDesign())
+    .onAppear { vm.columns = columns; vm.rows = rows; vm.selection = selection; vm.selected = selected; vm.sort = sort; vm.height = height; vm.striped = striped }
+  }
+}

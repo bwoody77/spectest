@@ -1,10 +1,12 @@
-func toggleSortState(_ sortState: Any, _ colKey: Any) -> Any {
-  var existing = (sortState as! [Any]).first(where: { { s in (String(describing: (s as! [String: Any])["key"]!) == String(describing: colKey)) }($0) as! Bool })
+func toggleSortState(_ sortState: Any, _ colKey: Any) -> Any? {
+  let sortState = (sortState as? [Any]) ?? []
+  let colKey = specString(colKey)
+  var existing: Any = sortState.first(where: { { s in (String(describing: specGet(s, "key")) == String(describing: colKey)) }($0) as! Bool })
   if existing != nil {
-    if (String(describing: (existing as! [String: Any])["direction"]!) == String(describing: "asc")) {
-      return (sortState as! [Any]).map { { s in ((String(describing: (s as! [String: Any])["key"]!) == String(describing: colKey)) ? ["key": colKey, "direction": "desc" as Any] : s) }($0) }
+    if (String(describing: specGet(existing, "direction")) == String(describing: "asc")) {
+      return sortState.map { { s in ((String(describing: specGet(s, "key")) == String(describing: colKey)) ? ["key": colKey as Any, "direction": "desc" as Any] : s) }($0) }
     }
-    return (sortState as! [Any]).filter { { s in (String(describing: (s as! [String: Any])["key"]!) != String(describing: colKey)) }($0) as! Bool }
+    return sortState.filter { { s in (String(describing: specGet(s, "key")) != String(describing: colKey)) }($0) as! Bool }
   }
-  return [["key": colKey, "direction": "asc" as Any]]
+  return [["key": colKey as Any, "direction": "asc" as Any]] as [Any]
 }

@@ -14,9 +14,9 @@ struct WizardStep3View: View {
   @State private var vm = WizardStep3ViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Step 3: Review & Confirm"))
+      Text(verbatim: specString("Step 3: Review & Confirm"))
         .font(.title3.bold())
-      Text(specString("Please review your task details and confirm submission."))
+      Text(verbatim: specString("Please review your task details and confirm submission."))
         .font(.callout.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .top, spacing: 12) {
@@ -54,7 +54,7 @@ struct WizardStep3View: View {
             .padding(.vertical, 8)
             .background(.blue, in: RoundedRectangle(cornerRadius: 8))
         }
-        .disabled(!(vm.confirmed as? Bool ?? false) as? Bool ?? false)
+        .disabled((!((vm.confirmed) as? Bool ?? false)) as? Bool ?? false)
       }
 
     }

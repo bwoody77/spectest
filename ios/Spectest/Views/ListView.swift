@@ -14,20 +14,20 @@ final class ListViewModel {
   init() {
     selectedIds = selected
   }
-  var filteredItems: Any { ((specString(searchQuery) != specString("")) ? (items as? [Any] ?? []).filter { { item in specIncludes(((item as? [String: Any])?["label"] as? String ?? "").lowercased(), (searchQuery as? String ?? "").lowercased()) }($0) as? Bool ?? false } : items) }
+  var filteredItems: Any { (specNeq(searchQuery, "") ? specFilter(items, { (item: Any) -> Bool in return specIncludes((specGet(item, "label") as? String ?? "").lowercased(), (searchQuery as? String ?? "").lowercased()) }) : items) }
   var hasItems: Any { (specDouble(specLength(filteredItems)) > specDouble(0)) }
   func setSearch(_ v: Any) {
     searchQuery = v
     /* event callback */
   }
   func handleSelect(_ id: Any) {
-    if (specString(selection) == specString("single")) as? Bool ?? false {
+    if specEq(selection, "single") {
       selectedIds = [id] as [Any]
       /* event callback */
     } else {
-      if (specString(selection) == specString("multi")) as? Bool ?? false {
-        if specIncludes(selectedIds, id) as? Bool ?? false {
-          selectedIds = (selectedIds as? [Any] ?? []).filter { { sid in (specString(sid) != specString(id)) }($0) as? Bool ?? false }
+      if specEq(selection, "multi") {
+        if specIncludes(selectedIds, id) {
+          selectedIds = specFilter(selectedIds, { (sid: Any) -> Bool in return specNeq(sid, id) })
         } else {
           selectedIds = specAdd(selectedIds, [id] as [Any])
         }
@@ -51,7 +51,7 @@ struct ListView: View {
     VStack() {
       VStack() {
         VStack() {
-          if vm.searchable as? Bool ?? false {
+          if (vm.searchable) as? Bool ?? false {
             TextField(specString(vm.searchPlaceholder), text: Binding(get: { vm.searchQuery as? String ?? "" }, set: { vm.searchQuery = $0 }))
           }
         }
@@ -60,22 +60,22 @@ struct ListView: View {
           LazyVStack(spacing: CGFloat(8)) {
             ForEach(Array((vm.filteredItems as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
               HStack(alignment: .center, ) {
-                Text(specString((item as? [String: Any])?["label"]))
+                Text(verbatim: specString(specGet(item, "label")))
                   .font(.body.bold())
-                  .foregroundStyle(Color(hex: ((specIncludes(vm.selectedIds, (item as? [String: Any])?["id"])) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
+                  .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "#000"))
               }
               .padding(CGFloat(8))
-              .background(Color(hex: ((specIncludes(vm.selectedIds, (item as? [String: Any])?["id"])) as? Bool ?? false ? "#ffffff" : "transparent") as? String ?? "#000"))
+              .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
               .opacity(CGFloat(0))
-              .background(Color(hex: ((specIncludes(vm.selectedIds, (item as? [String: Any])?["id"])) as? Bool ?? false ? "#ffffff" : "transparent") as? String ?? "#000"))
-              .onTapGesture { vm.handleSelect((item as? [String: Any])?["id"]) }
+              .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
+              .onTapGesture { vm.handleSelect(specGet(item, "id")) }
             }
           }
         }
         .scrollIndicators(.visible)
         HStack(alignment: .center, ) {
-          if (specString(vm.hasItems) == specString(false)) {
-            Text(specString("No items"))
+          if specEq(vm.hasItems, false) {
+            Text(verbatim: specString("No items"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           }

@@ -20,69 +20,69 @@ final class FormDemoViewModel {
   var _fld_email_touched: Any = false
   var _fld_message_touched: Any = false
   var _form_submit_attempted: Any = false
-  var isContactForm: Any { (specString(activeForm) == specString("contact")) }
-  var isHowForm: Any { (specString(activeForm) == specString("how")) }
+  var isContactForm: Any { specEq(activeForm, "contact") }
+  var isHowForm: Any { specEq(activeForm, "how") }
   var _fld_firstName_error: Any {
-    if ((!(_fld_firstName_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
+    if ((((!((_fld_firstName_touched) as? Bool ?? false))) as? Bool ?? false && ((!((_form_submit_attempted) as? Bool ?? false))) as? Bool ?? false)) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(firstName as? Bool ?? false) || (specString((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((firstName as? Bool ?? false && (specDouble(specLength(specString(firstName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
+      return (((((!((firstName) as? Bool ?? false))) as? Bool ?? false || specEq((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) != nil ? ((((!((firstName) as? Bool ?? false))) as? Bool ?? false || specEq((specString(firstName) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) : (((firstName) as? Bool ?? false && (specDouble(specLength(specString(firstName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((firstName as? Bool ?? false && (specDouble(specLength(specString(firstName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
+      return (((firstName) as? Bool ?? false && (specDouble(specLength(specString(firstName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
   }
   var _fld_lastName_error: Any {
-    if ((!(_fld_lastName_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
+    if ((((!((_fld_lastName_touched) as? Bool ?? false))) as? Bool ?? false && ((!((_form_submit_attempted) as? Bool ?? false))) as? Bool ?? false)) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(lastName as? Bool ?? false) || (specString((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((lastName as? Bool ?? false && (specDouble(specLength(specString(lastName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
+      return (((((!((lastName) as? Bool ?? false))) as? Bool ?? false || specEq((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) != nil ? ((((!((lastName) as? Bool ?? false))) as? Bool ?? false || specEq((specString(lastName) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) : (((lastName) as? Bool ?? false && (specDouble(specLength(specString(lastName))) < specDouble(2))) ? "Must be at least 2 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((lastName as? Bool ?? false && (specDouble(specLength(specString(lastName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
+      return (((lastName) as? Bool ?? false && (specDouble(specLength(specString(lastName))) > specDouble(50)))) ? "Must be 50 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
   }
   var _fld_email_error: Any {
-    if ((!(_fld_email_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
+    if ((((!((_fld_email_touched) as? Bool ?? false))) as? Bool ?? false && ((!((_form_submit_attempted) as? Bool ?? false))) as? Bool ?? false)) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return ((!(email as? Bool ?? false) || (specString((specString(email) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil)
+      return ((((!((email) as? Bool ?? false))) as? Bool ?? false || specEq((specString(email) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil)
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((email as? Bool ?? false && !(specRegexTest(specRegex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"), specString(email)) as? Bool ?? false)) as? Bool ?? false) ? "Invalid email address" : nil
+      return (((email) as? Bool ?? false && ((!(specRegexTest(specRegex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"), specString(email))))) as? Bool ?? false)) ? "Invalid email address" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
   }
   var _fld_message_error: Any {
-    if ((!(_fld_message_touched as? Bool ?? false) && !(_form_submit_attempted as? Bool ?? false)) as? Bool ?? false) { return Optional<Any>.none as Any }
+    if ((((!((_fld_message_touched) as? Bool ?? false))) as? Bool ?? false && ((!((_form_submit_attempted) as? Bool ?? false))) as? Bool ?? false)) { return Optional<Any>.none as Any }
     let _v0: Any? = { () -> Any? in
-      return (((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) != nil ? ((!(message as? Bool ?? false) || (specString((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces)) == specString(""))) ? "Required" : nil) : ((message as? Bool ?? false && (specDouble(specLength(specString(message))) < specDouble(10))) ? "Must be at least 10 characters" : nil))
+      return (((((!((message) as? Bool ?? false))) as? Bool ?? false || specEq((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) != nil ? ((((!((message) as? Bool ?? false))) as? Bool ?? false || specEq((specString(message) as? String ?? "").trimmingCharacters(in: .whitespaces), "")) ? "Required" : nil) : (((message) as? Bool ?? false && (specDouble(specLength(specString(message))) < specDouble(10))) ? "Must be at least 10 characters" : nil))
     }()
     if _v0 != nil { return _v0 as Any }
     let _v1: Any? = { () -> Any? in
-      return ((message as? Bool ?? false && (specDouble(specLength(specString(message))) > specDouble(500)))) ? "Must be 500 characters or fewer" : nil
+      return (((message) as? Bool ?? false && (specDouble(specLength(specString(message))) > specDouble(500)))) ? "Must be 500 characters or fewer" : nil
     }()
     if _v1 != nil { return _v1 as Any }
     return Optional<Any>.none as Any
   }
   var _form_valid: Any { (((_fld_firstName_error == nil && _fld_lastName_error == nil) && _fld_email_error == nil) && _fld_message_error == nil) }
-  var _form_dirty: Any { ((((specString(firstName) != specString("")) || (specString(lastName) != specString(""))) || (specString(email) != specString(""))) || (specString(message) != specString(""))) }
+  var _form_dirty: Any { (((specNeq(firstName, "") || specNeq(lastName, "")) || specNeq(email, "")) || specNeq(message, "")) }
   func _touchField(_ name: Any) {
-    if (specString(name) == specString("firstName")) as? Bool ?? false {
+    if specEq(name, "firstName") {
       _fld_firstName_touched = true
     }
-    if (specString(name) == specString("lastName")) as? Bool ?? false {
+    if specEq(name, "lastName") {
       _fld_lastName_touched = true
     }
-    if (specString(name) == specString("email")) as? Bool ?? false {
+    if specEq(name, "email") {
       _fld_email_touched = true
     }
-    if (specString(name) == specString("message")) as? Bool ?? false {
+    if specEq(name, "message") {
       _fld_message_touched = true
     }
   }
@@ -120,7 +120,7 @@ final class FormDemoViewModel {
   }
   func submitContact() {
     _submitForm()
-    if _form_valid as? Bool ?? false {
+    if (_form_valid) as? Bool ?? false {
       submittedData = _formData()
       submitted = true
       _resetForm()
@@ -142,22 +142,22 @@ struct FormDemoView: View {
   @State private var vm = FormDemoViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Form Validation (@form block)"))
+      Text(verbatim: specString("Form Validation (@form block)"))
         .font(.title2.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-      Text(specString("The @form block adds field-level validation, touched tracking, and dirty state with zero boilerplate."))
+      Text(verbatim: specString("The @form block adds field-level validation, touched tracking, and dirty state with zero boilerplate."))
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
         VStack() {
-          Text(specString("Contact Form"))
+          Text(verbatim: specString("Contact Form"))
             .foregroundStyle(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
         .background(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setActiveForm("contact") }
         VStack() {
-          Text(specString("How It Works"))
+          Text(verbatim: specString("How It Works"))
             .foregroundStyle(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
         .padding(CGFloat(0))
@@ -166,17 +166,17 @@ struct FormDemoView: View {
       }
 
       HStack(alignment: .center, spacing: CGFloat(20)) {
-        if vm.isContactForm as? Bool ?? false {
+        if (vm.isContactForm) as? Bool ?? false {
           VStack() {
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(20)) {
                 HStack(alignment: .center, ) {
-                  Text(specString("Contact Us"))
+                  Text(verbatim: specString("Contact Us"))
                     .font(.headline.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   VStack() {
-                    if vm._form_dirty as? Bool ?? false {
-                      Text(specString("Unsaved changes"))
+                    if (vm._form_dirty) as? Bool ?? false {
+                      Text(verbatim: specString("Unsaved changes"))
                         .font(.callout.bold())
                         .foregroundStyle(Color(hex: "#92400e"))
                     }
@@ -187,13 +187,13 @@ struct FormDemoView: View {
 
                 HStack(alignment: .center, spacing: CGFloat(16)) {
                   VStack(spacing: CGFloat(4)) {
-                    Text(specString("First Name"))
+                    Text(verbatim: specString("First Name"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     TextField(specString("Jane"), text: Binding(get: { vm.firstName as? String ?? "" }, set: { vm.firstName = $0 }))
                     VStack() {
-                      if (vm._fld_firstName_touched as? Bool ?? false && vm._fld_firstName_error != nil) {
-                        Text(specString(vm._fld_firstName_error))
+                      if ((vm._fld_firstName_touched) as? Bool ?? false && vm._fld_firstName_error != nil) {
+                        Text(verbatim: specString(vm._fld_firstName_error))
                           .font(.callout.bold())
                           .foregroundStyle(Color(hex: "#dc2626"))
                       }
@@ -204,13 +204,13 @@ struct FormDemoView: View {
                   .frame(minWidth: CGFloat(0))
                   .frame(maxWidth: .infinity)
                   VStack(spacing: CGFloat(4)) {
-                    Text(specString("Last Name"))
+                    Text(verbatim: specString("Last Name"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     TextField(specString("Doe"), text: Binding(get: { vm.lastName as? String ?? "" }, set: { vm.lastName = $0 }))
                     VStack() {
-                      if (vm._fld_lastName_touched as? Bool ?? false && vm._fld_lastName_error != nil) {
-                        Text(specString(vm._fld_lastName_error))
+                      if ((vm._fld_lastName_touched) as? Bool ?? false && vm._fld_lastName_error != nil) {
+                        Text(verbatim: specString(vm._fld_lastName_error))
                           .font(.callout.bold())
                           .foregroundStyle(Color(hex: "#dc2626"))
                       }
@@ -223,13 +223,13 @@ struct FormDemoView: View {
                 }
 
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Email"))
+                  Text(verbatim: specString("Email"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   TextField(specString("jane@example.com"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
                   VStack() {
-                    if (vm._fld_email_touched as? Bool ?? false && vm._fld_email_error != nil) {
-                      Text(specString(vm._fld_email_error))
+                    if ((vm._fld_email_touched) as? Bool ?? false && vm._fld_email_error != nil) {
+                      Text(verbatim: specString(vm._fld_email_error))
                         .font(.callout.bold())
                         .foregroundStyle(Color(hex: "#dc2626"))
                     }
@@ -238,13 +238,13 @@ struct FormDemoView: View {
                 }
 
                 VStack(spacing: CGFloat(4)) {
-                  Text(specString("Message"))
+                  Text(verbatim: specString("Message"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   TextField(specString("Tell us how we can help..."), text: Binding(get: { vm.message as? String ?? "" }, set: { vm.message = $0 }))
                   VStack() {
-                    if (vm._fld_message_touched as? Bool ?? false && vm._fld_message_error != nil) {
-                      Text(specString(vm._fld_message_error))
+                    if ((vm._fld_message_touched) as? Bool ?? false && vm._fld_message_error != nil) {
+                      Text(verbatim: specString(vm._fld_message_error))
                         .font(.callout.bold())
                         .foregroundStyle(Color(hex: "#dc2626"))
                     }
@@ -253,8 +253,8 @@ struct FormDemoView: View {
                 }
 
                 HStack(alignment: .center, spacing: CGFloat(12)) {
-                  if (vm._form_submit_attempted as? Bool ?? false && !(vm._form_valid as? Bool ?? false)) as? Bool ?? false {
-                    Text(specString("Please fix the errors above before submitting."))
+                  if ((vm._form_submit_attempted) as? Bool ?? false && ((!((vm._form_valid) as? Bool ?? false))) as? Bool ?? false) {
+                    Text(verbatim: specString("Please fix the errors above before submitting."))
                       .font(.callout.bold())
                       .foregroundStyle(Color(hex: "#dc2626"))
                   }
@@ -262,12 +262,12 @@ struct FormDemoView: View {
                 .padding(CGFloat(16))
                 .background(Color(hex: "#fef2f2"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 VStack(spacing: CGFloat(8)) {
-                  if vm.submitted as? Bool ?? false {
-                    Text(specString("Message sent successfully!"))
+                  if (vm.submitted) as? Bool ?? false {
+                    Text(verbatim: specString("Message sent successfully!"))
                       .font(.headline.bold())
                       .foregroundStyle(Color(hex: "#166534"))
                   }
-                  Text(specString("We received your form data and will be in touch soon."))
+                  Text(verbatim: specString("We received your form data and will be in touch soon."))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: "#166534"))
                 }
@@ -275,14 +275,14 @@ struct FormDemoView: View {
                 .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 HStack(alignment: .center, spacing: CGFloat(12)) {
                   VStack() {
-                    Text(specString("Reset"))
+                    Text(verbatim: specString("Reset"))
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
                   .padding(CGFloat(0))
                   .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   .onTapGesture { vm.resetContact() }
                   VStack() {
-                    Text(specString("Send Message"))
+                    Text(verbatim: specString("Send Message"))
                       .foregroundStyle(Color(hex: "#fff"))
                   }
                   .padding(CGFloat(0))
@@ -303,33 +303,42 @@ struct FormDemoView: View {
         VStack() {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(12)) {
-              Text(specString("Form State"))
+              Text(verbatim: specString("Form State"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, ) {
-                  Text(specString("Valid"))
+                  Text(verbatim: specString("Valid"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(((vm._form_valid) as? Bool ?? false ? "✓ Yes" : "✗ No")))
+                  Text(verbatim: ({ () -> String in
+          if (vm._form_valid) as? Bool ?? false { return specString("✓ Yes") }
+          return specString("✗ No")
+        })())
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm._form_valid) as? Bool ?? false ? "#166534" : "#dc2626") as? String ?? "#000"))
                 }
 
                 HStack(alignment: .center, ) {
-                  Text(specString("Dirty"))
+                  Text(verbatim: specString("Dirty"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(((vm._form_dirty) as? Bool ?? false ? "Yes" : "No")))
+                  Text(verbatim: ({ () -> String in
+          if (vm._form_dirty) as? Bool ?? false { return specString("Yes") }
+          return specString("No")
+        })())
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
 
                 HStack(alignment: .center, ) {
-                  Text(specString("Submit attempted"))
+                  Text(verbatim: specString("Submit attempted"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  Text(specString(((vm._form_submit_attempted) as? Bool ?? false ? "Yes" : "No")))
+                  Text(verbatim: ({ () -> String in
+          if (vm._form_submit_attempted) as? Bool ?? false { return specString("Yes") }
+          return specString("No")
+        })())
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
@@ -337,19 +346,19 @@ struct FormDemoView: View {
               }
 
               VStack(spacing: CGFloat(4)) {
-                Text(specString("Field errors:"))
+                Text(verbatim: specString("Field errors:"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                Text(specString("firstName: \(specString((vm._fld_firstName_error ?? "OK")))"))
+                Text(verbatim: specString("firstName: \(specString((vm._fld_firstName_error ?? "OK")))"))
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                Text(specString("lastName: \(specString((vm._fld_lastName_error ?? "OK")))"))
+                Text(verbatim: specString("lastName: \(specString((vm._fld_lastName_error ?? "OK")))"))
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                Text(specString("email: \(specString((vm._fld_email_error ?? "OK")))"))
+                Text(verbatim: specString("email: \(specString((vm._fld_email_error ?? "OK")))"))
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                Text(specString("message: \(specString((vm._fld_message_error ?? "OK")))"))
+                Text(verbatim: specString("message: \(specString((vm._fld_message_error ?? "OK")))"))
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
@@ -363,48 +372,48 @@ struct FormDemoView: View {
       }
 
       VStack() {
-        if vm.isHowForm as? Bool ?? false {
+        if (vm.isHowForm) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(20)) {
-              Text(specString("How @form works"))
+              Text(verbatim: specString("How @form works"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
-                Text(specString("1. Declare field validators in @form"))
+                Text(verbatim: specString("1. Declare field validators in @form"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("@form {n  email: required, emailn  password: required, min-length(8)n}"))
+                  Text(verbatim: specString("@form {n  email: required, emailn  password: required, min-length(8)n}"))
                     .font(.body)
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
                 .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                Text(specString("2. Keep field values in @state as normal"))
+                Text(verbatim: specString("2. Keep field values in @state as normal"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("@state { email: \"\"  password: \"\" }"))
+                  Text(verbatim: specString("@state { email: \"\"  password: \"\" }"))
                     .font(.body)
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
                 .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                Text(specString("3. Call _touchField on blur, _submitForm on submit"))
+                Text(verbatim: specString("3. Call _touchField on blur, _submitForm on submit"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("TextInput(...) { on blur: _touchField(\"email\") }nButton(\"Submit\") { on click: _submitForm() }"))
+                  Text(verbatim: specString("TextInput(...) { on blur: _touchField(\"email\") }nButton(\"Submit\") { on click: _submitForm() }"))
                     .font(.body)
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
                 .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                Text(specString("4. Use generated signals in the template"))
+                Text(verbatim: specString("4. Use generated signals in the template"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 VStack() {
-                  Text(specString("error: _fld_email_touched && _fld_email_error != nullnbutton disabled: !_form_validntext(_fld_email_error)  // shows error message"))
+                  Text(verbatim: specString("error: _fld_email_touched && _fld_email_error != nullnbutton disabled: !_form_validntext(_fld_email_error)  // shows error message"))
                     .font(.body)
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }

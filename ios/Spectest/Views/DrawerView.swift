@@ -39,81 +39,83 @@ struct DrawerView: View {
   var body: some View {
     VStack() {
       VStack() {
-        VStack() {
-          if (specString(vm.showing) == specString(true)) {
-          }
-        }
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .background(Color(.sRGB, red: 0.0000, green: 0.0000, blue: 0.0000, opacity: 0.4))
-        .onTapGesture { vm.doClose() }
-        VStack() {
-          if ((specString(vm.showing) == specString(true)) && (specString(vm.side) == specString("left"))) {
-            HStack(alignment: .center, ) {
-              Text(specString(vm.title))
-                .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              HStack(alignment: .center, ) {
-                Text(specString("u00D7"))
-                  .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-              }
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.doClose() }
-            }
-            .padding(CGFloat(16))
-          }
-          VStack() {
-            // slot
-          }
-          .padding(CGFloat(16))
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
-          .frame(maxWidth: .infinity)
-          .scrollIndicators(.visible)
-        }
-        .background(ThemeManager.shared.color("semantic.surface"))
-        .frame(width: specPx(vm.width))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"))
-        .scrollIndicators(.visible)
-        VStack() {
-          if ((specString(vm.showing) == specString(true)) && (specString(vm.side) == specString("right"))) {
-            HStack(alignment: .center, ) {
-              Text(specString(vm.title))
-                .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              HStack(alignment: .center, ) {
-                Text(specString("u00D7"))
-                  .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-              }
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.doClose() }
-            }
-            .padding(CGFloat(16))
-          }
-          VStack() {
-            // slot
-          }
-          .padding(CGFloat(16))
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
-          .frame(maxWidth: .infinity)
-          .scrollIndicators(.visible)
-        }
-        .background(ThemeManager.shared.color("semantic.surface"))
-        .frame(width: specPx(vm.width))
-        .frame(maxWidth: CGFloat(0))
-        .background(ThemeManager.shared.color("semantic.surface"))
-        .scrollIndicators(.visible)
       }
 
+      .overlay {
+        if specEq(vm.showing, true) {
+          ZStack {
+            Color.black.opacity(0.15)
+              .ignoresSafeArea()
+              .onTapGesture { vm.doClose() }
+            if specEq(vm.showing, true) {
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.showing, true) && specEq(vm.side, "left")) {
+          ZStack {
+            if (specEq(vm.showing, true) && specEq(vm.side, "left")) {
+              HStack(alignment: .center, ) {
+                Text(verbatim: specString(vm.title))
+                  .font(.headline.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                HStack(alignment: .center, ) {
+                  Text(verbatim: specString("u00D7"))
+                    .font(.headline.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                }
+                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .frame(width: CGFloat(32))
+                .frame(height: CGFloat(32))
+                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .onTapGesture { vm.doClose() }
+              }
+              .padding(CGFloat(16))
+            }
+            VStack() {
+              // slot
+            }
+            .padding(CGFloat(16))
+            .frame(minHeight: CGFloat(0))
+            .frame(minWidth: CGFloat(0))
+            .frame(maxWidth: .infinity)
+            .scrollIndicators(.visible)
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.showing, true) && specEq(vm.side, "right")) {
+          ZStack {
+            if (specEq(vm.showing, true) && specEq(vm.side, "right")) {
+              HStack(alignment: .center, ) {
+                Text(verbatim: specString(vm.title))
+                  .font(.headline.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                HStack(alignment: .center, ) {
+                  Text(verbatim: specString("u00D7"))
+                    .font(.headline.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                }
+                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .frame(width: CGFloat(32))
+                .frame(height: CGFloat(32))
+                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .onTapGesture { vm.doClose() }
+              }
+              .padding(CGFloat(16))
+            }
+            VStack() {
+              // slot
+            }
+            .padding(CGFloat(16))
+            .frame(minHeight: CGFloat(0))
+            .frame(minWidth: CGFloat(0))
+            .frame(maxWidth: .infinity)
+            .scrollIndicators(.visible)
+          }
+        }
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

@@ -31,19 +31,19 @@ struct SliderView: View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
         HStack(alignment: .center, ) {
-          if (specString(vm.label) != specString("")) {
-            Text(specString(vm.label))
+          if specNeq(vm.label, "") {
+            Text(verbatim: specString(vm.label))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
-          Text(specString("\(specString(vm.displayValue))"))
+          Text(verbatim: specString("\(specString(vm.displayValue))"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
 
         HStack(alignment: .center, ) {
-          if (specString(vm.label) == specString("")) {
-            Text(specString("\(specString(vm.displayValue))"))
+          if specEq(vm.label, "") {
+            Text(verbatim: specString("\(specString(vm.displayValue))"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }

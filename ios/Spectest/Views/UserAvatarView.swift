@@ -16,7 +16,7 @@ struct UserAvatarView: View {
   var body: some View {
     VStack() {
       HStack(alignment: .center, ) {
-        Text(specString(vm.name))
+        Text(verbatim: specString(vm.name))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
       }

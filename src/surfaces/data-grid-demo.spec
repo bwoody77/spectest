@@ -94,7 +94,7 @@ surface DataGridDemo() {
       shadow: elevation.layered
     }
 
-    DataGrid(
+    DataGridSpec(
       rows: pagedProducts,
       columns: [
         { key: "id", label: "ID", width: "60px", sortable: true },

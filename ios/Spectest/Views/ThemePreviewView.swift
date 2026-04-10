@@ -186,7 +186,7 @@ final class ThemePreviewViewModel {
     cmpToastSpecVisible = true
   }
   func toggleTreeExpandMode() {
-    treeExpandMode = ((specString(treeExpandMode) == specString("icon")) ? "row" : "icon")
+    treeExpandMode = (specEq(treeExpandMode, "icon") ? "row" : "icon")
   }
   func setTreeSelected(_ id: Any) {
     treeSelectedName = id
@@ -198,26 +198,26 @@ struct ThemePreviewView: View {
   @State private var vm = ThemePreviewViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Component Showcase"))
+      Text(verbatim: specString("Component Showcase"))
         .font(.title2.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-      Text(specString("Switch themes above to compare how each one styles these components."))
+      Text(verbatim: specString("Switch themes above to compare how each one styles these components."))
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-      Text(specString("Component Comparison"))
+      Text(verbatim: specString("Component Comparison"))
         .font(.title3.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-      Text(specString("Spec-compiled components. List and EditableGrid still show side-by-side TS comparison."))
+      Text(verbatim: specString("Spec-compiled components. List and EditableGrid still show side-by-side TS comparison."))
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("List"))
+          Text(verbatim: specString("List"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(20)) {
             VStack(spacing: CGFloat(8)) {
-              Text(specString("Spec"))
+              Text(verbatim: specString("Spec"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               ListView(items: [["id": "1" as Any, "label": "Dashboard" as Any] as [String: Any], ["id": "2" as Any, "label": "Analytics" as Any] as [String: Any], ["id": "3" as Any, "label": "Settings" as Any] as [String: Any], ["id": "4" as Any, "label": "Profile" as Any] as [String: Any], ["id": "5" as Any, "label": "Logout" as Any] as [String: Any]] as [Any], searchable: true, selection: "single")
@@ -226,7 +226,7 @@ struct ThemePreviewView: View {
             .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack(spacing: CGFloat(8)) {
-              Text(specString("TS"))
+              Text(verbatim: specString("TS"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
               ListTSView(items: [["id": "1" as Any, "label": "Dashboard" as Any] as [String: Any], ["id": "2" as Any, "label": "Analytics" as Any] as [String: Any], ["id": "3" as Any, "label": "Settings" as Any] as [String: Any], ["id": "4" as Any, "label": "Profile" as Any] as [String: Any], ["id": "5" as Any, "label": "Logout" as Any] as [String: Any]] as [Any], searchable: true, selection: "single")
@@ -242,7 +242,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Tree"))
+          Text(verbatim: specString("Tree"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(12)) {
@@ -255,8 +255,8 @@ struct ThemePreviewView: View {
                 .background(specString("outline") == "primary" ? AnyShapeStyle(.blue) : AnyShapeStyle(Color(.tertiarySystemFill)), in: RoundedRectangle(cornerRadius: 8))
             }
             HStack(alignment: .center, spacing: CGFloat(4)) {
-              if (specString(vm.treeSelectedName) != specString("")) {
-                Text(specString("Selected:"))
+              if specNeq(vm.treeSelectedName, "") {
+                Text(verbatim: specString("Selected:"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Text(specString(vm.treeSelectedName))
@@ -279,11 +279,11 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Toast"))
+          Text(verbatim: specString("Toast"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           VStack() {
-            if vm.cmpToastSpecVisible as? Bool ?? false {
+            if (vm.cmpToastSpecVisible) as? Bool ?? false {
               HStack(spacing: 8) {
                 Image(systemName: specAlertIcon(specString("success")))
                   .foregroundStyle(specAlertColor(specString("success")))
@@ -297,7 +297,7 @@ struct ThemePreviewView: View {
           }
 
           VStack() {
-            if (specString(vm.cmpToastSpecVisible) == specString(false)) {
+            if specEq(vm.cmpToastSpecVisible, false) {
               Button(action: { Task { @MainActor in await vm.showCmpToasts() } }) {
                 Text(specString("Reset Toast"))
                   .font(.subheadline.weight(.medium))
@@ -315,15 +315,15 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack() {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("EditableGrid"))
+          Text(verbatim: specString("EditableGrid"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("Click a cell then press Enter to edit. Arrow keys to navigate."))
+          Text(verbatim: specString("Click a cell then press Enter to edit. Arrow keys to navigate."))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           HStack(alignment: .center, spacing: CGFloat(20)) {
             VStack(spacing: CGFloat(8)) {
-              Text(specString("Spec"))
+              Text(verbatim: specString("Spec"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               EditableGridSpecView(activation: "click", columns: [["key": "name" as Any, "header": "Name" as Any, "sortable": true as Any] as [String: Any], ["key": "role" as Any, "header": "Role" as Any, "sortable": true as Any, "type": "select" as Any, "options": [["value": "Engineer" as Any, "label": "Engineer" as Any] as [String: Any], ["value": "Designer" as Any, "label": "Designer" as Any] as [String: Any], ["value": "PM" as Any, "label": "PM" as Any] as [String: Any], ["value": "Manager" as Any, "label": "Manager" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["key": "status" as Any, "header": "Status" as Any] as [String: Any]] as [Any], height: "220px", rows: vm.cmpGridRows)
@@ -332,7 +332,7 @@ struct ThemePreviewView: View {
             .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack(spacing: CGFloat(8)) {
-              Text(specString("TS"))
+              Text(verbatim: specString("TS"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
               EditableGridTSView(activation: "click", columns: [["key": "name" as Any, "header": "Name" as Any, "sortable": true as Any] as [String: Any], ["key": "role" as Any, "header": "Role" as Any, "sortable": true as Any, "type": "select" as Any, "options": [["value": "Engineer" as Any, "label": "Engineer" as Any] as [String: Any], ["value": "Designer" as Any, "label": "Designer" as Any] as [String: Any], ["value": "PM" as Any, "label": "PM" as Any] as [String: Any], ["value": "Manager" as Any, "label": "Manager" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["key": "status" as Any, "header": "Status" as Any] as [String: Any]] as [Any], height: "220px", rows: vm.cmpGridRows)
@@ -350,7 +350,7 @@ struct ThemePreviewView: View {
         VStack(spacing: CGFloat(20)) {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Buttons"))
+              Text(verbatim: specString("Buttons"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
@@ -416,7 +416,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Badges"))
+              Text(verbatim: specString("Badges"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, spacing: CGFloat(8)) {
@@ -458,7 +458,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Table"))
+              Text(verbatim: specString("Table"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               TableView(columns: [["key": "name" as Any, "header": "Name" as Any] as [String: Any], ["key": "role" as Any, "header": "Role" as Any] as [String: Any], ["key": "status" as Any, "header": "Status" as Any] as [String: Any]] as [Any], rows: [["name": "Alice" as Any, "role": "Engineer" as Any, "status": "Active" as Any] as [String: Any], ["name": "Bob" as Any, "role": "Designer" as Any, "status": "Away" as Any] as [String: Any], ["name": "Carol" as Any, "role": "Manager" as Any, "status": "Active" as Any] as [String: Any]] as [Any], striped: true)
@@ -469,7 +469,7 @@ struct ThemePreviewView: View {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
               HStack(alignment: .center, ) {
-                Text(specString("Accordion (Spec Component)"))
+                Text(verbatim: specString("Accordion (Spec Component)"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 Spacer(minLength: 0)
@@ -485,11 +485,11 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Breadcrumb"))
+              Text(verbatim: specString("Breadcrumb"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, spacing: CGFloat(8)) {
-                Text(specString("maxVisible:"))
+                Text(verbatim: specString("maxVisible:"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Spacer(minLength: 0)
@@ -537,7 +537,7 @@ struct ThemePreviewView: View {
               .frame(maxWidth: .infinity)
 
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Short path (4 items)"))
+                Text(verbatim: specString("Short path (4 items)"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 HStack(spacing: 4) {
@@ -553,7 +553,7 @@ struct ThemePreviewView: View {
               }
 
               VStack(spacing: CGFloat(8)) {
-                Text(specString("Long path (6 items)"))
+                Text(verbatim: specString("Long path (6 items)"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 HStack(spacing: 4) {
@@ -574,7 +574,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Tabs"))
+              Text(verbatim: specString("Tabs"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: 0) {
@@ -591,28 +591,28 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(12)) {
-              Text(specString("Typography"))
+              Text(verbatim: specString("Typography"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Display Large"))
+              Text(verbatim: specString("Display Large"))
                 .font(.largeTitle.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Heading Large"))
+              Text(verbatim: specString("Heading Large"))
                 .font(.title2.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Heading Medium"))
+              Text(verbatim: specString("Heading Medium"))
                 .font(.title3.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Heading Small"))
+              Text(verbatim: specString("Heading Small"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Body text — The quick brown fox jumps over the lazy dog. This is regular paragraph text that demonstrates the body font at its default size and weight."))
+              Text(verbatim: specString("Body text — The quick brown fox jumps over the lazy dog. This is regular paragraph text that demonstrates the body font at its default size and weight."))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-              Text(specString("Label Medium"))
+              Text(verbatim: specString("Label Medium"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(specString("Caption — supplementary information"))
+              Text(verbatim: specString("Caption — supplementary information"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }
@@ -621,7 +621,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Skeleton"))
+              Text(verbatim: specString("Skeleton"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               RoundedRectangle(cornerRadius: 8)
@@ -634,7 +634,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Empty State"))
+              Text(verbatim: specString("Empty State"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               ContentUnavailableView(specString("No items found"), systemImage: "tray", description: Text(specString("Try adjusting your filters or create a new item.")))
@@ -645,15 +645,15 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Card Container"))
+              Text(verbatim: specString("Card Container"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(8)) {
-                  Text(specString("Card Title"))
+                  Text(verbatim: specString("Card Title"))
                     .font(.headline.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                  Text(specString("This is a Card component used as a container."))
+                  Text(verbatim: specString("This is a Card component used as a container."))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 }
@@ -671,12 +671,12 @@ struct ThemePreviewView: View {
         VStack(spacing: CGFloat(20)) {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Progress"))
+              Text(verbatim: specString("Progress"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
                 HStack(alignment: .center, spacing: CGFloat(12)) {
-                  Text(specString("65%"))
+                  Text(verbatim: specString("65%"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   VStack() {
@@ -689,7 +689,7 @@ struct ThemePreviewView: View {
                 }
 
                 HStack(alignment: .center, spacing: CGFloat(12)) {
-                  Text(specString("40%"))
+                  Text(verbatim: specString("40%"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   VStack() {
@@ -709,7 +709,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(12)) {
-              Text(specString("Alerts"))
+              Text(verbatim: specString("Alerts"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .top, spacing: 12) {
@@ -762,7 +762,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Timeline"))
+              Text(verbatim: specString("Timeline"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(alignment: .leading, spacing: 0) {
@@ -788,7 +788,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Form Controls"))
+              Text(verbatim: specString("Form Controls"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
@@ -846,11 +846,11 @@ struct ThemePreviewView: View {
                 }
                 .pickerStyle(.menu)
                 VStack(spacing: CGFloat(8)) {
-                  Text(specString("MultiSelect options"))
+                  Text(verbatim: specString("MultiSelect options"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   HStack(alignment: .center, spacing: CGFloat(12)) {
-                    Text(specString("display:"))
+                    Text(verbatim: specString("display:"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                     Spacer(minLength: 0)
@@ -863,7 +863,7 @@ struct ThemePreviewView: View {
                   .frame(maxWidth: .infinity)
 
                   HStack(alignment: .center, spacing: CGFloat(12)) {
-                    Text(specString("mode:"))
+                    Text(verbatim: specString("mode:"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                     Spacer(minLength: 0)
@@ -884,7 +884,7 @@ struct ThemePreviewView: View {
                 .padding(CGFloat(12))
                 .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 MultiSelectView(display: vm.msDisplay, label: "Tags", mode: vm.msMode, options: [["value": "bug" as Any, "label": "Bug" as Any] as [String: Any], ["value": "feature" as Any, "label": "Feature" as Any] as [String: Any], ["value": "docs" as Any, "label": "Docs" as Any] as [String: Any], ["value": "refactor" as Any, "label": "Refactor" as Any] as [String: Any]] as [Any], placeholder: "Select tags...", searchable: vm.msSearchable, showCheckbox: vm.msShowCheckbox, values: vm.cmpMsSpec)
-                Text(specString("Checkboxes"))
+                Text(verbatim: specString("Checkboxes"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Toggle(specString("Accept terms"), isOn: Binding(get: { vm.checkboxChecked as? Bool ?? false }, set: { vm.checkboxChecked = $0 }))
@@ -893,13 +893,13 @@ struct ThemePreviewView: View {
                   .toggleStyle(.automatic)
                 Toggle(specString("Disabled option"), isOn: .constant(false))
                   .toggleStyle(.automatic)
-                Text(specString("Toggles"))
+                Text(verbatim: specString("Toggles"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Toggle(specString("Dark mode"), isOn: Binding(get: { vm.toggleChecked as? Bool ?? false }, set: { vm.toggleChecked = $0 }))
                 Toggle(specString("Notifications"), isOn: Binding(get: { vm.toggleNotifications as? Bool ?? false }, set: { vm.toggleNotifications = $0 }))
                 Toggle(specString("Disabled toggle"), isOn: .constant(false))
-                Text(specString("Radio Buttons"))
+                Text(verbatim: specString("Radio Buttons"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 Picker(specString("Option 1"), selection: .constant("")) {
@@ -934,7 +934,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Stat"))
+              Text(verbatim: specString("Stat"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
@@ -979,12 +979,12 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Image"))
+              Text(verbatim: specString("Image"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(16)) {
                 VStack(spacing: CGFloat(8)) {
-                  Text(specString("Normal"))
+                  Text(verbatim: specString("Normal"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   AsyncImage(url: URL(string: specString("https://picsum.photos/300/200"))) { image in
@@ -996,7 +996,7 @@ struct ThemePreviewView: View {
                 }
 
                 VStack(spacing: CGFloat(8)) {
-                  Text(specString("Fallback"))
+                  Text(verbatim: specString("Fallback"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   AsyncImage(url: URL(string: specString("https://invalid.example.com/x.jpg"))) { image in
@@ -1008,7 +1008,7 @@ struct ThemePreviewView: View {
                 }
 
                 VStack(spacing: CGFloat(8)) {
-                  Text(specString("Lazy"))
+                  Text(verbatim: specString("Lazy"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   AsyncImage(url: URL(string: specString("https://picsum.photos/300/200?r=3"))) { image in
@@ -1027,11 +1027,11 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(12)) {
-              Text(specString("Toast (Spec Component)"))
+              Text(verbatim: specString("Toast (Spec Component)"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(12)) {
-                if vm.toastsVisible as? Bool ?? false {
+                if (vm.toastsVisible) as? Bool ?? false {
                   HStack(spacing: 8) {
                     Image(systemName: specAlertIcon(specString("success")))
                       .foregroundStyle(specAlertColor(specString("success")))
@@ -1072,7 +1072,7 @@ struct ThemePreviewView: View {
               }
 
               VStack() {
-                if !(vm.toastsVisible as? Bool ?? false) {
+                if ((!((vm.toastsVisible) as? Bool ?? false))) as? Bool ?? false {
                   Button(action: { Task { @MainActor in await vm.showToasts() } }) {
                     Text(specString("Show Toasts"))
                       .font(.subheadline.weight(.medium))
@@ -1090,7 +1090,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Modal (Spec Component)"))
+              Text(verbatim: specString("Modal (Spec Component)"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, spacing: CGFloat(12)) {
@@ -1107,10 +1107,10 @@ struct ThemePreviewView: View {
               EmptyView().sheet(isPresented: Binding(get: { vm.modalOpen as? Bool ?? false }, set: { vm.modalOpen = $0 })) {
                 NavigationStack {
                   VStack(spacing: CGFloat(12)) {
-                    Text(specString("This is a modal dialog built entirely in Spec."))
+                    Text(verbatim: specString("This is a modal dialog built entirely in Spec."))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                    Text(specString("It supports focus trapping, scroll locking, and backdrop click to close."))
+                    Text(verbatim: specString("It supports focus trapping, scroll locking, and backdrop click to close."))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
@@ -1125,7 +1125,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Drawer (Spec Component)"))
+              Text(verbatim: specString("Drawer (Spec Component)"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, spacing: CGFloat(12)) {
@@ -1142,16 +1142,16 @@ struct ThemePreviewView: View {
               EmptyView().sheet(isPresented: Binding(get: { vm.drawerOpen as? Bool ?? false }, set: { vm.drawerOpen = $0 })) {
                 VStack {
                   VStack(spacing: CGFloat(8)) {
-                    Text(specString("Dashboard"))
+                    Text(verbatim: specString("Dashboard"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(specString("Settings"))
+                    Text(verbatim: specString("Settings"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(specString("Profile"))
+                    Text(verbatim: specString("Profile"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(specString("Help"))
+                    Text(verbatim: specString("Help"))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
@@ -1165,7 +1165,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              Text(specString("Confirm Dialog (Spec Component)"))
+              Text(verbatim: specString("Confirm Dialog (Spec Component)"))
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               HStack(alignment: .center, spacing: CGFloat(12)) {
@@ -1211,7 +1211,7 @@ struct ThemePreviewView: View {
 
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Text"))
+          Text(verbatim: specString("Text"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           VStack(spacing: CGFloat(12)) {
@@ -1227,7 +1227,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Stack"))
+          Text(verbatim: specString("Stack"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack() {
@@ -1256,7 +1256,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Pagination"))
+          Text(verbatim: specString("Pagination"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(spacing: 8) {
@@ -1277,7 +1277,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("TimePicker"))
+          Text(verbatim: specString("TimePicker"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           TimePickerView(format: "12", label: "Meeting Time")
@@ -1287,7 +1287,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Stepper"))
+          Text(verbatim: specString("Stepper"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           StepperView(activeStep: vm.stepper2Step, steps: [["label": "Account" as Any] as [String: Any], ["label": "Profile" as Any] as [String: Any], ["label": "Review" as Any] as [String: Any], ["label": "Complete" as Any] as [String: Any]] as [Any])
@@ -1316,7 +1316,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Slider"))
+          Text(verbatim: specString("Slider"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Slider(value: Binding(get: { vm.sliderValue as? Double ?? 0 }, set: { vm.sliderValue = $0 }), in: (0 as? Double ?? 0)...(100 as? Double ?? 100))
@@ -1326,7 +1326,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack() {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Select"))
+          Text(verbatim: specString("Select"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Picker(specString("Framework"), selection: Binding(get: { specString(vm.select2Value) }, set: { vm.select2Value = $0 })) {
@@ -1341,7 +1341,7 @@ struct ThemePreviewView: View {
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack() {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Tooltip"))
+          Text(verbatim: specString("Tooltip"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(16)) {
@@ -1357,7 +1357,7 @@ struct ThemePreviewView: View {
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack() {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Popover"))
+          Text(verbatim: specString("Popover"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(16)) {
@@ -1373,7 +1373,7 @@ struct ThemePreviewView: View {
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Command Palette"))
+          Text(verbatim: specString("Command Palette"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           Button(action: { Task { @MainActor in await vm.openCmdPalette() } }) {
@@ -1391,7 +1391,7 @@ struct ThemePreviewView: View {
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Text(specString("Sidebar"))
+          Text(verbatim: specString("Sidebar"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           VStack() {

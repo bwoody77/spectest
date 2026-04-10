@@ -6,12 +6,12 @@ final class NotificationsPanelViewModel {
   var severityFilter: Any = "all"
   var readFilter: Any = "all"
   var allNotifications: Any { (notifications != nil ? notifications : [] as [Any]) }
-  var filteredNotifications: Any { ((specString(severityFilter) == specString("all")) ? allNotifications : (allNotifications as? [Any] ?? []).filter { { n in (specString((n as? [String: Any])?["severity"]) == specString(severityFilter)) }($0) as? Bool ?? false }) }
+  var filteredNotifications: Any { (specEq(severityFilter, "all") ? allNotifications : specFilter(allNotifications, { (n: Any) -> Bool in return specEq(specGet(n, "severity"), severityFilter) })) }
   var notifCount: Any { "\(specString(specLength(filteredNotifications))) notifications" }
-  var unreadCount: Any { specLength((allNotifications as? [Any] ?? []).filter { { n in !((n as? [String: Any])?["read"] as? Bool ?? false) }($0) as? Bool ?? false }) }
+  var unreadCount: Any { specLength(specFilter(allNotifications, { (n: Any) -> Bool in return ((!((specGet(n, "read")) as? Bool ?? false))) as? Bool ?? false })) }
   var hasUnread: Any { (specDouble(unreadCount) > specDouble(0)) }
   var unreadLabel: Any { "\(specString(unreadCount)) unread" }
-  var hasNoNotifications: Any { (specString(specLength(filteredNotifications)) == specString(0)) }
+  var hasNoNotifications: Any { specEq(specLength(filteredNotifications), 0) }
   let notificationsSource = DataSource(endpoint: "http://localhost:4000/api/notifications", method: "GET")
   var notifications: Any? { notificationsSource.data }
   var notificationsLoading: Bool { notificationsSource.loading }
@@ -33,10 +33,10 @@ struct NotificationsPanelView: View {
         Image(systemName: specIconName(specString("bell")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Notifications"))
+        Text(verbatim: specString("Notifications"))
           .font(.title2.bold())
         VStack() {
-          if vm.hasUnread as? Bool ?? false {
+          if (vm.hasUnread) as? Bool ?? false {
             Text(specString(vm.unreadLabel))
               .font(.caption.weight(.medium))
               .padding(.horizontal, 8)
@@ -49,7 +49,7 @@ struct NotificationsPanelView: View {
       }
 
       VStack() {
-        if vm.hasUnread as? Bool ?? false {
+        if (vm.hasUnread) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("info")))
               .foregroundStyle(specAlertColor(specString("info")))
@@ -66,7 +66,7 @@ struct NotificationsPanelView: View {
 
       VStack(alignment: .leading) {
         HStack(alignment: .center, spacing: CGFloat(8)) {
-          Text(specString("Filter:"))
+          Text(verbatim: specString("Filter:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           Spacer(minLength: 0)
@@ -84,7 +84,7 @@ struct NotificationsPanelView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(spacing: CGFloat(8)) {
-        if vm.notificationsLoading as? Bool ?? false {
+        if (vm.notificationsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("56px"))
@@ -105,7 +105,7 @@ struct NotificationsPanelView: View {
       }
 
       VStack() {
-        if vm.notificationsError as? Bool ?? false {
+        if (vm.notificationsError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -122,25 +122,25 @@ struct NotificationsPanelView: View {
 
       ForEach(Array((vm.filteredNotifications as? [Any] ?? []).enumerated()), id: \.offset) { idx, notif in
         HStack(alignment: .center, spacing: CGFloat(12)) {
-          Image(systemName: specIconName(specString(({ () -> Any in switch specString((notif as? [String: Any])?["severity"]) {
+          Image(systemName: specIconName(specString(({ () -> Any in switch specString(specGet(notif, "severity")) {
 case specString("success"): return "check"
 case specString("error"): return "alert-triangle"
 case specString("warning"): return "alert-triangle"
 default: return "info"
 } })())))
             .font(.system(size: specPx("20px")))
-            .foregroundStyle(Color(hex: ({ () -> Any in switch specString((notif as? [String: Any])?["severity"]) {
+            .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(notif, "severity")) {
 case specString("success"): return "#52c41a"
 case specString("error"): return "#ff4d4f"
 case specString("warning"): return "#faad14"
 default: return "#1677ff"
 } })() as? String ?? "#000"))
           VStack(spacing: CGFloat(4)) {
-            Text(specString((notif as? [String: Any])?["title"]))
+            Text(verbatim: specString(specGet(notif, "title")))
               .font(.body.bold())
             HStack(alignment: .center, spacing: CGFloat(8)) {
-              SeverityBadgeView(severity: (notif as? [String: Any])?["severity"])
-              Text(specString((notif as? [String: Any])?["createdAt"]))
+              SeverityBadgeView(severity: specGet(notif, "severity"))
+              Text(verbatim: specString(specGet(notif, "createdAt")))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               Spacer(minLength: 0)
@@ -153,10 +153,10 @@ default: return "#1677ff"
         }
         .frame(maxWidth: .infinity)
         .padding(CGFloat(12))
-        .background(Color(hex: (((notif as? [String: Any])?["read"]) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(Color(hex: ((specGet(notif, "read")) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       VStack() {
-        if vm.hasNoNotifications as? Bool ?? false {
+        if (vm.hasNoNotifications) as? Bool ?? false {
           ContentUnavailableView(specString("No Notifications"), systemImage: "tray", description: Text(specString("No notifications match your current filter.")))
             .frame(height: 200)
         }

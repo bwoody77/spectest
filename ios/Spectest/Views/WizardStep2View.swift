@@ -22,9 +22,9 @@ struct WizardStep2View: View {
   @State private var vm = WizardStep2ViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Step 2: Options"))
+      Text(verbatim: specString("Step 2: Options"))
         .font(.title3.bold())
-      Text(specString("Configure priority, deadline, and assignment options."))
+      Text(verbatim: specString("Configure priority, deadline, and assignment options."))
         .font(.callout.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack(alignment: .leading) {

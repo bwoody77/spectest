@@ -6,13 +6,13 @@ final class FeatureTestViewModel {
   var activeTab: Any = "p1"
   var matchValue: Any = "A"
   var counter: Any = 0
-  var isP1: Any { (specString(activeTab) == specString("p1")) }
-  var isP2: Any { (specString(activeTab) == specString("p2")) }
-  var isP3: Any { (specString(activeTab) == specString("p3")) }
-  var isP4: Any { (specString(activeTab) == specString("p4")) }
-  var isP6: Any { (specString(activeTab) == specString("p6")) }
-  var isP7: Any { (specString(activeTab) == specString("p7")) }
-  var isP8: Any { (specString(activeTab) == specString("p8")) }
+  var isP1: Any { specEq(activeTab, "p1") }
+  var isP2: Any { specEq(activeTab, "p2") }
+  var isP3: Any { specEq(activeTab, "p3") }
+  var isP4: Any { specEq(activeTab, "p4") }
+  var isP6: Any { specEq(activeTab, "p6") }
+  var isP7: Any { specEq(activeTab, "p7") }
+  var isP8: Any { specEq(activeTab, "p8") }
   var matchResult: Any { ({ () -> Any in switch specString(matchValue) {
 case specString("A"): return "Arm 'A' matched — the match expression chose this literal arm."
 case specString("B"): return "Arm 'B' matched — second arm works."
@@ -47,15 +47,15 @@ struct FeatureTestView: View {
   @State private var vm = FeatureTestViewModel()
   var body: some View {
     VStack(spacing: CGFloat(20)) {
-      Text(specString("Feature Test — P1 through P8"))
+      Text(verbatim: specString("Feature Test — P1 through P8"))
         .font(.title2.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-      Text(specString("Verify each completed priority. Use the tabs to navigate between features. P5 (SSR) was deferred."))
+      Text(verbatim: specString("Verify each completed priority. Use the tabs to navigate between features. P5 (SSR) was deferred."))
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
         VStack() {
-          Text(specString("P1 · Slots"))
+          Text(verbatim: specString("P1 · Slots"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP1) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -63,7 +63,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP1) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p1") }
         VStack() {
-          Text(specString("P2 · Router"))
+          Text(verbatim: specString("P2 · Router"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP2) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -71,7 +71,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP2) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p2") }
         VStack() {
-          Text(specString("P3 · Icons"))
+          Text(verbatim: specString("P3 · Icons"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP3) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -79,7 +79,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP3) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p3") }
         VStack() {
-          Text(specString("P4 · Charts"))
+          Text(verbatim: specString("P4 · Charts"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP4) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -87,7 +87,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP4) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p4") }
         VStack() {
-          Text(specString("P6 · @form"))
+          Text(verbatim: specString("P6 · @form"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP6) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -95,7 +95,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP6) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p6") }
         VStack() {
-          Text(specString("P7 · Drag"))
+          Text(verbatim: specString("P7 · Drag"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP7) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -103,7 +103,7 @@ struct FeatureTestView: View {
         .background(Color(hex: ((vm.isP7) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .onTapGesture { vm.setTab("p7") }
         VStack() {
-          Text(specString("P8 · match"))
+          Text(verbatim: specString("P8 · match"))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP8) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
         }
@@ -113,13 +113,13 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(20)) {
-        if vm.isP1 as? Bool ?? false {
-          Text(specString("P1 — Component Declarations"))
+        if (vm.isP1) as? Bool ?? false {
+          Text(verbatim: specString("P1 — Component Declarations"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
         VStack(spacing: CGFloat(12)) {
-          Text(specString("@children — default slot"))
+          Text(verbatim: specString("@children — default slot"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           InfoBoxView(title: "Custom Title (prop)")
@@ -127,31 +127,31 @@ struct FeatureTestView: View {
         }
 
         VStack(spacing: CGFloat(12)) {
-          Text(specString("@slot(\"name\") — named slots"))
+          Text(verbatim: specString("@slot(\"name\") — named slots"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           SplitRowView()
         }
 
         VStack(spacing: CGFloat(12)) {
-          Text(specString("@watch — prop change watcher"))
+          Text(verbatim: specString("@watch — prop change watcher"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("CountDisplay watches its 'value' prop and tracks how many times it changed."))
+          Text(verbatim: specString("CountDisplay watches its 'value' prop and tracks how many times it changed."))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(16)) {
             CountDisplayView(value: vm.counter)
             HStack(alignment: .center, spacing: CGFloat(8)) {
               VStack() {
-                Text(specString("Increment (\(specString(vm.counter)))"))
+                Text(verbatim: specString("Increment (\(specString(vm.counter)))"))
                   .foregroundStyle(Color(hex: "#fff"))
               }
               .padding(CGFloat(0))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               .onTapGesture { vm.increment() }
               VStack() {
-                Text(specString("Reset"))
+                Text(verbatim: specString("Reset"))
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(0))
@@ -168,35 +168,35 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP2 as? Bool ?? false {
-          Text(specString("P2 — Client-Side Routing (@router)"))
+        if (vm.isP2) as? Bool ?? false {
+          Text(verbatim: specString("P2 — Client-Side Routing (@router)"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
-        Text(specString("The @router block generates _routePath, _routeParams, and navigate() for path-based routing without a page reload."))
+        Text(verbatim: specString("The @router block generates _routePath, _routeParams, and navigate() for path-based routing without a page reload."))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack(spacing: CGFloat(8)) {
-          Text(specString("Generated by @router:"))
+          Text(verbatim: specString("Generated by @router:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("_routePath — current URL pathname (string signal)"))
+          Text(verbatim: specString("_routePath — current URL pathname (string signal)"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("_routeParams — object with :param values extracted from the URL"))
+          Text(verbatim: specString("_routeParams — object with :param values extracted from the URL"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("navigate(path) — action: calls history.pushState + updates signals"))
+          Text(verbatim: specString("navigate(path) — action: calls history.pushState + updates signals"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("Back/forward handled via popstate listener (auto-generated)"))
+          Text(verbatim: specString("Back/forward handled via popstate listener (auto-generated)"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
         .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
-          Text(specString("Navigate to Components > Routing in the sidebar for the full interactive demo with sidebar navigation, user detail routes, and 404 fallback."))
+          Text(verbatim: specString("Navigate to Components > Routing in the sidebar for the full interactive demo with sidebar navigation, user detail routes, and 404 fallback."))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: "#166534"))
         }
@@ -205,16 +205,16 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP3 as? Bool ?? false {
-          Text(specString("P3 — Icon System"))
+        if (vm.isP3) as? Bool ?? false {
+          Text(verbatim: specString("P3 — Icon System"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
-        Text(specString("The Icon component renders SVG icons by name. The @icons declaration enables namespaced external icon providers."))
+        Text(verbatim: specString("The Icon component renders SVG icons by name. The @icons declaration enables namespaced external icon providers."))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack(spacing: CGFloat(12)) {
-          Text(specString("Icon component — name, size, color props:"))
+          Text(verbatim: specString("Icon component — name, size, color props:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(20)) {
@@ -222,7 +222,7 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("home")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-              Text(specString("home"))
+              Text(verbatim: specString("home"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -231,7 +231,7 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("settings")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "#000"))
-              Text(specString("settings"))
+              Text(verbatim: specString("settings"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -240,7 +240,7 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
-              Text(specString("user"))
+              Text(verbatim: specString("user"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -249,7 +249,7 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("bell")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#ef4444" as? String ?? "#000"))
-              Text(specString("bell"))
+              Text(verbatim: specString("bell"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -258,7 +258,7 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("star")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#6366f1" as? String ?? "#000"))
-              Text(specString("star"))
+              Text(verbatim: specString("star"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
@@ -267,14 +267,14 @@ struct FeatureTestView: View {
               Image(systemName: specIconName(specString("zap")))
                 .font(.system(size: specPx(32)))
                 .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "#000"))
-              Text(specString("zap"))
+              Text(verbatim: specString("zap"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
 
           }
 
-          Text(specString("Size variants (16 / 24 / 32 / 48 px):"))
+          Text(verbatim: specString("Size variants (16 / 24 / 32 / 48 px):"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(16)) {
@@ -292,14 +292,14 @@ struct FeatureTestView: View {
               .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
           }
 
-          Text(specString("@icons declaration (namespaced providers):"))
+          Text(verbatim: specString("@icons declaration (namespaced providers):"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           VStack(spacing: CGFloat(4)) {
-            Text(specString("@icons { lucide: '@spec/icons-lucide' (default) }"))
+            Text(verbatim: specString("@icons { lucide: '@spec/icons-lucide' (default) }"))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("// Usage: Icon(name: \"lucide:arrow-right\")"))
+            Text(verbatim: specString("// Usage: Icon(name: \"lucide:arrow-right\")"))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
@@ -310,11 +310,11 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP4 as? Bool ?? false {
-          Text(specString("P4 — Data Visualization (Chart)"))
+        if (vm.isP4) as? Bool ?? false {
+          Text(verbatim: specString("P4 — Data Visualization (Chart)"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("Built-in SVG charts — line, bar, area, pie, donut. Zero external dependencies. Responsive via ResizeObserver."))
+          Text(verbatim: specString("Built-in SVG charts — line, bar, area, pie, donut. Zero external dependencies. Responsive via ResizeObserver."))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           SpecChartView(
@@ -327,11 +327,11 @@ struct FeatureTestView: View {
             showValues: true as? Bool ?? false,
             showLegend: true as? Bool ?? true
           )
-          Text(specString("Supported types: line · bar · area · pie · donut"))
+          Text(verbatim: specString("Supported types: line · bar · area · pie · donut"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           VStack() {
-            Text(specString("Navigate to Components > Charts in the sidebar for the full interactive demo with all five chart types."))
+            Text(verbatim: specString("Navigate to Components > Charts in the sidebar for the full interactive demo with all five chart types."))
               .font(.callout.bold())
               .foregroundStyle(Color(hex: "#166534"))
           }
@@ -341,23 +341,23 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP6 as? Bool ?? false {
-          Text(specString("P6 — Form Validation (@form)"))
+        if (vm.isP6) as? Bool ?? false {
+          Text(verbatim: specString("P6 — Form Validation (@form)"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
-        Text(specString("The @form block generates field-level validation signals and actions with zero boilerplate."))
+        Text(verbatim: specString("The @form block generates field-level validation signals and actions with zero boilerplate."))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Per-field signals (e.g. for field 'email'):"))
+            Text(verbatim: specString("Per-field signals (e.g. for field 'email'):"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("_fld_email_touched — bool, true after blur or submit attempt"))
+            Text(verbatim: specString("_fld_email_touched — bool, true after blur or submit attempt"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            Text(specString("_fld_email_error — null | error string (first failing validator)"))
+            Text(verbatim: specString("_fld_email_error — null | error string (first failing validator)"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
@@ -367,19 +367,19 @@ struct FeatureTestView: View {
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .frame(maxWidth: .infinity)
           VStack(spacing: CGFloat(8)) {
-            Text(specString("Surface-wide signals and actions:"))
+            Text(verbatim: specString("Surface-wide signals and actions:"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("_form_valid — true when all fields pass"))
+            Text(verbatim: specString("_form_valid — true when all fields pass"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            Text(specString("_form_dirty — true when any field changed from initial"))
+            Text(verbatim: specString("_form_dirty — true when any field changed from initial"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            Text(specString("_form_submit_attempted — set by _submitForm()"))
+            Text(verbatim: specString("_form_submit_attempted — set by _submitForm()"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            Text(specString("_touchField(name), _submitForm(), _resetForm(), _formData()"))
+            Text(verbatim: specString("_touchField(name), _submitForm(), _resetForm(), _formData()"))
               .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
@@ -391,17 +391,17 @@ struct FeatureTestView: View {
         }
 
         VStack(spacing: CGFloat(4)) {
-          Text(specString("Built-in validators:"))
+          Text(verbatim: specString("Built-in validators:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("required · email · min-length(n) · max-length(n) · min(n) · max(n) · pattern(\"regex\")"))
+          Text(verbatim: specString("required · email · min-length(n) · max-length(n) · min(n) · max(n) · pattern(\"regex\")"))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
         .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
-          Text(specString("Navigate to Components > Form Validation for the full interactive demo with live error display and form state inspector."))
+          Text(verbatim: specString("Navigate to Components > Form Validation for the full interactive demo with live error display and form state inspector."))
             .font(.callout.bold())
             .foregroundStyle(Color(hex: "#166534"))
         }
@@ -410,19 +410,19 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP7 as? Bool ?? false {
-          Text(specString("P7 — Drag & Drop (Sortable, KanbanBoard)"))
+        if (vm.isP7) as? Bool ?? false {
+          Text(verbatim: specString("P7 — Drag & Drop (Sortable, KanbanBoard)"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Text(specString("HTML5 Drag and Drop — reorderable lists and multi-column kanban boards. Zero external dependencies."))
+          Text(verbatim: specString("HTML5 Drag and Drop — reorderable lists and multi-column kanban boards. Zero external dependencies."))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("Drag these rows to reorder:"))
+          Text(verbatim: specString("Drag these rows to reorder:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           SortableView(badgeColors: ["Done": "#dcfce7" as Any, "Deferred": "#fef9c3" as Any] as [String: Any], badgeKey: "priority", gap: "6px", items: [["id": "1" as Any, "name": "P1 — Component Declarations" as Any, "priority": "Done" as Any] as [String: Any], ["id": "2" as Any, "name": "P2 — Client-Side Routing" as Any, "priority": "Done" as Any] as [String: Any], ["id": "3" as Any, "name": "P3 — Icon System" as Any, "priority": "Done" as Any] as [String: Any], ["id": "4" as Any, "name": "P4 — Chart Component" as Any, "priority": "Done" as Any] as [String: Any], ["id": "5" as Any, "name": "P5 — Server-Side Rendering" as Any, "priority": "Deferred" as Any] as [String: Any], ["id": "6" as Any, "name": "P6 — Form Validation (@form)" as Any, "priority": "Done" as Any] as [String: Any], ["id": "7" as Any, "name": "P7 — Drag & Drop" as Any, "priority": "Done" as Any] as [String: Any], ["id": "8" as Any, "name": "P8 — match statement" as Any, "priority": "Done" as Any] as [String: Any]] as [Any], labelKey: "name")
           VStack() {
-            Text(specString("Navigate to Components > Drag & Drop for the full demo including KanbanBoard with WIP limits and cross-column drag."))
+            Text(verbatim: specString("Navigate to Components > Drag & Drop for the full demo including KanbanBoard with WIP limits and cross-column drag."))
               .font(.callout.bold())
               .foregroundStyle(Color(hex: "#166534"))
           }
@@ -432,55 +432,55 @@ struct FeatureTestView: View {
       }
 
       VStack(spacing: CGFloat(16)) {
-        if vm.isP8 as? Bool ?? false {
-          Text(specString("P8 — match Statement"))
+        if (vm.isP8) as? Bool ?? false {
+          Text(verbatim: specString("P8 — match Statement"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
-        Text(specString("match works both as an expression (returns a value) and as a surface-level construct (lazily mounts one component arm)."))
+        Text(verbatim: specString("match works both as an expression (returns a value) and as a surface-level construct (lazily mounts one component arm)."))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack(spacing: CGFloat(12)) {
-          Text(specString("match as expression — select an option:"))
+          Text(verbatim: specString("match as expression — select an option:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(8)) {
             VStack() {
-              Text(specString("A"))
+              Text(verbatim: specString("A"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: ((specString(vm.matchValue) == specString("A")) ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "A") ? "#fff" : "#202732") as? String ?? "#000"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: ((specString(vm.matchValue) == specString("A")) ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(Color(hex: (specEq(vm.matchValue, "A") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { vm.setMatch("A") }
             VStack() {
-              Text(specString("B"))
+              Text(verbatim: specString("B"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: ((specString(vm.matchValue) == specString("B")) ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "B") ? "#fff" : "#202732") as? String ?? "#000"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: ((specString(vm.matchValue) == specString("B")) ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(Color(hex: (specEq(vm.matchValue, "B") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { vm.setMatch("B") }
             VStack() {
-              Text(specString("C"))
+              Text(verbatim: specString("C"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: ((specString(vm.matchValue) == specString("C")) ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "C") ? "#fff" : "#202732") as? String ?? "#000"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: ((specString(vm.matchValue) == specString("C")) ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(Color(hex: (specEq(vm.matchValue, "C") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { vm.setMatch("C") }
             VStack() {
-              Text(specString("D"))
+              Text(verbatim: specString("D"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: ((specString(vm.matchValue) == specString("D")) ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "D") ? "#fff" : "#202732") as? String ?? "#000"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: ((specString(vm.matchValue) == specString("D")) ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(Color(hex: (specEq(vm.matchValue, "D") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { vm.setMatch("D") }
           }
 
           VStack() {
-            Text(specString(vm.matchResult))
+            Text(verbatim: specString(vm.matchResult))
               .font(.body.bold())
               .foregroundStyle(Color(hex: "#5b21b6"))
           }
@@ -489,22 +489,22 @@ struct FeatureTestView: View {
         }
 
         VStack(spacing: CGFloat(12)) {
-          Text(specString("match with number arms and wildcard:"))
+          Text(verbatim: specString("match with number arms and wildcard:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("counter matched to a label: \(specString(vm.counterLabel)) (counter = \(specString(vm.counter)))"))
+          Text(verbatim: specString("counter matched to a label: \(specString(vm.counterLabel)) (counter = \(specString(vm.counter)))"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(8)) {
             VStack() {
-              Text(specString("Count up"))
+              Text(verbatim: specString("Count up"))
                 .foregroundStyle(Color(hex: "#fff"))
             }
             .padding(CGFloat(0))
             .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .onTapGesture { vm.increment() }
             VStack() {
-              Text(specString("Reset to 0"))
+              Text(verbatim: specString("Reset to 0"))
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             .padding(CGFloat(0))
@@ -515,26 +515,26 @@ struct FeatureTestView: View {
         }
 
         VStack(spacing: CGFloat(8)) {
-          Text(specString("match as surface-level construct:"))
+          Text(verbatim: specString("match as surface-level construct:"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-          Text(specString("Used throughout app.spec — viewTitle and breadcrumbSection are both match expressions over 'view'."))
+          Text(verbatim: specString("Used throughout app.spec — viewTitle and breadcrumbSection are both match expressions over 'view'."))
             .font(.callout.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           VStack(spacing: CGFloat(4)) {
-            Text(specString("viewTitle: match view {"))
+            Text(verbatim: specString("viewTitle: match view {"))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("  \"dashboard\" -> \"Dashboard\","))
+            Text(verbatim: specString("  \"dashboard\" -> \"Dashboard\","))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("  \"charts\"    -> \"Charts\","))
+            Text(verbatim: specString("  \"charts\"    -> \"Charts\","))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("  _ -> \"Admin\""))
+            Text(verbatim: specString("  _ -> \"Admin\""))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            Text(specString("}"))
+            Text(verbatim: specString("}"))
               .font(.body)
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }

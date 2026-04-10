@@ -22,23 +22,23 @@ final class MultiSelectViewModel {
   }
   var safeOptions: Any { (options != nil ? options : [] as [Any]) }
   var safeSelected: Any { (selected != nil ? selected : [] as [Any]) }
-  var filteredOptions: Any { ((searchable as? Bool ?? false && (specString(query) != specString(""))) ? (safeOptions as? [Any] ?? []).filter { { o in specIncludes(((o as? [String: Any])?["label"] as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }($0) as? Bool ?? false } : safeOptions) }
-  var selectedOptions: Any { (safeOptions as? [Any] ?? []).filter { { o in specIncludes(safeSelected, (o as? [String: Any])?["value"]) }($0) as? Bool ?? false } }
+  var filteredOptions: Any { (((searchable) as? Bool ?? false && specNeq(query, "")) ? specFilter(safeOptions, { (o: Any) -> Bool in return specIncludes((specGet(o, "label") as? String ?? "").lowercased(), (query as? String ?? "").lowercased()) }) : safeOptions) }
+  var selectedOptions: Any { specFilter(safeOptions, { (o: Any) -> Bool in return specIncludes(safeSelected, specGet(o, "value")) }) }
   var hasSelections: Any { (specDouble(specLength(safeSelected)) > specDouble(0)) }
   var hasOptions: Any { (specDouble(specLength(filteredOptions)) > specDouble(0)) }
-  var displayPlaceholder: Any { ((specString(hasSelections) == specString(false)) ? placeholder : "") }
-  var displayText: Any { ((selectedOptions as? [Any] ?? []).map { { o in (o as? [String: Any])?["label"] }($0) } as? [Any] ?? []).map { String(describing: $0) }.joined(separator: ", " as? String ?? "") }
-  var isDropdownMode: Any { (specString(mode) == specString("dropdown")) }
-  var showList: Any { ((specString(isDropdownMode) == specString(false)) || (specString(open) == specString(true))) }
+  var displayPlaceholder: Any { (specEq(hasSelections, false) ? placeholder : "") }
+  var displayText: Any { (specMap(selectedOptions, { (o: Any) -> Any in return specGet(o, "label") }) as? [Any] ?? []).map { String(describing: $0) }.joined(separator: ", " as? String ?? "") }
+  var isDropdownMode: Any { specEq(mode, "dropdown") }
+  var showList: Any { (specEq(isDropdownMode, false) || specEq(open, true)) }
   func toggleOpen() {
-    if (specString(disabled) == specString(false)) as? Bool ?? false {
-      open = (specString(open) == specString(false))
+    if specEq(disabled, false) {
+      open = specEq(open, false)
       query = ""
       highlightIndex = 0
     }
   }
   func openDropdown() {
-    if ((specString(disabled) == specString(false)) && (specString(open) == specString(false))) as? Bool ?? false {
+    if (specEq(disabled, false) && specEq(open, false)) {
       open = true
       query = ""
       highlightIndex = 0
@@ -51,24 +51,24 @@ final class MultiSelectViewModel {
   func setQuery(_ v: Any) {
     query = v
     highlightIndex = 0
-    if (specString(open) == specString(false)) as? Bool ?? false {
+    if specEq(open, false) {
       open = true
     }
   }
   func toggleOption(_ val: Any) {
-    if specIncludes(selected, val) as? Bool ?? false {
-      selected = (selected as? [Any] ?? []).filter { { v in (specString(v) != specString(val)) }($0) as? Bool ?? false }
+    if specIncludes(selected, val) {
+      selected = specFilter(selected, { (v: Any) -> Bool in return specNeq(v, val) })
     } else {
-      selected = ((selected as? [Any] ?? []) + ([val] as [Any] as? [Any] ?? []))
+      selected = specConcat(selected, [val] as [Any])
     }
     /* event callback */
   }
   func removeTag(_ val: Any) {
-    selected = (selected as? [Any] ?? []).filter { { v in (specString(v) != specString(val)) }($0) as? Bool ?? false }
+    selected = specFilter(selected, { (v: Any) -> Bool in return specNeq(v, val) })
     /* event callback */
   }
   func selectAll() {
-    selected = ((filteredOptions as? [Any] ?? []).filter { { o in (specString((o as? [String: Any])?["disabled"]) != specString(true)) }($0) as? Bool ?? false } as? [Any] ?? []).map { { o in (o as? [String: Any])?["value"] }($0) }
+    selected = specMap(specFilter(filteredOptions, { (o: Any) -> Bool in return specNeq(specGet(o, "disabled"), true) }), { (o: Any) -> Any in return specGet(o, "value") })
     /* event callback */
   }
   func clearAll() {
@@ -76,17 +76,17 @@ final class MultiSelectViewModel {
     /* event callback */
   }
   func moveHighlight(_ delta: Any) {
-    if (specDouble(specLength(filteredOptions)) > specDouble(0)) as? Bool ?? false {
+    if (specDouble(specLength(filteredOptions)) > specDouble(0)) {
       highlightIndex = wrapIndex(highlightIndex, delta, specLength(filteredOptions))
     }
   }
   func toggleHighlighted() {
-    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) as? Bool ?? false {
-      toggleOption(((filteredOptions as? [Any])?[highlightIndex as? Int ?? 0] as? [String: Any])?["value"])
+    if ((specDouble(specLength(filteredOptions)) > specDouble(0)) && (specDouble(highlightIndex) < specDouble(specLength(filteredOptions)))) {
+      toggleOption(specGet(specGet(filteredOptions, highlightIndex), "value"))
     }
   }
   func removeLastTag() {
-    if (specDouble(specLength(safeSelected)) > specDouble(0)) as? Bool ?? false {
+    if (specDouble(specLength(safeSelected)) > specDouble(0)) {
       selected = specSlice(selected, 0, (specDouble(specLength(selected)) - specDouble(1)))
       /* event callback */
     }
@@ -110,30 +110,30 @@ struct MultiSelectView: View {
     VStack() {
       VStack(spacing: CGFloat(4)) {
         VStack() {
-          if (specString(vm.label) != specString("")) {
-            Text(specString(vm.label))
+          if specNeq(vm.label, "") {
+            Text(verbatim: specString(vm.label))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
         }
 
         VStack(spacing: CGFloat(4)) {
-          if vm.isDropdownMode as? Bool ?? false {
+          if (vm.isDropdownMode) as? Bool ?? false {
             HStack(alignment: .center, spacing: CGFloat(4)) {
               HStack(alignment: .center, spacing: CGFloat(4)) {
-                if (vm.hasSelections as? Bool ?? false && (specString(vm.display) == specString("chips"))) {
+                if ((vm.hasSelections) as? Bool ?? false && specEq(vm.display, "chips")) {
                   ForEach(Array((vm.selectedOptions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, opt in
                     HStack(alignment: .center, spacing: CGFloat(4)) {
-                      Text(specString((opt as? [String: Any])?["label"]))
+                      Text(verbatim: specString(specGet(opt, "label")))
                         .font(.body.bold())
                         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                       VStack() {
-                        Text(specString("u00D7"))
+                        Text(verbatim: specString("u00D7"))
                           .font(.body.bold())
                           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                       }
 
-                      .onTapGesture { vm.removeTag((opt as? [String: Any])?["value"]) }
+                      .onTapGesture { vm.removeTag(specGet(opt, "value")) }
                     }
                     .padding(.leading, CGFloat(8))
                     .padding(.trailing, CGFloat(4))
@@ -143,8 +143,8 @@ struct MultiSelectView: View {
               }
 
               VStack() {
-                if (vm.hasSelections as? Bool ?? false && (specString(vm.display) == specString("text"))) {
-                  Text(specString(vm.displayText))
+                if ((vm.hasSelections) as? Bool ?? false && specEq(vm.display, "text")) {
+                  Text(verbatim: specString(vm.displayText))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
@@ -152,14 +152,14 @@ struct MultiSelectView: View {
 
               HStack(alignment: .center, ) {
                 VStack() {
-                  if (specString(vm.hasSelections) == specString(false)) {
-                    Text(specString(vm.placeholder))
+                  if specEq(vm.hasSelections, false) {
+                    Text(verbatim: specString(vm.placeholder))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   }
                 }
 
-                Text(specString("u25BE"))
+                Text(verbatim: specString("u25BE"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
@@ -173,88 +173,93 @@ struct MultiSelectView: View {
             .frame(minHeight: CGFloat(40))
             .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
-          VStack() {
-            if (specString(vm.open) == specString(true)) {
+        }
+
+        .overlay {
+          if specEq(vm.open, true) {
+            ZStack {
+              Color.black.opacity(0.15)
+                .ignoresSafeArea()
+                .onTapGesture { vm.closeDropdown() }
+              if specEq(vm.open, true) {
+              }
             }
           }
-
-          .onTapGesture { vm.closeDropdown() }
-          VStack() {
-            if (specString(vm.open) == specString(true)) {
-              VStack() {
-                if vm.searchable as? Bool ?? false {
-                  TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+        }
+        .overlay {
+          if specEq(vm.open, true) {
+            ZStack {
+              if specEq(vm.open, true) {
+                VStack() {
+                  if (vm.searchable) as? Bool ?? false {
+                    TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                  }
                 }
+                .padding(CGFloat(8))
+              }
+              HStack(alignment: .center, spacing: CGFloat(8)) {
+                VStack() {
+                  Text(verbatim: specString("Select all"))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                }
+
+                .onTapGesture { vm.selectAll() }
+                VStack() {
+                  Text(verbatim: specString("Clear all"))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                }
+
+                .onTapGesture { vm.clearAll() }
               }
               .padding(CGFloat(8))
-            }
-            HStack(alignment: .center, spacing: CGFloat(8)) {
               VStack() {
-                Text(specString("Select all"))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-              }
-
-              .onTapGesture { vm.selectAll() }
-              VStack() {
-                Text(specString("Clear all"))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-              }
-
-              .onTapGesture { vm.clearAll() }
-            }
-            .padding(CGFloat(8))
-            VStack() {
-              if vm.hasOptions as? Bool ?? false {
-                LazyVStack(spacing: CGFloat(8)) {
-                  ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
-                    HStack(alignment: .center, spacing: CGFloat(8)) {
-                      Text(specString(({ () -> Any in switch specString(vm.showCheckbox) {
-case specString(true): return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2611" : "u2610")
-default: return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2713" : "")
+                if (vm.hasOptions) as? Bool ?? false {
+                  LazyVStack(spacing: CGFloat(8)) {
+                    ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
+                      HStack(alignment: .center, spacing: CGFloat(8)) {
+                        Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
+case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
+default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
-                        .font(.body.bold())
-                        .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                      Text(specString((option as? [String: Any])?["label"]))
-                        .font(.body.bold())
-                        .foregroundStyle(Color(hex: ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
-                    }
-                    .padding(CGFloat(8))
-                    .opacity(CGFloat(0))
-                    .background(Color(hex: ({ () -> Any in switch specString((specString(idx) == specString(vm.highlightIndex))) {
+                          .font(.body.bold())
+                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                        Text(verbatim: specString(specGet(option, "label")))
+                          .font(.body.bold())
+                          .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                      }
+                      .padding(CGFloat(8))
+                      .opacity(CGFloat(0))
+                      .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) {
+default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                    .onTapGesture { vm.toggleOption((option as? [String: Any])?["value"]) }
+                      .onTapGesture { vm.toggleOption(specGet(option, "value")) }
+                    }
                   }
                 }
               }
-            }
 
-            HStack(alignment: .center, ) {
-              if (specString(vm.hasOptions) == specString(false)) {
-                Text(specString("No options"))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+              HStack(alignment: .center, ) {
+                if specEq(vm.hasOptions, false) {
+                  Text(verbatim: specString("No options"))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                }
               }
+              .padding(CGFloat(12))
             }
-            .padding(CGFloat(12))
           }
-          .padding(CGFloat(4))
-          .frame(maxHeight: CGFloat(280))
-          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .scrollIndicators(.visible)
         }
-
         VStack(spacing: CGFloat(4)) {
-          if (specString(vm.isDropdownMode) == specString(false)) {
+          if specEq(vm.isDropdownMode, false) {
             VStack() {
-              if vm.hasSelections as? Bool ?? false {
-                Text(specString(specAdd(specLength(vm.safeSelected), " selected")))
+              if (vm.hasSelections) as? Bool ?? false {
+                Text(verbatim: specString(specAdd(specLength(vm.safeSelected), " selected")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
@@ -262,21 +267,21 @@ default: return "transparent"
             .padding(CGFloat(8))
           }
           VStack() {
-            if vm.searchable as? Bool ?? false {
+            if (vm.searchable) as? Bool ?? false {
               TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
             }
           }
           .padding(CGFloat(8))
           HStack(alignment: .center, spacing: CGFloat(8)) {
             VStack() {
-              Text(specString("Select all"))
+              Text(verbatim: specString("Select all"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
 
             .onTapGesture { vm.selectAll() }
             VStack() {
-              Text(specString("Clear all"))
+              Text(verbatim: specString("Clear all"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
@@ -285,30 +290,30 @@ default: return "transparent"
           }
           .padding(CGFloat(8))
           VStack() {
-            if vm.hasOptions as? Bool ?? false {
+            if (vm.hasOptions) as? Bool ?? false {
               LazyVStack(spacing: CGFloat(8)) {
                 ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
                   HStack(alignment: .center, spacing: CGFloat(8)) {
-                    Text(specString(({ () -> Any in switch specString(vm.showCheckbox) {
-case specString(true): return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2611" : "u2610")
-default: return ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "u2713" : "")
+                    Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
+case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
+default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                    Text(specString((option as? [String: Any])?["label"]))
+                    Text(verbatim: specString(specGet(option, "label")))
                       .font(.body.bold())
-                      .foregroundStyle(Color(hex: ((specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
+                      .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
                   }
                   .padding(CGFloat(8))
                   .opacity(CGFloat(0))
-                  .background(Color(hex: ({ () -> Any in switch specString((specString(idx) == specString(vm.highlightIndex))) {
+                  .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, (option as? [String: Any])?["value"])) {
+default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                  .onTapGesture { vm.toggleOption((option as? [String: Any])?["value"]) }
+                  .onTapGesture { vm.toggleOption(specGet(option, "value")) }
                 }
               }
             }
@@ -317,8 +322,8 @@ default: return "transparent"
           .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .scrollIndicators(.visible)
           HStack(alignment: .center, ) {
-            if (specString(vm.hasOptions) == specString(false)) {
-              Text(specString("No options"))
+            if specEq(vm.hasOptions, false) {
+              Text(verbatim: specString("No options"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             }

@@ -15,8 +15,8 @@ final class TreeViewModel {
     selectedIds = selected
   }
   func handleToggle(_ id: Any) {
-    if specIncludes(expandedIds, id) as? Bool ?? false {
-      expandedIds = (expandedIds as? [Any] ?? []).filter { { eid in (specString(eid) != specString(id)) }($0) as? Bool ?? false }
+    if specIncludes(expandedIds, id) {
+      expandedIds = specFilter(expandedIds, { (eid: Any) -> Bool in return specNeq(eid, id) })
       /* event callback */
     } else {
       expandedIds = specAdd(expandedIds, [id] as [Any])
@@ -24,12 +24,12 @@ final class TreeViewModel {
     }
   }
   func handleSelect(_ id: Any) {
-    if (specString(selection) == specString("single")) as? Bool ?? false {
+    if specEq(selection, "single") {
       selectedIds = [id] as [Any]
     } else {
-      if (specString(selection) == specString("multi")) as? Bool ?? false {
-        if specIncludes(selectedIds, id) as? Bool ?? false {
-          selectedIds = (selectedIds as? [Any] ?? []).filter { { sid in (specString(sid) != specString(id)) }($0) as? Bool ?? false }
+      if specEq(selection, "multi") {
+        if specIncludes(selectedIds, id) {
+          selectedIds = specFilter(selectedIds, { (sid: Any) -> Bool in return specNeq(sid, id) })
         } else {
           selectedIds = specAdd(selectedIds, [id] as [Any])
         }

@@ -5,14 +5,14 @@ import SpecRuntime
 final class ActivityFeedViewModel {
   var typeFilter: Any = "all"
   var allActivity: Any { (activityItems != nil ? activityItems : [] as [Any]) }
-  var filteredActivity: Any { ((specString(typeFilter) == specString("all")) ? allActivity : (allActivity as? [Any] ?? []).filter { { a in (specString((a as? [String: Any])?["type"]) == specString(typeFilter)) }($0) as? Bool ?? false }) }
+  var filteredActivity: Any { (specEq(typeFilter, "all") ? allActivity : specFilter(allActivity, { (a: Any) -> Bool in return specEq(specGet(a, "type"), typeFilter) })) }
   var activityCount: Any { "\(specString(specLength(filteredActivity))) events" }
-  var hasNoActivity: Any { (specString(specLength(filteredActivity)) == specString(0)) }
-  var timelineItems: Any { (filteredActivity as? [Any] ?? []).map { { a in ["id": (a as? [String: Any])?["id"] as Any, "title": (a as? [String: Any])?["user"] as Any, "description": (a as? [String: Any])?["detail"] as Any, "date": (a as? [String: Any])?["timestamp"] as Any, "status": ({ () -> Any in switch specString((a as? [String: Any])?["type"]) {
+  var hasNoActivity: Any { specEq(specLength(filteredActivity), 0) }
+  var timelineItems: Any { specMap(filteredActivity, { (a: Any) -> Any in return ["id": specGet(a, "id") as Any, "title": specGet(a, "user") as Any, "description": specGet(a, "detail") as Any, "date": specGet(a, "timestamp") as Any, "status": ({ () -> Any in switch specString(specGet(a, "type")) {
 case specString("task_completed"): return "completed"
 case specString("deploy"): return "completed"
 default: return "active"
-} })() as Any] as [String: Any] }($0) } }
+} })() as Any] as [String: Any] }) }
   let activityItemsSource = DataSource(endpoint: "http://localhost:4000/api/activity", method: "GET")
   var activityItems: Any? { activityItemsSource.data }
   var activityItemsLoading: Bool { activityItemsSource.loading }
@@ -34,7 +34,7 @@ struct ActivityFeedView: View {
         Image(systemName: specIconName(specString("clock")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Activity Feed"))
+        Text(verbatim: specString("Activity Feed"))
           .font(.title2.bold())
         Spacer(minLength: 0)
       }
@@ -60,7 +60,7 @@ struct ActivityFeedView: View {
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(spacing: CGFloat(12)) {
-        if vm.activityItemsLoading as? Bool ?? false {
+        if (vm.activityItemsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
             .frame(height: specPx("60px"))
@@ -81,7 +81,7 @@ struct ActivityFeedView: View {
       }
 
       VStack() {
-        if vm.activityItemsError as? Bool ?? false {
+        if (vm.activityItemsError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -97,14 +97,14 @@ struct ActivityFeedView: View {
       }
 
       VStack() {
-        if vm.hasNoActivity as? Bool ?? false {
+        if (vm.hasNoActivity) as? Bool ?? false {
           ContentUnavailableView(specString("No Activity"), systemImage: "tray", description: Text(specString("No activity events match your current filter.")))
             .frame(height: 200)
         }
       }
 
       VStack() {
-        if !(vm.activityItemsLoading as? Bool ?? false) {
+        if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
           VStack(alignment: .leading, spacing: 0) {
             ForEach(Array((vm.timelineItems as? [Any] ?? []).enumerated()), id: \.offset) { idx, item in
               HStack(alignment: .top, spacing: 12) {
@@ -126,16 +126,16 @@ struct ActivityFeedView: View {
       }
 
       VStack(spacing: CGFloat(12)) {
-        if !(vm.activityItemsLoading as? Bool ?? false) {
+        if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
           ForEach(Array((vm.filteredActivity as? [Any] ?? []).enumerated()), id: \.offset) { idx, item in
             HStack(alignment: .center, spacing: CGFloat(12)) {
-              ActivityIconView(activityType: (item as? [String: Any])?["type"])
+              ActivityIconView(activityType: specGet(item, "type"))
               VStack(spacing: CGFloat(4)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
-                  Text(specString((item as? [String: Any])?["user"]))
+                  Text(verbatim: specString(specGet(item, "user")))
                     .font(.body.bold())
                   Spacer(minLength: 0)
-                  Text(specString((item as? [String: Any])?["type"]))
+                  Text(specString(specGet(item, "type")))
                     .font(.caption.weight(.medium))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -144,9 +144,9 @@ struct ActivityFeedView: View {
                 }
                 .frame(maxWidth: .infinity)
 
-                Text(specString((item as? [String: Any])?["detail"]))
+                Text(verbatim: specString(specGet(item, "detail")))
                   .font(.callout.bold())
-                Text(specString((item as? [String: Any])?["timestamp"]))
+                Text(verbatim: specString(specGet(item, "timestamp")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }

@@ -36,7 +36,7 @@ case specString("error"): return "#991b1b"
 default: return "#1e40af"
 } })() as? String ?? "#000"))
         VStack(spacing: CGFloat(2)) {
-          Text(specString(vm.title))
+          Text(verbatim: specString(vm.title))
             .font(.body.bold())
             .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
 case specString("info"): return "#1e40af"
@@ -45,7 +45,7 @@ case specString("warning"): return "#92400e"
 case specString("error"): return "#991b1b"
 default: return "#1e40af"
 } })() as? String ?? "#000"))
-          Text(specString(vm.message))
+          Text(verbatim: specString(vm.message))
             .font(.body.bold())
             .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
 case specString("info"): return "#1e40af"
@@ -59,8 +59,8 @@ default: return "#1e40af"
         .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, ) {
-          if (specString(vm.dismissible) == specString(true)) {
-            Text(specString("u00D7"))
+          if specEq(vm.dismissible, true) {
+            Text(verbatim: specString("u00D7"))
               .font(.body.bold())
               .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
 case specString("info"): return "#1e40af"

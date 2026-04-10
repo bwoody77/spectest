@@ -28,7 +28,7 @@ struct ToastView: View {
   var body: some View {
     VStack() {
       HStack(alignment: .center, spacing: CGFloat(12)) {
-        Text(specString(({ () -> Any in switch specString(vm.severity) {
+        Text(verbatim: specString(({ () -> Any in switch specString(vm.severity) {
 case specString("success"): return "✓"
 case specString("error"): return "✕"
 case specString("warning"): return "⚠"
@@ -41,7 +41,7 @@ case specString("error"): return "#dc2626"
 case specString("warning"): return "#d97706"
 default: return "#2563eb"
 } })() as? String ?? "#000"))
-        Text(specString(vm.message))
+        Text(verbatim: specString(vm.message))
           .font(.body.bold())
           .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
 case specString("success"): return "#166534"
@@ -50,7 +50,7 @@ case specString("warning"): return "#92400e"
 default: return "#1e40af"
 } })() as? String ?? "#000"))
         HStack(alignment: .center, ) {
-          Text(specString("✕"))
+          Text(verbatim: specString("✕"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
         }

@@ -14,14 +14,14 @@ final class TaskFormViewModel {
   var submitting: Any = false
   var error: Any = ""
   var touched: Any = false
-  var titleError: Any { ((specString(title) == specString("")) ? "Title is required" : "") }
-  var assigneeError: Any { ((specString(assignee) == specString("")) ? "Assignee is required" : "") }
-  var hasTitleError: Any { (touched as? Bool ?? false && (specString(titleError) != specString(""))) }
-  var hasAssigneeError: Any { (touched as? Bool ?? false && (specString(assigneeError) != specString(""))) }
-  var isValid: Any { ((specString(titleError) == specString("")) && (specString(assigneeError) == specString(""))) }
-  var hasError: Any { (specString(error) != specString("")) }
+  var titleError: Any { (specEq(title, "") ? "Title is required" : "") }
+  var assigneeError: Any { (specEq(assignee, "") ? "Assignee is required" : "") }
+  var hasTitleError: Any { ((touched) as? Bool ?? false && specNeq(titleError, "")) }
+  var hasAssigneeError: Any { ((touched) as? Bool ?? false && specNeq(assigneeError, "")) }
+  var isValid: Any { (specEq(titleError, "") && specEq(assigneeError, "")) }
+  var hasError: Any { specNeq(error, "") }
   var isSubmitting: Any { submitting }
-  var formSummary: Any { ((specString(title) != specString("")) ? "Creating: \(specString(title))" : "Fill in the form below") }
+  var formSummary: Any { (specNeq(title, "") ? "Creating: \(specString(title))" : "Fill in the form below") }
   var successVisible: Any { submitted }
   func setTitle(_ v: Any) {
     title = v
@@ -48,9 +48,9 @@ final class TaskFormViewModel {
   }
   func submitForm() async {
     touched = true
-    if isValid as? Bool ?? false {
+    if (isValid) as? Bool ?? false {
       submitting = true
-      /* await not yet supported */  _ = Optional<Any>.none
+      await fetch("http://localhost:4000/api/tasks", ["method": "POST" as Any, "body": JSON.stringify(["title": title as Any, "assignee": assignee as Any, "priority": priority as Any, "status": status as Any] as [String: Any]) as Any] as [String: Any])
       submitted = true
       submitting = false
       error = ""
@@ -70,7 +70,7 @@ struct TaskFormView: View {
         Image(systemName: specIconName(specString("plus")))
           .font(.system(size: specPx("20px")))
           .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
-        Text(specString("Create New Task"))
+        Text(verbatim: specString("Create New Task"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         Spacer(minLength: 0)
@@ -79,11 +79,11 @@ struct TaskFormView: View {
       }
       .frame(maxWidth: .infinity)
 
-      Text(specString(vm.formSummary))
+      Text(verbatim: specString(vm.formSummary))
         .font(.callout.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack() {
-        if vm.successVisible as? Bool ?? false {
+        if (vm.successVisible) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("success")))
               .foregroundStyle(specAlertColor(specString("success")))
@@ -100,7 +100,7 @@ struct TaskFormView: View {
       }
 
       VStack() {
-        if vm.hasError as? Bool ?? false {
+        if (vm.hasError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
               .foregroundStyle(specAlertColor(specString("error")))
@@ -123,8 +123,8 @@ struct TaskFormView: View {
               TextField(specString("Enter task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
             }
             VStack() {
-              if vm.hasTitleError as? Bool ?? false {
-                Text(specString(vm.titleError))
+              if (vm.hasTitleError) as? Bool ?? false {
+                Text(verbatim: specString(vm.titleError))
                   .font(.callout.bold())
                   .foregroundStyle(Color(hex: "#db2424"))
               }
@@ -145,8 +145,8 @@ struct TaskFormView: View {
               }
               .pickerStyle(.menu)
               VStack() {
-                if vm.hasAssigneeError as? Bool ?? false {
-                  Text(specString(vm.assigneeError))
+                if (vm.hasAssigneeError) as? Bool ?? false {
+                  Text(verbatim: specString(vm.assigneeError))
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: "#db2424"))
                 }
@@ -182,7 +182,7 @@ struct TaskFormView: View {
           Toggle(specString("Mark as urgent"), isOn: Binding(get: { vm.urgent as? Bool ?? false }, set: { vm.urgent = $0 }))
             .toggleStyle(.automatic)
           HStack(alignment: .center, spacing: CGFloat(12)) {
-            if vm.isSubmitting as? Bool ?? false {
+            if (vm.isSubmitting) as? Bool ?? false {
               ProgressView(value: (75 as? Double ?? 0) / 100.0)
                 .tint(.accentColor)
             }

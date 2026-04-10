@@ -25,44 +25,52 @@ struct TooltipView: View {
     VStack() {
       VStack() {
         // slot
-        VStack() {
-          if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("top"))) {
-            Text(specString(vm.text))
-              .font(.body.bold())
-              .foregroundStyle(Color(hex: "#f1f5f9"))
-          }
-        }
-        .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-        VStack() {
-          if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("bottom"))) {
-            Text(specString(vm.text))
-              .font(.body.bold())
-              .foregroundStyle(Color(hex: "#f1f5f9"))
-          }
-        }
-        .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-        VStack() {
-          if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("left"))) {
-            Text(specString(vm.text))
-              .font(.body.bold())
-              .foregroundStyle(Color(hex: "#f1f5f9"))
-          }
-        }
-        .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-        VStack() {
-          if ((specString(vm.visible) == specString(true)) && (specString(vm.placement) == specString("right"))) {
-            Text(specString(vm.text))
-              .font(.body.bold())
-              .foregroundStyle(Color(hex: "#f1f5f9"))
-          }
-        }
-        .padding(CGFloat(8))
-        .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
       }
 
+      .overlay {
+        if (specEq(vm.visible, true) && specEq(vm.placement, "top")) {
+          ZStack {
+            if (specEq(vm.visible, true) && specEq(vm.placement, "top")) {
+              Text(verbatim: specString(vm.text))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: "#f1f5f9"))
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.visible, true) && specEq(vm.placement, "bottom")) {
+          ZStack {
+            if (specEq(vm.visible, true) && specEq(vm.placement, "bottom")) {
+              Text(verbatim: specString(vm.text))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: "#f1f5f9"))
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.visible, true) && specEq(vm.placement, "left")) {
+          ZStack {
+            if (specEq(vm.visible, true) && specEq(vm.placement, "left")) {
+              Text(verbatim: specString(vm.text))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: "#f1f5f9"))
+            }
+          }
+        }
+      }
+      .overlay {
+        if (specEq(vm.visible, true) && specEq(vm.placement, "right")) {
+          ZStack {
+            if (specEq(vm.visible, true) && specEq(vm.placement, "right")) {
+              Text(verbatim: specString(vm.text))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: "#f1f5f9"))
+            }
+          }
+        }
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
