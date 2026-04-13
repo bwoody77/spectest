@@ -22,7 +22,7 @@ struct StepperView: View {
     VStack() {
       HStack(alignment: .center, ) {
         if specEq(vm.orientation, "horizontal") {
-          ForEach(Array((vm.steps as? [Any] ?? []).enumerated()), id: \.offset) { i, step in
+          ForEach(Array(specArr(vm.steps).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, ) {
               VStack(spacing: CGFloat(4)) {
                 HStack(alignment: .center, ) {
@@ -77,7 +77,7 @@ default: return "#92a2b9"
 
       VStack() {
         if specEq(vm.orientation, "vertical") {
-          ForEach(Array((vm.steps as? [Any] ?? []).enumerated()), id: \.offset) { i, step in
+          ForEach(Array(specArr(vm.steps).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
                 HStack(alignment: .center, ) {
@@ -144,6 +144,7 @@ default: return "#92a2b9"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.steps = steps; vm.activeStep = activeStep; vm.orientation = orientation; vm.allowBack = allowBack }
+    .onAppear { if !specEq(vm.steps, steps) { vm.steps = steps }; if !specEq(vm.activeStep, activeStep) { vm.activeStep = activeStep }; if !specEq(vm.orientation, orientation) { vm.orientation = orientation }; if !specEq(vm.allowBack, allowBack) { vm.allowBack = allowBack } }
+    .task(id: specPropsKey([steps, activeStep, orientation, allowBack])) { if !specEq(vm.steps, steps) { vm.steps = steps }; if !specEq(vm.activeStep, activeStep) { vm.activeStep = activeStep }; if !specEq(vm.orientation, orientation) { vm.orientation = orientation }; if !specEq(vm.allowBack, allowBack) { vm.allowBack = allowBack } }
   }
 }

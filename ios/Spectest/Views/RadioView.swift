@@ -50,6 +50,7 @@ default: return 1
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.label = label; vm.value = value; vm.checked = checked; vm.disabled = disabled }
+    .onAppear { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.checked, checked) { vm.checked = checked }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
+    .task(id: specPropsKey([label, value, checked, disabled])) { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.checked, checked) { vm.checked = checked }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
   }
 }

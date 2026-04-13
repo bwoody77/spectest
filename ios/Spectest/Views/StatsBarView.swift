@@ -108,6 +108,7 @@ struct StatsBarView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.total = total; vm.done = done; vm.inProgress = inProgress; vm.todo = todo }
+    .onAppear { if !specEq(vm.total, total) { vm.total = total }; if !specEq(vm.done, done) { vm.done = done }; if !specEq(vm.inProgress, inProgress) { vm.inProgress = inProgress }; if !specEq(vm.todo, todo) { vm.todo = todo } }
+    .task(id: specPropsKey([total, done, inProgress, todo])) { if !specEq(vm.total, total) { vm.total = total }; if !specEq(vm.done, done) { vm.done = done }; if !specEq(vm.inProgress, inProgress) { vm.inProgress = inProgress }; if !specEq(vm.todo, todo) { vm.todo = todo } }
   }
 }

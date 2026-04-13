@@ -56,6 +56,7 @@ struct SliderView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.min = min; vm.max = max; vm.step = step; vm.value = value; vm.label = label; vm.disabled = disabled }
+    .onAppear { if !specEq(vm.min, min) { vm.min = min }; if !specEq(vm.max, max) { vm.max = max }; if !specEq(vm.step, step) { vm.step = step }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
+    .task(id: specPropsKey([min, max, step, value, label, disabled])) { if !specEq(vm.min, min) { vm.min = min }; if !specEq(vm.max, max) { vm.max = max }; if !specEq(vm.step, step) { vm.step = step }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
   }
 }

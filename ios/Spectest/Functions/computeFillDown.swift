@@ -1,11 +1,11 @@
 func computeFillDown(_ activeRow: Any, _ activeCol: Any, _ visibleColumns: Any, _ rows: Any, _ rowIdField: Any, _ editedValues: Any, _ dirtyCells: Any) -> Any? {
   let activeRow = specDouble(activeRow)
   let activeCol = specDouble(activeCol)
-  let visibleColumns = (visibleColumns as? [Any]) ?? []
-  let rows = (rows as? [Any]) ?? []
+  let visibleColumns = specArr(visibleColumns)
+  let rows = specArr(rows)
   let rowIdField = specString(rowIdField)
-  let editedValues = (editedValues as? [Any]) ?? []
-  let dirtyCells = (dirtyCells as? [Any]) ?? []
+  let editedValues = specArr(editedValues)
+  let dirtyCells = specArr(dirtyCells)
   if ((activeCol < 0.0) || (activeCol >= Double(visibleColumns.count))) {
     return ["editedValues": editedValues as Any, "dirtyCells": dirtyCells as Any, "undoChanges": ([] as [Any]) as Any]
   }

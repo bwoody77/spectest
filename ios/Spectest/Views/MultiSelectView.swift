@@ -122,7 +122,7 @@ struct MultiSelectView: View {
             HStack(alignment: .center, spacing: CGFloat(4)) {
               HStack(alignment: .center, spacing: CGFloat(4)) {
                 if ((vm.hasSelections) as? Bool ?? false && specEq(vm.display, "chips")) {
-                  ForEach(Array((vm.selectedOptions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, opt in
+                  ForEach(Array(specArr(vm.selectedOptions).enumerated()), id: \.offset) { _idx, opt in
                     HStack(alignment: .center, spacing: CGFloat(4)) {
                       Text(verbatim: specString(specGet(opt, "label")))
                         .font(.body.bold())
@@ -216,30 +216,28 @@ struct MultiSelectView: View {
               .padding(CGFloat(8))
               VStack() {
                 if (vm.hasOptions) as? Bool ?? false {
-                  LazyVStack(spacing: CGFloat(8)) {
-                    ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
-                      HStack(alignment: .center, spacing: CGFloat(8)) {
-                        Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
+                  ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                    HStack(alignment: .center, spacing: CGFloat(8)) {
+                      Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
 default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
-                          .font(.body.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                        Text(verbatim: specString(specGet(option, "label")))
-                          .font(.body.bold())
-                          .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
-                      }
-                      .padding(CGFloat(8))
-                      .opacity(CGFloat(0))
-                      .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
+                        .font(.body.bold())
+                        .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                      Text(verbatim: specString(specGet(option, "label")))
+                        .font(.body.bold())
+                        .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                    }
+                    .padding(CGFloat(8))
+                    .opacity(CGFloat(0))
+                    .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
 default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                      .onTapGesture { vm.toggleOption(specGet(option, "value")) }
-                    }
+                    .onTapGesture { vm.toggleOption(specGet(option, "value")) }
                   }
                 }
               }
@@ -289,38 +287,37 @@ default: return "transparent"
             .onTapGesture { vm.clearAll() }
           }
           .padding(CGFloat(8))
+          ScrollView([.horizontal, .vertical], showsIndicators: true) {
           VStack() {
             if (vm.hasOptions) as? Bool ?? false {
-              LazyVStack(spacing: CGFloat(8)) {
-                ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
-                  HStack(alignment: .center, spacing: CGFloat(8)) {
-                    Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
+              ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                HStack(alignment: .center, spacing: CGFloat(8)) {
+                  Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
 default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                    Text(verbatim: specString(specGet(option, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
-                  }
-                  .padding(CGFloat(8))
-                  .opacity(CGFloat(0))
-                  .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                  Text(verbatim: specString(specGet(option, "label")))
+                    .font(.body.bold())
+                    .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                }
+                .padding(CGFloat(8))
+                .opacity(CGFloat(0))
+                .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
 default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                  .onTapGesture { vm.toggleOption(specGet(option, "value")) }
-                }
+                .onTapGesture { vm.toggleOption(specGet(option, "value")) }
               }
             }
           }
+          }
           .frame(maxHeight: CGFloat(280))
           .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .scrollIndicators(.visible)
           HStack(alignment: .center, ) {
             if specEq(vm.hasOptions, false) {
               Text(verbatim: specString("No options"))
@@ -337,6 +334,7 @@ default: return "transparent"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.options = options; vm.values = values; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label; vm.display = display; vm.showCheckbox = showCheckbox; vm.mode = mode }
+    .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.values, values) { vm.values = values }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.display, display) { vm.display = display }; if !specEq(vm.showCheckbox, showCheckbox) { vm.showCheckbox = showCheckbox }; if !specEq(vm.mode, mode) { vm.mode = mode } }
+    .task(id: specPropsKey([options, values, placeholder, searchable, disabled, label, display, showCheckbox, mode])) { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.values, values) { vm.values = values }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.display, display) { vm.display = display }; if !specEq(vm.showCheckbox, showCheckbox) { vm.showCheckbox = showCheckbox }; if !specEq(vm.mode, mode) { vm.mode = mode } }
   }
 }

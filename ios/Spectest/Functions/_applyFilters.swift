@@ -1,6 +1,6 @@
 func _applyFilters(_ rows: Any, _ filters: Any) -> Any? {
-  let rows = (rows as? [Any]) ?? []
-  let filters = (filters as? [Any]) ?? []
+  let rows = specArr(rows)
+  let filters = specArr(filters)
   var activeFilters: Any = (filters.filter { { f in (specGet(f, "value") != nil && (specLength(specGet(f, "value")) > 0.0)) }($0) as! Bool } as Any)
   if (specLength(activeFilters) == 0.0) {
     return rows

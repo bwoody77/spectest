@@ -17,9 +17,10 @@ struct TableView: View {
   init(columns: Any? = nil, rows: Any? = nil, striped: Any = false) { self._vm = State(initialValue: TableViewModel()); self.columns = columns; self.rows = rows; self.striped = striped }
   var body: some View {
     VStack() {
+      ScrollView([.horizontal, .vertical], showsIndicators: true) {
       VStack() {
         HStack(alignment: .center, ) {
-          ForEach(Array((vm.columns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
+          ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
             VStack() {
               Text(verbatim: specString(specGet(col, "header")))
                 .font(.body.bold())
@@ -34,9 +35,9 @@ struct TableView: View {
         }
         .background(ThemeManager.shared.color("semantic.on-destructive"))
         .background(ThemeManager.shared.color("semantic.on-destructive"))
-        ForEach(Array((vm.rows as? [Any] ?? []).enumerated()), id: \.offset) { rowIndex, row in
+        ForEach(Array(specArr(vm.rows).enumerated()), id: \.offset) { rowIndex, row in
           HStack(alignment: .center, ) {
-            ForEach(Array((vm.columns as? [Any] ?? []).enumerated()), id: \.offset) { _idx, col in
+            ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
               VStack() {
                 // slot
                 Text(verbatim: specString(specGet(row, specGet(col, "key"))))
@@ -66,13 +67,14 @@ default: return "transparent"
 } })() as? String ?? "#000"))
         }
       }
+      }
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      .scrollIndicators(.visible)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.columns = columns; vm.rows = rows; vm.striped = striped }
+    .onAppear { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.striped, striped) { vm.striped = striped } }
+    .task(id: specPropsKey([columns, rows, striped])) { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.striped, striped) { vm.striped = striped } }
   }
 }

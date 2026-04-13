@@ -64,14 +64,15 @@ struct ModalView: View {
               }
               .padding(CGFloat(16))
             }
+            ScrollView([.horizontal, .vertical], showsIndicators: true) {
             VStack() {
               // slot
+            }
             }
             .padding(CGFloat(20))
             .frame(minHeight: CGFloat(0))
             .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
-            .scrollIndicators(.visible)
           }
         }
       }
@@ -79,6 +80,7 @@ struct ModalView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.open = open; vm.title = title; vm.width = width }
+    .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.width, width) { vm.width = width } }
+    .task(id: specPropsKey([open, title, width])) { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.width, width) { vm.width = width } }
   }
 }

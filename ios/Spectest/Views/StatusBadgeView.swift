@@ -38,6 +38,7 @@ default: return "neutral"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.status = status }
+    .onAppear { if !specEq(vm.status, status) { vm.status = status } }
+    .task(id: specPropsKey([status])) { if !specEq(vm.status, status) { vm.status = status } }
   }
 }

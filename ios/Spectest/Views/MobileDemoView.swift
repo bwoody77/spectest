@@ -63,6 +63,7 @@ struct MobileDemoView: View {
         .padding(.top, CGFloat(0))
         .background(ThemeManager.shared.color("semantic.surface"))
         .background(ThemeManager.shared.color("semantic.surface"))
+        ScrollView([.horizontal, .vertical], showsIndicators: true) {
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Swipe Zone"))
@@ -78,8 +79,9 @@ struct MobileDemoView: View {
             Text(verbatim: specString("Scroll Snap Carousel"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            ScrollView([.horizontal, .vertical], showsIndicators: true) {
             HStack(alignment: .center, spacing: CGFloat(16)) {
-              ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
+              ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
                 VStack() {
                   Text(verbatim: specString(specGet(item, "title")))
                     .font(.headline.bold())
@@ -93,7 +95,8 @@ struct MobileDemoView: View {
                 .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
               }
             }
-            .scrollIndicators(.visible)
+            }
+
           }
 
           VStack(spacing: CGFloat(8)) {
@@ -159,12 +162,12 @@ struct MobileDemoView: View {
           .padding(CGFloat(20))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         }
+        }
         .padding(CGFloat(16))
         .padding(.bottom, CGFloat(80))
         .frame(minHeight: CGFloat(0))
         .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
-        .scrollIndicators(.visible)
         BottomTabBarView(activeTab: vm.activeTab, tabs: [["id": "home" as Any, "label": "Home" as Any, "icon": "home" as Any] as [String: Any], ["id": "search" as Any, "label": "Search" as Any, "icon": "search" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any], ["id": "user" as Any, "label": "Profile" as Any, "icon": "user" as Any] as [String: Any]] as [Any])
         BottomSheetView(open: vm.sheetOpen)
         ActionSheetView(actions: [["id": "share" as Any, "label": "Share" as Any] as [String: Any], ["id": "copy" as Any, "label": "Copy Link" as Any] as [String: Any], ["id": "edit" as Any, "label": "Edit" as Any] as [String: Any], ["id": "delete" as Any, "label": "Delete" as Any, "destructive": true as Any] as [String: Any]] as [Any], open: vm.actionSheetOpen, title: "Choose an action")
@@ -183,13 +186,14 @@ struct MobileDemoView: View {
         FABView(icon: "plus")
       }
       .background(ThemeManager.shared.color("semantic.surface"))
-      .frame(width: CGFloat(0))
+      .frame(maxWidth: .infinity)
       .frame(minHeight: CGFloat(0))
       .background(ThemeManager.shared.color("semantic.surface"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.api = api }
+    .onAppear { if !specEq(vm.api, api) { vm.api = api } }
+    .task(id: specPropsKey([api])) { if !specEq(vm.api, api) { vm.api = api } }
   }
 }

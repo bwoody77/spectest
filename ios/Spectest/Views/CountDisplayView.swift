@@ -28,6 +28,7 @@ struct CountDisplayView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.value = value }
+    .onAppear { if !specEq(vm.value, value) { vm.value = value } }
+    .task(id: specPropsKey([value])) { if !specEq(vm.value, value) { vm.value = value } }
   }
 }

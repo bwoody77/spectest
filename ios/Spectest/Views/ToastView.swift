@@ -71,6 +71,7 @@ default: return "#eff6ff"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.message = message; vm.severity = severity; vm.duration = duration }
+    .onAppear { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.severity, severity) { vm.severity = severity }; if !specEq(vm.duration, duration) { vm.duration = duration } }
+    .task(id: specPropsKey([message, severity, duration])) { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.severity, severity) { vm.severity = severity }; if !specEq(vm.duration, duration) { vm.duration = duration } }
   }
 }

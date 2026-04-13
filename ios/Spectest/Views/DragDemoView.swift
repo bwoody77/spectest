@@ -130,10 +130,12 @@ struct DragDemoView: View {
           }
 
         }
+        ScrollView([.horizontal, .vertical], showsIndicators: true) {
         VStack() {
           KanbanBoardView(columns: vm.kanbanColumns, columnWidth: "220px", showCount: true)
         }
-        .scrollIndicators(.visible)
+        }
+
       }
 
     }

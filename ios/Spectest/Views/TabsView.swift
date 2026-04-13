@@ -17,21 +17,19 @@ struct TabsView: View {
     VStack() {
       VStack() {
         HStack(alignment: .center, spacing: CGFloat(0)) {
-          LazyVStack(spacing: CGFloat(8)) {
-            ForEach(Array((vm.tabs as? [Any] ?? []).enumerated()), id: \.offset) { _idx, tab in
-              VStack() {
-                Text(verbatim: specString(specGet(tab, "label")))
-                  .font(.body.bold())
-                  .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
+          ForEach(Array(specArr(vm.tabs).enumerated()), id: \.offset) { _idx, tab in
+            VStack() {
+              Text(verbatim: specString(specGet(tab, "label")))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
 case specString(true): return "#1677ff"
 default: return "#496183"
 } })() as? String ?? "#000"))
-              }
-              .padding(CGFloat(12))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
-              .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
-              .onTapGesture { /* event callback */ }
             }
+            .padding(CGFloat(12))
+            .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
+            .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
+            .onTapGesture { /* event callback */ }
           }
           VStack() {
           }
@@ -50,6 +48,7 @@ default: return "#496183"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.tabs = tabs; vm.activeTab = activeTab }
+    .onAppear { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab } }
+    .task(id: specPropsKey([tabs, activeTab])) { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab } }
   }
 }

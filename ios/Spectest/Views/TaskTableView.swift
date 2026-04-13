@@ -102,30 +102,28 @@ struct TaskTableView: View {
         }
       }
 
-      LazyVStack(spacing: CGFloat(8)) {
-        ForEach(Array((vm.filteredTasks as? [Any] ?? []).enumerated()), id: \.offset) { index, task in
-          HStack(alignment: .center, spacing: CGFloat(12)) {
-            Text(verbatim: specString("\(specString(index))"))
+      ForEach(Array(specArr(vm.filteredTasks).enumerated()), id: \.offset) { index, task in
+        HStack(alignment: .center, spacing: CGFloat(12)) {
+          Text(verbatim: specString("\(specString(index))"))
+            .font(.body.bold())
+            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+          VStack(spacing: CGFloat(4)) {
+            Text(verbatim: specString(specGet(task, "title")))
               .font(.body.bold())
+              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            Text(verbatim: specString(specGet(task, "assignee")))
+              .font(.callout.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            VStack(spacing: CGFloat(4)) {
-              Text(verbatim: specString(specGet(task, "title")))
-                .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              Text(verbatim: specString(specGet(task, "assignee")))
-                .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            }
-
-            Spacer(minLength: 0)
-            SpecStatusPill(status: specString(specGet(task, "status")))
-            Text(specString("Priority: \(specString(specGet(task, "priority")))")).font(.caption).foregroundStyle(.tertiary)
           }
-          .frame(maxWidth: .infinity)
-          .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { vm.selectTask(task) }
+
+          Spacer(minLength: 0)
+          SpecStatusPill(status: specString(specGet(task, "status")))
+          Text(specString("Priority: \(specString(specGet(task, "priority")))")).font(.caption).foregroundStyle(.tertiary)
         }
+        .frame(maxWidth: .infinity)
+        .padding(CGFloat(12))
+        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .onTapGesture { vm.selectTask(task) }
       }
       VStack() {
         if (vm.hasNoResults) as? Bool ?? false {
@@ -140,6 +138,7 @@ struct TaskTableView: View {
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
     .refreshable { await vm.loadSources() }
-    .onAppear { vm.selectedTask = selectedTask; vm.view = view }
+    .onAppear { if !specEq(vm.selectedTask, selectedTask) { vm.selectedTask = selectedTask }; if !specEq(vm.view, view) { vm.view = view } }
+    .task(id: specPropsKey([selectedTask, view])) { if !specEq(vm.selectedTask, selectedTask) { vm.selectedTask = selectedTask }; if !specEq(vm.view, view) { vm.view = view } }
   }
 }

@@ -38,17 +38,15 @@ struct RoutingDemoView: View {
         Text(verbatim: specString("Users"))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-        LazyVStack(spacing: CGFloat(8)) {
-          ForEach(Array(([["id": "1" as Any] as [String: Any], ["id": "2" as Any] as [String: Any], ["id": "3" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, user in
-            VStack() {
-              Text(verbatim: specString("User #\(specString(specGet(user, "id")))"))
-                .font(.callout.bold())
-                .foregroundStyle(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? "#1677ff" : "#202732") as? String ?? "#000"))
-            }
-            .padding(CGFloat(0))
-            .background(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.navigate(specAdd("/users/", specGet(user, "id"))) }
+        ForEach(Array(specArr([["id": "1" as Any] as [String: Any], ["id": "2" as Any] as [String: Any], ["id": "3" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, user in
+          VStack() {
+            Text(verbatim: specString("User #\(specString(specGet(user, "id")))"))
+              .font(.callout.bold())
+              .foregroundStyle(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? "#1677ff" : "#202732") as? String ?? "#000"))
           }
+          .padding(CGFloat(0))
+          .background(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .onTapGesture { vm.navigate(specAdd("/users/", specGet(user, "id"))) }
         }
         VStack() {
           Text(verbatim: specString("Unknown route →"))

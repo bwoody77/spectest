@@ -120,7 +120,7 @@ struct NotificationsPanelView: View {
         }
       }
 
-      ForEach(Array((vm.filteredNotifications as? [Any] ?? []).enumerated()), id: \.offset) { idx, notif in
+      ForEach(Array(specArr(vm.filteredNotifications).enumerated()), id: \.offset) { idx, notif in
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString(({ () -> Any in switch specString(specGet(notif, "severity")) {
 case specString("success"): return "check"

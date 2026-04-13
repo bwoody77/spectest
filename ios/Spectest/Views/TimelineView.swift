@@ -14,7 +14,7 @@ struct TimelineView: View {
   var body: some View {
     VStack() {
       VStack() {
-        ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { index, item in
+        ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { index, item in
           HStack(alignment: .center, ) {
             VStack() {
               VStack() {
@@ -88,6 +88,7 @@ default: return "#d1d5db"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.items = items }
+    .onAppear { if !specEq(vm.items, items) { vm.items = items } }
+    .task(id: specPropsKey([items])) { if !specEq(vm.items, items) { vm.items = items } }
   }
 }

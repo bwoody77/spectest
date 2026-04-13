@@ -35,7 +35,7 @@ struct ImageView: View {
       VStack() {
         AsyncImage(url: URL(string: "" as? String ?? ""))
       }
-      .frame(width: CGFloat(0))
+      .frame(maxWidth: .infinity)
       .overlay {
         if specEq(vm.loaded, false) {
           ZStack {
@@ -48,6 +48,7 @@ struct ImageView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.src = src; vm.alt = alt; vm.aspectRatio = aspectRatio; vm.lazy = lazy; vm.fallbackSrc = fallbackSrc }
+    .onAppear { if !specEq(vm.src, src) { vm.src = src }; if !specEq(vm.alt, alt) { vm.alt = alt }; if !specEq(vm.aspectRatio, aspectRatio) { vm.aspectRatio = aspectRatio }; if !specEq(vm.lazy, lazy) { vm.lazy = lazy }; if !specEq(vm.fallbackSrc, fallbackSrc) { vm.fallbackSrc = fallbackSrc } }
+    .task(id: specPropsKey([src, alt, aspectRatio, lazy, fallbackSrc])) { if !specEq(vm.src, src) { vm.src = src }; if !specEq(vm.alt, alt) { vm.alt = alt }; if !specEq(vm.aspectRatio, aspectRatio) { vm.aspectRatio = aspectRatio }; if !specEq(vm.lazy, lazy) { vm.lazy = lazy }; if !specEq(vm.fallbackSrc, fallbackSrc) { vm.fallbackSrc = fallbackSrc } }
   }
 }

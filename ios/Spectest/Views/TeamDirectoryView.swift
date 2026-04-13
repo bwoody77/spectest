@@ -99,7 +99,7 @@ struct TeamDirectoryView: View {
       }
 
       LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-        ForEach(Array((vm.searchResults as? [Any] ?? []).enumerated()), id: \.offset) { idx, user in
+        ForEach(Array(specArr(vm.searchResults).enumerated()), id: \.offset) { idx, user in
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
               UserAvatarView(bgColor: "#1677ff", name: specGet(user, "name"))

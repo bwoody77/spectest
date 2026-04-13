@@ -31,6 +31,7 @@ struct EmptyStateView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.message = message; vm.description = description }
+    .onAppear { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.description, description) { vm.description = description } }
+    .task(id: specPropsKey([message, description])) { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.description, description) { vm.description = description } }
   }
 }

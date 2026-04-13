@@ -101,6 +101,7 @@ default: return 1
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.type = type; vm.label = label; vm.placeholder = placeholder; vm.value = value; vm.disabled = disabled; vm.readonly = readonly; vm.prefix = prefix; vm.suffix = suffix; vm.error = error; vm.errorMessage = errorMessage }
+    .onAppear { if !specEq(vm.type, type) { vm.type = type }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.readonly, readonly) { vm.readonly = readonly }; if !specEq(vm.prefix, prefix) { vm.prefix = prefix }; if !specEq(vm.suffix, suffix) { vm.suffix = suffix }; if !specEq(vm.error, error) { vm.error = error }; if !specEq(vm.errorMessage, errorMessage) { vm.errorMessage = errorMessage } }
+    .task(id: specPropsKey([type, label, placeholder, value, disabled, readonly, prefix, suffix, error, errorMessage])) { if !specEq(vm.type, type) { vm.type = type }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.readonly, readonly) { vm.readonly = readonly }; if !specEq(vm.prefix, prefix) { vm.prefix = prefix }; if !specEq(vm.suffix, suffix) { vm.suffix = suffix }; if !specEq(vm.error, error) { vm.error = error }; if !specEq(vm.errorMessage, errorMessage) { vm.errorMessage = errorMessage } }
   }
 }

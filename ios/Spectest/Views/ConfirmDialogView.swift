@@ -108,6 +108,7 @@ struct ConfirmDialogView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.open = open; vm.title = title; vm.message = message; vm.confirmLabel = confirmLabel; vm.cancelLabel = cancelLabel; vm.destructive = destructive }
+    .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.confirmLabel, confirmLabel) { vm.confirmLabel = confirmLabel }; if !specEq(vm.cancelLabel, cancelLabel) { vm.cancelLabel = cancelLabel }; if !specEq(vm.destructive, destructive) { vm.destructive = destructive } }
+    .task(id: specPropsKey([open, title, message, confirmLabel, cancelLabel, destructive])) { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.confirmLabel, confirmLabel) { vm.confirmLabel = confirmLabel }; if !specEq(vm.cancelLabel, cancelLabel) { vm.cancelLabel = cancelLabel }; if !specEq(vm.destructive, destructive) { vm.destructive = destructive } }
   }
 }

@@ -18,7 +18,7 @@ struct RadioGroupView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
-        ForEach(Array((vm.options as? [Any] ?? []).enumerated()), id: \.offset) { _idx, option in
+        ForEach(Array(specArr(vm.options).enumerated()), id: \.offset) { _idx, option in
           Picker(specString(specGet(option, "label")), selection: .constant("")) {
             ForEach(Array(([] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
               Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
@@ -32,6 +32,7 @@ struct RadioGroupView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.options = options; vm.value = value; vm.disabled = disabled }
+    .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
+    .task(id: specPropsKey([options, value, disabled])) { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
   }
 }

@@ -1,9 +1,9 @@
 func applyUndoChanges(_ direction: Any, _ changes: Any, _ editedValues: Any, _ dirtyCells: Any, _ rows: Any, _ rowIdField: Any) -> Any? {
   let direction = specString(direction)
-  let changes = (changes as? [Any]) ?? []
-  let editedValues = (editedValues as? [Any]) ?? []
-  let dirtyCells = (dirtyCells as? [Any]) ?? []
-  let rows = (rows as? [Any]) ?? []
+  let changes = specArr(changes)
+  let editedValues = specArr(editedValues)
+  let dirtyCells = specArr(dirtyCells)
+  let rows = specArr(rows)
   let rowIdField = specString(rowIdField)
   var ev: Any = (editedValues as Any)
   var dc: Any = (dirtyCells as Any)

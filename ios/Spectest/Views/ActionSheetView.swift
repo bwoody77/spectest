@@ -53,19 +53,17 @@ struct ActionSheetView: View {
                 Text(verbatim: specString(vm.title))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                LazyVStack(spacing: CGFloat(8)) {
-                  ForEach(Array((vm.actions as? [Any] ?? []).enumerated()), id: \.offset) { _idx, action in
-                    HStack(alignment: .center, ) {
-                      Text(verbatim: specString(specGet(action, "label")))
-                        .font(.body.bold())
-                        .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
+                ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
+                  HStack(alignment: .center, ) {
+                    Text(verbatim: specString(specGet(action, "label")))
+                      .font(.body.bold())
+                      .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
 case specString(true): return "rgb(239, 68, 68)"
 default: return "#1677ff"
 } })() as? String ?? "#000"))
-                    }
-                    .padding(CGFloat(12))
-                    .onTapGesture { vm.selectAction(specGet(action, "id")) }
                   }
+                  .padding(CGFloat(12))
+                  .onTapGesture { vm.selectAction(specGet(action, "id")) }
                 }
               }
               .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
@@ -85,6 +83,7 @@ default: return "#1677ff"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.open = open; vm.title = title; vm.actions = actions }
+    .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.actions, actions) { vm.actions = actions } }
+    .task(id: specPropsKey([open, title, actions])) { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.actions, actions) { vm.actions = actions } }
   }
 }

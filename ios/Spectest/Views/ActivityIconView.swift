@@ -34,6 +34,7 @@ default: return "#64748b"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.activityType = activityType }
+    .onAppear { if !specEq(vm.activityType, activityType) { vm.activityType = activityType } }
+    .task(id: specPropsKey([activityType])) { if !specEq(vm.activityType, activityType) { vm.activityType = activityType } }
   }
 }

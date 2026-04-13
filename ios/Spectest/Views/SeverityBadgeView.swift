@@ -41,6 +41,7 @@ default: return "neutral"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.severity = severity }
+    .onAppear { if !specEq(vm.severity, severity) { vm.severity = severity } }
+    .task(id: specPropsKey([severity])) { if !specEq(vm.severity, severity) { vm.severity = severity } }
   }
 }

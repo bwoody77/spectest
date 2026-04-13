@@ -22,7 +22,7 @@ struct BreadcrumbView: View {
   var body: some View {
     VStack() {
       HStack(alignment: .center, spacing: CGFloat(4)) {
-        ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { index, item in
+        ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { index, item in
           VStack() {
             if ((specDouble(index) > specDouble(0)) && (((((vm.expanded) as? Bool ?? false || specEq(vm.maxVisible, 0)) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible))) || specEq(index, 1)) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))))) {
               Text(verbatim: specString(vm.separator))
@@ -64,6 +64,7 @@ struct BreadcrumbView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.items = items; vm.separator = separator; vm.maxVisible = maxVisible }
+    .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.separator, separator) { vm.separator = separator }; if !specEq(vm.maxVisible, maxVisible) { vm.maxVisible = maxVisible } }
+    .task(id: specPropsKey([items, separator, maxVisible])) { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.separator, separator) { vm.separator = separator }; if !specEq(vm.maxVisible, maxVisible) { vm.maxVisible = maxVisible } }
   }
 }

@@ -1,7 +1,7 @@
 func buildChangesetFromEdits(_ editedValues: Any, _ dirtyCells: Any, _ rows: Any, _ rowIdField: Any) -> Any? {
-  let editedValues = (editedValues as? [Any]) ?? []
-  let dirtyCells = (dirtyCells as? [Any]) ?? []
-  let rows = (rows as? [Any]) ?? []
+  let editedValues = specArr(editedValues)
+  let dirtyCells = specArr(dirtyCells)
+  let rows = specArr(rows)
   let rowIdField = specString(rowIdField)
   var rowIds: Any = (([] as [Any]) as Any)
   for ck in dirtyCells {

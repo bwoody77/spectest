@@ -141,6 +141,7 @@ struct PaginationView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.total = total; vm.pageSize = pageSize; vm.page = page; vm.maxButtons = maxButtons }
+    .onAppear { if !specEq(vm.total, total) { vm.total = total }; if !specEq(vm.pageSize, pageSize) { vm.pageSize = pageSize }; if !specEq(vm.page, page) { vm.page = page }; if !specEq(vm.maxButtons, maxButtons) { vm.maxButtons = maxButtons } }
+    .task(id: specPropsKey([total, pageSize, page, maxButtons])) { if !specEq(vm.total, total) { vm.total = total }; if !specEq(vm.pageSize, pageSize) { vm.pageSize = pageSize }; if !specEq(vm.page, page) { vm.page = page }; if !specEq(vm.maxButtons, maxButtons) { vm.maxButtons = maxButtons } }
   }
 }

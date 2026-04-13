@@ -27,7 +27,7 @@ struct AccordionView: View {
   var body: some View {
     VStack() {
       VStack() {
-        ForEach(Array((vm.items as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
+        ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
           VStack() {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Text(verbatim: specString(specGet(item, "title")))
@@ -66,6 +66,7 @@ default: return "0"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.items = items; vm.multiple = multiple }
+    .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.multiple, multiple) { vm.multiple = multiple } }
+    .task(id: specPropsKey([items, multiple])) { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.multiple, multiple) { vm.multiple = multiple } }
   }
 }

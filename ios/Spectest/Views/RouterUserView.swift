@@ -53,6 +53,7 @@ struct RouterUserView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.userId = userId }
+    .onAppear { if !specEq(vm.userId, userId) { vm.userId = userId } }
+    .task(id: specPropsKey([userId])) { if !specEq(vm.userId, userId) { vm.userId = userId } }
   }
 }

@@ -35,6 +35,7 @@ struct StackView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.direction = direction; vm.gap = gap; vm.align = align; vm.wrap = wrap }
+    .onAppear { if !specEq(vm.direction, direction) { vm.direction = direction }; if !specEq(vm.gap, gap) { vm.gap = gap }; if !specEq(vm.align, align) { vm.align = align }; if !specEq(vm.wrap, wrap) { vm.wrap = wrap } }
+    .task(id: specPropsKey([direction, gap, align, wrap])) { if !specEq(vm.direction, direction) { vm.direction = direction }; if !specEq(vm.gap, gap) { vm.gap = gap }; if !specEq(vm.align, align) { vm.align = align }; if !specEq(vm.wrap, wrap) { vm.wrap = wrap } }
   }
 }

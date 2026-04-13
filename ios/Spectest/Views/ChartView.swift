@@ -4,8 +4,12 @@ import SpecRuntime
 @Observable
 final class ChartViewModel {
   var color: Any = ""
+  var colorKey: Any = ""
   var colors: Any = [] as [Any]
+  var connectNulls: Any = false
   var data: Any = [] as [Any]
+  var formatX: Any = ""
+  var formatY: Any = ""
   var height: Any = "300px"
   var labelKey: Any = "label"
   var series: Any = [] as [Any]
@@ -17,6 +21,8 @@ final class ChartViewModel {
   var valueKey: Any = "value"
   var xKey: Any = "x"
   var yKey: Any = "y"
+  var yMax: Any? = nil
+  var yMin: Any? = nil
   var isEmpty: Any { (data == nil || specEq(specLength(data), 0)) }
   var isPie: Any { (specEq(type, "pie") || specEq(type, "donut")) }
   var resolvedSeries: Any { resolveSeries(type, series, yKey, color, colors) }
@@ -28,8 +34,12 @@ final class ChartViewModel {
 struct ChartView: View {
   @State private var vm = ChartViewModel()
   var color: Any = ""
+  var colorKey: Any = ""
   var colors: Any = [] as [Any]
+  var connectNulls: Any = false
   var data: Any = [] as [Any]
+  var formatX: Any = ""
+  var formatY: Any = ""
   var height: Any = "300px"
   var labelKey: Any = "label"
   var series: Any = [] as [Any]
@@ -41,7 +51,9 @@ struct ChartView: View {
   var valueKey: Any = "value"
   var xKey: Any = "x"
   var yKey: Any = "y"
-  init(color: Any = "", colors: Any = [] as [Any], data: Any = [] as [Any], height: Any = "300px", labelKey: Any = "label", series: Any = [] as [Any], showGrid: Any = true, showLegend: Any = true, showValues: Any = false, title: Any = "", type: Any = "line", valueKey: Any = "value", xKey: Any = "x", yKey: Any = "y") { self._vm = State(initialValue: ChartViewModel()); self.color = color; self.colors = colors; self.data = data; self.height = height; self.labelKey = labelKey; self.series = series; self.showGrid = showGrid; self.showLegend = showLegend; self.showValues = showValues; self.title = title; self.type = type; self.valueKey = valueKey; self.xKey = xKey; self.yKey = yKey }
+  var yMax: Any? = nil
+  var yMin: Any? = nil
+  init(color: Any = "", colorKey: Any = "", colors: Any = [] as [Any], connectNulls: Any = false, data: Any = [] as [Any], formatX: Any = "", formatY: Any = "", height: Any = "300px", labelKey: Any = "label", series: Any = [] as [Any], showGrid: Any = true, showLegend: Any = true, showValues: Any = false, title: Any = "", type: Any = "line", valueKey: Any = "value", xKey: Any = "x", yKey: Any = "y", yMax: Any? = nil, yMin: Any? = nil) { self._vm = State(initialValue: ChartViewModel()); self.color = color; self.colorKey = colorKey; self.colors = colors; self.connectNulls = connectNulls; self.data = data; self.formatX = formatX; self.formatY = formatY; self.height = height; self.labelKey = labelKey; self.series = series; self.showGrid = showGrid; self.showLegend = showLegend; self.showValues = showValues; self.title = title; self.type = type; self.valueKey = valueKey; self.xKey = xKey; self.yKey = yKey; self.yMax = yMax; self.yMin = yMin }
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
@@ -73,7 +85,7 @@ struct ChartView: View {
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, spacing: CGFloat(12)) {
           if (vm.showLegendBar) as? Bool ?? false {
-            ForEach(Array((vm.legendItems as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
+            ForEach(Array(specArr(vm.legendItems).enumerated()), id: \.offset) { _idx, item in
               HStack(alignment: .center, spacing: CGFloat(4)) {
                 VStack() {
                 }
@@ -90,12 +102,13 @@ struct ChartView: View {
         }
 
       }
-      .frame(width: CGFloat(0))
+      .frame(maxWidth: .infinity)
       .frame(height: specPx(vm.height))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.type = type; vm.data = data; vm.series = series; vm.xKey = xKey; vm.yKey = yKey; vm.labelKey = labelKey; vm.valueKey = valueKey; vm.color = color; vm.colors = colors; vm.height = height; vm.title = title; vm.showLegend = showLegend; vm.showGrid = showGrid; vm.showValues = showValues }
+    .onAppear { if !specEq(vm.type, type) { vm.type = type }; if !specEq(vm.data, data) { vm.data = data }; if !specEq(vm.series, series) { vm.series = series }; if !specEq(vm.xKey, xKey) { vm.xKey = xKey }; if !specEq(vm.yKey, yKey) { vm.yKey = yKey }; if !specEq(vm.labelKey, labelKey) { vm.labelKey = labelKey }; if !specEq(vm.valueKey, valueKey) { vm.valueKey = valueKey }; if !specEq(vm.color, color) { vm.color = color }; if !specEq(vm.colors, colors) { vm.colors = colors }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.showLegend, showLegend) { vm.showLegend = showLegend }; if !specEq(vm.showGrid, showGrid) { vm.showGrid = showGrid }; if !specEq(vm.showValues, showValues) { vm.showValues = showValues }; if !specEq(vm.yMin, yMin) { vm.yMin = yMin }; if !specEq(vm.yMax, yMax) { vm.yMax = yMax }; if !specEq(vm.connectNulls, connectNulls) { vm.connectNulls = connectNulls }; if !specEq(vm.colorKey, colorKey) { vm.colorKey = colorKey }; if !specEq(vm.formatX, formatX) { vm.formatX = formatX }; if !specEq(vm.formatY, formatY) { vm.formatY = formatY } }
+    .task(id: specPropsKey([type, data, series, xKey, yKey, labelKey, valueKey, color, colors, height, title, showLegend, showGrid, showValues, yMin, yMax, connectNulls, colorKey, formatX, formatY])) { if !specEq(vm.type, type) { vm.type = type }; if !specEq(vm.data, data) { vm.data = data }; if !specEq(vm.series, series) { vm.series = series }; if !specEq(vm.xKey, xKey) { vm.xKey = xKey }; if !specEq(vm.yKey, yKey) { vm.yKey = yKey }; if !specEq(vm.labelKey, labelKey) { vm.labelKey = labelKey }; if !specEq(vm.valueKey, valueKey) { vm.valueKey = valueKey }; if !specEq(vm.color, color) { vm.color = color }; if !specEq(vm.colors, colors) { vm.colors = colors }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.showLegend, showLegend) { vm.showLegend = showLegend }; if !specEq(vm.showGrid, showGrid) { vm.showGrid = showGrid }; if !specEq(vm.showValues, showValues) { vm.showValues = showValues }; if !specEq(vm.yMin, yMin) { vm.yMin = yMin }; if !specEq(vm.yMax, yMax) { vm.yMax = yMax }; if !specEq(vm.connectNulls, connectNulls) { vm.connectNulls = connectNulls }; if !specEq(vm.colorKey, colorKey) { vm.colorKey = colorKey }; if !specEq(vm.formatX, formatX) { vm.formatX = formatX }; if !specEq(vm.formatY, formatY) { vm.formatY = formatY } }
   }
 }

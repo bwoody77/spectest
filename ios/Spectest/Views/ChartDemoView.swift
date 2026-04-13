@@ -97,7 +97,11 @@ struct ChartDemoView: View {
                 title: specString(""), height: specPx("280px"),
                 showGrid: vm.showGrid as? Bool ?? true,
                 showValues: false as? Bool ?? false,
-                showLegend: true as? Bool ?? true
+                showLegend: true as? Bool ?? true,
+                yMin: nil, yMax: nil,
+                connectNulls: false as? Bool ?? false,
+                colorKey: specString(""),
+                formatX: specString(""), formatY: specString("")
               )
               Text(verbatim: specString("Monthly revenue vs target. Multi-series line chart with legend."))
                 .font(.callout.bold())
@@ -135,7 +139,11 @@ struct ChartDemoView: View {
                 title: specString(""), height: specPx("280px"),
                 showGrid: true as? Bool ?? true,
                 showValues: vm.showValues as? Bool ?? false,
-                showLegend: true as? Bool ?? true
+                showLegend: true as? Bool ?? true,
+                yMin: nil, yMax: nil,
+                connectNulls: false as? Bool ?? false,
+                colorKey: specString(""),
+                formatX: specString(""), formatY: specString("")
               )
               Text(verbatim: specString("Grouped bar chart — quarterly sales per region. Toggle Values for labels."))
                 .font(.callout.bold())
@@ -162,7 +170,11 @@ struct ChartDemoView: View {
                 title: specString(""), height: specPx("280px"),
                 showGrid: true as? Bool ?? true,
                 showValues: false as? Bool ?? false,
-                showLegend: true as? Bool ?? true
+                showLegend: true as? Bool ?? true,
+                yMin: nil, yMax: nil,
+                connectNulls: false as? Bool ?? false,
+                colorKey: specString(""),
+                formatX: specString(""), formatY: specString("")
               )
               Text(verbatim: specString("Single-series area chart with filled region. Good for trends over time."))
                 .font(.callout.bold())
@@ -200,7 +212,11 @@ struct ChartDemoView: View {
                 title: specString(""), height: specPx("320px"),
                 showGrid: true as? Bool ?? true,
                 showValues: vm.showValues as? Bool ?? false,
-                showLegend: true as? Bool ?? true
+                showLegend: true as? Bool ?? true,
+                yMin: nil, yMax: nil,
+                connectNulls: false as? Bool ?? false,
+                colorKey: specString(""),
+                formatX: specString(""), formatY: specString("")
               )
               Text(verbatim: specString("Pie chart with legend. Toggle Values to show amounts inside segments."))
                 .font(.callout.bold())
@@ -227,7 +243,11 @@ struct ChartDemoView: View {
                 title: specString(""), height: specPx("320px"),
                 showGrid: true as? Bool ?? true,
                 showValues: true as? Bool ?? false,
-                showLegend: true as? Bool ?? true
+                showLegend: true as? Bool ?? true,
+                yMin: nil, yMax: nil,
+                connectNulls: false as? Bool ?? false,
+                colorKey: specString(""),
+                formatX: specString(""), formatY: specString("")
               )
               Text(verbatim: specString("Donut chart — total shown in center ring. Good for part-to-whole relationships."))
                 .font(.callout.bold())

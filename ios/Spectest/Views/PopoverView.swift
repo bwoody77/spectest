@@ -79,6 +79,7 @@ struct PopoverView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.placement = placement }
+    .onAppear { if !specEq(vm.placement, placement) { vm.placement = placement } }
+    .task(id: specPropsKey([placement])) { if !specEq(vm.placement, placement) { vm.placement = placement } }
   }
 }

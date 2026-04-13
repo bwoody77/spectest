@@ -73,6 +73,7 @@ struct SnackbarView: View {
     }
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.open = open; vm.message = message; vm.duration = duration; vm.actionLabel = actionLabel }
+    .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.duration, duration) { vm.duration = duration }; if !specEq(vm.actionLabel, actionLabel) { vm.actionLabel = actionLabel } }
+    .task(id: specPropsKey([open, message, duration, actionLabel])) { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.duration, duration) { vm.duration = duration }; if !specEq(vm.actionLabel, actionLabel) { vm.actionLabel = actionLabel } }
   }
 }

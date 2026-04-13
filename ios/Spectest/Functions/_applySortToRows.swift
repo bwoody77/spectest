@@ -1,6 +1,6 @@
 func _applySortToRows(_ rows: Any, _ sortState: Any) -> Any? {
-  let rows = (rows as? [Any]) ?? []
-  let sortState = (sortState as? [Any]) ?? []
+  let rows = specArr(rows)
+  let sortState = specArr(sortState)
   if (Double(sortState.count) == 0.0) {
     return rows
   }

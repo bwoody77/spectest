@@ -41,6 +41,7 @@ default: return "neutral"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.priority = priority }
+    .onAppear { if !specEq(vm.priority, priority) { vm.priority = priority } }
+    .task(id: specPropsKey([priority])) { if !specEq(vm.priority, priority) { vm.priority = priority } }
   }
 }

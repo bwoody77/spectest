@@ -106,14 +106,15 @@ struct BottomSheetView: View {
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
             }
+            ScrollView([.horizontal, .vertical], showsIndicators: true) {
             VStack() {
               // slot
+            }
             }
             .padding(.bottom, CGFloat(0))
             .frame(minHeight: CGFloat(0))
             .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
-            .scrollIndicators(.visible)
           }
         }
       }
@@ -121,6 +122,7 @@ struct BottomSheetView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.open = open; vm.snapPoints = snapPoints; vm.initialSnap = initialSnap; vm.showHandle = showHandle; vm.backdrop = backdrop }
+    .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.snapPoints, snapPoints) { vm.snapPoints = snapPoints }; if !specEq(vm.initialSnap, initialSnap) { vm.initialSnap = initialSnap }; if !specEq(vm.showHandle, showHandle) { vm.showHandle = showHandle }; if !specEq(vm.backdrop, backdrop) { vm.backdrop = backdrop } }
+    .task(id: specPropsKey([open, snapPoints, initialSnap, showHandle, backdrop])) { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.snapPoints, snapPoints) { vm.snapPoints = snapPoints }; if !specEq(vm.initialSnap, initialSnap) { vm.initialSnap = initialSnap }; if !specEq(vm.showHandle, showHandle) { vm.showHandle = showHandle }; if !specEq(vm.backdrop, backdrop) { vm.backdrop = backdrop } }
   }
 }

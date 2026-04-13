@@ -26,6 +26,7 @@ struct UserAvatarView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.name = name; vm.bgColor = bgColor }
+    .onAppear { if !specEq(vm.name, name) { vm.name = name }; if !specEq(vm.bgColor, bgColor) { vm.bgColor = bgColor } }
+    .task(id: specPropsKey([name, bgColor])) { if !specEq(vm.name, name) { vm.name = name }; if !specEq(vm.bgColor, bgColor) { vm.bgColor = bgColor } }
   }
 }

@@ -117,23 +117,21 @@ struct SelectView: View {
             }
             VStack() {
               if (vm.hasOptions) as? Bool ?? false {
-                LazyVStack(spacing: CGFloat(8)) {
-                  ForEach(Array((vm.filteredOptions as? [Any] ?? []).enumerated()), id: \.offset) { idx, option in
-                    VStack() {
-                      Text(verbatim: specString(specGet(option, "label")))
-                        .font(.body.bold())
-                        .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "#000"))
-                    }
-                    .padding(CGFloat(8))
-                    .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
+                ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                  VStack() {
+                    Text(verbatim: specString(specGet(option, "label")))
+                      .font(.body.bold())
+                      .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                  }
+                  .padding(CGFloat(8))
+                  .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
 default: return ({ () -> Any in switch specString(specEq(specGet(option, "value"), vm.value)) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                    .onTapGesture { vm.selectOption(specGet(option, "value")) }
-                  }
+                  .onTapGesture { vm.selectOption(specGet(option, "value")) }
                 }
               }
             }
@@ -153,6 +151,7 @@ default: return "transparent"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.options = options; vm.value = value; vm.placeholder = placeholder; vm.searchable = searchable; vm.disabled = disabled; vm.label = label }
+    .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label } }
+    .task(id: specPropsKey([options, value, placeholder, searchable, disabled, label])) { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label } }
   }
 }

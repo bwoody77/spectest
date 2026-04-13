@@ -2,11 +2,11 @@ func computePaste(_ text: Any, _ activeRow: Any, _ activeCol: Any, _ visibleColu
   let text = specString(text)
   let activeRow = specDouble(activeRow)
   let activeCol = specDouble(activeCol)
-  let visibleColumns = (visibleColumns as? [Any]) ?? []
-  let rows = (rows as? [Any]) ?? []
+  let visibleColumns = specArr(visibleColumns)
+  let rows = specArr(rows)
   let rowIdField = specString(rowIdField)
-  let editedValues = (editedValues as? [Any]) ?? []
-  let dirtyCells = (dirtyCells as? [Any]) ?? []
+  let editedValues = specArr(editedValues)
+  let dirtyCells = specArr(dirtyCells)
   var grid: Any = _parseTSV(text)
   var ev: Any = (editedValues as Any)
   var dc: Any = (dirtyCells as Any)

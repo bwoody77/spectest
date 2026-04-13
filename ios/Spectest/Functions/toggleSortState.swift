@@ -1,5 +1,5 @@
 func toggleSortState(_ sortState: Any, _ colKey: Any) -> Any? {
-  let sortState = (sortState as? [Any]) ?? []
+  let sortState = specArr(sortState)
   let colKey = specString(colKey)
   var existing: Any = sortState.first(where: { { s in (String(describing: specGet(s, "key")) == String(describing: colKey)) }($0) as! Bool })
   if existing != nil {

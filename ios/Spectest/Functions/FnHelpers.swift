@@ -82,6 +82,12 @@ struct SpecChartView: View {
     let showGrid: Bool
     let showValues: Bool
     let showLegend: Bool
+    let yMin: Double?
+    let yMax: Double?
+    let connectNulls: Bool
+    let colorKey: String
+    let formatX: String
+    let formatY: String
 
     private var rows: [[String: Any]] { data as? [[String: Any]] ?? [] }
     private var colorList: [String] {
@@ -95,15 +101,37 @@ struct SpecChartView: View {
         return Self.defaultColors[index % Self.defaultColors.count]
     }
 
-    private var seriesList: [(key: String, label: String, color: Color)] {
+    private var seriesList: [(key: String, label: String, color: Color, dashed: Bool)] {
         if let arr = series as? [[String: Any]], !arr.isEmpty {
             return arr.enumerated().map { i, s in
                 (key: s["key"] as? String ?? "y",
                  label: s["label"] as? String ?? s["key"] as? String ?? "Series \(i)",
-                 color: (s["color"] as? String).map { Color(hex: $0) } ?? chartColor(i))
+                 color: (s["color"] as? String).map { Color(hex: $0) } ?? chartColor(i),
+                 dashed: (s["dashed"] as? Bool) ?? false)
             }
         }
-        return [(key: yKey, label: yKey, color: chartColor(0))]
+        return [(key: yKey, label: yKey, color: chartColor(0), dashed: false)]
+    }
+
+    /// Apply a printf-style format specifier to a number. Empty spec → default string.
+    private func applyFormat(_ spec: String, _ value: Double) -> String {
+        if spec.isEmpty { return specString(value) }
+        return String(format: spec, value)
+    }
+
+    /// Read a numeric value from a row, returning nil if missing or NaN.
+    private func readY(_ row: [String: Any], _ key: String) -> Double? {
+        if let d = row[key] as? Double { return d.isNaN ? nil : d }
+        if let i = row[key] as? Int { return Double(i) }
+        return nil
+    }
+
+    /// Read bar color — per-bar via colorKey, falling back to series color.
+    private func barColor(_ row: [String: Any], _ seriesColor: Color) -> Color {
+        if !colorKey.isEmpty, let hex = row[colorKey] as? String {
+            return Color(hex: hex)
+        }
+        return seriesColor
     }
 
     var body: some View {
@@ -129,39 +157,82 @@ struct SpecChartView: View {
 
     // MARK: - Cartesian (line, bar, area)
 
+    /// Compute the effective Y domain. When yMin/yMax are unset, we derive
+    /// from data (mimicking Swift Charts' automatic scaling but allowing
+    /// override when the user specifies bounds).
+    private var effectiveYDomain: ClosedRange<Double> {
+        var allY: [Double] = []
+        for row in rows {
+            for s in seriesList {
+                if let v = readY(row, s.key) { allY.append(v) }
+            }
+        }
+        let dataMin = allY.min() ?? 0
+        let dataMax = allY.max() ?? 1
+        let lo = yMin ?? min(dataMin, 0)
+        let hi = yMax ?? max(dataMax, 0)
+        return lo...(hi > lo ? hi : lo + 1)
+    }
+
+    /// True when the user explicitly set yMin or yMax; suppresses auto-scale.
+    private var hasExplicitYDomain: Bool { yMin != nil || yMax != nil }
+
     @ViewBuilder
     private var cartesianChart: some View {
         Chart {
             ForEach(Array(rows.enumerated()), id: \.offset) { idx, row in
                 let xVal = specString(row[xKey])
                 ForEach(Array(seriesList.enumerated()), id: \.offset) { sIdx, s in
-                    let yVal = (row[s.key] as? Double) ?? (row[s.key] as? Int).map(Double.init) ?? 0
-                    switch type {
-                    case "bar":
-                        BarMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
-                            .foregroundStyle(s.color)
-                            .position(by: .value("Series", s.label))
-                    case "area":
-                        AreaMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
-                            .foregroundStyle(s.color.opacity(0.3))
-                        LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
-                            .foregroundStyle(s.color)
-                    default: // line
-                        LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
-                            .foregroundStyle(s.color)
-                            .symbol(Circle())
-                    }
-                    if showValues {
-                        PointMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
-                            .annotation(position: .top) {
-                                Text(specString(yVal)).font(.caption2).foregroundStyle(.secondary)
-                            }
+                    // Read value; skip null points (Swift Charts naturally creates gaps)
+                    if let yVal = readY(row, s.key) {
+                        switch type {
+                        case "bar":
+                            BarMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                                .foregroundStyle(barColor(row, s.color))
+                                .position(by: .value("Series", s.label))
+                        case "area":
+                            AreaMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                                .foregroundStyle(s.color.opacity(0.3))
+                            LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                                .foregroundStyle(s.color)
+                                .lineStyle(s.dashed ? StrokeStyle(lineWidth: 2, dash: [5, 5]) : StrokeStyle(lineWidth: 2))
+                        default: // line
+                            LineMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                                .foregroundStyle(s.color)
+                                .lineStyle(s.dashed ? StrokeStyle(lineWidth: 2, dash: [5, 5]) : StrokeStyle(lineWidth: 2))
+                                .symbol(Circle())
+                        }
+                        if showValues {
+                            PointMark(x: .value(xKey, xVal), y: .value(s.label, yVal))
+                                .annotation(position: .top) {
+                                    Text(applyFormat(formatY, yVal)).font(.caption2).foregroundStyle(.secondary)
+                                }
+                        }
                     }
                 }
             }
         }
-        .chartXAxis { AxisMarks(values: .automatic) { _ in AxisValueLabel(); if showGrid { AxisGridLine() } } }
-        .chartYAxis { AxisMarks { _ in AxisValueLabel(); if showGrid { AxisGridLine() } } }
+        .chartXAxis {
+            AxisMarks(values: .automatic) { value in
+                if !formatX.isEmpty, let s = value.as(String.self) {
+                    AxisValueLabel { Text(s) }
+                } else {
+                    AxisValueLabel()
+                }
+                if showGrid { AxisGridLine() }
+            }
+        }
+        .chartYAxis {
+            AxisMarks { value in
+                if !formatY.isEmpty, let d = value.as(Double.self) {
+                    AxisValueLabel { Text(applyFormat(formatY, d)) }
+                } else {
+                    AxisValueLabel()
+                }
+                if showGrid { AxisGridLine() }
+            }
+        }
+        .modifier(SpecChartYScaleModifier(domain: hasExplicitYDomain ? effectiveYDomain : nil))
     }
 
     // MARK: - Pie / Donut
@@ -201,6 +272,44 @@ struct SpecChartView: View {
                 }
             }
         }
+    }
+}
+
+/// Conditionally apply chartYScale domain. When domain is nil, the view
+/// passes through unchanged (Swift Charts uses automatic scaling).
+struct SpecChartYScaleModifier: ViewModifier {
+    let domain: ClosedRange<Double>?
+
+    func body(content: Content) -> some View {
+        if let d = domain {
+            content.chartYScale(domain: d)
+        } else {
+            content
+        }
+    }
+}
+
+// MARK: - Color(hex:) helper — used by vector primitives and native components
+
+extension Color {
+    init(hex: String) {
+        let h = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        if h == "transparent" || h == "none" || h.isEmpty { self = .clear; return }
+        var rgb: UInt64 = 0
+        Scanner(string: h).scanHexInt64(&rgb)
+        let r, g, b: Double
+        if h.count == 6 {
+            r = Double((rgb >> 16) & 0xFF) / 255.0
+            g = Double((rgb >> 8) & 0xFF) / 255.0
+            b = Double(rgb & 0xFF) / 255.0
+        } else if h.count == 3 {
+            r = Double((rgb >> 8) & 0xF) / 15.0
+            g = Double((rgb >> 4) & 0xF) / 15.0
+            b = Double(rgb & 0xF) / 15.0
+        } else {
+            r = 0; g = 0; b = 0
+        }
+        self = Color(red: r, green: g, blue: b)
     }
 }
 
@@ -539,11 +648,13 @@ func specAdd(_ a: Any, _ b: Any) -> Any {
     return String(describing: a) + String(describing: b)
 }
 
-/// Length of a string or array.
-func specLength(_ val: Any) -> Double {
-    if let s = val as? String { return Double(s.count) }
-    if let a = val as? [Any] { return Double(a.count) }
-    if let d = val as? [String: Any] { return Double(d.count) }
+/// Length of a string or array (unwraps Optional<Any> first).
+func specLength(_ val: Any?) -> Double {
+    guard let v = _unwrapOptional(val) else { return 0 }
+    if let s = v as? String { return Double(s.count) }
+    if let a = v as? [Any] { return Double(a.count) }
+    if let a = v as? [[String: Any]] { return Double(a.count) }
+    if let d = v as? [String: Any] { return Double(d.count) }
     return 0.0
 }
 
@@ -557,52 +668,64 @@ func specNeq(_ a: Any?, _ b: Any?) -> Bool {
     return specString(a) != specString(b)
 }
 
+/// Unwrap nested Optional<Any> wrappers so `as? [Any]` can succeed against
+/// values that arrive through `Any?` pipelines (e.g. ViewModel state).
+private func _unwrapOptional(_ val: Any?) -> Any? {
+    guard let v = val else { return nil }
+    var current: Any = v
+    while true {
+        let mirror = Mirror(reflecting: current)
+        if mirror.displayStyle != .optional { return current }
+        guard let child = mirror.children.first else { return nil }
+        current = child.value
+    }
+}
+
+/// Stable hashable key for a tuple of Any-typed View params, so SwiftUI's
+/// `.task(id:)` can re-fire when any prop changes. Uses String(describing:)
+/// because Any isn't Hashable on its own.
+func specPropsKey(_ values: [Any?]) -> String {
+    return values.map { specString($0) }.joined(separator: "\u{1f}")
+}
+
+/// Cast Any/Any? to [Any], unwrapping nested Optionals first.
+func specArr(_ val: Any?) -> [Any] {
+    guard let v = _unwrapOptional(val) else { return [] }
+    if let a = v as? [Any] { return a }
+    if let a = v as? [[String: Any]] { return a.map { $0 as Any } }
+    return []
+}
+
 /// Functional helpers — typed wrappers around Array operations so the
 /// compiler doesn't have to infer through `as?` casts inside expressions.
 func specFirst(_ arr: Any?, _ predicate: (Any) -> Bool) -> Any? {
-    guard let a = arr as? [Any] else { return nil }
-    return a.first(where: predicate)
+    return specArr(arr).first(where: predicate)
 }
 
 func specFilter(_ arr: Any?, _ predicate: (Any) -> Bool) -> [Any] {
-    guard let a = arr as? [Any] else { return [] }
-    return a.filter(predicate)
+    return specArr(arr).filter(predicate)
 }
 
 func specMap(_ arr: Any?, _ transform: (Any) -> Any) -> [Any] {
-    guard let a = arr as? [Any] else { return [] }
-    return a.map(transform)
+    return specArr(arr).map(transform)
 }
 
 func specMapIndexed(_ arr: Any?, _ transform: (Any, Int) -> Any) -> [Any] {
-    guard let a = arr as? [Any] else { return [] }
-    return a.enumerated().map { transform($1, $0) }
+    return specArr(arr).enumerated().map { transform($1, $0) }
 }
 
 func specSome(_ arr: Any?, _ predicate: (Any) -> Bool) -> Bool {
-    guard let a = arr as? [Any] else { return false }
-    return a.contains(where: predicate)
+    return specArr(arr).contains(where: predicate)
 }
 
 func specConcat(_ a: Any?, _ b: Any?) -> [Any] {
-    let aa = (a as? [Any]) ?? []
-    let bb = (b as? [Any]) ?? []
-    return aa + bb
+    return specArr(a) + specArr(b)
 }
 
 /// Dynamic indexing: handles array index (Int / Double / numeric String)
 /// and dictionary key (String). Returns nil if the lookup fails.
 func specGet(_ obj: Any?, _ key: Any?) -> Any? {
-    guard let obj = obj, let key = key else { return nil }
-    // Unwrap nested optional
-    let objMirror = Mirror(reflecting: obj)
-    let unwrapped: Any
-    if objMirror.displayStyle == .optional {
-        guard let child = objMirror.children.first else { return nil }
-        unwrapped = child.value
-    } else {
-        unwrapped = obj
-    }
+    guard let unwrapped = _unwrapOptional(obj), let key = _unwrapOptional(key) else { return nil }
     // Dictionary lookup by String key
     if let dict = unwrapped as? [String: Any] {
         if let s = key as? String { return dict[s] }
@@ -616,11 +739,17 @@ func specGet(_ obj: Any?, _ key: Any?) -> Any? {
         else if let s = key as? String, let d = Double(s) { idx = Int(d) }
         if let i = idx, i >= 0, i < arr.count { return arr[i] }
     }
+    if let arr = unwrapped as? [[String: Any]] {
+        var idx: Int? = nil
+        if let i = key as? Int { idx = i }
+        else if let d = key as? Double { idx = Int(d) }
+        if let i = idx, i >= 0, i < arr.count { return arr[i] }
+    }
     return nil
 }
 
 /// Substring extraction (0-based indices).
-func specSlice(_ val: Any, _ start: Any, _ end: Any? = nil) -> Any {
+func specSlice(_ val: Any?, _ start: Any, _ end: Any? = nil) -> Any {
     // Safe conversion to Int
     func toInt(_ v: Any) -> Int {
         if let d = v as? Double { return Int(d) }
@@ -628,23 +757,24 @@ func specSlice(_ val: Any, _ start: Any, _ end: Any? = nil) -> Any {
         if let s = v as? String, let d = Double(s) { return Int(d) }
         return 0
     }
+    // Unwrap nested Optional<Any> wrappers first
+    guard let v = _unwrapOptional(val) else { return "" }
 
-    guard let s = val as? String else {
-        if let a = val as? [Any] {
-            let si = toInt(start)
-            let ei = end.map { toInt($0) } ?? a.count
-            return Array(a[max(0, min(a.count, si))..<max(0, min(a.count, ei))])
+    if let s = v as? String {
+        let si = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(start))))
+        let ei: String.Index
+        if let e = end {
+            ei = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(e))))
+        } else {
+            ei = s.endIndex
         }
-        return ""
+        return String(s[si..<ei])
     }
-    let si = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(start))))
-    let ei: String.Index
-    if let e = end {
-        ei = s.index(s.startIndex, offsetBy: max(0, min(s.count, toInt(e))))
-    } else {
-        ei = s.endIndex
-    }
-    return String(s[si..<ei])
+    // Use specArr so [[String: Any]] works too
+    let a = specArr(v)
+    let si = toInt(start)
+    let ei = end.map { toInt($0) } ?? a.count
+    return Array(a[max(0, min(a.count, si))..<max(0, min(a.count, ei))])
 }
 
 /// Index of needle in haystack (String or Array). Returns -1 if not found.

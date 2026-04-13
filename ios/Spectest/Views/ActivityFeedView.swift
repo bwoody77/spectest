@@ -127,7 +127,7 @@ struct ActivityFeedView: View {
 
       VStack(spacing: CGFloat(12)) {
         if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
-          ForEach(Array((vm.filteredActivity as? [Any] ?? []).enumerated()), id: \.offset) { idx, item in
+          ForEach(Array(specArr(vm.filteredActivity).enumerated()), id: \.offset) { idx, item in
             HStack(alignment: .center, spacing: CGFloat(12)) {
               ActivityIconView(activityType: specGet(item, "type"))
               VStack(spacing: CGFloat(4)) {

@@ -31,6 +31,7 @@ default: return "\(specString(vm.value))%"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.value = value; vm.label = label }
+    .onAppear { if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.label, label) { vm.label = label } }
+    .task(id: specPropsKey([value, label])) { if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.label, label) { vm.label = label } }
   }
 }

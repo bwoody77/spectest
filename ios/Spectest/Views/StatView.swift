@@ -60,6 +60,7 @@ default: return "#92a2b9"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.label = label; vm.value = value; vm.trend = trend; vm.trendValue = trendValue; vm.helpText = helpText }
+    .onAppear { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.trend, trend) { vm.trend = trend }; if !specEq(vm.trendValue, trendValue) { vm.trendValue = trendValue }; if !specEq(vm.helpText, helpText) { vm.helpText = helpText } }
+    .task(id: specPropsKey([label, value, trend, trendValue, helpText])) { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.trend, trend) { vm.trend = trend }; if !specEq(vm.trendValue, trendValue) { vm.trendValue = trendValue }; if !specEq(vm.helpText, helpText) { vm.helpText = helpText } }
   }
 }

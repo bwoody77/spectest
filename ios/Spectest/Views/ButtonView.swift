@@ -81,6 +81,7 @@ default: return "#4f46e5"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.label = label; vm.variant = variant; vm.disabled = disabled; vm.loading = loading; vm.pressed = pressed; vm.size = size }
+    .onAppear { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.variant, variant) { vm.variant = variant }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.loading, loading) { vm.loading = loading }; if !specEq(vm.pressed, pressed) { vm.pressed = pressed }; if !specEq(vm.size, size) { vm.size = size } }
+    .task(id: specPropsKey([label, variant, disabled, loading, pressed, size])) { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.variant, variant) { vm.variant = variant }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.loading, loading) { vm.loading = loading }; if !specEq(vm.pressed, pressed) { vm.pressed = pressed }; if !specEq(vm.size, size) { vm.size = size } }
   }
 }

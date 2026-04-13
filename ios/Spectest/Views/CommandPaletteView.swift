@@ -52,41 +52,40 @@ struct CommandPaletteView: View {
                 TextField(specString(vm.placeholder), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
               }
               .padding(CGFloat(12))
+              ScrollView([.horizontal, .vertical], showsIndicators: true) {
               VStack() {
                 VStack() {
                   if (vm.hasResults) as? Bool ?? false {
-                    LazyVStack(spacing: CGFloat(8)) {
-                      ForEach(Array((vm.results as? [Any] ?? []).enumerated()), id: \.offset) { idx, cmd in
-                        HStack(alignment: .center, ) {
-                          VStack(spacing: CGFloat(4)) {
-                            Text(verbatim: specString(specGet(cmd, "label")))
-                              .font(.body.bold())
-                              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                            VStack() {
-                              if specGet(cmd, "description") != nil {
-                                Text(verbatim: specString(specGet(cmd, "description")))
-                                  .font(.body.bold())
-                                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                              }
-                            }
-
-                          }
-
+                    ForEach(Array(specArr(vm.results).enumerated()), id: \.offset) { idx, cmd in
+                      HStack(alignment: .center, ) {
+                        VStack(spacing: CGFloat(4)) {
+                          Text(verbatim: specString(specGet(cmd, "label")))
+                            .font(.body.bold())
+                            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                           VStack() {
-                            if specGet(cmd, "shortcut") != nil {
-                              Text(verbatim: specString(specGet(cmd, "shortcut")))
+                            if specGet(cmd, "description") != nil {
+                              Text(verbatim: specString(specGet(cmd, "description")))
                                 .font(.body.bold())
-                                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                             }
                           }
-                          .padding(CGFloat(4))
-                          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+
                         }
-                        .padding(CGFloat(12))
-                        .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                        .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                        .onTapGesture { vm.selectItem(specGet(cmd, "id")) }
+
+                        VStack() {
+                          if specGet(cmd, "shortcut") != nil {
+                            Text(verbatim: specString(specGet(cmd, "shortcut")))
+                              .font(.body.bold())
+                              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                          }
+                        }
+                        .padding(CGFloat(4))
+                        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                       }
+                      .padding(CGFloat(12))
+                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
+                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
+                      .onTapGesture { vm.selectItem(specGet(cmd, "id")) }
                     }
                   }
                 }
@@ -100,8 +99,8 @@ struct CommandPaletteView: View {
                 }
                 .padding(CGFloat(16))
               }
+              }
               .frame(maxHeight: CGFloat(360))
-              .scrollIndicators(.visible)
             }
             .frame(width: CGFloat(560))
             .frame(maxWidth: CGFloat(0))
@@ -114,6 +113,7 @@ struct CommandPaletteView: View {
     }
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.commands = commands; vm.open = open; vm.placeholder = placeholder; vm.maxResults = maxResults }
+    .onAppear { if !specEq(vm.commands, commands) { vm.commands = commands }; if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.maxResults, maxResults) { vm.maxResults = maxResults } }
+    .task(id: specPropsKey([commands, open, placeholder, maxResults])) { if !specEq(vm.commands, commands) { vm.commands = commands }; if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.maxResults, maxResults) { vm.maxResults = maxResults } }
   }
 }

@@ -52,7 +52,7 @@ struct TreeView: View {
   var body: some View {
     VStack() {
       VStack() {
-        ForEach(Array((vm.nodes as? [Any] ?? []).enumerated()), id: \.offset) { _idx, node in
+        ForEach(Array(specArr(vm.nodes).enumerated()), id: \.offset) { _idx, node in
           TreeNodeView(expandedIds: vm.expandedIds, expandMode: vm.expandMode, level: 1, node: node, selectedIds: vm.selectedIds, selectionMode: vm.selection)
         }
       }
@@ -61,6 +61,7 @@ struct TreeView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.nodes = nodes; vm.selection = selection; vm.selected = selected; vm.expanded = expanded; vm.expandMode = expandMode }
+    .onAppear { if !specEq(vm.nodes, nodes) { vm.nodes = nodes }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.expanded, expanded) { vm.expanded = expanded }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }
+    .task(id: specPropsKey([nodes, selection, selected, expanded, expandMode])) { if !specEq(vm.nodes, nodes) { vm.nodes = nodes }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.expanded, expanded) { vm.expanded = expanded }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }
   }
 }

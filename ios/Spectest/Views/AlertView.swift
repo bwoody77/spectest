@@ -90,6 +90,7 @@ default: return "#eff6ff"
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.message = message; vm.severity = severity; vm.title = title; vm.dismissible = dismissible }
+    .onAppear { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.severity, severity) { vm.severity = severity }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.dismissible, dismissible) { vm.dismissible = dismissible } }
+    .task(id: specPropsKey([message, severity, title, dismissible])) { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.severity, severity) { vm.severity = severity }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.dismissible, dismissible) { vm.dismissible = dismissible } }
   }
 }

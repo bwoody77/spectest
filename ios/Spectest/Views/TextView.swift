@@ -93,6 +93,7 @@ struct TextView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.content = content; vm.variant = variant; vm.selectable = selectable }
+    .onAppear { if !specEq(vm.content, content) { vm.content = content }; if !specEq(vm.variant, variant) { vm.variant = variant }; if !specEq(vm.selectable, selectable) { vm.selectable = selectable } }
+    .task(id: specPropsKey([content, variant, selectable])) { if !specEq(vm.content, content) { vm.content = content }; if !specEq(vm.variant, variant) { vm.variant = variant }; if !specEq(vm.selectable, selectable) { vm.selectable = selectable } }
   }
 }

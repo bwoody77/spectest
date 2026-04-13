@@ -1,10 +1,10 @@
 func getCellDisplayValue(_ rowIdx: Any, _ colIdx: Any, _ visibleColumns: Any, _ rows: Any, _ rowIdField: Any, _ editedValues: Any) -> Any? {
   let rowIdx = specDouble(rowIdx)
   let colIdx = specDouble(colIdx)
-  let visibleColumns = (visibleColumns as? [Any]) ?? []
-  let rows = (rows as? [Any]) ?? []
+  let visibleColumns = specArr(visibleColumns)
+  let rows = specArr(rows)
   let rowIdField = specString(rowIdField)
-  let editedValues = (editedValues as? [Any]) ?? []
+  let editedValues = specArr(editedValues)
   if ((rowIdx < 0.0) || (rowIdx >= Double(rows.count))) {
     return ""
   }

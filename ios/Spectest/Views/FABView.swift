@@ -50,6 +50,7 @@ struct FABView: View {
     }
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.icon = icon; vm.size = size; vm.label = label }
+    .onAppear { if !specEq(vm.icon, icon) { vm.icon = icon }; if !specEq(vm.size, size) { vm.size = size }; if !specEq(vm.label, label) { vm.label = label } }
+    .task(id: specPropsKey([icon, size, label])) { if !specEq(vm.icon, icon) { vm.icon = icon }; if !specEq(vm.size, size) { vm.size = size }; if !specEq(vm.label, label) { vm.label = label } }
   }
 }

@@ -152,6 +152,7 @@ struct TaskDetailView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.task = task; vm.view = view }
+    .onAppear { if !specEq(vm.task, task) { vm.task = task }; if !specEq(vm.view, view) { vm.view = view } }
+    .task(id: specPropsKey([task, view])) { if !specEq(vm.task, task) { vm.task = task }; if !specEq(vm.view, view) { vm.view = view } }
   }
 }

@@ -172,6 +172,7 @@ struct TimePickerView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.value = value; vm.format = format; vm.minuteStep = minuteStep; vm.label = label; vm.disabled = disabled }
+    .onAppear { if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.format, format) { vm.format = format }; if !specEq(vm.minuteStep, minuteStep) { vm.minuteStep = minuteStep }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
+    .task(id: specPropsKey([value, format, minuteStep, label, disabled])) { if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.format, format) { vm.format = format }; if !specEq(vm.minuteStep, minuteStep) { vm.minuteStep = minuteStep }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }
   }
 }

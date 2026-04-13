@@ -56,23 +56,23 @@ struct ListView: View {
           }
         }
         .padding(CGFloat(8))
+        ScrollView([.horizontal, .vertical], showsIndicators: true) {
         VStack() {
-          LazyVStack(spacing: CGFloat(8)) {
-            ForEach(Array((vm.filteredItems as? [Any] ?? []).enumerated()), id: \.offset) { _idx, item in
-              HStack(alignment: .center, ) {
-                Text(verbatim: specString(specGet(item, "label")))
-                  .font(.body.bold())
-                  .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "#000"))
-              }
-              .padding(CGFloat(8))
-              .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
-              .opacity(CGFloat(0))
-              .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
-              .onTapGesture { vm.handleSelect(specGet(item, "id")) }
+          ForEach(Array(specArr(vm.filteredItems).enumerated()), id: \.offset) { _idx, item in
+            HStack(alignment: .center, ) {
+              Text(verbatim: specString(specGet(item, "label")))
+                .font(.body.bold())
+                .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "#000"))
             }
+            .padding(CGFloat(8))
+            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
+            .opacity(CGFloat(0))
+            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
+            .onTapGesture { vm.handleSelect(specGet(item, "id")) }
           }
         }
-        .scrollIndicators(.visible)
+        }
+
         HStack(alignment: .center, ) {
           if specEq(vm.hasItems, false) {
             Text(verbatim: specString("No items"))
@@ -87,6 +87,7 @@ struct ListView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.items = items; vm.selection = selection; vm.selected = selected; vm.searchable = searchable; vm.searchPlaceholder = searchPlaceholder; vm.height = height }
+    .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.searchPlaceholder, searchPlaceholder) { vm.searchPlaceholder = searchPlaceholder }; if !specEq(vm.height, height) { vm.height = height } }
+    .task(id: specPropsKey([items, selection, selected, searchable, searchPlaceholder, height])) { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.searchPlaceholder, searchPlaceholder) { vm.searchPlaceholder = searchPlaceholder }; if !specEq(vm.height, height) { vm.height = height } }
   }
 }

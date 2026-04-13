@@ -90,6 +90,7 @@ struct TreeDemoView: View {
 
       HStack(alignment: .center, spacing: CGFloat(20)) {
         if ((!((vm.categoriesLoading) as? Bool ?? false))) as? Bool ?? false {
+          ScrollView([.horizontal, .vertical], showsIndicators: true) {
           VStack(spacing: CGFloat(12)) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Filter categories")).font(.subheadline).foregroundStyle(.secondary)
@@ -100,9 +101,9 @@ struct TreeDemoView: View {
             }
             TreeView(expanded: [] as [Any], nodes: vm.categoryList, selection: "single")
           }
+          }
           .padding(CGFloat(12))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .scrollIndicators(.visible)
         }
         VStack(spacing: CGFloat(16)) {
           VStack() {

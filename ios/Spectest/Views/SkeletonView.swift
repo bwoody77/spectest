@@ -53,6 +53,7 @@ struct SkeletonView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.width = width; vm.height = height }
+    .onAppear { if !specEq(vm.width, width) { vm.width = width }; if !specEq(vm.height, height) { vm.height = height } }
+    .task(id: specPropsKey([width, height])) { if !specEq(vm.width, width) { vm.width = width }; if !specEq(vm.height, height) { vm.height = height } }
   }
 }

@@ -86,25 +86,25 @@ struct ThemeBuilderView: View {
   @State private var vm = ThemeBuilderViewModel()
   var body: some View {
     VStack() {
+      ScrollView([.horizontal, .vertical], showsIndicators: true) {
       HStack(alignment: .center, spacing: CGFloat(4)) {
-        LazyVStack(spacing: CGFloat(8)) {
-          ForEach(Array(([["id": "primary" as Any, "label": "Color" as Any] as [String: Any], ["id": "colors" as Any, "label": "Surfaces" as Any] as [String: Any], ["id": "text" as Any, "label": "Text" as Any] as [String: Any], ["id": "shape" as Any, "label": "Shape" as Any] as [String: Any], ["id": "type" as Any, "label": "Font" as Any] as [String: Any], ["id": "shadow" as Any, "label": "Shadow" as Any] as [String: Any], ["id": "motion" as Any, "label": "Motion" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, sec in
-            VStack() {
-              Text(verbatim: specString(specGet(sec, "label")))
-                .font(.body.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#ffffff" : "#496183") as? String ?? "#000"))
-            }
-            .padding(.leading, CGFloat(12))
-            .padding(.trailing, CGFloat(12))
-            .padding(.top, CGFloat(6))
-            .padding(.bottom, CGFloat(6))
-            .background(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-            .onTapGesture { vm.setSection(specGet(sec, "id")) }
+        ForEach(Array(specArr([["id": "primary" as Any, "label": "Color" as Any] as [String: Any], ["id": "colors" as Any, "label": "Surfaces" as Any] as [String: Any], ["id": "text" as Any, "label": "Text" as Any] as [String: Any], ["id": "shape" as Any, "label": "Shape" as Any] as [String: Any], ["id": "type" as Any, "label": "Font" as Any] as [String: Any], ["id": "shadow" as Any, "label": "Shadow" as Any] as [String: Any], ["id": "motion" as Any, "label": "Motion" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, sec in
+          VStack() {
+            Text(verbatim: specString(specGet(sec, "label")))
+              .font(.body.bold())
+              .foregroundStyle(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#ffffff" : "#496183") as? String ?? "#000"))
           }
+          .padding(.leading, CGFloat(12))
+          .padding(.trailing, CGFloat(12))
+          .padding(.top, CGFloat(6))
+          .padding(.bottom, CGFloat(6))
+          .background(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+          .onTapGesture { vm.setSection(specGet(sec, "id")) }
         }
       }
+      }
       .padding(CGFloat(12))
-      .scrollIndicators(.visible)
+      ScrollView([.horizontal, .vertical], showsIndicators: true) {
       VStack(spacing: CGFloat(20)) {
         VStack(spacing: CGFloat(16)) {
           if specEq(vm.activeSection, "primary") {
@@ -447,28 +447,26 @@ struct ThemeBuilderView: View {
 
           }
           LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
-            LazyVStack(spacing: CGFloat(8)) {
-              ForEach(Array(([["id": "sharp" as Any, "label": "Sharp" as Any, "desc": "0 px" as Any, "r": "0px" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "8 px" as Any, "r": "8px" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Rounded" as Any, "desc": "14 px" as Any, "r": "14px" as Any] as [String: Any], ["id": "pill" as Any, "label": "Pill" as Any, "desc": "∞" as Any, "r": "9999px" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, p in
-                VStack(spacing: CGFloat(8)) {
-                  VStack() {
-                  }
-                  .frame(width: CGFloat(52))
-                  .frame(height: CGFloat(36))
-                  .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
-                  VStack(spacing: CGFloat(2)) {
-                    Text(verbatim: specString(specGet(p, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(verbatim: specString(specGet(p, "desc")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                  }
-
+            ForEach(Array(specArr([["id": "sharp" as Any, "label": "Sharp" as Any, "desc": "0 px" as Any, "r": "0px" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "8 px" as Any, "r": "8px" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Rounded" as Any, "desc": "14 px" as Any, "r": "14px" as Any] as [String: Any], ["id": "pill" as Any, "label": "Pill" as Any, "desc": "∞" as Any, "r": "9999px" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              VStack(spacing: CGFloat(8)) {
+                VStack() {
                 }
-                .padding(CGFloat(12))
-                .background(Color(hex: (specEq(vm.radiusPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .onTapGesture { vm.setRadius(specGet(p, "id")) }
+                .frame(width: CGFloat(52))
+                .frame(height: CGFloat(36))
+                .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                VStack(spacing: CGFloat(2)) {
+                  Text(verbatim: specString(specGet(p, "label")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  Text(verbatim: specString(specGet(p, "desc")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                }
+
               }
+              .padding(CGFloat(12))
+              .background(Color(hex: (specEq(vm.radiusPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .onTapGesture { vm.setRadius(specGet(p, "id")) }
             }
           }
 
@@ -486,34 +484,34 @@ struct ThemeBuilderView: View {
             }
 
           }
+          ScrollView([.horizontal, .vertical], showsIndicators: true) {
           VStack(spacing: CGFloat(8)) {
-            LazyVStack(spacing: CGFloat(8)) {
-              ForEach(Array(([["id": "system" as Any, "label": "System" as Any, "sample": "System UI · native" as Any] as [String: Any], ["id": "inter" as Any, "label": "Inter" as Any, "sample": "Inter · modern sans" as Any] as [String: Any], ["id": "dm-sans" as Any, "label": "DM Sans" as Any, "sample": "DM Sans · clean" as Any] as [String: Any], ["id": "poppins" as Any, "label": "Poppins" as Any, "sample": "Poppins · geometric" as Any] as [String: Any], ["id": "jakarta" as Any, "label": "Plus Jakarta" as Any, "sample": "Jakarta · fresh" as Any] as [String: Any], ["id": "manrope" as Any, "label": "Manrope" as Any, "sample": "Manrope · modern" as Any] as [String: Any], ["id": "lato" as Any, "label": "Lato" as Any, "sample": "Lato · humanist" as Any] as [String: Any], ["id": "open-sans" as Any, "label": "Open Sans" as Any, "sample": "Open Sans · readable" as Any] as [String: Any], ["id": "rubik" as Any, "label": "Rubik" as Any, "sample": "Rubik · rounded" as Any] as [String: Any], ["id": "outfit" as Any, "label": "Outfit" as Any, "sample": "Outfit · geometric" as Any] as [String: Any], ["id": "raleway" as Any, "label": "Raleway" as Any, "sample": "Raleway · elegant" as Any] as [String: Any], ["id": "ibm-plex" as Any, "label": "IBM Plex" as Any, "sample": "IBM Plex · technical" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Nunito" as Any, "sample": "Nunito · friendly" as Any] as [String: Any], ["id": "serif" as Any, "label": "Serif" as Any, "sample": "Georgia · editorial" as Any] as [String: Any], ["id": "mono" as Any, "label": "Mono" as Any, "sample": "Fira Code · code" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, f in
-                HStack(alignment: .center, spacing: CGFloat(12)) {
-                  VStack() {
-                  }
-                  .frame(width: CGFloat(8))
-                  .frame(height: CGFloat(8))
-                  .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                  HStack(alignment: .center, ) {
-                    Text(verbatim: specString(specGet(f, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(verbatim: specString(specGet(f, "sample")))
-                      .font(.callout.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
-                  .frame(maxWidth: .infinity)
+            ForEach(Array(specArr([["id": "system" as Any, "label": "System" as Any, "sample": "System UI · native" as Any] as [String: Any], ["id": "inter" as Any, "label": "Inter" as Any, "sample": "Inter · modern sans" as Any] as [String: Any], ["id": "dm-sans" as Any, "label": "DM Sans" as Any, "sample": "DM Sans · clean" as Any] as [String: Any], ["id": "poppins" as Any, "label": "Poppins" as Any, "sample": "Poppins · geometric" as Any] as [String: Any], ["id": "jakarta" as Any, "label": "Plus Jakarta" as Any, "sample": "Jakarta · fresh" as Any] as [String: Any], ["id": "manrope" as Any, "label": "Manrope" as Any, "sample": "Manrope · modern" as Any] as [String: Any], ["id": "lato" as Any, "label": "Lato" as Any, "sample": "Lato · humanist" as Any] as [String: Any], ["id": "open-sans" as Any, "label": "Open Sans" as Any, "sample": "Open Sans · readable" as Any] as [String: Any], ["id": "rubik" as Any, "label": "Rubik" as Any, "sample": "Rubik · rounded" as Any] as [String: Any], ["id": "outfit" as Any, "label": "Outfit" as Any, "sample": "Outfit · geometric" as Any] as [String: Any], ["id": "raleway" as Any, "label": "Raleway" as Any, "sample": "Raleway · elegant" as Any] as [String: Any], ["id": "ibm-plex" as Any, "label": "IBM Plex" as Any, "sample": "IBM Plex · technical" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Nunito" as Any, "sample": "Nunito · friendly" as Any] as [String: Any], ["id": "serif" as Any, "label": "Serif" as Any, "sample": "Georgia · editorial" as Any] as [String: Any], ["id": "mono" as Any, "label": "Mono" as Any, "sample": "Fira Code · code" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, f in
+              HStack(alignment: .center, spacing: CGFloat(12)) {
+                VStack() {
                 }
-                .padding(CGFloat(12))
-                .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .onTapGesture { vm.setFont(specGet(f, "id")) }
+                .frame(width: CGFloat(8))
+                .frame(height: CGFloat(8))
+                .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+                HStack(alignment: .center, ) {
+                  Text(verbatim: specString(specGet(f, "label")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  Text(verbatim: specString(specGet(f, "sample")))
+                    .font(.callout.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                }
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
               }
+              .padding(CGFloat(12))
+              .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .onTapGesture { vm.setFont(specGet(f, "id")) }
             }
           }
-          .scrollIndicators(.visible)
+          }
+
         }
 
         VStack(spacing: CGFloat(16)) {
@@ -529,28 +527,26 @@ struct ThemeBuilderView: View {
 
           }
           LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
-            LazyVStack(spacing: CGFloat(8)) {
-              ForEach(Array(([["id": "flat" as Any, "label": "Flat" as Any, "desc": "No shadows" as Any] as [String: Any], ["id": "subtle" as Any, "label": "Subtle" as Any, "desc": "Minimal depth" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "Balanced" as Any] as [String: Any], ["id": "bold" as Any, "label": "Bold" as Any, "desc": "Strong depth" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, p in
-                VStack(spacing: CGFloat(8)) {
-                  VStack() {
-                  }
-                  .frame(width: CGFloat(52))
-                  .frame(height: CGFloat(36))
-                  .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                  VStack(spacing: CGFloat(2)) {
-                    Text(verbatim: specString(specGet(p, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(verbatim: specString(specGet(p, "desc")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                  }
-
+            ForEach(Array(specArr([["id": "flat" as Any, "label": "Flat" as Any, "desc": "No shadows" as Any] as [String: Any], ["id": "subtle" as Any, "label": "Subtle" as Any, "desc": "Minimal depth" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "Balanced" as Any] as [String: Any], ["id": "bold" as Any, "label": "Bold" as Any, "desc": "Strong depth" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              VStack(spacing: CGFloat(8)) {
+                VStack() {
                 }
-                .padding(CGFloat(12))
-                .background(Color(hex: (specEq(vm.shadowPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .onTapGesture { vm.setShadow(specGet(p, "id")) }
+                .frame(width: CGFloat(52))
+                .frame(height: CGFloat(36))
+                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                VStack(spacing: CGFloat(2)) {
+                  Text(verbatim: specString(specGet(p, "label")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  Text(verbatim: specString(specGet(p, "desc")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                }
+
               }
+              .padding(CGFloat(12))
+              .background(Color(hex: (specEq(vm.shadowPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .onTapGesture { vm.setShadow(specGet(p, "id")) }
             }
           }
 
@@ -569,30 +565,28 @@ struct ThemeBuilderView: View {
 
           }
           VStack(spacing: CGFloat(8)) {
-            LazyVStack(spacing: CGFloat(8)) {
-              ForEach(Array(([["id": "instant" as Any, "label": "Instant" as Any, "desc": "No transitions — 0 ms" as Any] as [String: Any], ["id": "fast" as Any, "label": "Fast" as Any, "desc": "Snappy — 75 ms base" as Any] as [String: Any], ["id": "normal" as Any, "label": "Normal" as Any, "desc": "Balanced — 150 ms base" as Any] as [String: Any], ["id": "slow" as Any, "label": "Slow" as Any, "desc": "Relaxed — 300 ms base" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _idx, p in
-                HStack(alignment: .center, spacing: CGFloat(12)) {
-                  VStack() {
-                  }
-                  .frame(width: CGFloat(8))
-                  .frame(height: CGFloat(8))
-                  .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                  HStack(alignment: .center, ) {
-                    Text(verbatim: specString(specGet(p, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                    Text(verbatim: specString(specGet(p, "desc")))
-                      .font(.callout.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                  }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
-                  .frame(maxWidth: .infinity)
+            ForEach(Array(specArr([["id": "instant" as Any, "label": "Instant" as Any, "desc": "No transitions — 0 ms" as Any] as [String: Any], ["id": "fast" as Any, "label": "Fast" as Any, "desc": "Snappy — 75 ms base" as Any] as [String: Any], ["id": "normal" as Any, "label": "Normal" as Any, "desc": "Balanced — 150 ms base" as Any] as [String: Any], ["id": "slow" as Any, "label": "Slow" as Any, "desc": "Relaxed — 300 ms base" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              HStack(alignment: .center, spacing: CGFloat(12)) {
+                VStack() {
                 }
-                .padding(CGFloat(12))
-                .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .onTapGesture { vm.setMotion(specGet(p, "id")) }
+                .frame(width: CGFloat(8))
+                .frame(height: CGFloat(8))
+                .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+                HStack(alignment: .center, ) {
+                  Text(verbatim: specString(specGet(p, "label")))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  Text(verbatim: specString(specGet(p, "desc")))
+                    .font(.callout.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                }
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
               }
+              .padding(CGFloat(12))
+              .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .onTapGesture { vm.setMotion(specGet(p, "id")) }
             }
           }
 
@@ -646,11 +640,11 @@ struct ThemeBuilderView: View {
         }
 
       }
+      }
       .padding(CGFloat(16))
       .frame(minHeight: CGFloat(0))
       .frame(minWidth: CGFloat(0))
       .frame(maxWidth: .infinity)
-      .scrollIndicators(.visible)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

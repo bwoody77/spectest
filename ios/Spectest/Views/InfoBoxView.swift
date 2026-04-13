@@ -25,6 +25,7 @@ struct InfoBoxView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.title = title }
+    .onAppear { if !specEq(vm.title, title) { vm.title = title } }
+    .task(id: specPropsKey([title])) { if !specEq(vm.title, title) { vm.title = title } }
   }
 }

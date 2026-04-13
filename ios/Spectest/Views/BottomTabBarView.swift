@@ -23,27 +23,25 @@ struct BottomTabBarView: View {
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .overlay {
-        LazyVStack(spacing: CGFloat(8)) {
-          ForEach(Array((vm.tabs as? [Any] ?? []).enumerated()), id: \.offset) { _idx, tab in
-            VStack(spacing: CGFloat(2)) {
-              Image(systemName: specIconName(specString(specGet(tab, "icon"))))
-                .font(.system(size: specPx("22px")))
-                .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
-              Text(verbatim: specString(specGet(tab, "label")))
-                .font(.body.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
-            }
-            .padding(.top, CGFloat(8))
-            .padding(.bottom, CGFloat(4))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
-            .frame(maxWidth: .infinity)
-            .onTapGesture { vm.selectTab(specGet(tab, "id")) }
-            .overlay {
-              if specEq(vm.activeTab, specGet(tab, "id")) {
-                ZStack {
-                  if specEq(vm.activeTab, specGet(tab, "id")) {
-                  }
+        ForEach(Array(specArr(vm.tabs).enumerated()), id: \.offset) { _idx, tab in
+          VStack(spacing: CGFloat(2)) {
+            Image(systemName: specIconName(specString(specGet(tab, "icon"))))
+              .font(.system(size: specPx("22px")))
+              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
+            Text(verbatim: specString(specGet(tab, "label")))
+              .font(.body.bold())
+              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
+          }
+          .padding(.top, CGFloat(8))
+          .padding(.bottom, CGFloat(4))
+          .frame(minHeight: CGFloat(0))
+          .frame(minWidth: CGFloat(0))
+          .frame(maxWidth: .infinity)
+          .onTapGesture { vm.selectTab(specGet(tab, "id")) }
+          .overlay {
+            if specEq(vm.activeTab, specGet(tab, "id")) {
+              ZStack {
+                if specEq(vm.activeTab, specGet(tab, "id")) {
                 }
               }
             }
@@ -52,6 +50,7 @@ struct BottomTabBarView: View {
     }
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.tabs = tabs; vm.activeTab = activeTab; vm.showLabels = showLabels }
+    .onAppear { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab }; if !specEq(vm.showLabels, showLabels) { vm.showLabels = showLabels } }
+    .task(id: specPropsKey([tabs, activeTab, showLabels])) { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab }; if !specEq(vm.showLabels, showLabels) { vm.showLabels = showLabels } }
   }
 }

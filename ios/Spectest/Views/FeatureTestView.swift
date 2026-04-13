@@ -325,7 +325,11 @@ struct FeatureTestView: View {
             title: specString(""), height: specPx("200px"),
             showGrid: true as? Bool ?? true,
             showValues: true as? Bool ?? false,
-            showLegend: true as? Bool ?? true
+            showLegend: true as? Bool ?? true,
+            yMin: nil, yMax: nil,
+            connectNulls: false as? Bool ?? false,
+            colorKey: specString(""),
+            formatX: specString(""), formatY: specString("")
           )
           Text(verbatim: specString("Supported types: line · bar · area · pie · donut"))
             .font(.callout.bold())

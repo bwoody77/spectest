@@ -85,7 +85,7 @@ struct TreeNodeView: View {
         .onTapGesture { vm.handleRowClick() }
         VStack() {
           if ((vm.isExpanded) as? Bool ?? false && (vm.hasChildren) as? Bool ?? false) {
-            ForEach(Array((specGet(vm.node, "children") as? [Any] ?? []).enumerated()), id: \.offset) { _idx, child in
+            ForEach(Array(specArr(specGet(vm.node, "children")).enumerated()), id: \.offset) { _idx, child in
               TreeNodeView(expandedIds: vm.expandedIds, expandMode: vm.expandMode, level: specAdd(vm.level, 1), node: child, selectedIds: vm.selectedIds, selectionMode: vm.selectionMode)
             }
           }
@@ -97,6 +97,7 @@ struct TreeNodeView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.node = node; vm.level = level; vm.expandedIds = expandedIds; vm.selectedIds = selectedIds; vm.selectionMode = selectionMode; vm.expandMode = expandMode }
+    .onAppear { if !specEq(vm.node, node) { vm.node = node }; if !specEq(vm.level, level) { vm.level = level }; if !specEq(vm.expandedIds, expandedIds) { vm.expandedIds = expandedIds }; if !specEq(vm.selectedIds, selectedIds) { vm.selectedIds = selectedIds }; if !specEq(vm.selectionMode, selectionMode) { vm.selectionMode = selectionMode }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }
+    .task(id: specPropsKey([node, level, expandedIds, selectedIds, selectionMode, expandMode])) { if !specEq(vm.node, node) { vm.node = node }; if !specEq(vm.level, level) { vm.level = level }; if !specEq(vm.expandedIds, expandedIds) { vm.expandedIds = expandedIds }; if !specEq(vm.selectedIds, selectedIds) { vm.selectedIds = selectedIds }; if !specEq(vm.selectionMode, selectionMode) { vm.selectionMode = selectionMode }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }
   }
 }

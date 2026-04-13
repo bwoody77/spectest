@@ -18,6 +18,7 @@ struct WizardStepperView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { vm.currentStep = currentStep }
+    .onAppear { if !specEq(vm.currentStep, currentStep) { vm.currentStep = currentStep } }
+    .task(id: specPropsKey([currentStep])) { if !specEq(vm.currentStep, currentStep) { vm.currentStep = currentStep } }
   }
 }
