@@ -827,7 +827,23 @@ func specTypeOf(_ val: Any) -> String {
     return "undefined"
 }
 
-// DataGridSpec/EditableGridSpec are now compiled directly from their .spec
-// sources in @spec/components/spec/. The previous hand-written SpecDataGridView
-// fallback was deleted along with the iOS emitter short-circuit that used it
-// (see docs/ios-emitter-coverage.md and the editable-grid migration).
+// MARK: - SpecRow (Identifiable wrapper for Table)
+
+/// Wraps a `[String: Any]` row for use with SwiftUI `Table`, which
+/// requires `Identifiable` conformance.
+struct SpecRow: Identifiable {
+    let id: String
+    let data: [String: Any]
+    subscript(key: String) -> Any? { data[key] }
+
+    /// Convert a dynamic array of rows into SpecRow instances.
+    static func wrap(_ rows: Any?, idField: String = "id") -> [SpecRow] {
+        return specArr(rows).enumerated().map { idx, item in
+            if let dict = item as? [String: Any] {
+                let rowId = specString(dict[idField] ?? idx)
+                return SpecRow(id: rowId, data: dict)
+            }
+            return SpecRow(id: "\(idx)", data: [:])
+        }
+    }
+}

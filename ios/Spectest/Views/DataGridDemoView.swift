@@ -96,7 +96,129 @@ struct DataGridDemoView: View {
 
       VStack() {
         if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
-          DataGridSpecView(columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "sortable": true as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "sortable": true as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "sortable": true as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "sortable": true as Any, "filterable": true as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "sortable": true as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any] as [String: Any]] as [Any], rows: vm.pagedProducts, selection: "single")
+          Group {
+            let _rows = SpecRow.wrap(vm.pagedProducts, idField: specString("id"))
+            if UIDevice.current.userInterfaceIdiom == .pad {
+              Table(_rows) {
+                TableColumn("ID") { row in
+                  Text(verbatim: specString(row["id"]))
+                }
+                .width(min: 40, ideal: 60, max: 120)
+                TableColumn("Product Name") { row in
+                  Text(verbatim: specString(row["name"]))
+                }
+                TableColumn("Category") { row in
+                  Text(verbatim: specString(row["category"]))
+                }
+                TableColumn("Price") { row in
+                  Text(verbatim: specString(row["price"]))
+                    .monospacedDigit()
+                }
+                TableColumn("Stock") { row in
+                  Text(verbatim: specString(row["stock"]))
+                }
+                TableColumn("Status") { row in
+                  Text(verbatim: specString(row["status"]))
+                }
+                TableColumn("Rating") { row in
+                  Text(verbatim: specString(row["rating"]))
+                }
+                TableColumn("SKU") { row in
+                  Text(verbatim: specString(row["sku"]))
+                }
+              }
+            } else {
+              ScrollView(.horizontal, showsIndicators: true) {
+                VStack(spacing: 0) {
+                  HStack(spacing: 0) {
+                    Text(verbatim: "ID")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(width: 60, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Product Name")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Category")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Price")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Stock")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Status")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "Rating")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                    Text(verbatim: "SKU")
+                      .font(.caption.weight(.semibold))
+                      .foregroundStyle(.secondary)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(.vertical, 8).padding(.horizontal, 6)
+                  }
+                  .background(Color(.tertiarySystemGroupedBackground))
+                  Divider()
+                  ForEach(_rows) { row in
+                    HStack(spacing: 0) {
+                      Text(verbatim: specString(row["id"]))
+                        .font(.subheadline)
+                        .frame(width: 60, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["name"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["category"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["price"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["stock"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["status"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["rating"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                      Text(verbatim: specString(row["sku"]))
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8).padding(.horizontal, 6)
+                    }
+                    .onTapGesture { vm.selectProduct(row.data as Any) }
+                    Divider()
+                  }
+                }
+              }
+            }
+          }
+          .background(Color(.systemBackground))
+          .clipShape(RoundedRectangle(cornerRadius: 8))
+          .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator).opacity(0.3)))
         }
       }
       .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))

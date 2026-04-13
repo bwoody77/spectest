@@ -310,6 +310,7 @@ struct SpectestApp: App {
   var body: some Scene {
     WindowGroup {
       AdaptiveRootView()
+        .preferredColorScheme(.light) // Theme tokens are light-mode hex; force light until dark-mode variants land
     }
   }
 }
