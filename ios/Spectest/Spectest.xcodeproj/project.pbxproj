@@ -37,6 +37,7 @@
 		47772DA75150DE09D56E3CB6 /* TreeNodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938D15309C84A063EA1C2DF0 /* TreeNodeView.swift */; };
 		489FAB7C30F860C4F659406F /* WizardStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC214FCF1668396DE7B9A28 /* WizardStepperView.swift */; };
 		495CB000EC8DAEE825791964 /* resolveSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85AD9D1A6369AB81663221A /* resolveSeries.swift */; };
+		4AB344851431E0FA4FD73867 /* Breakpoints_v2.xcbkptlist in Resources */ = {isa = PBXBuildFile; fileRef = 2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */; };
 		4B7246D019CE4FAE72CDB9AB /* UserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D824F5819BD1E4F50F176A5 /* UserAvatarView.swift */; };
 		5098611809F661976E9BD3D5 /* DashboardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934BA35FAE4FE7183CBCD78 /* DashboardScreen.swift */; };
 		517852B2E870B488A452A261 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D5068E76AF218EB4302F3 /* TextView.swift */; };
@@ -163,13 +164,14 @@
 		1805A1459F0DF7F4A89447B6 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		1C8A12BF2225875208A48BE7 /* applyUndoChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applyUndoChanges.swift; sourceTree = "<group>"; };
 		1CB9DBF88C8190C1BF6C82E4 /* MerriweatherSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MerriweatherSans-Regular.ttf"; sourceTree = "<group>"; };
-		1CE5FE31FCFAC693064BC3A2 /* Spectest.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Spectest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CE5FE31FCFAC693064BC3A2 /* Spectest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spectest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24BB487C5486E3F800A96595 /* _parseTSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _parseTSV.swift; sourceTree = "<group>"; };
 		2535E5FAEFB4AC1532ACA719 /* EditableGridTSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableGridTSView.swift; sourceTree = "<group>"; };
 		26FE6652C830B0145702A45A /* AnalyticsViewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewView.swift; sourceTree = "<group>"; };
 		2780A5E8A6CA0AD4E0E77F95 /* SnackbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackbarView.swift; sourceTree = "<group>"; };
 		29BA77BEC27A4538C853DAE0 /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Regular.ttf"; sourceTree = "<group>"; };
 		29F8724F9FF85FE3ADF56193 /* buildChangesetFromEdits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildChangesetFromEdits.swift; sourceTree = "<group>"; };
+		2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Breakpoints_v2.xcbkptlist; sourceTree = "<group>"; };
 		2E939D519579340F45406A91 /* FnHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FnHelpers.swift; sourceTree = "<group>"; };
 		2F5082C45F5026A58854E179 /* StatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadgeView.swift; sourceTree = "<group>"; };
 		2F612DB499FEF77DBC59D4B9 /* package.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = package.xcworkspace; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 		315238BB4FF2F9C898C3695B /* bryan.xcuserdatad */ = {
 			isa = PBXGroup;
 			children = (
+				4C5BDF6CA03B3065502639C4 /* xcdebugger */,
 				8461B7FB32A406E67E969CC1 /* xcschemes */,
 			);
 			path = bryan.xcuserdatad;
@@ -388,6 +391,14 @@
 				315238BB4FF2F9C898C3695B /* bryan.xcuserdatad */,
 			);
 			path = xcuserdata;
+			sourceTree = "<group>";
+		};
+		4C5BDF6CA03B3065502639C4 /* xcdebugger */ = {
+			isa = PBXGroup;
+			children = (
+				2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */,
+			);
+			path = xcdebugger;
 			sourceTree = "<group>";
 		};
 		8461B7FB32A406E67E969CC1 /* xcschemes */ = {
@@ -506,10 +517,6 @@
 			isa = PBXGroup;
 			children = (
 				615EA63365DF0EACB0E4C949 /* SpectestApp.swift */,
-				C1A3EE08BC25D6FDB34DB73F /* .swiftpm */,
-				1E5C6603183991B4712D2F55 /* Fonts */,
-				1189E35DD86C8BE3F3C5D9C7 /* Functions */,
-				AF09627877CCC3C4E53DB982 /* Views */,
 			);
 			name = Spectest;
 			path = .;
@@ -570,8 +577,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 8065207CF526C963FB85AFB1 /* Build configuration list for PBXProject "Spectest" */;
 			developmentRegion = en;
@@ -601,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CC5F498F266B200CA72359A /* BookAntiqua-Regular.ttf in Resources */,
+				4AB344851431E0FA4FD73867 /* Breakpoints_v2.xcbkptlist in Resources */,
 				D6BBE72AA4ED386C59C2070C /* Courier-Regular.ttf in Resources */,
 				0125014855EC30A4E1299380 /* DMSans-Regular.ttf in Resources */,
 				37B05C3DEAE652B9ACB599A7 /* FiraCode-Regular.ttf in Resources */,
@@ -820,14 +826,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				DEVELOPMENT_TEAM = 6CNCUTKT5A;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spectest.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bwoody77.spectest;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -837,14 +844,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				DEVELOPMENT_TEAM = 6CNCUTKT5A;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spectest.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bwoody77.spectest;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

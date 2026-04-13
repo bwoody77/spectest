@@ -305,6 +305,11 @@ struct SpectestApp: App {
   init() {
     SpecThemeRegistry.registerAll()
     SpecThemeRegistry.loadSavedTheme()
+    // Set the dev server address for physical devices.
+    // On simulator, localhost works automatically.
+    #if !targetEnvironment(simulator)
+    SpecBaseURL.override = "http://192.168.86.41"
+    #endif
   }
 
   var body: some Scene {

@@ -4,7 +4,7 @@
 
 import Foundation
 import SwiftUI
-import SpecRuntime
+@_exported import SpecRuntime
 
 // MARK: - Theme Picker
 
@@ -544,7 +544,12 @@ struct SpecPriorityPill: View {
 /// Returns the decoded JSON body as Any (or nil on error).
 @discardableResult
 func fetch(_ url: Any, _ options: Any? = nil) async -> Any? {
-    guard let urlStr = url as? String, let u = URL(string: urlStr) else { return nil }
+    guard var urlStr = url as? String else { return nil }
+    // Resolve localhost for physical devices
+    if urlStr.contains("localhost") {
+        urlStr = urlStr.replacingOccurrences(of: "http://localhost", with: SpecBaseURL.resolved)
+    }
+    guard let u = URL(string: urlStr) else { return nil }
     var req = URLRequest(url: u)
     if let opts = options as? [String: Any] {
         if let m = opts["method"] as? String { req.httpMethod = m }

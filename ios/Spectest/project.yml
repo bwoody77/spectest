@@ -24,6 +24,8 @@ targets:
       properties:
         UILaunchScreen: {}
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.spectest.ios
+      PRODUCT_BUNDLE_IDENTIFIER: com.bwoody77.spectest
       INFOPLIST_FILE: Info.plist
       GENERATE_INFOPLIST_FILE: false
+      CODE_SIGN_IDENTITY: "Apple Development"
+      DEVELOPMENT_TEAM: ""
