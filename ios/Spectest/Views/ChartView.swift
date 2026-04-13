@@ -90,8 +90,8 @@ struct ChartView: View {
                 VStack() {
                 }
                 .frame(width: CGFloat(10))
-                .frame(height: CGFloat(10))
-                .background(Color(hex: specGet(item, "color") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .specFrameHeight(CGFloat(10))
+                .background(Color(hex: specGet(item, "color") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 Text(verbatim: specString(specGet(item, "label")))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -103,7 +103,7 @@ struct ChartView: View {
 
       }
       .frame(maxWidth: .infinity)
-      .frame(height: specPx(vm.height))
+      .specFrameHeight(specPx(vm.height))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

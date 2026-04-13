@@ -34,7 +34,7 @@ case specString("success"): return "#166534"
 case specString("warning"): return "#92400e"
 case specString("error"): return "#991b1b"
 default: return "#1e40af"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
         VStack(spacing: CGFloat(2)) {
           Text(verbatim: specString(vm.title))
             .font(.body.bold())
@@ -44,7 +44,7 @@ case specString("success"): return "#166534"
 case specString("warning"): return "#92400e"
 case specString("error"): return "#991b1b"
 default: return "#1e40af"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
           Text(verbatim: specString(vm.message))
             .font(.body.bold())
             .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
@@ -53,11 +53,12 @@ case specString("success"): return "#166534"
 case specString("warning"): return "#92400e"
 case specString("error"): return "#991b1b"
 default: return "#1e40af"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
         }
         .frame(minHeight: CGFloat(0))
         .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
+        Button(action: { /* event callback */ }) {
         HStack(alignment: .center, ) {
           if specEq(vm.dismissible, true) {
             Text(verbatim: specString("u00D7"))
@@ -68,15 +69,16 @@ case specString("success"): return "#166534"
 case specString("warning"): return "#92400e"
 case specString("error"): return "#991b1b"
 default: return "#1e40af"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
           }
         }
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         .frame(width: CGFloat(24))
-        .frame(height: CGFloat(24))
+        .specFrameHeight(CGFloat(24))
         .frame(minWidth: CGFloat(24))
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-        .onTapGesture { /* event callback */ }
+        }
+        .buttonStyle(.plain)
       }
       .padding(CGFloat(12))
       .background(Color(hex: ({ () -> Any in switch specString(vm.severity) {
@@ -85,7 +87,7 @@ case specString("success"): return "#f0fdf4"
 case specString("warning"): return "#fffbeb"
 case specString("error"): return "#fef2f2"
 default: return "#eff6ff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

@@ -81,7 +81,7 @@ struct SettingsPanelView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("settings")))
           .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Settings"))
           .font(.title2.bold())
         Spacer(minLength: 0)
@@ -113,7 +113,7 @@ struct SettingsPanelView: View {
           HStack(alignment: .center, spacing: CGFloat(8)) {
             Image(systemName: specIconName(specString("user")))
               .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
             Text(verbatim: specString("Profile"))
               .font(.title3.bold())
             Spacer(minLength: 0)
@@ -166,7 +166,7 @@ struct SettingsPanelView: View {
           HStack(alignment: .center, spacing: CGFloat(8)) {
             Image(systemName: specIconName(specString("globe")))
               .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
             Text(verbatim: specString("Localization"))
               .font(.title3.bold())
             Spacer(minLength: 0)
@@ -203,7 +203,7 @@ struct SettingsPanelView: View {
           HStack(alignment: .center, spacing: CGFloat(8)) {
             Image(systemName: specIconName(specString("bell")))
               .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
             Text(verbatim: specString("Notifications"))
               .font(.title3.bold())
             Spacer(minLength: 0)
@@ -225,7 +225,7 @@ struct SettingsPanelView: View {
           HStack(alignment: .center, spacing: CGFloat(8)) {
             Image(systemName: specIconName(specString("monitor")))
               .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
             Text(verbatim: specString("Display"))
               .font(.title3.bold())
             Spacer(minLength: 0)

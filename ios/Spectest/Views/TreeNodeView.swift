@@ -49,7 +49,9 @@ struct TreeNodeView: View {
   var body: some View {
     VStack() {
       VStack() {
+        Button(action: { vm.handleRowClick() }) {
         HStack(alignment: .center, ) {
+          Button(action: { vm.handleToggle() }) {
           VStack() {
             if (vm.hasChildren) as? Bool ?? false {
               Text(verbatim: specString(vm.toggleIcon))
@@ -59,7 +61,8 @@ struct TreeNodeView: View {
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
-          .onTapGesture { vm.handleToggle() }
+          }
+          .buttonStyle(.plain)
           VStack() {
             if specEq(vm.hasChildren, false) {
             }
@@ -70,19 +73,20 @@ struct TreeNodeView: View {
             if specGet(vm.node, "icon") != nil {
               Image(systemName: specIconName(specString((specGet(vm.node, "icon") != nil ? specGet(vm.node, "icon") : ""))))
                 .font(.system(size: specPx(16)))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
             }
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
           Text(verbatim: specString(specGet(vm.node, "label")))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: ((vm.isSelected) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isSelected) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "transparent"))
         }
         .padding(.top, CGFloat(4))
         .padding(.bottom, CGFloat(4))
         .opacity(specPx((specEq(specGet(vm.node, "disabled"), true) ? 0.5 : 1)))
-        .onTapGesture { vm.handleRowClick() }
+        }
+        .buttonStyle(.plain)
         VStack() {
           if ((vm.isExpanded) as? Bool ?? false && (vm.hasChildren) as? Bool ?? false) {
             ForEach(Array(specArr(specGet(vm.node, "children")).enumerated()), id: \.offset) { _idx, child in

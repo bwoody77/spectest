@@ -63,6 +63,9 @@ struct TimePickerView: View {
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             HStack(alignment: .center, spacing: CGFloat(4)) {
+              Button(action: { if specEq(vm.disabled, false) {
+  vm.decHour()
+} }) {
               VStack() {
                 Text(verbatim: specString("u25BC"))
                   .font(.body.bold())
@@ -72,9 +75,8 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-              .onTapGesture { if specEq(vm.disabled, false) {
-  vm.decHour()
-} }
+              }
+              .buttonStyle(.plain)
               HStack(alignment: .center, ) {
                 Text(verbatim: specString(vm.formattedH))
                   .font(.body.bold())
@@ -83,6 +85,9 @@ struct TimePickerView: View {
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
               .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              Button(action: { if specEq(vm.disabled, false) {
+  vm.incHour()
+} }) {
               VStack() {
                 Text(verbatim: specString("u25B2"))
                   .font(.body.bold())
@@ -92,9 +97,8 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-              .onTapGesture { if specEq(vm.disabled, false) {
-  vm.incHour()
-} }
+              }
+              .buttonStyle(.plain)
             }
 
           }
@@ -107,6 +111,9 @@ struct TimePickerView: View {
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
             HStack(alignment: .center, spacing: CGFloat(4)) {
+              Button(action: { if specEq(vm.disabled, false) {
+  vm.decMinute()
+} }) {
               VStack() {
                 Text(verbatim: specString("u25BC"))
                   .font(.body.bold())
@@ -116,9 +123,8 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-              .onTapGesture { if specEq(vm.disabled, false) {
-  vm.decMinute()
-} }
+              }
+              .buttonStyle(.plain)
               HStack(alignment: .center, ) {
                 Text(verbatim: specString(vm.formattedM))
                   .font(.body.bold())
@@ -127,6 +133,9 @@ struct TimePickerView: View {
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
               .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              Button(action: { if specEq(vm.disabled, false) {
+  vm.incMinute()
+} }) {
               VStack() {
                 Text(verbatim: specString("u25B2"))
                   .font(.body.bold())
@@ -136,9 +145,8 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-              .onTapGesture { if specEq(vm.disabled, false) {
-  vm.incMinute()
-} }
+              }
+              .buttonStyle(.plain)
             }
 
           }
@@ -149,6 +157,9 @@ struct TimePickerView: View {
                 .font(.body.bold())
                 .foregroundStyle(Color.clear)
             }
+            Button(action: { if specEq(vm.disabled, false) {
+  vm.toggleAmPm()
+} }) {
             HStack(alignment: .center, ) {
               Text(verbatim: specString(vm.ampm))
                 .font(.body.bold())
@@ -159,9 +170,8 @@ struct TimePickerView: View {
             .frame(minWidth: CGFloat(48))
             .frame(minHeight: CGFloat(36))
             .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { if specEq(vm.disabled, false) {
-  vm.toggleAmPm()
-} }
+            }
+            .buttonStyle(.plain)
           }
 
         }

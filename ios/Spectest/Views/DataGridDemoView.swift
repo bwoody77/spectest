@@ -51,7 +51,7 @@ struct DataGridDemoView: View {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("layout")))
             .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
           Text(verbatim: specString("Product Catalog"))
             .font(.title2.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

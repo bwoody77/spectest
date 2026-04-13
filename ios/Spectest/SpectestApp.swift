@@ -146,7 +146,7 @@ struct ContentDestinationView: View {
     case .create: TaskFormView()
     case .wizard: TaskWizardView()
     case .datagrid: DataGridDemoView()
-    case .editgrid: DataGridDemoView()
+    case .editgrid: EditableGridDemoView()
     case .categories: TreeDemoView()
     case .team: TeamDirectoryView()
     case .activity: ActivityFeedView()

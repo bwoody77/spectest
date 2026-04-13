@@ -23,17 +23,17 @@ struct CheckboxView: View {
             if specEq(vm.checked, true) {
               Image(systemName: specIconName(specString("check")))
                 .font(.system(size: specPx("14px")))
-                .foregroundStyle(Color(hex: "#ffffff" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#ffffff" as? String ?? "transparent"))
             }
           }
 
         }
         .frame(width: CGFloat(18))
-        .frame(height: CGFloat(18))
+        .specFrameHeight(CGFloat(18))
         .background(Color(hex: ({ () -> Any in switch specString(vm.checked) {
 case specString(true): return "#4f46e5"
 default: return "transparent"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(5)))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(5)))
         Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))

@@ -37,7 +37,7 @@ struct TaskTableView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("list")))
           .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Tasks"))
           .font(.title3.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

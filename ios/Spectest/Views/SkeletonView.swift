@@ -19,26 +19,26 @@ struct SkeletonView: View {
         VStack() {
         }
         .opacity(CGFloat(0.7))
-        .frame(height: CGFloat(80))
+        .specFrameHeight(CGFloat(80))
         .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         HStack(alignment: .center, spacing: CGFloat(12)) {
           VStack() {
           }
           .opacity(CGFloat(0.7))
           .frame(width: CGFloat(48))
-          .frame(height: CGFloat(48))
+          .specFrameHeight(CGFloat(48))
           .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
           VStack(spacing: CGFloat(8)) {
             VStack() {
             }
             .opacity(CGFloat(0.7))
-            .frame(height: CGFloat(14))
+            .specFrameHeight(CGFloat(14))
             .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
             VStack() {
             }
             .opacity(CGFloat(0.7))
             .frame(width: CGFloat(0))
-            .frame(height: CGFloat(14))
+            .specFrameHeight(CGFloat(14))
             .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           }
           .frame(minHeight: CGFloat(0))
@@ -48,7 +48,7 @@ struct SkeletonView: View {
 
       }
       .frame(width: specPx(vm.width))
-      .frame(height: specPx(vm.height))
+      .specFrameHeight(specPx(vm.height))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

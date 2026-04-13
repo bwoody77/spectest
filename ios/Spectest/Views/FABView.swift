@@ -33,7 +33,7 @@ struct FABView: View {
         HStack(alignment: .center, spacing: CGFloat(8)) {
           Image(systemName: specIconName(specString(vm.icon)))
             .font(.system(size: specPx(vm.iconSize)))
-            .foregroundStyle(Color(hex: "white" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "white" as? String ?? "transparent"))
           Text(verbatim: specString(vm.label))
             .font(.body.bold())
             .foregroundStyle(Color.white)
@@ -43,7 +43,7 @@ struct FABView: View {
         .padding(.leading, specPx((specNeq(vm.label, "") ? "16px" : "0px")))
         .padding(.trailing, specPx((specNeq(vm.label, "") ? "16px" : "0px")))
         .frame(width: specPx((specNeq(vm.label, "") ? "auto" : vm.btnSize)))
-        .frame(height: specPx(vm.btnSize))
+        .specFrameHeight(specPx(vm.btnSize))
         .frame(minWidth: specPx(vm.btnSize))
         .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: specPx((specNeq(vm.label, "") ? "28px" : "50%"))))
         .onTapGesture { /* event callback */ }

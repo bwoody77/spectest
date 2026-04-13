@@ -18,7 +18,7 @@ struct EmptyStateView: View {
       VStack(spacing: CGFloat(8)) {
         Image(systemName: specIconName(specString("inbox")))
           .font(.system(size: specPx("48px")))
-          .foregroundStyle(Color(hex: "#92a2b9" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#92a2b9" as? String ?? "transparent"))
         Text(verbatim: specString(vm.message))
           .font(.headline.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

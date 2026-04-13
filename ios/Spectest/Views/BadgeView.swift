@@ -25,7 +25,7 @@ case specString("warning"): return "#f59e0b"
 case specString("error"): return "#ef4444"
 case specString("neutral"): return "#64748b"
 default: return "#64748b"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
       }
       .padding(.leading, CGFloat(10))
       .padding(.trailing, CGFloat(10))
@@ -38,7 +38,7 @@ case specString("warning"): return "#fffbeb"
 case specString("error"): return "#fef2f2"
 case specString("neutral"): return "#f1f5f9"
 default: return "#f1f5f9"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

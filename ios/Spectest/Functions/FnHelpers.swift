@@ -295,6 +295,29 @@ extension Color {
     init(hex: String) {
         let h = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
         if h == "transparent" || h == "none" || h.isEmpty { self = .clear; return }
+        // Handle rgba(r, g, b, a) CSS format
+        if hex.hasPrefix("rgba(") {
+            let inner = hex.dropFirst(5).dropLast(1) // strip "rgba(" and ")"
+            let parts = inner.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+            if parts.count >= 4,
+               let r = Double(parts[0]), let g = Double(parts[1]),
+               let b = Double(parts[2]), let a = Double(parts[3]) {
+                self = Color(.sRGB, red: r / 255.0, green: g / 255.0, blue: b / 255.0, opacity: a)
+                return
+            }
+            self = .clear; return
+        }
+        // Handle rgb(r, g, b) CSS format
+        if hex.hasPrefix("rgb(") {
+            let inner = hex.dropFirst(4).dropLast(1)
+            let parts = inner.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+            if parts.count >= 3,
+               let r = Double(parts[0]), let g = Double(parts[1]), let b = Double(parts[2]) {
+                self = Color(.sRGB, red: r / 255.0, green: g / 255.0, blue: b / 255.0, opacity: 1.0)
+                return
+            }
+            self = .clear; return
+        }
         var rgb: UInt64 = 0
         Scanner(string: h).scanHexInt64(&rgb)
         let r, g, b: Double
@@ -307,7 +330,8 @@ extension Color {
             g = Double((rgb >> 4) & 0xF) / 15.0
             b = Double(rgb & 0xF) / 15.0
         } else {
-            r = 0; g = 0; b = 0
+            // Unknown format — clear instead of black
+            self = .clear; return
         }
         self = Color(red: r, green: g, blue: b)
     }
@@ -605,11 +629,26 @@ func specPx(_ val: Any) -> CGFloat {
     if let d = val as? Double { return CGFloat(d) }
     if let i = val as? Int { return CGFloat(i) }
     if let s = val as? String {
+        if s == "auto" || s.isEmpty { return CGFloat(0) }
         // Strip "px" suffix if present, then parse
         let trimmed = s.hasSuffix("px") ? String(s.dropLast(2)) : s
         if let d = Double(trimmed) { return CGFloat(d) }
     }
     return CGFloat(0)
+}
+
+/// ViewModifier-style height frame that skips when the value resolves to 0
+/// (meaning "auto" or unparseable). This prevents blocks with `height: "auto"`
+/// from collapsing to zero.
+extension View {
+    @ViewBuilder
+    func specFrameHeight(_ h: CGFloat) -> some View {
+        if h > 0 {
+            self.frame(height: h)
+        } else {
+            self
+        }
+    }
 }
 
 /// Safely convert Any to Double — handles Int, Double, String, and Optional.
@@ -641,11 +680,16 @@ func specRegexTest(_ pattern: Any, _ value: Any) -> Bool {
 }
 
 /// Dynamic addition: supports String concatenation and numeric addition.
-func specAdd(_ a: Any, _ b: Any) -> Any {
-    if let sa = a as? String { return sa + String(describing: b) }
-    if let sb = b as? String { return String(describing: a) + sb }
-    if let na = a as? Double, let nb = b as? Double { return na + nb }
-    return String(describing: a) + String(describing: b)
+/// Unwraps Optional<Any> first so "Optional(...)" doesn't leak into display strings.
+func specAdd(_ a: Any?, _ b: Any?) -> Any {
+    let ua = _unwrapOptional(a), ub = _unwrapOptional(b)
+    if ua == nil && ub == nil { return "" }
+    let sa = ua.map { specString($0) } ?? ""
+    let sb = ub.map { specString($0) } ?? ""
+    // If both are numeric, do arithmetic
+    if let na = ua as? Double, let nb = ub as? Double { return na + nb }
+    if let na = ua as? Int, let nb = ub as? Int { return Double(na + nb) }
+    return sa + sb
 }
 
 /// Length of a string or array (unwraps Optional<Any> first).

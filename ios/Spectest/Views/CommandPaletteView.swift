@@ -47,16 +47,18 @@ struct CommandPaletteView: View {
             .ignoresSafeArea()
             .onTapGesture { vm.dismiss() }
           if specEq(vm.open, true) {
+            Button(action: {  }) {
             VStack() {
               VStack() {
                 TextField(specString(vm.placeholder), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
               }
               .padding(CGFloat(12))
-              ScrollView([.horizontal, .vertical], showsIndicators: true) {
+              ScrollView(.horizontal, showsIndicators: true) {
               VStack() {
                 VStack() {
                   if (vm.hasResults) as? Bool ?? false {
                     ForEach(Array(specArr(vm.results).enumerated()), id: \.offset) { idx, cmd in
+                      Button(action: { vm.selectItem(specGet(cmd, "id")) }) {
                       HStack(alignment: .center, ) {
                         VStack(spacing: CGFloat(4)) {
                           Text(verbatim: specString(specGet(cmd, "label")))
@@ -83,9 +85,10 @@ struct CommandPaletteView: View {
                         .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                       }
                       .padding(CGFloat(12))
-                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "#000"))
-                      .onTapGesture { vm.selectItem(specGet(cmd, "id")) }
+                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+                      .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+                      }
+                      .buttonStyle(.plain)
                     }
                   }
                 }
@@ -106,7 +109,8 @@ struct CommandPaletteView: View {
             .frame(maxWidth: CGFloat(0))
             .frame(maxHeight: CGFloat(480))
             .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-            .onTapGesture {  }
+            }
+            .buttonStyle(.plain)
           }
         }
       }

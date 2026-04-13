@@ -34,7 +34,7 @@ struct TreeDemoView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("list")))
           .font(.system(size: specPx("24px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Category Browser"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -90,7 +90,7 @@ struct TreeDemoView: View {
 
       HStack(alignment: .center, spacing: CGFloat(20)) {
         if ((!((vm.categoriesLoading) as? Bool ?? false))) as? Bool ?? false {
-          ScrollView([.horizontal, .vertical], showsIndicators: true) {
+          ScrollView(.horizontal, showsIndicators: true) {
           VStack(spacing: CGFloat(12)) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Filter categories")).font(.subheadline).foregroundStyle(.secondary)

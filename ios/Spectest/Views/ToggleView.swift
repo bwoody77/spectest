@@ -24,11 +24,11 @@ struct ToggleView: View {
         VStack() {
         }
         .frame(width: CGFloat(44))
-        .frame(height: CGFloat(24))
+        .specFrameHeight(CGFloat(24))
         .background(Color(hex: ({ () -> Any in switch specString(vm.checked) {
 case specString(true): return "#4f46e5"
 default: return "#cbd5e1"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(999)))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(999)))
         .overlay {
         }
       }

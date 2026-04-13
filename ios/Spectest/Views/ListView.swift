@@ -56,19 +56,21 @@ struct ListView: View {
           }
         }
         .padding(CGFloat(8))
-        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: true) {
         VStack() {
           ForEach(Array(specArr(vm.filteredItems).enumerated()), id: \.offset) { _idx, item in
+            Button(action: { vm.handleSelect(specGet(item, "id")) }) {
             HStack(alignment: .center, ) {
               Text(verbatim: specString(specGet(item, "label")))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
             }
             .padding(CGFloat(8))
-            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
+            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
             .opacity(CGFloat(0))
-            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "#000"))
-            .onTapGesture { vm.handleSelect(specGet(item, "id")) }
+            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+            }
+            .buttonStyle(.plain)
           }
         }
         }

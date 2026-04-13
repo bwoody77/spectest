@@ -13,7 +13,7 @@ struct WizardDoneView: View {
       VStack(spacing: CGFloat(16)) {
         Image(systemName: specIconName(specString("check")))
           .font(.system(size: specPx("48px")))
-          .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
         Text(verbatim: specString("Task Created!"))
           .font(.title2.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))

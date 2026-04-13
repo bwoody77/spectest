@@ -54,62 +54,76 @@ struct FeatureTestView: View {
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
+        Button(action: { vm.setTab("p1") }) {
         VStack() {
           Text(verbatim: specString("P1 · Slots"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP1) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP1) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP1) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p1") }
+        .background(Color(hex: ((vm.isP1) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p2") }) {
         VStack() {
           Text(verbatim: specString("P2 · Router"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP2) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP2) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP2) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p2") }
+        .background(Color(hex: ((vm.isP2) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p3") }) {
         VStack() {
           Text(verbatim: specString("P3 · Icons"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP3) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP3) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP3) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p3") }
+        .background(Color(hex: ((vm.isP3) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p4") }) {
         VStack() {
           Text(verbatim: specString("P4 · Charts"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP4) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP4) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP4) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p4") }
+        .background(Color(hex: ((vm.isP4) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p6") }) {
         VStack() {
           Text(verbatim: specString("P6 · @form"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP6) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP6) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP6) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p6") }
+        .background(Color(hex: ((vm.isP6) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p7") }) {
         VStack() {
           Text(verbatim: specString("P7 · Drag"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP7) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP7) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP7) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p7") }
+        .background(Color(hex: ((vm.isP7) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setTab("p8") }) {
         VStack() {
           Text(verbatim: specString("P8 · match"))
             .font(.callout.bold())
-            .foregroundStyle(Color(hex: ((vm.isP8) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isP8) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isP8) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setTab("p8") }
+        .background(Color(hex: ((vm.isP8) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
       }
 
       VStack(spacing: CGFloat(20)) {
@@ -143,20 +157,24 @@ struct FeatureTestView: View {
           HStack(alignment: .center, spacing: CGFloat(16)) {
             CountDisplayView(value: vm.counter)
             HStack(alignment: .center, spacing: CGFloat(8)) {
+              Button(action: { vm.increment() }) {
               VStack() {
                 Text(verbatim: specString("Increment (\(specString(vm.counter)))"))
                   .foregroundStyle(Color(hex: "#fff"))
               }
               .padding(CGFloat(0))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.increment() }
+              }
+              .buttonStyle(.plain)
+              Button(action: { vm.resetCounter() }) {
               VStack() {
                 Text(verbatim: specString("Reset"))
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(0))
               .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.resetCounter() }
+              }
+              .buttonStyle(.plain)
             }
 
             Spacer(minLength: 0)
@@ -221,7 +239,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("home")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
               Text(verbatim: specString("home"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -230,7 +248,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("settings")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "transparent"))
               Text(verbatim: specString("settings"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -239,7 +257,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#10b981" as? String ?? "transparent"))
               Text(verbatim: specString("user"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -248,7 +266,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("bell")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#ef4444" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#ef4444" as? String ?? "transparent"))
               Text(verbatim: specString("bell"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -257,7 +275,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("star")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#6366f1" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#6366f1" as? String ?? "transparent"))
               Text(verbatim: specString("star"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -266,7 +284,7 @@ struct FeatureTestView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("zap")))
                 .font(.system(size: specPx(32)))
-                .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#f59e0b" as? String ?? "transparent"))
               Text(verbatim: specString("zap"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -280,16 +298,16 @@ struct FeatureTestView: View {
           HStack(alignment: .center, spacing: CGFloat(16)) {
             Image(systemName: specIconName(specString("check-circle")))
               .font(.system(size: specPx(16)))
-              .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#10b981" as? String ?? "transparent"))
             Image(systemName: specIconName(specString("check-circle")))
               .font(.system(size: specPx(24)))
-              .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#10b981" as? String ?? "transparent"))
             Image(systemName: specIconName(specString("check-circle")))
               .font(.system(size: specPx(32)))
-              .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#10b981" as? String ?? "transparent"))
             Image(systemName: specIconName(specString("check-circle")))
               .font(.system(size: specPx(48)))
-              .foregroundStyle(Color(hex: "#10b981" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#10b981" as? String ?? "transparent"))
           }
 
           Text(verbatim: specString("@icons declaration (namespaced providers):"))
@@ -449,38 +467,46 @@ struct FeatureTestView: View {
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           HStack(alignment: .center, spacing: CGFloat(8)) {
+            Button(action: { vm.setMatch("A") }) {
             VStack() {
               Text(verbatim: specString("A"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "A") ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "A") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: (specEq(vm.matchValue, "A") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.setMatch("A") }
+            .background(Color(hex: (specEq(vm.matchValue, "A") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            }
+            .buttonStyle(.plain)
+            Button(action: { vm.setMatch("B") }) {
             VStack() {
               Text(verbatim: specString("B"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "B") ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "B") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: (specEq(vm.matchValue, "B") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.setMatch("B") }
+            .background(Color(hex: (specEq(vm.matchValue, "B") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            }
+            .buttonStyle(.plain)
+            Button(action: { vm.setMatch("C") }) {
             VStack() {
               Text(verbatim: specString("C"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "C") ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "C") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: (specEq(vm.matchValue, "C") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.setMatch("C") }
+            .background(Color(hex: (specEq(vm.matchValue, "C") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            }
+            .buttonStyle(.plain)
+            Button(action: { vm.setMatch("D") }) {
             VStack() {
               Text(verbatim: specString("D"))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "D") ? "#fff" : "#202732") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.matchValue, "D") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
             .padding(CGFloat(0))
-            .background(Color(hex: (specEq(vm.matchValue, "D") ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.setMatch("D") }
+            .background(Color(hex: (specEq(vm.matchValue, "D") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            }
+            .buttonStyle(.plain)
           }
 
           VStack() {
@@ -500,20 +526,24 @@ struct FeatureTestView: View {
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           HStack(alignment: .center, spacing: CGFloat(8)) {
+            Button(action: { vm.increment() }) {
             VStack() {
               Text(verbatim: specString("Count up"))
                 .foregroundStyle(Color(hex: "#fff"))
             }
             .padding(CGFloat(0))
             .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.increment() }
+            }
+            .buttonStyle(.plain)
+            Button(action: { vm.resetCounter() }) {
             VStack() {
               Text(verbatim: specString("Reset to 0"))
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             .padding(CGFloat(0))
             .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { vm.resetCounter() }
+            }
+            .buttonStyle(.plain)
           }
 
         }

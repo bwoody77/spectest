@@ -39,7 +39,7 @@ struct AnalyticsViewView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("bar-chart")))
           .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Analytics"))
           .font(.title2.bold())
         Spacer(minLength: 0)
@@ -71,7 +71,7 @@ struct AnalyticsViewView: View {
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("list")))
             .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.total))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Total Tasks")).font(.subheadline).foregroundStyle(.secondary)
@@ -82,7 +82,7 @@ struct AnalyticsViewView: View {
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
             .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.done))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Completed")).font(.subheadline).foregroundStyle(.secondary)
@@ -93,7 +93,7 @@ struct AnalyticsViewView: View {
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
             .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.inProgress))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("In Progress")).font(.subheadline).foregroundStyle(.secondary)
@@ -104,7 +104,7 @@ struct AnalyticsViewView: View {
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
             .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "transparent"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.todo))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Todo")).font(.subheadline).foregroundStyle(.secondary)
@@ -177,7 +177,7 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("alert-triangle")))
                     .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#ff4d4f" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#ff4d4f" as? String ?? "transparent"))
                   Text(verbatim: specString("High Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -199,7 +199,7 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("info")))
                     .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
                   Text(verbatim: specString("Medium Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -221,7 +221,7 @@ struct AnalyticsViewView: View {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("check")))
                     .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
                   Text(verbatim: specString("Low Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -255,7 +255,7 @@ struct AnalyticsViewView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.aliceCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Alice's tasks")).font(.subheadline).foregroundStyle(.secondary)
@@ -266,7 +266,7 @@ struct AnalyticsViewView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.bobCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Bob's tasks")).font(.subheadline).foregroundStyle(.secondary)
@@ -277,7 +277,7 @@ struct AnalyticsViewView: View {
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.carolCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Carol's tasks")).font(.subheadline).foregroundStyle(.secondary)

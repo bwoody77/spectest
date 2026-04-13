@@ -32,7 +32,7 @@ case specString("secondary"): return "#334155"
 case specString("ghost"): return "#64748b"
 case specString("destructive"): return "#fff"
 default: return "#fff"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
       }
       .padding(.leading, specPx(({ () -> Any in switch specString(vm.size) {
 case specString("sm"): return "8px"
@@ -76,7 +76,7 @@ case specString("ghost"): return "transparent"
 case specString("destructive"): return "#ef4444"
 default: return "#4f46e5"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

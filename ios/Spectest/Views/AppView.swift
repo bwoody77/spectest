@@ -186,7 +186,7 @@ struct AppView: View {
                 }
                 Image(systemName: specIconName(specString("home")))
                   .font(.system(size: specPx("24px")))
-                  .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+                  .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
                 Text(verbatim: specString("Spec Admin"))
                   .font(.title2.bold())
                   .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
@@ -242,7 +242,7 @@ struct AppView: View {
               }
             }
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
-            .frame(height: CGFloat(6))
+            .specFrameHeight(CGFloat(6))
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
             VStack() {
               VStack() {
@@ -267,7 +267,7 @@ struct AppView: View {
             .background(Color(hex: "var(--spec-surface-raised)"))
             HStack(alignment: .center, ) {
               SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: [["heading": "Overview" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "bar-chart" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Tasks" as Any, "items": [["id": "detail" as Any, "label": "Task Detail" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Data" as Any, "items": [["id": "datagrid" as Any, "label": "Product Catalog" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "People" as Any, "items": [["id": "team" as Any, "label": "Team" as Any, "icon": "user" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Monitoring" as Any, "items": [["id": "activity" as Any, "label": "Activity" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "icon": "bell" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Performance" as Any, "items": [["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "icon": "zap" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Marketing" as Any, "items": [["id": "landing2" as Any, "label": "Landing Page" as Any, "icon": "globe" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Design" as Any, "items": [["id": "themepreview" as Any, "label": "Theme Preview" as Any, "icon": "palette" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Components" as Any, "items": [["id": "charts" as Any, "label": "Charts" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "icon": "smartphone" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Testing" as Any, "items": [["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "icon": "check-circle" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "System" as Any, "items": [["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any])
-              ScrollView([.horizontal, .vertical], showsIndicators: true) {
+              ScrollView(.horizontal, showsIndicators: true) {
               VStack(spacing: CGFloat(20)) {
                 VStack(spacing: CGFloat(20)) {
                   if (vm.showDashboard) as? Bool ?? false {
@@ -453,43 +453,45 @@ struct AppView: View {
                   .frame(maxWidth: .infinity)
                   .padding(CGFloat(12))
                 }
-                ScrollView([.horizontal, .vertical], showsIndicators: true) {
+                ScrollView(.horizontal, showsIndicators: true) {
                 VStack() {
                   LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
                     ForEach(Array(specArr([["value": "gruvbox" as Any, "label": "Gruvbox" as Any, "bg": "#282828" as Any, "fg": "#EBDBB2" as Any, "accent": "#FE8019" as Any, "bdr": "#504945" as Any] as [String: Any], ["value": "shadcn" as Any, "label": "shadcn" as Any, "bg": "#fafafa" as Any, "fg": "#09090b" as Any, "accent": "#18181b" as Any, "bdr": "#e4e4e7" as Any] as [String: Any], ["value": "solarized" as Any, "label": "Solarized" as Any, "bg": "#EEE8D5" as Any, "fg": "#073642" as Any, "accent": "#2AA198" as Any, "bdr": "#93A1A1" as Any] as [String: Any], ["value": "stranger-things" as Any, "label": "Stranger Things" as Any, "bg": "#0C0808" as Any, "fg": "#F0D8D0" as Any, "accent": "#E82020" as Any, "bdr": "#3A1C1C" as Any] as [String: Any], ["value": "cartoon" as Any, "label": "Cartoon" as Any, "bg": "#fdf6ec" as Any, "fg": "#2d3748" as Any, "accent": "#2d6a4f" as Any, "bdr": "#e2d5c1" as Any] as [String: Any], ["value": "geek" as Any, "label": "Geek" as Any, "bg": "#0a0a0a" as Any, "fg": "#00ff41" as Any, "accent": "#00ff41" as Any, "bdr": "#1a3a1a" as Any] as [String: Any], ["value": "nord" as Any, "label": "Nord" as Any, "bg": "#2E3440" as Any, "fg": "#ECEFF4" as Any, "accent": "#88C0D0" as Any, "bdr": "#3B4252" as Any] as [String: Any], ["value": "illustration" as Any, "label": "Illustration" as Any, "bg": "#fff9f0" as Any, "fg": "#1a1a2e" as Any, "accent": "#52c41a" as Any, "bdr": "#e8dfd6" as Any] as [String: Any], ["value": "mtg" as Any, "label": "MTG" as Any, "bg": "#1C1712" as Any, "fg": "#E8DCC8" as Any, "accent": "#D4A836" as Any, "bdr": "#5C4A30" as Any] as [String: Any], ["value": "cyberpunk" as Any, "label": "Cyberpunk" as Any, "bg": "#0D001A" as Any, "fg": "#F0ABFC" as Any, "accent": "#FF2D95" as Any, "bdr": "#2D0050" as Any] as [String: Any], ["value": "pastel" as Any, "label": "Pastel" as Any, "bg": "#F8F6FF" as Any, "fg": "#2D2642" as Any, "accent": "#9B72CF" as Any, "bdr": "#E0D8F0" as Any] as [String: Any], ["value": "newspaper" as Any, "label": "Newspaper" as Any, "bg": "#FFFEF9" as Any, "fg": "#1A1A1A" as Any, "accent": "#8B0000" as Any, "bdr": "#D8D0C4" as Any] as [String: Any], ["value": "high-contrast" as Any, "label": "Hi-Contrast" as Any, "bg": "#FFFFFF" as Any, "fg": "#000000" as Any, "accent": "#0050D8" as Any, "bdr": "#000000" as Any] as [String: Any], ["value": "retro" as Any, "label": "Retro" as Any, "bg": "#0A0800" as Any, "fg": "#FFB000" as Any, "accent": "#FFB000" as Any, "bdr": "#3D2200" as Any] as [String: Any], ["value": "dracula" as Any, "label": "Dracula" as Any, "bg": "#282A36" as Any, "fg": "#F8F8F2" as Any, "accent": "#BD93F9" as Any, "bdr": "#44475A" as Any] as [String: Any], ["value": "sunset" as Any, "label": "Sunset" as Any, "bg": "#FFF8F1" as Any, "fg": "#1C1917" as Any, "accent": "#EA580C" as Any, "bdr": "#FFEDD5" as Any] as [String: Any], ["value": "default" as Any, "label": "Default" as Any, "bg": "#f7f7f8" as Any, "fg": "#202732" as Any, "accent": "#1677ff" as Any, "bdr": "#dce0e5" as Any] as [String: Any], ["value": "dark" as Any, "label": "Dark" as Any, "bg": "#0f172a" as Any, "fg": "#e2e8f0" as Any, "accent": "#818cf8" as Any, "bdr": "#334155" as Any] as [String: Any], ["value": "mui" as Any, "label": "MUI" as Any, "bg": "#ffffff" as Any, "fg": "#212121" as Any, "accent": "#1976d2" as Any, "bdr": "#e0e0e0" as Any] as [String: Any], ["value": "bootstrap" as Any, "label": "Bootstrap" as Any, "bg": "#ffffff" as Any, "fg": "#212529" as Any, "accent": "#0d6efd" as Any, "bdr": "#dee2e6" as Any] as [String: Any], ["value": "glass" as Any, "label": "Glass" as Any, "bg": "rgba(15,23,42,0.85)" as Any, "fg": "#e2e8f0" as Any, "accent": "#a78bfa" as Any, "bdr": "rgba(255,255,255,0.15)" as Any] as [String: Any], ["value": "sakura" as Any, "label": "Sakura" as Any, "bg": "#FFF5F5" as Any, "fg": "#1A1A2E" as Any, "accent": "#E11D48" as Any, "bdr": "#FECDD3" as Any] as [String: Any], ["value": "ocean" as Any, "label": "Ocean" as Any, "bg": "#0C1929" as Any, "fg": "#CBD5E1" as Any, "accent": "#2DD4BF" as Any, "bdr": "#1E3A5F" as Any] as [String: Any], ["value": "lavender" as Any, "label": "Lavender" as Any, "bg": "#F5F3FF" as Any, "fg": "#1E1B4B" as Any, "accent": "#7C3AED" as Any, "bdr": "#DDD6FE" as Any] as [String: Any], ["value": "brutalist" as Any, "label": "Brutalist" as Any, "bg": "#FFFFFF" as Any, "fg": "#000000" as Any, "accent": "#000000" as Any, "bdr": "#000000" as Any] as [String: Any], ["value": "monokai" as Any, "label": "Monokai" as Any, "bg": "#272822" as Any, "fg": "#F8F8F2" as Any, "accent": "#F92672" as Any, "bdr": "#3E3D32" as Any] as [String: Any], ["value": "earth" as Any, "label": "Earth" as Any, "bg": "#F5F0EB" as Any, "fg": "#292524" as Any, "accent": "#B45309" as Any, "bdr": "#D6CFC7" as Any] as [String: Any], ["value": "catppuccin" as Any, "label": "Catppuccin" as Any, "bg": "#1E1E2E" as Any, "fg": "#CDD6F4" as Any, "accent": "#CBA6F7" as Any, "bdr": "#45475A" as Any] as [String: Any], ["value": "synthwave" as Any, "label": "Synthwave" as Any, "bg": "#241B2F" as Any, "fg": "#F0E8FF" as Any, "accent": "#FF7AC6" as Any, "bdr": "#463868" as Any] as [String: Any], ["value": "rose-pine" as Any, "label": "Rosé Pine" as Any, "bg": "#191724" as Any, "fg": "#E0DEF4" as Any, "accent": "#EBBCBA" as Any, "bdr": "#3A3650" as Any] as [String: Any], ["value": "cobalt" as Any, "label": "Cobalt" as Any, "bg": "#15232D" as Any, "fg": "#E1EFFF" as Any, "accent": "#FFC600" as Any, "bdr": "#1E4263" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, theme in
+                      Button(action: { vm.setThemePreset(specGet(theme, "value")) }) {
                       VStack(spacing: CGFloat(4)) {
                         VStack() {
                         }
-                        .frame(height: CGFloat(4))
-                        .background(Color(hex: specGet(theme, "accent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                        .specFrameHeight(CGFloat(4))
+                        .background(Color(hex: specGet(theme, "accent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
                         Text(verbatim: specString("Aa"))
                           .font(.body.bold())
-                          .foregroundStyle(Color(hex: specGet(theme, "fg") as? String ?? "#000"))
+                          .foregroundStyle(Color(hex: specGet(theme, "fg") as? String ?? "transparent"))
                         Text(verbatim: specString(specGet(theme, "label")))
                           .font(.callout.bold())
-                          .foregroundStyle(Color(hex: specGet(theme, "fg") as? String ?? "#000"))
+                          .foregroundStyle(Color(hex: specGet(theme, "fg") as? String ?? "transparent"))
                         HStack(alignment: .center, spacing: CGFloat(4)) {
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
-                          .frame(height: CGFloat(10))
-                          .background(Color(hex: specGet(theme, "fg") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .specFrameHeight(CGFloat(10))
+                          .background(Color(hex: specGet(theme, "fg") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
-                          .frame(height: CGFloat(10))
-                          .background(Color(hex: specGet(theme, "accent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .specFrameHeight(CGFloat(10))
+                          .background(Color(hex: specGet(theme, "accent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                           VStack() {
                           }
                           .frame(width: CGFloat(10))
-                          .frame(height: CGFloat(10))
-                          .background(Color(hex: specGet(theme, "bdr") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+                          .specFrameHeight(CGFloat(10))
+                          .background(Color(hex: specGet(theme, "bdr") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                         }
 
                       }
                       .padding(CGFloat(8))
-                      .background(Color(hex: specGet(theme, "bg") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                      .onTapGesture { vm.setThemePreset(specGet(theme, "value")) }
+                      .background(Color(hex: specGet(theme, "bg") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                      }
+                      .buttonStyle(.plain)
                     }
                   }
 
@@ -510,7 +512,7 @@ struct AppView: View {
                     HStack(alignment: .center, spacing: CGFloat(8)) {
                       Image(systemName: specIconName(specString("palette")))
                         .font(.system(size: specPx("18px")))
-                        .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+                        .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
                       Text(verbatim: specString("Theme Builder"))
                         .font(.headline.bold())
                         .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
@@ -568,7 +570,7 @@ struct AppView: View {
         }
       }
       .background(Color(hex: "none"))
-      .frame(height: specPx(vm.fullHeight))
+      .specFrameHeight(specPx(vm.fullHeight))
       .background(Color(hex: "none"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

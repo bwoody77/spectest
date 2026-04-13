@@ -51,6 +51,7 @@ struct ModalView: View {
                 Text(verbatim: specString(vm.title))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                Button(action: { vm.doClose() }) {
                 HStack(alignment: .center, ) {
                   Text(verbatim: specString("u00D7"))
                     .font(.headline.bold())
@@ -58,13 +59,14 @@ struct ModalView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 .frame(width: CGFloat(32))
-                .frame(height: CGFloat(32))
+                .specFrameHeight(CGFloat(32))
                 .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .onTapGesture { vm.doClose() }
+                }
+                .buttonStyle(.plain)
               }
               .padding(CGFloat(16))
             }
-            ScrollView([.horizontal, .vertical], showsIndicators: true) {
+            ScrollView(.horizontal, showsIndicators: true) {
             VStack() {
               // slot
             }

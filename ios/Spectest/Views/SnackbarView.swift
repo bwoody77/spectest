@@ -42,6 +42,7 @@ struct SnackbarView: View {
               Text(verbatim: specString(vm.message))
                 .font(.callout.bold())
                 .foregroundStyle(Color.white)
+              Button(action: { vm.doAction() }) {
               VStack() {
                 if specNeq(vm.actionLabel, "") {
                   Text(verbatim: specString(vm.actionLabel))
@@ -50,16 +51,19 @@ struct SnackbarView: View {
                 }
               }
 
-              .onTapGesture { vm.doAction() }
+              }
+              .buttonStyle(.plain)
+              Button(action: { vm.doClose() }) {
               HStack(alignment: .center, ) {
                 Text(verbatim: specString("u00D7"))
                   .foregroundStyle(Color(.sRGB, red: 1.0000, green: 1.0000, blue: 1.0000, opacity: 0.7))
               }
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
               .frame(width: CGFloat(24))
-              .frame(height: CGFloat(24))
+              .specFrameHeight(CGFloat(24))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-              .onTapGesture { vm.doClose() }
+              }
+              .buttonStyle(.plain)
             }
             .padding(.leading, CGFloat(16))
             .padding(.trailing, CGFloat(16))

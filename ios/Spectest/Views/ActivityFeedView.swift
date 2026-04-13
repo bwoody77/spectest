@@ -33,7 +33,7 @@ struct ActivityFeedView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("clock")))
           .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Activity Feed"))
           .font(.title2.bold())
         Spacer(minLength: 0)

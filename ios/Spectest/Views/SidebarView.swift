@@ -24,6 +24,7 @@ struct SidebarView: View {
       VStack() {
         HStack(alignment: .center, ) {
           if specEq(vm.collapsed, true) {
+            Button(action: { /* event callback */ }) {
             HStack(alignment: .center, ) {
               Text(verbatim: specString("u00BB"))
                 .font(.body.bold())
@@ -31,14 +32,16 @@ struct SidebarView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .frame(width: CGFloat(32))
-            .frame(height: CGFloat(32))
+            .specFrameHeight(CGFloat(32))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { /* event callback */ }
+            }
+            .buttonStyle(.plain)
           }
         }
         .padding(CGFloat(8))
         HStack(alignment: .center, ) {
           if specEq(vm.collapsed, false) {
+            Button(action: { /* event callback */ }) {
             HStack(alignment: .center, ) {
               Text(verbatim: specString("u00AB"))
                 .font(.body.bold())
@@ -46,13 +49,14 @@ struct SidebarView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             .frame(width: CGFloat(32))
-            .frame(height: CGFloat(32))
+            .specFrameHeight(CGFloat(32))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            .onTapGesture { /* event callback */ }
+            }
+            .buttonStyle(.plain)
           }
         }
         .padding(CGFloat(8))
-        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: true) {
         VStack(spacing: CGFloat(4)) {
           ForEach(Array(specArr(vm.sections).enumerated()), id: \.offset) { _idx, section in
             VStack() {
@@ -65,27 +69,29 @@ struct SidebarView: View {
             .padding(CGFloat(8))
             .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
             ForEach(Array(specArr(specGet(section, "items")).enumerated()), id: \.offset) { _idx, item in
+              Button(action: { /* event callback */ }) {
               HStack(alignment: .center, spacing: CGFloat(8)) {
                 HStack(alignment: .center, ) {
                   Image(systemName: specIconName(specString((specGet(item, "icon") != nil ? specGet(item, "icon") : "circle"))))
                     .font(.system(size: specPx(18)))
-                    .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#1677ff" : "#496183") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#1677ff" : "#496183") as? String ?? "transparent"))
                 }
                 .frame(width: CGFloat(24))
-                .frame(height: CGFloat(24))
+                .specFrameHeight(CGFloat(24))
                 .frame(minWidth: CGFloat(24))
                 VStack() {
                   if specEq(vm.collapsed, false) {
                     Text(verbatim: specString(specGet(item, "label")))
                       .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#202732" : "#496183") as? String ?? "#000"))
+                      .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#202732" : "#496183") as? String ?? "transparent"))
                   }
                 }
                 .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
               }
               .padding(CGFloat(8))
-              .background(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#ffffff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { /* event callback */ }
+              .background(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#ffffff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              }
+              .buttonStyle(.plain)
             }
           }
         }

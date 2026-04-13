@@ -32,7 +32,7 @@ struct NotificationsPanelView: View {
       HStack(alignment: .center, spacing: CGFloat(12)) {
         Image(systemName: specIconName(specString("bell")))
           .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
         Text(verbatim: specString("Notifications"))
           .font(.title2.bold())
         VStack() {
@@ -134,7 +134,7 @@ case specString("success"): return "#52c41a"
 case specString("error"): return "#ff4d4f"
 case specString("warning"): return "#faad14"
 default: return "#1677ff"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
           VStack(spacing: CGFloat(4)) {
             Text(verbatim: specString(specGet(notif, "title")))
               .font(.body.bold())
@@ -153,7 +153,7 @@ default: return "#1677ff"
         }
         .frame(maxWidth: .infinity)
         .padding(CGFloat(12))
-        .background(Color(hex: ((specGet(notif, "read")) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(Color(hex: ((specGet(notif, "read")) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       VStack() {
         if (vm.hasNoNotifications) as? Bool ?? false {

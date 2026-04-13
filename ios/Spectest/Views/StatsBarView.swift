@@ -26,7 +26,7 @@ struct StatsBarView: View {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("list")))
             .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
           Text(verbatim: specString("Total Tasks"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -45,7 +45,7 @@ struct StatsBarView: View {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
             .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
           Text(verbatim: specString("Completed"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -66,7 +66,7 @@ struct StatsBarView: View {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
             .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
           Text(verbatim: specString("In Progress"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -87,7 +87,7 @@ struct StatsBarView: View {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
             .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "transparent"))
           Text(verbatim: specString("Todo"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))

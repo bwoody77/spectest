@@ -18,18 +18,20 @@ struct TabsView: View {
       VStack() {
         HStack(alignment: .center, spacing: CGFloat(0)) {
           ForEach(Array(specArr(vm.tabs).enumerated()), id: \.offset) { _idx, tab in
+            Button(action: { /* event callback */ }) {
             VStack() {
               Text(verbatim: specString(specGet(tab, "label")))
                 .font(.body.bold())
                 .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
 case specString(true): return "#1677ff"
 default: return "#496183"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
             }
             .padding(CGFloat(12))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
-            .onTapGesture { /* event callback */ }
+            }
+            .buttonStyle(.plain)
           }
           VStack() {
           }

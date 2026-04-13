@@ -127,13 +127,15 @@ struct MultiSelectView: View {
                       Text(verbatim: specString(specGet(opt, "label")))
                         .font(.body.bold())
                         .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                      Button(action: { vm.removeTag(specGet(opt, "value")) }) {
                       VStack() {
                         Text(verbatim: specString("u00D7"))
                           .font(.body.bold())
                           .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                       }
 
-                      .onTapGesture { vm.removeTag(specGet(opt, "value")) }
+                      }
+                      .buttonStyle(.plain)
                     }
                     .padding(.leading, CGFloat(8))
                     .padding(.trailing, CGFloat(4))
@@ -150,6 +152,7 @@ struct MultiSelectView: View {
                 }
               }
 
+              Button(action: { vm.toggleOpen() }) {
               HStack(alignment: .center, ) {
                 VStack() {
                   if specEq(vm.hasSelections, false) {
@@ -166,7 +169,8 @@ struct MultiSelectView: View {
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
-              .onTapGesture { vm.toggleOpen() }
+              }
+              .buttonStyle(.plain)
             }
             .padding(CGFloat(8))
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
@@ -198,25 +202,30 @@ struct MultiSelectView: View {
                 .padding(CGFloat(8))
               }
               HStack(alignment: .center, spacing: CGFloat(8)) {
+                Button(action: { vm.selectAll() }) {
                 VStack() {
                   Text(verbatim: specString("Select all"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                 }
 
-                .onTapGesture { vm.selectAll() }
+                }
+                .buttonStyle(.plain)
+                Button(action: { vm.clearAll() }) {
                 VStack() {
                   Text(verbatim: specString("Clear all"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                 }
 
-                .onTapGesture { vm.clearAll() }
+                }
+                .buttonStyle(.plain)
               }
               .padding(CGFloat(8))
               VStack() {
                 if (vm.hasOptions) as? Bool ?? false {
                   ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                    Button(action: { vm.toggleOption(specGet(option, "value")) }) {
                     HStack(alignment: .center, spacing: CGFloat(8)) {
                       Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
@@ -226,7 +235,7 @@ default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u271
                         .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                       Text(verbatim: specString(specGet(option, "label")))
                         .font(.body.bold())
-                        .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                        .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
                     }
                     .padding(CGFloat(8))
                     .opacity(CGFloat(0))
@@ -236,8 +245,9 @@ default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, 
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                    .onTapGesture { vm.toggleOption(specGet(option, "value")) }
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    }
+                    .buttonStyle(.plain)
                   }
                 }
               }
@@ -271,26 +281,31 @@ default: return "transparent"
           }
           .padding(CGFloat(8))
           HStack(alignment: .center, spacing: CGFloat(8)) {
+            Button(action: { vm.selectAll() }) {
             VStack() {
               Text(verbatim: specString("Select all"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
 
-            .onTapGesture { vm.selectAll() }
+            }
+            .buttonStyle(.plain)
+            Button(action: { vm.clearAll() }) {
             VStack() {
               Text(verbatim: specString("Clear all"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
 
-            .onTapGesture { vm.clearAll() }
+            }
+            .buttonStyle(.plain)
           }
           .padding(CGFloat(8))
-          ScrollView([.horizontal, .vertical], showsIndicators: true) {
+          ScrollView(.horizontal, showsIndicators: true) {
           VStack() {
             if (vm.hasOptions) as? Bool ?? false {
               ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                Button(action: { vm.toggleOption(specGet(option, "value")) }) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
@@ -300,7 +315,7 @@ default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u271
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                   Text(verbatim: specString(specGet(option, "label")))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
                 }
                 .padding(CGFloat(8))
                 .opacity(CGFloat(0))
@@ -310,8 +325,9 @@ default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, 
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                .onTapGesture { vm.toggleOption(specGet(option, "value")) }
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                }
+                .buttonStyle(.plain)
               }
             }
           }

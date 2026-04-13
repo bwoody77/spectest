@@ -63,7 +63,7 @@ struct MobileDemoView: View {
         .padding(.top, CGFloat(0))
         .background(ThemeManager.shared.color("semantic.surface"))
         .background(ThemeManager.shared.color("semantic.surface"))
-        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: true) {
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Swipe Zone"))
@@ -79,7 +79,7 @@ struct MobileDemoView: View {
             Text(verbatim: specString("Scroll Snap Carousel"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            ScrollView([.horizontal, .vertical], showsIndicators: true) {
+            ScrollView(.horizontal, showsIndicators: true) {
             HStack(alignment: .center, spacing: CGFloat(16)) {
               ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
                 VStack() {
@@ -104,6 +104,7 @@ struct MobileDemoView: View {
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             HStack(alignment: .center, spacing: CGFloat(8)) {
+              Button(action: { vm.openSheet() }) {
               VStack() {
                 Text(verbatim: specString("Bottom Sheet"))
                   .font(.body)
@@ -114,7 +115,9 @@ struct MobileDemoView: View {
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.openSheet() }
+              }
+              .buttonStyle(.plain)
+              Button(action: { vm.openActionSheet() }) {
               VStack() {
                 Text(verbatim: specString("Action Sheet"))
                   .font(.body)
@@ -125,7 +128,9 @@ struct MobileDemoView: View {
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.openActionSheet() }
+              }
+              .buttonStyle(.plain)
+              Button(action: { vm.showSnackbar() }) {
               VStack() {
                 Text(verbatim: specString("Snackbar"))
                   .font(.body)
@@ -136,7 +141,8 @@ struct MobileDemoView: View {
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.showSnackbar() }
+              }
+              .buttonStyle(.plain)
             }
 
           }

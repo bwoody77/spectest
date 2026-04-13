@@ -21,11 +21,13 @@ struct PopoverView: View {
   var body: some View {
     VStack() {
       VStack() {
+        Button(action: { vm.toggle() }) {
         VStack() {
           // slot
         }
 
-        .onTapGesture { vm.toggle() }
+        }
+        .buttonStyle(.plain)
       }
 
       .overlay {

@@ -34,20 +34,24 @@ struct DragDemoView: View {
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
+        Button(action: { vm.setActiveDemo("sortable") }) {
         VStack() {
           Text(verbatim: specString("Sortable List"))
-            .foregroundStyle(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setActiveDemo("sortable") }
+        .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setActiveDemo("kanban") }) {
         VStack() {
           Text(verbatim: specString("Kanban Board"))
-            .foregroundStyle(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setActiveDemo("kanban") }
+        .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
       }
 
       VStack(spacing: CGFloat(16)) {
@@ -130,7 +134,7 @@ struct DragDemoView: View {
           }
 
         }
-        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: true) {
         VStack() {
           KanbanBoardView(columns: vm.kanbanColumns, columnWidth: "220px", showCount: true)
         }

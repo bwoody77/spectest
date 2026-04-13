@@ -40,7 +40,7 @@ case specString("success"): return "#16a34a"
 case specString("error"): return "#dc2626"
 case specString("warning"): return "#d97706"
 default: return "#2563eb"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
         Text(verbatim: specString(vm.message))
           .font(.body.bold())
           .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.severity) {
@@ -48,7 +48,8 @@ case specString("success"): return "#166534"
 case specString("error"): return "#991b1b"
 case specString("warning"): return "#92400e"
 default: return "#1e40af"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
+        Button(action: { /* event callback */ }) {
         HStack(alignment: .center, ) {
           Text(verbatim: specString("✕"))
             .font(.body.bold())
@@ -57,7 +58,8 @@ default: return "#1e40af"
         .padding(CGFloat(8))
         .frame(minWidth: CGFloat(24))
         .frame(minHeight: CGFloat(24))
-        .onTapGesture { /* event callback */ }
+        }
+        .buttonStyle(.plain)
       }
       .padding(CGFloat(12))
       .frame(minWidth: CGFloat(300))
@@ -66,7 +68,7 @@ case specString("success"): return "#f0fdf4"
 case specString("error"): return "#fef2f2"
 case specString("warning"): return "#fffbeb"
 default: return "#eff6ff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

@@ -99,14 +99,14 @@ struct BottomSheetView: View {
                   }
                   .opacity(CGFloat(0.4))
                   .frame(width: CGFloat(36))
-                  .frame(height: CGFloat(4))
+                  .specFrameHeight(CGFloat(4))
                   .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
                 }
               }
               .padding(.top, CGFloat(8))
               .padding(.bottom, CGFloat(8))
             }
-            ScrollView([.horizontal, .vertical], showsIndicators: true) {
+            ScrollView(.horizontal, showsIndicators: true) {
             VStack() {
               // slot
             }

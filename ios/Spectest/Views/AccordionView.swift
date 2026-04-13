@@ -29,6 +29,7 @@ struct AccordionView: View {
       VStack() {
         ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
           VStack() {
+            Button(action: { vm.toggle(specGet(item, "id")) }) {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Text(verbatim: specString(specGet(item, "title")))
                 .font(.body.bold())
@@ -43,7 +44,8 @@ default: return "+"
             .padding(CGFloat(12))
             .background(ThemeManager.shared.color("semantic.surface"))
             .background(ThemeManager.shared.color("semantic.surface"))
-            .onTapGesture { vm.toggle(specGet(item, "id")) }
+            }
+            .buttonStyle(.plain)
             VStack() {
               VStack() {
                 Text(verbatim: specString(specGet(item, "content")))

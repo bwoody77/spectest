@@ -20,7 +20,7 @@ struct TimelineView: View {
               VStack() {
               }
               .frame(width: CGFloat(12))
-              .frame(height: CGFloat(12))
+              .specFrameHeight(CGFloat(12))
               .frame(minWidth: CGFloat(12))
               .frame(minHeight: CGFloat(12))
               .background(Color(hex: ({ () -> Any in switch specString(specGet(item, "status")) {
@@ -28,7 +28,7 @@ case specString("completed"): return "#22c55e"
 case specString("active"): return "#3b82f6"
 case specString("error"): return "#ef4444"
 default: return "#9ca3af"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
               VStack() {
                 if specNeq(index, (specDouble(specLength(vm.items)) - specDouble(1))) {
                 }
@@ -38,7 +38,7 @@ case specString("completed"): return "#22c55e"
 case specString("active"): return "#3b82f6"
 case specString("error"): return "#ef4444"
 default: return "#d1d5db"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
               .frame(width: CGFloat(2))
@@ -49,7 +49,7 @@ case specString("completed"): return "#22c55e"
 case specString("active"): return "#3b82f6"
 case specString("error"): return "#ef4444"
 default: return "#d1d5db"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
               .frame(maxWidth: .infinity)
             }
             .frame(width: CGFloat(24))

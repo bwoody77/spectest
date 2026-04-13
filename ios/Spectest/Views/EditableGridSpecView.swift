@@ -47,7 +47,7 @@ final class EditableGridSpecViewModel {
   var hasErrors: Any { (specDouble(specLength(validationErrors)) > specDouble(0)) }
   var changeset: Any { buildChangesetFromEdits(editedValues, dirtyCells, processedRows, rowIdField) }
   var isSelectEditing: Any { ((specEq(editing, true) && activeColDef != nil) && specEq(specGet(activeColDef, "type"), "select")) }
-  var selectOptions: Any { (((isSelectEditing) as? Bool ?? false && specGet(activeColDef, "options") != nil) ? specGet(activeColDef, "options") : [] as [Any]) }
+  var selectOptions: Any { guard (isSelectEditing) as? Bool ?? false, let raw = specGet(activeColDef, "options") else { return [] as [Any] }; return specArr(raw).map { ($0 is [String:Any]) ? $0 : (["label": specString($0) as Any, "value": specString($0) as Any] as [String:Any] as Any) } }
   func toggleSortCol(_ colKey: Any) {
     sortState = toggleSortState(sortState, colKey)
     /* event callback */
@@ -305,10 +305,11 @@ struct EditableGridSpecView: View {
     VStack() {
       VStack() {
         VStack() {
-          ScrollView([.horizontal, .vertical], showsIndicators: true) {
+          ScrollView(.horizontal, showsIndicators: true) {
           VStack() {
             HStack(alignment: .center, ) {
               ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { _idx, col in
+                Button(action: { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSort(specGet(col, "key")) } }) {
                 HStack(alignment: .center, spacing: CGFloat(4)) {
                   Text(verbatim: ({ () -> String in
           let _h0: Any? = specGet(col, "header")
@@ -334,77 +335,21 @@ struct EditableGridSpecView: View {
                 .frame(minWidth: CGFloat(0))
                 .frame(minWidth: CGFloat(100))
                 .frame(maxWidth: .infinity)
-                .onTapGesture { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSort(specGet(col, "key")) } }
+                }
+                .buttonStyle(.plain)
               }
             }
             .background(ThemeManager.shared.color("semantic.surface"))
             .background(ThemeManager.shared.color("semantic.surface"))
             ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center, spacing: 0) {
                 ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { colIdx, col in
-                  VStack() {
-                    VStack() {
-                      if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specEq(specGet(col, "type"), "select")) {
-                        Text(verbatim: specString(vm.editValue))
-                          .font(.callout.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                      }
-                    }
-
-                    VStack() {
-                      if ((specNeq(rowIdx, vm.activeRow) || specNeq(colIdx, vm.activeCol)) || specEq(vm.editing, false)) {
-                        Text(verbatim: ({ () -> String in
-          let _h0: Any? = specFirst(vm.editedValues, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) })
-          if _h0 != nil { return specString(specGet(specFirst(vm.editedValues, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }), "value")) }
-          let _h1: Any? = specGet(row, specGet(col, "key"))
-          if _h1 != nil { return specString(specAdd(specGet(row, specGet(col, "key")), "")) }
-          return specString("")
-        })())
-                          .font(.callout.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                      }
-                    }
-
-                  }
-                  .padding(CGFloat(8))
-                  .background(Color(hex: (specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) ? "rgba(245,158,11,0.08)" : "transparent") as? String ?? "#000"))
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
-                  .frame(minWidth: CGFloat(100))
-                  .background(Color(hex: (specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) ? "rgba(245,158,11,0.08)" : "transparent") as? String ?? "#000"))
-                  .frame(maxWidth: .infinity)
-                  .onTapGesture { vm.clickCell(rowIdx, colIdx) }
-                  .overlay {
-                    if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specNeq(specGet(col, "type"), "select")) {
-                      ZStack {
-                        if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specNeq(specGet(col, "type"), "select")) {
-                          TextField("", text: Binding(get: { vm.editValue as? String ?? "" }, set: { vm.editValue = $0 }))
-                        }
-                      }
-                    }
-                  }
-                  .overlay {
-                    if specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) {
-                      ZStack {
-                        if specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) {
-                        }
-                      }
-                    }
-                  }
-                  .overlay {
-                    if specFirst(vm.validationErrors, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }) != nil {
-                      ZStack {
-                        if specFirst(vm.validationErrors, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }) != nil {
-                        }
-                      }
-                    }
-                  }
+                  SpecEditableCell(vm: vm, row: row, col: col, rowIdx: rowIdx, colIdx: colIdx)
                 }
               }
-              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "#000"))
-              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "#000"))
+              Divider()
             }
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               if specEq(specLength(vm.processedRows), 0) {
                 Text(verbatim: specString("No rows"))
                   .font(.body.bold())
@@ -420,7 +365,7 @@ struct EditableGridSpecView: View {
         .frame(maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
-      .frame(height: specPx((specNeq(vm.height, "") ? vm.height : "auto")))
+      .specFrameHeight(specPx((specNeq(vm.height, "") ? vm.height : "auto")))
       .overlay {
         if (vm.isSelectEditing) as? Bool ?? false {
           ZStack {
@@ -428,19 +373,21 @@ struct EditableGridSpecView: View {
               .ignoresSafeArea()
               .onTapGesture { vm.cancelEdit() }
             if (vm.isSelectEditing) as? Bool ?? false {
-              ScrollView([.horizontal, .vertical], showsIndicators: true) {
+              ScrollView(.horizontal, showsIndicators: true) {
               VStack() {
                 ForEach(Array(specArr(vm.selectOptions).enumerated()), id: \.offset) { _idx, opt in
+                  Button(action: { vm.selectOption(specGet(opt, "value")) }) {
                   VStack() {
                     Text(verbatim: specString(specGet(opt, "label")))
                       .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#f7f7f8" : "#202732") as? String ?? "#000"))
+                      .foregroundStyle(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#f7f7f8" : "#202732") as? String ?? "transparent"))
                   }
                   .padding(CGFloat(8))
                   .padding(.leading, CGFloat(12))
                   .padding(.trailing, CGFloat(12))
-                  .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                  .onTapGesture { vm.selectOption(specGet(opt, "value")) }
+                  .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                  }
+                  .buttonStyle(.plain)
                 }
               }
               }

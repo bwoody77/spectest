@@ -78,10 +78,11 @@ struct SelectView: View {
           }
         }
 
+        Button(action: { vm.toggleOpen() }) {
         HStack(alignment: .center, ) {
           Text(verbatim: specString(vm.displayText))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "transparent"))
           Text(verbatim: specString("u25BE"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
@@ -90,7 +91,8 @@ struct SelectView: View {
         .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
         .frame(minHeight: CGFloat(40))
         .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.toggleOpen() }
+        }
+        .buttonStyle(.plain)
       }
 
       .overlay {
@@ -118,10 +120,11 @@ struct SelectView: View {
             VStack() {
               if (vm.hasOptions) as? Bool ?? false {
                 ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                  Button(action: { vm.selectOption(specGet(option, "value")) }) {
                   VStack() {
                     Text(verbatim: specString(specGet(option, "label")))
                       .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "#000"))
+                      .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "transparent"))
                   }
                   .padding(CGFloat(8))
                   .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
@@ -130,8 +133,9 @@ default: return ({ () -> Any in switch specString(specEq(specGet(option, "value"
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                  .onTapGesture { vm.selectOption(specGet(option, "value")) }
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                  }
+                  .buttonStyle(.plain)
                 }
               }
             }

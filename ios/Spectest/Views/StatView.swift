@@ -40,7 +40,7 @@ default: return "→"
 case specString("up"): return "#22c55e"
 case specString("down"): return "#ef4444"
 default: return "#92a2b9"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
           }
           Text(verbatim: specString(vm.trendValue))
             .font(.body.bold())
@@ -48,7 +48,7 @@ default: return "#92a2b9"
 case specString("up"): return "#22c55e"
 case specString("down"): return "#ef4444"
 default: return "#92a2b9"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
         }
 
         Text(verbatim: specString(vm.helpText))

@@ -34,41 +34,51 @@ struct ChartDemoView: View {
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
+        Button(action: { vm.setChart("line") }) {
         VStack() {
           Text(verbatim: specString("Line"))
-            .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setChart("line") }
+        .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setChart("bar") }) {
         VStack() {
           Text(verbatim: specString("Bar"))
-            .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setChart("bar") }
+        .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setChart("area") }) {
         VStack() {
           Text(verbatim: specString("Area"))
-            .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setChart("area") }
+        .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setChart("pie") }) {
         VStack() {
           Text(verbatim: specString("Pie"))
-            .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setChart("pie") }
+        .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setChart("donut") }) {
         VStack() {
           Text(verbatim: specString("Donut"))
-            .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setChart("donut") }
+        .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
       }
 
       VStack() {
@@ -79,14 +89,16 @@ struct ChartDemoView: View {
                 Text(verbatim: specString("Monthly Revenue"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                Button(action: { vm.toggleGrid() }) {
                 VStack() {
                   Text(verbatim: specString("Grid"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                .onTapGesture { vm.toggleGrid() }
+                .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                }
+                .buttonStyle(.plain)
               }
 
               SpecChartView(
@@ -121,14 +133,16 @@ struct ChartDemoView: View {
                 Text(verbatim: specString("Sales by Region"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                Button(action: { vm.toggleValues() }) {
                 VStack() {
                   Text(verbatim: specString("Values"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                .onTapGesture { vm.toggleValues() }
+                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                }
+                .buttonStyle(.plain)
               }
 
               SpecChartView(
@@ -194,14 +208,16 @@ struct ChartDemoView: View {
                 Text(verbatim: specString("Revenue by Category"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                Button(action: { vm.toggleValues() }) {
                 VStack() {
                   Text(verbatim: specString("Values"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
                 .padding(CGFloat(0))
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-                .onTapGesture { vm.toggleValues() }
+                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                }
+                .buttonStyle(.plain)
               }
 
               SpecChartView(

@@ -24,6 +24,9 @@ struct StepperView: View {
         if specEq(vm.orientation, "horizontal") {
           ForEach(Array(specArr(vm.steps).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, ) {
+              Button(action: { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
+  /* event callback */
+} }) {
               VStack(spacing: CGFloat(4)) {
                 HStack(alignment: .center, ) {
                   Text(verbatim: specString(({ () -> Any in switch specString(true) {
@@ -34,38 +37,37 @@ default: return "\(specString(specAdd(i, 1)))"
                     .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) <= specDouble(vm.activeStep))): return "#ffffff"
 default: return "#496183"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
                 }
                 .frame(width: CGFloat(32))
-                .frame(height: CGFloat(32))
+                .specFrameHeight(CGFloat(32))
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 case specString(specEq(i, vm.activeStep)): return "#1677ff"
 default: return "#ffffff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
                 Text(verbatim: specString(specGet(step, "label")))
                   .font(.body.bold())
                   .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
 case specString(specEq(i, vm.activeStep)): return "#202732"
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
               }
 
-              .onTapGesture { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
-  /* event callback */
-} }
+              }
+              .buttonStyle(.plain)
               VStack() {
                 if (specDouble(i) < specDouble((specDouble(vm.stepCount) - specDouble(1)))) {
                 }
               }
-              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
               .frame(minHeight: CGFloat(0))
               .frame(minWidth: CGFloat(0))
-              .frame(height: CGFloat(2))
+              .specFrameHeight(CGFloat(2))
               .frame(minHeight: CGFloat(2))
-              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+              .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
               .frame(maxWidth: .infinity)
             }
             .frame(minHeight: CGFloat(0))
@@ -80,6 +82,9 @@ default: return "#92a2b9"
           ForEach(Array(specArr(vm.steps).enumerated()), id: \.offset) { i, step in
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
+                Button(action: { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
+  /* event callback */
+} }) {
                 HStack(alignment: .center, ) {
                   Text(verbatim: specString(({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
@@ -89,29 +94,28 @@ default: return "\(specString(specAdd(i, 1)))"
                     .foregroundStyle(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) <= specDouble(vm.activeStep))): return "#ffffff"
 default: return "#496183"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
                 }
                 .frame(width: CGFloat(32))
-                .frame(height: CGFloat(32))
+                .specFrameHeight(CGFloat(32))
                 .frame(minWidth: CGFloat(32))
                 .background(Color(hex: ({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 case specString(specEq(i, vm.activeStep)): return "#1677ff"
 default: return "#ffffff"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                .onTapGesture { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
-  /* event callback */
-} }
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+                }
+                .buttonStyle(.plain)
                 VStack() {
                   if (specDouble(i) < specDouble((specDouble(vm.stepCount) - specDouble(1)))) {
                   }
                 }
-                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
                 .frame(minHeight: CGFloat(0))
                 .frame(minWidth: CGFloat(0))
                 .frame(width: CGFloat(2))
                 .frame(minHeight: CGFloat(24))
-                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "#000"))
+                .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
                 .frame(maxWidth: .infinity)
               }
               .frame(width: CGFloat(32))
@@ -123,7 +127,7 @@ default: return "#ffffff"
 case specString(specEq(i, vm.activeStep)): return "#202732"
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "#22c55e"
 default: return "#92a2b9"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
                 VStack() {
                   if specGet(step, "description") != nil {
                     Text(verbatim: specString(specGet(step, "description")))

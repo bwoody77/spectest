@@ -30,6 +30,9 @@ struct PaginationView: View {
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(4)) {
+          Button(action: { if (vm.hasPrev) as? Bool ?? false {
+  /* event callback */
+} }) {
           HStack(alignment: .center, ) {
             Text(verbatim: specString("u2039"))
               .font(.body.bold())
@@ -41,19 +44,20 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { if (vm.hasPrev) as? Bool ?? false {
-  /* event callback */
-} }
+          }
+          .buttonStyle(.plain)
+          Button(action: { /* event callback */ }) {
           HStack(alignment: .center, ) {
             Text(verbatim: specString("1"))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: (specEq(vm.currentPage, 1) ? "#ffffff" : "#496183") as? String ?? "#000"))
+              .foregroundStyle(Color(hex: (specEq(vm.currentPage, 1) ? "#ffffff" : "#496183") as? String ?? "transparent"))
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: (specEq(vm.currentPage, 1) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { /* event callback */ }
+          .background(Color(hex: (specEq(vm.currentPage, 1) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          }
+          .buttonStyle(.plain)
           HStack(alignment: .center, ) {
             if ((specDouble(vm.currentPage) > specDouble(3)) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
@@ -63,6 +67,7 @@ struct PaginationView: View {
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
+          Button(action: { /* event callback */ }) {
           HStack(alignment: .center, ) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble((specDouble(vm.currentPage) - specDouble(1))) > specDouble(1))) {
               Text(verbatim: specString("\(specString((specDouble(vm.currentPage) - specDouble(1))))"))
@@ -74,7 +79,8 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { /* event callback */ }
+          }
+          .buttonStyle(.plain)
           HStack(alignment: .center, ) {
             if ((specDouble(vm.currentPage) > specDouble(1)) && (specDouble(vm.currentPage) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(vm.currentPage))"))
@@ -86,6 +92,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          Button(action: { /* event callback */ }) {
           HStack(alignment: .center, ) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble(specAdd(vm.currentPage, 1)) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(specAdd(vm.currentPage, 1)))"))
@@ -97,7 +104,8 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { /* event callback */ }
+          }
+          .buttonStyle(.plain)
           HStack(alignment: .center, ) {
             if ((specDouble(vm.currentPage) < specDouble((specDouble(vm.totalPages) - specDouble(2)))) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
@@ -107,18 +115,23 @@ struct PaginationView: View {
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
+          Button(action: { /* event callback */ }) {
           HStack(alignment: .center, ) {
             if (specDouble(vm.totalPages) > specDouble(1)) {
               Text(verbatim: specString("\(specString(vm.totalPages))"))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#ffffff" : "#496183") as? String ?? "#000"))
+                .foregroundStyle(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#ffffff" : "#496183") as? String ?? "transparent"))
             }
           }
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { /* event callback */ }
+          .background(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          }
+          .buttonStyle(.plain)
+          Button(action: { if (vm.hasNext) as? Bool ?? false {
+  /* event callback */
+} }) {
           HStack(alignment: .center, ) {
             Text(verbatim: specString("u203A"))
               .font(.body.bold())
@@ -130,9 +143,8 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .onTapGesture { if (vm.hasNext) as? Bool ?? false {
-  /* event callback */
-} }
+          }
+          .buttonStyle(.plain)
         }
 
       }

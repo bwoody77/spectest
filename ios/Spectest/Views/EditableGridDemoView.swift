@@ -54,7 +54,7 @@ struct EditableGridDemoView: View {
           HStack(alignment: .center, spacing: CGFloat(12)) {
             Image(systemName: specIconName(specString("edit")))
               .font(.system(size: specPx("24px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
             Text(verbatim: specString("Editable Inventory"))
               .font(.title2.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -108,7 +108,7 @@ struct EditableGridDemoView: View {
         if (vm.showSaved) as? Bool ?? false {
           Image(systemName: specIconName(specString("check")))
             .font(.system(size: specPx("20px")))
-            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
           Text(verbatim: specString("Changes saved successfully!"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
@@ -151,7 +151,7 @@ struct EditableGridDemoView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("edit")))
                 .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
               Text(verbatim: specString("Click any editable cell to start editing"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -162,7 +162,7 @@ struct EditableGridDemoView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("arrow-right")))
                 .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
               Text(verbatim: specString("Use Tab/Arrow keys to navigate between cells"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -173,7 +173,7 @@ struct EditableGridDemoView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("check")))
                 .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
               Text(verbatim: specString("Modified cells show a yellow indicator"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -184,7 +184,7 @@ struct EditableGridDemoView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("arrow-left")))
                 .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
               Text(verbatim: specString("Ctrl+Z to undo, Ctrl+Y to redo"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -195,7 +195,7 @@ struct EditableGridDemoView: View {
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("clipboard")))
                 .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "#000"))
+                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
               Text(verbatim: specString("Ctrl+C to copy, Ctrl+V to paste, Ctrl+D to fill down"))
                 .font(.callout.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))

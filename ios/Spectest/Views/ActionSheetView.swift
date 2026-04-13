@@ -54,20 +54,23 @@ struct ActionSheetView: View {
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                 ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
+                  Button(action: { vm.selectAction(specGet(action, "id")) }) {
                   HStack(alignment: .center, ) {
                     Text(verbatim: specString(specGet(action, "label")))
                       .font(.body.bold())
                       .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
 case specString(true): return "rgb(239, 68, 68)"
 default: return "#1677ff"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
                   }
                   .padding(CGFloat(12))
-                  .onTapGesture { vm.selectAction(specGet(action, "id")) }
+                  }
+                  .buttonStyle(.plain)
                 }
               }
               .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
             }
+            Button(action: { vm.doClose() }) {
             HStack(alignment: .center, ) {
               Text(verbatim: specString("Cancel"))
                 .font(.body.bold())
@@ -75,7 +78,8 @@ default: return "#1677ff"
             }
             .padding(CGFloat(12))
             .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
-            .onTapGesture { vm.doClose() }
+            }
+            .buttonStyle(.plain)
           }
         }
       }

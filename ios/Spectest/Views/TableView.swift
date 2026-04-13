@@ -17,7 +17,7 @@ struct TableView: View {
   init(columns: Any? = nil, rows: Any? = nil, striped: Any = false) { self._vm = State(initialValue: TableViewModel()); self.columns = columns; self.rows = rows; self.striped = striped }
   var body: some View {
     VStack() {
-      ScrollView([.horizontal, .vertical], showsIndicators: true) {
+      ScrollView(.horizontal, showsIndicators: true) {
       VStack() {
         HStack(alignment: .center, ) {
           ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
@@ -57,14 +57,14 @@ case specString(0): return "transparent"
 default: return "#ffffff"
 } })()
 default: return "transparent"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
           .background(Color(hex: ({ () -> Any in switch specString(vm.striped) {
 case specString(true): return ({ () -> Any in switch specString((specDouble(rowIndex) .truncatingRemainder(dividingBy: specDouble(2)))) {
 case specString(0): return "transparent"
 default: return "#ffffff"
 } })()
 default: return "transparent"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
         }
       }
       }

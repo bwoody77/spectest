@@ -31,6 +31,7 @@ struct BreadcrumbView: View {
             }
           }
 
+          Button(action: { vm.expand() }) {
           VStack() {
             if (((((!((vm.expanded) as? Bool ?? false))) as? Bool ?? false && (specDouble(vm.maxVisible) > specDouble(0))) && (specDouble(specLength(vm.items)) > specDouble(vm.maxVisible))) && specEq(index, 1)) {
               Text(verbatim: specString("u2026"))
@@ -39,7 +40,9 @@ struct BreadcrumbView: View {
             }
           }
 
-          .onTapGesture { vm.expand() }
+          }
+          .buttonStyle(.plain)
+          Button(action: { /* event callback */ }) {
           VStack() {
             if (specNeq(index, (specDouble(specLength(vm.items)) - specDouble(1))) && (((((vm.expanded) as? Bool ?? false || specEq(vm.maxVisible, 0)) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible))) || specEq(index, 0)) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))))) {
               Text(verbatim: specString(specGet(item, "label")))
@@ -48,7 +51,8 @@ struct BreadcrumbView: View {
             }
           }
 
-          .onTapGesture { /* event callback */ }
+          }
+          .buttonStyle(.plain)
           VStack() {
             if specEq(index, (specDouble(specLength(vm.items)) - specDouble(1))) {
               Text(verbatim: specString(specGet(item, "label")))

@@ -108,7 +108,7 @@ struct DataGridSpecView: View {
   var body: some View {
     VStack() {
       VStack() {
-        ScrollView([.horizontal, .vertical], showsIndicators: true) {
+        ScrollView(.horizontal, showsIndicators: true) {
         VStack() {
           HStack(alignment: .center, ) {
             HStack(alignment: .center, ) {
@@ -120,6 +120,7 @@ struct DataGridSpecView: View {
             .padding(CGFloat(8))
             .frame(width: CGFloat(40))
             ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { _idx, col in
+              Button(action: { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSortCol(specGet(col, "key")) } }) {
               HStack(alignment: .center, spacing: CGFloat(4)) {
                 Text(verbatim: ({ () -> String in
           let _h0: Any? = specGet(col, "header")
@@ -147,7 +148,8 @@ struct DataGridSpecView: View {
               .frame(minWidth: CGFloat(0))
               .frame(minWidth: CGFloat(100))
               .frame(maxWidth: .infinity)
-              .onTapGesture { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSortCol(specGet(col, "key")) } }
+              }
+              .buttonStyle(.plain)
             }
           }
           .background(ThemeManager.shared.color("semantic.on-destructive"))
@@ -179,6 +181,7 @@ struct DataGridSpecView: View {
           .background(ThemeManager.shared.color("semantic.surface"))
           .background(ThemeManager.shared.color("semantic.surface"))
           ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
+            Button(action: { vm.clickRow(row, rowIdx) }) {
             HStack(alignment: .center, ) {
               HStack(alignment: .center, ) {
                 if specEq(vm.selection, "multi") {
@@ -200,17 +203,18 @@ struct DataGridSpecView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(8))
-                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "#000"))
+                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
                 .frame(minHeight: CGFloat(0))
                 .frame(minWidth: CGFloat(0))
                 .frame(minWidth: CGFloat(100))
-                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "#000"))
+                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
                 .frame(maxWidth: .infinity)
               }
             }
-            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "#000"))
-            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "#000"))
-            .onTapGesture { vm.clickRow(row, rowIdx) }
+            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
+            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
+            }
+            .buttonStyle(.plain)
           }
           HStack(alignment: .center, ) {
             if specEq(specLength(vm.processedRows), 0) {

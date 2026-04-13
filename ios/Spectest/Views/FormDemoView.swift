@@ -149,20 +149,24 @@ struct FormDemoView: View {
         .font(.body.bold())
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       HStack(alignment: .center, spacing: CGFloat(8)) {
+        Button(action: { vm.setActiveForm("contact") }) {
         VStack() {
           Text(verbatim: specString("Contact Form"))
-            .foregroundStyle(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setActiveForm("contact") }
+        .background(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
+        Button(action: { vm.setActiveForm("how") }) {
         VStack() {
           Text(verbatim: specString("How It Works"))
-            .foregroundStyle(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "#000"))
+            .foregroundStyle(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
         .padding(CGFloat(0))
-        .background(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-        .onTapGesture { vm.setActiveForm("how") }
+        .background(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        }
+        .buttonStyle(.plain)
       }
 
       HStack(alignment: .center, spacing: CGFloat(20)) {
@@ -274,13 +278,16 @@ struct FormDemoView: View {
                 .padding(CGFloat(16))
                 .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 HStack(alignment: .center, spacing: CGFloat(12)) {
+                  Button(action: { vm.resetContact() }) {
                   VStack() {
                     Text(verbatim: specString("Reset"))
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
                   .padding(CGFloat(0))
                   .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                  .onTapGesture { vm.resetContact() }
+                  }
+                  .buttonStyle(.plain)
+                  Button(action: { vm.submitContact() }) {
                   VStack() {
                     Text(verbatim: specString("Send Message"))
                       .foregroundStyle(Color(hex: "#fff"))
@@ -288,7 +295,8 @@ struct FormDemoView: View {
                   .padding(CGFloat(0))
                   .opacity(specPx(((vm._form_valid) as? Bool ?? false ? 1 : 0.6)))
                   .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                  .onTapGesture { vm.submitContact() }
+                  }
+                  .buttonStyle(.plain)
                 }
 
               }
@@ -316,7 +324,7 @@ struct FormDemoView: View {
           return specString("✗ No")
         })())
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm._form_valid) as? Bool ?? false ? "#166534" : "#dc2626") as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: ((vm._form_valid) as? Bool ?? false ? "#166534" : "#dc2626") as? String ?? "transparent"))
                 }
 
                 HStack(alignment: .center, ) {

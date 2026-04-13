@@ -26,15 +26,15 @@ struct RadioView: View {
             }
           }
           .frame(width: CGFloat(8))
-          .frame(height: CGFloat(8))
+          .specFrameHeight(CGFloat(8))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(18))
-        .frame(height: CGFloat(18))
+        .specFrameHeight(CGFloat(18))
         .background(Color(hex: ({ () -> Any in switch specString(vm.checked) {
 case specString(true): return "#4f46e5"
 default: return "transparent"
-} })() as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         Text(verbatim: specString(vm.label))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))

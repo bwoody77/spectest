@@ -21,7 +21,7 @@ struct UserAvatarView: View {
           .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
       }
       .padding(CGFloat(12))
-      .background(Color(hex: vm.bgColor as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+      .background(Color(hex: vm.bgColor as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

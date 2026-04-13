@@ -29,7 +29,7 @@ case specString("task_assigned"): return "#8b5cf6"
 case specString("comment"): return "#f59e0b"
 case specString("deploy"): return "#06b6d4"
 default: return "#64748b"
-} })() as? String ?? "#000"))
+} })() as? String ?? "transparent"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

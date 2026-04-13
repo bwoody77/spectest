@@ -86,25 +86,27 @@ struct ThemeBuilderView: View {
   @State private var vm = ThemeBuilderViewModel()
   var body: some View {
     VStack() {
-      ScrollView([.horizontal, .vertical], showsIndicators: true) {
+      ScrollView(.horizontal, showsIndicators: true) {
       HStack(alignment: .center, spacing: CGFloat(4)) {
         ForEach(Array(specArr([["id": "primary" as Any, "label": "Color" as Any] as [String: Any], ["id": "colors" as Any, "label": "Surfaces" as Any] as [String: Any], ["id": "text" as Any, "label": "Text" as Any] as [String: Any], ["id": "shape" as Any, "label": "Shape" as Any] as [String: Any], ["id": "type" as Any, "label": "Font" as Any] as [String: Any], ["id": "shadow" as Any, "label": "Shadow" as Any] as [String: Any], ["id": "motion" as Any, "label": "Motion" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, sec in
+          Button(action: { vm.setSection(specGet(sec, "id")) }) {
           VStack() {
             Text(verbatim: specString(specGet(sec, "label")))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#ffffff" : "#496183") as? String ?? "#000"))
+              .foregroundStyle(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#ffffff" : "#496183") as? String ?? "transparent"))
           }
           .padding(.leading, CGFloat(12))
           .padding(.trailing, CGFloat(12))
           .padding(.top, CGFloat(6))
           .padding(.bottom, CGFloat(6))
-          .background(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#1677ff" : "transparent") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
-          .onTapGesture { vm.setSection(specGet(sec, "id")) }
+          .background(Color(hex: (specEq(vm.activeSection, specGet(sec, "id")) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+          }
+          .buttonStyle(.plain)
         }
       }
       }
       .padding(CGFloat(12))
-      ScrollView([.horizontal, .vertical], showsIndicators: true) {
+      ScrollView(.horizontal, showsIndicators: true) {
       VStack(spacing: CGFloat(20)) {
         VStack(spacing: CGFloat(16)) {
           if specEq(vm.activeSection, "primary") {
@@ -124,8 +126,8 @@ struct ThemeBuilderView: View {
                 .font(.title3.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
             }
-            .frame(height: CGFloat(80))
-            .background(Color(hex: vm.primaryHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .specFrameHeight(CGFloat(80))
+            .background(Color(hex: vm.primaryHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Text(verbatim: specString("Color"))
                 .font(.body.bold())
@@ -157,7 +159,7 @@ struct ThemeBuilderView: View {
                   VStack() {
                   }
                   .frame(width: CGFloat(28))
-                  .frame(height: CGFloat(28))
+                  .specFrameHeight(CGFloat(28))
                   .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   Text(verbatim: specString("Base"))
                     .font(.body.bold())
@@ -168,7 +170,7 @@ struct ThemeBuilderView: View {
                   VStack() {
                   }
                   .frame(width: CGFloat(28))
-                  .frame(height: CGFloat(28))
+                  .specFrameHeight(CGFloat(28))
                   .background(ThemeManager.shared.color("semantic.interactive-hover"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   Text(verbatim: specString("Hover"))
                     .font(.body.bold())
@@ -179,7 +181,7 @@ struct ThemeBuilderView: View {
                   VStack() {
                   }
                   .frame(width: CGFloat(28))
-                  .frame(height: CGFloat(28))
+                  .specFrameHeight(CGFloat(28))
                   .background(ThemeManager.shared.color("semantic.interactive-active"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   Text(verbatim: specString("Active"))
                     .font(.body.bold())
@@ -190,7 +192,7 @@ struct ThemeBuilderView: View {
                   VStack() {
                   }
                   .frame(width: CGFloat(28))
-                  .frame(height: CGFloat(28))
+                  .specFrameHeight(CGFloat(28))
                   .background(ThemeManager.shared.color("semantic.focus-ring"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   Text(verbatim: specString("Ring"))
                     .font(.body.bold())
@@ -201,7 +203,7 @@ struct ThemeBuilderView: View {
                   VStack() {
                   }
                   .frame(width: CGFloat(28))
-                  .frame(height: CGFloat(28))
+                  .specFrameHeight(CGFloat(28))
                   .background(ThemeManager.shared.color("semantic.info-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   Text(verbatim: specString("Tint"))
                     .font(.body.bold())
@@ -265,8 +267,8 @@ struct ThemeBuilderView: View {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.bgHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.bgHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Page Background"))
                   .font(.body.bold())
@@ -284,14 +286,14 @@ struct ThemeBuilderView: View {
             VStack() {
             }
             .background(ThemeManager.shared.color("semantic.border"))
-            .frame(height: CGFloat(1))
+            .specFrameHeight(CGFloat(1))
             .background(ThemeManager.shared.color("semantic.border"))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.surfaceHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.surfaceHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Surface"))
                   .font(.body.bold())
@@ -309,14 +311,14 @@ struct ThemeBuilderView: View {
             VStack() {
             }
             .background(ThemeManager.shared.color("semantic.border"))
-            .frame(height: CGFloat(1))
+            .specFrameHeight(CGFloat(1))
             .background(ThemeManager.shared.color("semantic.border"))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.surfaceRaisedHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.surfaceRaisedHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Card / Panel"))
                   .font(.body.bold())
@@ -334,14 +336,14 @@ struct ThemeBuilderView: View {
             VStack() {
             }
             .background(ThemeManager.shared.color("semantic.border"))
-            .frame(height: CGFloat(1))
+            .specFrameHeight(CGFloat(1))
             .background(ThemeManager.shared.color("semantic.border"))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.borderHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.borderHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Border"))
                   .font(.body.bold())
@@ -378,8 +380,8 @@ struct ThemeBuilderView: View {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.textPrimaryHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.textPrimaryHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Primary Text"))
                   .font(.body.bold())
@@ -397,14 +399,14 @@ struct ThemeBuilderView: View {
             VStack() {
             }
             .background(ThemeManager.shared.color("semantic.border"))
-            .frame(height: CGFloat(1))
+            .specFrameHeight(CGFloat(1))
             .background(ThemeManager.shared.color("semantic.border"))
             HStack(alignment: .center, spacing: CGFloat(12)) {
               VStack() {
               }
               .frame(width: CGFloat(32))
-              .frame(height: CGFloat(32))
-              .background(Color(hex: vm.textSecondaryHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .specFrameHeight(CGFloat(32))
+              .background(Color(hex: vm.textSecondaryHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               VStack() {
                 Text(verbatim: specString("Secondary Text"))
                   .font(.body.bold())
@@ -422,13 +424,13 @@ struct ThemeBuilderView: View {
             VStack(spacing: CGFloat(4)) {
               Text(verbatim: specString("Heading text sample"))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: vm.textPrimaryHex as? String ?? "#000"))
+                .foregroundStyle(Color(hex: vm.textPrimaryHex as? String ?? "transparent"))
               Text(verbatim: specString("Secondary or descriptive text appears like this."))
                 .font(.callout.bold())
-                .foregroundStyle(Color(hex: vm.textSecondaryHex as? String ?? "#000"))
+                .foregroundStyle(Color(hex: vm.textSecondaryHex as? String ?? "transparent"))
             }
             .padding(CGFloat(12))
-            .background(Color(hex: vm.bgHex as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+            .background(Color(hex: vm.bgHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           }
           .padding(CGFloat(12))
           .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
@@ -448,11 +450,12 @@ struct ThemeBuilderView: View {
           }
           LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
             ForEach(Array(specArr([["id": "sharp" as Any, "label": "Sharp" as Any, "desc": "0 px" as Any, "r": "0px" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "8 px" as Any, "r": "8px" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Rounded" as Any, "desc": "14 px" as Any, "r": "14px" as Any] as [String: Any], ["id": "pill" as Any, "label": "Pill" as Any, "desc": "∞" as Any, "r": "9999px" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              Button(action: { vm.setRadius(specGet(p, "id")) }) {
               VStack(spacing: CGFloat(8)) {
                 VStack() {
                 }
                 .frame(width: CGFloat(52))
-                .frame(height: CGFloat(36))
+                .specFrameHeight(CGFloat(36))
                 .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
                 VStack(spacing: CGFloat(2)) {
                   Text(verbatim: specString(specGet(p, "label")))
@@ -465,8 +468,9 @@ struct ThemeBuilderView: View {
 
               }
               .padding(CGFloat(12))
-              .background(Color(hex: (specEq(vm.radiusPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.setRadius(specGet(p, "id")) }
+              .background(Color(hex: (specEq(vm.radiusPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              }
+              .buttonStyle(.plain)
             }
           }
 
@@ -484,15 +488,16 @@ struct ThemeBuilderView: View {
             }
 
           }
-          ScrollView([.horizontal, .vertical], showsIndicators: true) {
+          ScrollView(.horizontal, showsIndicators: true) {
           VStack(spacing: CGFloat(8)) {
             ForEach(Array(specArr([["id": "system" as Any, "label": "System" as Any, "sample": "System UI · native" as Any] as [String: Any], ["id": "inter" as Any, "label": "Inter" as Any, "sample": "Inter · modern sans" as Any] as [String: Any], ["id": "dm-sans" as Any, "label": "DM Sans" as Any, "sample": "DM Sans · clean" as Any] as [String: Any], ["id": "poppins" as Any, "label": "Poppins" as Any, "sample": "Poppins · geometric" as Any] as [String: Any], ["id": "jakarta" as Any, "label": "Plus Jakarta" as Any, "sample": "Jakarta · fresh" as Any] as [String: Any], ["id": "manrope" as Any, "label": "Manrope" as Any, "sample": "Manrope · modern" as Any] as [String: Any], ["id": "lato" as Any, "label": "Lato" as Any, "sample": "Lato · humanist" as Any] as [String: Any], ["id": "open-sans" as Any, "label": "Open Sans" as Any, "sample": "Open Sans · readable" as Any] as [String: Any], ["id": "rubik" as Any, "label": "Rubik" as Any, "sample": "Rubik · rounded" as Any] as [String: Any], ["id": "outfit" as Any, "label": "Outfit" as Any, "sample": "Outfit · geometric" as Any] as [String: Any], ["id": "raleway" as Any, "label": "Raleway" as Any, "sample": "Raleway · elegant" as Any] as [String: Any], ["id": "ibm-plex" as Any, "label": "IBM Plex" as Any, "sample": "IBM Plex · technical" as Any] as [String: Any], ["id": "rounded" as Any, "label": "Nunito" as Any, "sample": "Nunito · friendly" as Any] as [String: Any], ["id": "serif" as Any, "label": "Serif" as Any, "sample": "Georgia · editorial" as Any] as [String: Any], ["id": "mono" as Any, "label": "Mono" as Any, "sample": "Fira Code · code" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, f in
+              Button(action: { vm.setFont(specGet(f, "id")) }) {
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 VStack() {
                 }
                 .frame(width: CGFloat(8))
-                .frame(height: CGFloat(8))
-                .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+                .specFrameHeight(CGFloat(8))
+                .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
                 HStack(alignment: .center, ) {
                   Text(verbatim: specString(specGet(f, "label")))
                     .font(.body.bold())
@@ -506,8 +511,9 @@ struct ThemeBuilderView: View {
                 .frame(maxWidth: .infinity)
               }
               .padding(CGFloat(12))
-              .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.setFont(specGet(f, "id")) }
+              .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              }
+              .buttonStyle(.plain)
             }
           }
           }
@@ -528,11 +534,12 @@ struct ThemeBuilderView: View {
           }
           LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
             ForEach(Array(specArr([["id": "flat" as Any, "label": "Flat" as Any, "desc": "No shadows" as Any] as [String: Any], ["id": "subtle" as Any, "label": "Subtle" as Any, "desc": "Minimal depth" as Any] as [String: Any], ["id": "default" as Any, "label": "Default" as Any, "desc": "Balanced" as Any] as [String: Any], ["id": "bold" as Any, "label": "Bold" as Any, "desc": "Strong depth" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              Button(action: { vm.setShadow(specGet(p, "id")) }) {
               VStack(spacing: CGFloat(8)) {
                 VStack() {
                 }
                 .frame(width: CGFloat(52))
-                .frame(height: CGFloat(36))
+                .specFrameHeight(CGFloat(36))
                 .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 VStack(spacing: CGFloat(2)) {
                   Text(verbatim: specString(specGet(p, "label")))
@@ -545,8 +552,9 @@ struct ThemeBuilderView: View {
 
               }
               .padding(CGFloat(12))
-              .background(Color(hex: (specEq(vm.shadowPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.setShadow(specGet(p, "id")) }
+              .background(Color(hex: (specEq(vm.shadowPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              }
+              .buttonStyle(.plain)
             }
           }
 
@@ -566,12 +574,13 @@ struct ThemeBuilderView: View {
           }
           VStack(spacing: CGFloat(8)) {
             ForEach(Array(specArr([["id": "instant" as Any, "label": "Instant" as Any, "desc": "No transitions — 0 ms" as Any] as [String: Any], ["id": "fast" as Any, "label": "Fast" as Any, "desc": "Snappy — 75 ms base" as Any] as [String: Any], ["id": "normal" as Any, "label": "Normal" as Any, "desc": "Balanced — 150 ms base" as Any] as [String: Any], ["id": "slow" as Any, "label": "Slow" as Any, "desc": "Relaxed — 300 ms base" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _idx, p in
+              Button(action: { vm.setMotion(specGet(p, "id")) }) {
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 VStack() {
                 }
                 .frame(width: CGFloat(8))
-                .frame(height: CGFloat(8))
-                .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+                .specFrameHeight(CGFloat(8))
+                .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
                 HStack(alignment: .center, ) {
                   Text(verbatim: specString(specGet(p, "label")))
                     .font(.body.bold())
@@ -585,8 +594,9 @@ struct ThemeBuilderView: View {
                 .frame(maxWidth: .infinity)
               }
               .padding(CGFloat(12))
-              .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "#000"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-              .onTapGesture { vm.setMotion(specGet(p, "id")) }
+              .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#e6f4ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              }
+              .buttonStyle(.plain)
             }
           }
 
@@ -631,7 +641,7 @@ struct ThemeBuilderView: View {
             VStack() {
             }
             .background(ThemeManager.shared.color("semantic.border"))
-            .frame(height: CGFloat(1))
+            .specFrameHeight(CGFloat(1))
             .background(ThemeManager.shared.color("semantic.border"))
             Toggle(specString("Toggle switch"), isOn: Binding(get: { vm.motionToggle as? Bool ?? false }, set: { vm.motionToggle = $0 }))
           }

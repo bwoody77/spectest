@@ -941,7 +941,7 @@ struct ThemePreviewView: View {
                 VStack(spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("star")))
                     .font(.system(size: specPx("24px")))
-                    .foregroundStyle(Color(hex: "#1677ff" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
                   VStack(alignment: .leading, spacing: 4) {
                     Text(specString("$12,345")).font(.system(size: 32, weight: .bold, design: .rounded))
                     Text(specString("Revenue")).font(.subheadline).foregroundStyle(.secondary)
@@ -952,7 +952,7 @@ struct ThemePreviewView: View {
                 VStack(spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("user")))
                     .font(.system(size: specPx("24px")))
-                    .foregroundStyle(Color(hex: "#52c41a" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
                   VStack(alignment: .leading, spacing: 4) {
                     Text(specString("1,234")).font(.system(size: 32, weight: .bold, design: .rounded))
                     Text(specString("Users")).font(.subheadline).foregroundStyle(.secondary)
@@ -963,7 +963,7 @@ struct ThemePreviewView: View {
                 VStack(spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("loader")))
                     .font(.system(size: specPx("24px")))
-                    .foregroundStyle(Color(hex: "#faad14" as? String ?? "#000"))
+                    .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
                   VStack(alignment: .leading, spacing: 4) {
                     Text(specString("5,678")).font(.system(size: 32, weight: .bold, design: .rounded))
                     Text(specString("Sessions")).font(.subheadline).foregroundStyle(.secondary)
@@ -1398,7 +1398,7 @@ struct ThemePreviewView: View {
             SidebarView(activeItem: vm.sidebarItem, collapsed: vm.sidebarCollapsed, sections: [["title": "Main" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "star" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["title": "Account" as Any, "items": [["id": "profile" as Any, "label": "Profile" as Any, "icon": "user" as Any] as [String: Any], ["id": "logout" as Any, "label": "Logout" as Any, "icon": "arrowRight" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any])
           }
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          .frame(height: CGFloat(300))
+          .specFrameHeight(CGFloat(300))
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .padding(CGFloat(20))

@@ -33,7 +33,7 @@ struct RouterUserView: View {
               .foregroundStyle(Color(hex: "#fff"))
           }
           .frame(width: CGFloat(40))
-          .frame(height: CGFloat(40))
+          .specFrameHeight(CGFloat(40))
           .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
           VStack(spacing: CGFloat(4)) {
             Text(verbatim: specString("User #\(specString(vm.userId))"))

@@ -24,20 +24,22 @@ struct BottomTabBarView: View {
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .overlay {
         ForEach(Array(specArr(vm.tabs).enumerated()), id: \.offset) { _idx, tab in
+          Button(action: { vm.selectTab(specGet(tab, "id")) }) {
           VStack(spacing: CGFloat(2)) {
             Image(systemName: specIconName(specString(specGet(tab, "icon"))))
               .font(.system(size: specPx("22px")))
-              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
+              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "transparent"))
             Text(verbatim: specString(specGet(tab, "label")))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "#000"))
+              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "transparent"))
           }
           .padding(.top, CGFloat(8))
           .padding(.bottom, CGFloat(4))
           .frame(minHeight: CGFloat(0))
           .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
-          .onTapGesture { vm.selectTab(specGet(tab, "id")) }
+          }
+          .buttonStyle(.plain)
           .overlay {
             if specEq(vm.activeTab, specGet(tab, "id")) {
               ZStack {
