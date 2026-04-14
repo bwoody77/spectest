@@ -20,5 +20,25 @@
 	<string>1</string>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/Roboto-Regular.ttf</string>
+		<string>Fonts/Nunito-Regular.ttf</string>
+		<string>Fonts/FiraCode-Regular.ttf</string>
+		<string>Fonts/Inter-Regular.ttf</string>
+		<string>Fonts/DMSans-Regular.ttf</string>
+		<string>Fonts/Rajdhani-Regular.ttf</string>
+		<string>Fonts/Orbitron-Regular.ttf</string>
+		<string>Fonts/NotoSans-Regular.ttf</string>
+		<string>Fonts/JetBrainsMono-Regular.ttf</string>
+		<string>Fonts/SourceSans3-Regular.ttf</string>
+		<string>Fonts/SourceSansPro-Regular.ttf</string>
+		<string>Fonts/SourceCodePro-Regular.ttf</string>
+		<string>Fonts/MerriweatherSans-Regular.ttf</string>
+		<string>Fonts/PlayfairDisplay-Regular.ttf</string>
+		<string>Fonts/Courier-Regular.ttf</string>
+		<string>Fonts/PalatinoLinotype-Regular.ttf</string>
+		<string>Fonts/BookAntiqua-Regular.ttf</string>
+	</array>
 </dict>
 </plist>

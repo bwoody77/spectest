@@ -49,12 +49,26 @@ struct TeamDirectoryView: View {
             .textContentType(.none)
             .autocorrectionDisabled()
           }
-          Picker(specString("Role"), selection: Binding(get: { specString(vm.roleFilter) }, set: { vm.roleFilter = $0 })) {
-            ForEach(Array(([["value": "all" as Any, "label": "All Roles" as Any] as [String: Any], ["value": "admin" as Any, "label": "Admin" as Any] as [String: Any], ["value": "dev" as Any, "label": "Developer" as Any] as [String: Any], ["value": "design" as Any, "label": "Designer" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-              Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Role")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Role"), selection: Binding(get: { specString(vm.roleFilter) }, set: { vm.roleFilter = $0 })) {
+                ForEach(Array(specArr([["value": "all" as Any, "label": "All Roles" as Any] as [String: Any], ["value": "admin" as Any, "label": "Admin" as Any] as [String: Any], ["value": "dev" as Any, "label": "Developer" as Any] as [String: Any], ["value": "design" as Any, "label": "Designer" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.roleFilter)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
-          .pickerStyle(.menu)
           Text(specString(vm.userCount))
             .font(.caption.weight(.medium))
             .padding(.horizontal, 8)

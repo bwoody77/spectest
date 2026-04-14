@@ -49,6 +49,7 @@ struct CommandPaletteView: View {
               VStack() {
                 VStack() {
                   TextField(specString(vm.placeholder), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                    .textFieldStyle(.roundedBorder)
                 }
                 .padding(CGFloat(12))
                 ScrollView(.horizontal, showsIndicators: true) {

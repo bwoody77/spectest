@@ -125,6 +125,7 @@ struct SettingsPanelView: View {
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("Display Name")).font(.subheadline).foregroundStyle(.secondary)
                 TextField(specString("Your name"), text: Binding(get: { vm.displayName as? String ?? "" }, set: { vm.displayName = $0 }))
+                .textFieldStyle(.roundedBorder)
               }
               VStack() {
                 if (vm.hasNameError) as? Bool ?? false {
@@ -140,6 +141,7 @@ struct SettingsPanelView: View {
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("Email")).font(.subheadline).foregroundStyle(.secondary)
                 TextField(specString("Your email"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
+                .textFieldStyle(.roundedBorder)
               }
               VStack() {
                 if (vm.hasEmailError) as? Bool ?? false {
@@ -156,6 +158,7 @@ struct SettingsPanelView: View {
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("Bio")).font(.subheadline).foregroundStyle(.secondary)
             TextField(specString("Tell us about yourself..."), text: Binding(get: { vm.bio as? String ?? "" }, set: { vm.bio = $0 }))
+            .textFieldStyle(.roundedBorder)
           }
         }
         .padding(CGFloat(20))
@@ -174,24 +177,66 @@ struct SettingsPanelView: View {
           .frame(maxWidth: .infinity)
 
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: CGFloat(16)) {
-            Picker(specString("Language"), selection: Binding(get: { specString(vm.language) }, set: { vm.language = $0 })) {
-              ForEach(Array(([["value": "en" as Any, "label": "English" as Any] as [String: Any], ["value": "es" as Any, "label": "Spanish" as Any] as [String: Any], ["value": "fr" as Any, "label": "French" as Any] as [String: Any], ["value": "de" as Any, "label": "German" as Any] as [String: Any], ["value": "ja" as Any, "label": "Japanese" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Language")).font(.subheadline).foregroundStyle(.secondary)
+              Menu {
+                Picker(specString("Language"), selection: Binding(get: { specString(vm.language) }, set: { vm.language = $0 })) {
+                  ForEach(Array(specArr([["value": "en" as Any, "label": "English" as Any] as [String: Any], ["value": "es" as Any, "label": "Spanish" as Any] as [String: Any], ["value": "fr" as Any, "label": "French" as Any] as [String: Any], ["value": "de" as Any, "label": "German" as Any] as [String: Any], ["value": "ja" as Any, "label": "Japanese" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                    Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                  }
+                }
+              } label: {
+                HStack {
+                  Text(verbatim: specString(vm.language)).foregroundStyle(.primary)
+                  Spacer()
+                  Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                }
+                .padding(.horizontal, 12).padding(.vertical, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
               }
             }
-            .pickerStyle(.menu)
-            Picker(specString("Timezone"), selection: Binding(get: { specString(vm.timezone) }, set: { vm.timezone = $0 })) {
-              ForEach(Array(([["value": "utc" as Any, "label": "UTC" as Any] as [String: Any], ["value": "est" as Any, "label": "US Eastern" as Any] as [String: Any], ["value": "pst" as Any, "label": "US Pacific" as Any] as [String: Any], ["value": "cet" as Any, "label": "Central European" as Any] as [String: Any], ["value": "jst" as Any, "label": "Japan Standard" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Timezone")).font(.subheadline).foregroundStyle(.secondary)
+              Menu {
+                Picker(specString("Timezone"), selection: Binding(get: { specString(vm.timezone) }, set: { vm.timezone = $0 })) {
+                  ForEach(Array(specArr([["value": "utc" as Any, "label": "UTC" as Any] as [String: Any], ["value": "est" as Any, "label": "US Eastern" as Any] as [String: Any], ["value": "pst" as Any, "label": "US Pacific" as Any] as [String: Any], ["value": "cet" as Any, "label": "Central European" as Any] as [String: Any], ["value": "jst" as Any, "label": "Japan Standard" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                    Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                  }
+                }
+              } label: {
+                HStack {
+                  Text(verbatim: specString(vm.timezone)).foregroundStyle(.primary)
+                  Spacer()
+                  Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                }
+                .padding(.horizontal, 12).padding(.vertical, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
               }
             }
-            .pickerStyle(.menu)
-            Picker(specString("Date Format"), selection: Binding(get: { specString(vm.dateFormat) }, set: { vm.dateFormat = $0 })) {
-              ForEach(Array(([["value": "iso" as Any, "label": "YYYY-MM-DD" as Any] as [String: Any], ["value": "us" as Any, "label": "MM/DD/YYYY" as Any] as [String: Any], ["value": "eu" as Any, "label": "DD/MM/YYYY" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Date Format")).font(.subheadline).foregroundStyle(.secondary)
+              Menu {
+                Picker(specString("Date Format"), selection: Binding(get: { specString(vm.dateFormat) }, set: { vm.dateFormat = $0 })) {
+                  ForEach(Array(specArr([["value": "iso" as Any, "label": "YYYY-MM-DD" as Any] as [String: Any], ["value": "us" as Any, "label": "MM/DD/YYYY" as Any] as [String: Any], ["value": "eu" as Any, "label": "DD/MM/YYYY" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                    Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                  }
+                }
+              } label: {
+                HStack {
+                  Text(verbatim: specString(vm.dateFormat)).foregroundStyle(.primary)
+                  Spacer()
+                  Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                }
+                .padding(.horizontal, 12).padding(.vertical, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
               }
             }
-            .pickerStyle(.menu)
           }
 
         }
@@ -238,12 +283,26 @@ struct SettingsPanelView: View {
             Toggle(specString("Show avatars"), isOn: Binding(get: { vm.showAvatars as? Bool ?? false }, set: { vm.showAvatars = $0 }))
           }
 
-          Picker(specString("Items per page"), selection: Binding(get: { specString(vm.itemsPerPage) }, set: { vm.itemsPerPage = $0 })) {
-            ForEach(Array(([["value": "10" as Any, "label": "10 per page" as Any] as [String: Any], ["value": "25" as Any, "label": "25 per page" as Any] as [String: Any], ["value": "50" as Any, "label": "50 per page" as Any] as [String: Any], ["value": "100" as Any, "label": "100 per page" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-              Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Items per page")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Items per page"), selection: Binding(get: { specString(vm.itemsPerPage) }, set: { vm.itemsPerPage = $0 })) {
+                ForEach(Array(specArr([["value": "10" as Any, "label": "10 per page" as Any] as [String: Any], ["value": "25" as Any, "label": "25 per page" as Any] as [String: Any], ["value": "50" as Any, "label": "50 per page" as Any] as [String: Any], ["value": "100" as Any, "label": "100 per page" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.itemsPerPage)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
-          .pickerStyle(.menu)
         }
         .padding(CGFloat(20))
       }

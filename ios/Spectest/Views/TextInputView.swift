@@ -60,12 +60,14 @@ struct TextInputView: View {
           VStack() {
             if specNeq(vm.type, "textarea") {
               TextField("", text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
           }
           .frame(maxWidth: .infinity)
           VStack() {
             if specEq(vm.type, "textarea") {
               TextEditor(text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
           .frame(maxWidth: .infinity)

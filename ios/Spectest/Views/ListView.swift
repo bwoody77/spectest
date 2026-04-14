@@ -53,6 +53,7 @@ struct ListView: View {
         VStack() {
           if (vm.searchable) as? Bool ?? false {
             TextField(specString(vm.searchPlaceholder), text: Binding(get: { vm.searchQuery as? String ?? "" }, set: { vm.searchQuery = $0 }))
+              .textFieldStyle(.roundedBorder)
           }
         }
         .padding(CGFloat(8))

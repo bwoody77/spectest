@@ -165,6 +165,7 @@ struct DataGridSpecView: View {
                 VStack() {
                   if specEq(specGet(col, "filterable"), true) {
                     TextField("", text: Binding(get: { vm.filters as? String ?? "" }, set: { vm.filters = $0 }))
+                      .textFieldStyle(.roundedBorder)
                   }
                 }
 

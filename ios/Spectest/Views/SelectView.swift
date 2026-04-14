@@ -110,6 +110,7 @@ struct SelectView: View {
                   VStack() {
                     if (vm.searchable) as? Bool ?? false {
                       TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                        .textFieldStyle(.roundedBorder)
                     }
                   }
                   .padding(CGFloat(8))

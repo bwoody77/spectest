@@ -134,6 +134,7 @@ struct ThemeBuilderView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               VStack() {
                 TextField("", text: Binding(get: { vm.primaryHex as? String ?? "" }, set: { vm.primaryHex = $0 }))
+                  .textFieldStyle(.roundedBorder)
               }
               .frame(maxWidth: .infinity)
               VStack() {
@@ -275,6 +276,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.bgHex as? String ?? "" }, set: { vm.bgHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
             VStack() {
@@ -298,6 +300,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.surfaceHex as? String ?? "" }, set: { vm.surfaceHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
             VStack() {
@@ -321,6 +324,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.surfaceRaisedHex as? String ?? "" }, set: { vm.surfaceRaisedHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
             VStack() {
@@ -344,6 +348,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.borderHex as? String ?? "" }, set: { vm.borderHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
           }
@@ -380,6 +385,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.textPrimaryHex as? String ?? "" }, set: { vm.textPrimaryHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
             VStack() {
@@ -403,6 +409,7 @@ struct ThemeBuilderView: View {
               }
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.textSecondaryHex as? String ?? "" }, set: { vm.textSecondaryHex = $0 }))
+                .textFieldStyle(.roundedBorder)
             }
 
             VStack(spacing: CGFloat(4)) {

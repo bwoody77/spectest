@@ -50,6 +50,7 @@ struct SliderView: View {
         }
 
         TextField("", text: Binding(get: { vm.currentValue as? String ?? "" }, set: { vm.currentValue = $0 }))
+          .textFieldStyle(.roundedBorder)
       }
 
     }

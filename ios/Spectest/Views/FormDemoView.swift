@@ -195,6 +195,7 @@ struct FormDemoView: View {
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     TextField(specString("Jane"), text: Binding(get: { vm.firstName as? String ?? "" }, set: { vm.firstName = $0 }))
+                      .textFieldStyle(.roundedBorder)
                     VStack() {
                       if ((vm._fld_firstName_touched) as? Bool ?? false && vm._fld_firstName_error != nil) {
                         Text(verbatim: specString(vm._fld_firstName_error))
@@ -210,6 +211,7 @@ struct FormDemoView: View {
                       .font(.body.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     TextField(specString("Doe"), text: Binding(get: { vm.lastName as? String ?? "" }, set: { vm.lastName = $0 }))
+                      .textFieldStyle(.roundedBorder)
                     VStack() {
                       if ((vm._fld_lastName_touched) as? Bool ?? false && vm._fld_lastName_error != nil) {
                         Text(verbatim: specString(vm._fld_lastName_error))
@@ -227,6 +229,7 @@ struct FormDemoView: View {
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   TextField(specString("jane@example.com"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
+                    .textFieldStyle(.roundedBorder)
                   VStack() {
                     if ((vm._fld_email_touched) as? Bool ?? false && vm._fld_email_error != nil) {
                       Text(verbatim: specString(vm._fld_email_error))
@@ -242,6 +245,7 @@ struct FormDemoView: View {
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                   TextField(specString("Tell us how we can help..."), text: Binding(get: { vm.message as? String ?? "" }, set: { vm.message = $0 }))
+                    .textFieldStyle(.roundedBorder)
                   VStack() {
                     if ((vm._fld_message_touched) as? Bool ?? false && vm._fld_message_error != nil) {
                       Text(verbatim: specString(vm._fld_message_error))

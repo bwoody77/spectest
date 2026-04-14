@@ -781,14 +781,17 @@ struct ThemePreviewView: View {
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Text Input")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Type something..."), text: Binding(get: { vm.inputValue as? String ?? "" }, set: { vm.inputValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Password")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Enter password..."), text: Binding(get: { vm.passwordValue as? String ?? "" }, set: { vm.passwordValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Email")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("you@example.com"), text: Binding(get: { vm.emailValue as? String ?? "" }, set: { vm.emailValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Search")).font(.subheadline).foregroundStyle(.secondary)
@@ -800,22 +803,27 @@ struct ThemePreviewView: View {
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Number")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("0"), text: Binding(get: { vm.numberValue as? String ?? "" }, set: { vm.numberValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Message")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Write here..."), text: Binding(get: { vm.textareaValue as? String ?? "" }, set: { vm.textareaValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Amount")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Amount"), text: Binding(get: { vm.prefixValue as? String ?? "" }, set: { vm.prefixValue = $0 }))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Username")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Username"), text: .constant(""))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   Text(specString("Disabled")).font(.subheadline).foregroundStyle(.secondary)
                   TextField(specString("Disabled"), text: .constant(""))
+                  .textFieldStyle(.roundedBorder)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                   if !specString("Pick a Date").isEmpty {
@@ -825,12 +833,26 @@ struct ThemePreviewView: View {
                     .datePickerStyle(.compact)
                     .labelsHidden()
                 }
-                Picker(specString("Dropdown"), selection: Binding(get: { specString(vm.selectValue) }, set: { vm.selectValue = $0 })) {
-                  ForEach(Array(([["value": "react" as Any, "label": "React" as Any] as [String: Any], ["value": "vue" as Any, "label": "Vue" as Any] as [String: Any], ["value": "angular" as Any, "label": "Angular" as Any] as [String: Any], ["value": "svelte" as Any, "label": "Svelte" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                    Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+                VStack(alignment: .leading, spacing: 4) {
+                  Text(specString("Dropdown")).font(.subheadline).foregroundStyle(.secondary)
+                  Menu {
+                    Picker(specString("Dropdown"), selection: Binding(get: { specString(vm.selectValue) }, set: { vm.selectValue = $0 })) {
+                      ForEach(Array(specArr([["value": "react" as Any, "label": "React" as Any] as [String: Any], ["value": "vue" as Any, "label": "Vue" as Any] as [String: Any], ["value": "angular" as Any, "label": "Angular" as Any] as [String: Any], ["value": "svelte" as Any, "label": "Svelte" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                        Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                      }
+                    }
+                  } label: {
+                    HStack {
+                      Text(verbatim: specString(vm.selectValue)).foregroundStyle(.primary)
+                      Spacer()
+                      Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                    }
+                    .padding(.horizontal, 12).padding(.vertical, 8)
+                    .background(Color(.systemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
                   }
                 }
-                .pickerStyle(.menu)
                 VStack(spacing: CGFloat(8)) {
                   Text(verbatim: specString("MultiSelect options"))
                     .font(.body.bold())
@@ -1316,12 +1338,26 @@ struct ThemePreviewView: View {
           Text(verbatim: specString("Select"))
             .font(.headline.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          Picker(specString("Framework"), selection: Binding(get: { specString(vm.select2Value) }, set: { vm.select2Value = $0 })) {
-            ForEach(Array(([["value": "react" as Any, "label": "React" as Any] as [String: Any], ["value": "vue" as Any, "label": "Vue" as Any] as [String: Any], ["value": "angular" as Any, "label": "Angular" as Any] as [String: Any], ["value": "svelte" as Any, "label": "Svelte" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-              Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Framework")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Framework"), selection: Binding(get: { specString(vm.select2Value) }, set: { vm.select2Value = $0 })) {
+                ForEach(Array(specArr([["value": "react" as Any, "label": "React" as Any] as [String: Any], ["value": "vue" as Any, "label": "Vue" as Any] as [String: Any], ["value": "angular" as Any, "label": "Angular" as Any] as [String: Any], ["value": "svelte" as Any, "label": "Svelte" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.select2Value)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
-          .pickerStyle(.menu)
         }
         .padding(CGFloat(20))
       }

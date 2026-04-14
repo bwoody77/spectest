@@ -121,6 +121,7 @@ struct TaskFormView: View {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Title")).font(.subheadline).foregroundStyle(.secondary)
               TextField(specString("Enter task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
+              .textFieldStyle(.roundedBorder)
             }
             VStack() {
               if (vm.hasTitleError) as? Bool ?? false {
@@ -135,15 +136,30 @@ struct TaskFormView: View {
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("Notes")).font(.subheadline).foregroundStyle(.secondary)
             TextField(specString("Optional notes..."), text: Binding(get: { vm.notes as? String ?? "" }, set: { vm.notes = $0 }))
+            .textFieldStyle(.roundedBorder)
           }
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
             VStack(spacing: CGFloat(4)) {
-              Picker(specString("Assignee"), selection: Binding(get: { specString(vm.assignee) }, set: { vm.assignee = $0 })) {
-                ForEach(Array(([["value": "alice" as Any, "label": "Alice" as Any] as [String: Any], ["value": "bob" as Any, "label": "Bob" as Any] as [String: Any], ["value": "carol" as Any, "label": "Carol" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                  Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+              VStack(alignment: .leading, spacing: 4) {
+                Text(specString("Assignee")).font(.subheadline).foregroundStyle(.secondary)
+                Menu {
+                  Picker(specString("Assignee"), selection: Binding(get: { specString(vm.assignee) }, set: { vm.assignee = $0 })) {
+                    ForEach(Array(specArr([["value": "alice" as Any, "label": "Alice" as Any] as [String: Any], ["value": "bob" as Any, "label": "Bob" as Any] as [String: Any], ["value": "carol" as Any, "label": "Carol" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                      Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                    }
+                  }
+                } label: {
+                  HStack {
+                    Text(verbatim: specString(vm.assignee)).foregroundStyle(.primary)
+                    Spacer()
+                    Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                  }
+                  .padding(.horizontal, 12).padding(.vertical, 8)
+                  .background(Color(.systemBackground))
+                  .clipShape(RoundedRectangle(cornerRadius: 8))
+                  .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
                 }
               }
-              .pickerStyle(.menu)
               VStack() {
                 if (vm.hasAssigneeError) as? Bool ?? false {
                   Text(verbatim: specString(vm.assigneeError))
@@ -154,21 +170,49 @@ struct TaskFormView: View {
 
             }
 
-            Picker(specString("Priority"), selection: Binding(get: { specString(vm.priority) }, set: { vm.priority = $0 })) {
-              ForEach(Array(([["value": "low" as Any, "label": "Low" as Any] as [String: Any], ["value": "medium" as Any, "label": "Medium" as Any] as [String: Any], ["value": "high" as Any, "label": "High" as Any] as [String: Any], ["value": "critical" as Any, "label": "Critical" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Priority")).font(.subheadline).foregroundStyle(.secondary)
+              Menu {
+                Picker(specString("Priority"), selection: Binding(get: { specString(vm.priority) }, set: { vm.priority = $0 })) {
+                  ForEach(Array(specArr([["value": "low" as Any, "label": "Low" as Any] as [String: Any], ["value": "medium" as Any, "label": "Medium" as Any] as [String: Any], ["value": "high" as Any, "label": "High" as Any] as [String: Any], ["value": "critical" as Any, "label": "Critical" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                    Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                  }
+                }
+              } label: {
+                HStack {
+                  Text(verbatim: specString(vm.priority)).foregroundStyle(.primary)
+                  Spacer()
+                  Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                }
+                .padding(.horizontal, 12).padding(.vertical, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
               }
             }
-            .pickerStyle(.menu)
           }
 
           LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-            Picker(specString("Status"), selection: Binding(get: { specString(vm.status) }, set: { vm.status = $0 })) {
-              ForEach(Array(([["value": "todo" as Any, "label": "Todo" as Any] as [String: Any], ["value": "in-progress" as Any, "label": "In Progress" as Any] as [String: Any], ["value": "done" as Any, "label": "Done" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-                Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Status")).font(.subheadline).foregroundStyle(.secondary)
+              Menu {
+                Picker(specString("Status"), selection: Binding(get: { specString(vm.status) }, set: { vm.status = $0 })) {
+                  ForEach(Array(specArr([["value": "todo" as Any, "label": "Todo" as Any] as [String: Any], ["value": "in-progress" as Any, "label": "In Progress" as Any] as [String: Any], ["value": "done" as Any, "label": "Done" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                    Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                  }
+                }
+              } label: {
+                HStack {
+                  Text(verbatim: specString(vm.status)).foregroundStyle(.primary)
+                  Spacer()
+                  Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+                }
+                .padding(.horizontal, 12).padding(.vertical, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
               }
             }
-            .pickerStyle(.menu)
             VStack(alignment: .leading, spacing: 4) {
               if !specString("Due Date").isEmpty {
                 Text(specString("Due Date")).font(.subheadline).foregroundStyle(.secondary)

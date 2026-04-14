@@ -32,6 +32,7 @@ struct ReactivityPerfView: View {
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           TextField("", text: Binding(get: { vm.input as? String ?? "" }, set: { vm.input = $0 }))
+            .textFieldStyle(.roundedBorder)
         }
         .padding(CGFloat(12))
         .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))

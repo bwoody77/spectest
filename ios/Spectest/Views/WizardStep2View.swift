@@ -29,12 +29,26 @@ struct WizardStep2View: View {
         .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
-          Picker(specString("Priority"), selection: Binding(get: { specString(vm.priority) }, set: { vm.priority = $0 })) {
-            ForEach(Array(([["value": "low" as Any, "label": "Low" as Any] as [String: Any], ["value": "medium" as Any, "label": "Medium" as Any] as [String: Any], ["value": "high" as Any, "label": "High" as Any] as [String: Any], ["value": "critical" as Any, "label": "Critical" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-              Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Priority")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Priority"), selection: Binding(get: { specString(vm.priority) }, set: { vm.priority = $0 })) {
+                ForEach(Array(specArr([["value": "low" as Any, "label": "Low" as Any] as [String: Any], ["value": "medium" as Any, "label": "Medium" as Any] as [String: Any], ["value": "high" as Any, "label": "High" as Any] as [String: Any], ["value": "critical" as Any, "label": "Critical" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.priority)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
-          .pickerStyle(.menu)
           VStack(alignment: .leading, spacing: 4) {
             if !specString("Due Date").isEmpty {
               Text(specString("Due Date")).font(.subheadline).foregroundStyle(.secondary)

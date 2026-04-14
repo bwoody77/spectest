@@ -338,6 +338,7 @@ struct AppView: View {
               VStack(spacing: CGFloat(8)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   TextField("", text: Binding(get: { vm.builderSaveName as? String ?? "" }, set: { vm.builderSaveName = $0 }))
+                    .textFieldStyle(.roundedBorder)
                   Button(action: { Task { @MainActor in await vm.saveBuilderTheme() } }) {
                     Text(specString("Save"))
                       .font(.subheadline.weight(.semibold))

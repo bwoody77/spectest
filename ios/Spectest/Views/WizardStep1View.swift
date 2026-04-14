@@ -32,6 +32,7 @@ struct WizardStep1View: View {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Title")).font(.subheadline).foregroundStyle(.secondary)
               TextField(specString("Task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
+              .textFieldStyle(.roundedBorder)
             }
             VStack() {
               if (vm.showTitleError) as? Bool ?? false {
@@ -43,12 +44,26 @@ struct WizardStep1View: View {
 
           }
 
-          Picker(specString("Assignee"), selection: Binding(get: { specString(vm.assignee) }, set: { vm.assignee = $0 })) {
-            ForEach(Array(([["value": "alice" as Any, "label": "Alice" as Any] as [String: Any], ["value": "bob" as Any, "label": "Bob" as Any] as [String: Any], ["value": "carol" as Any, "label": "Carol" as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
-              Text(specString((opt as? [String: Any])?["label"])).tag(specString((opt as? [String: Any])?["value"]))
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Assignee")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Assignee"), selection: Binding(get: { specString(vm.assignee) }, set: { vm.assignee = $0 })) {
+                ForEach(Array(specArr([["value": "alice" as Any, "label": "Alice" as Any] as [String: Any], ["value": "bob" as Any, "label": "Bob" as Any] as [String: Any], ["value": "carol" as Any, "label": "Carol" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.assignee)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
             }
           }
-          .pickerStyle(.menu)
         }
         .padding(CGFloat(16))
       }

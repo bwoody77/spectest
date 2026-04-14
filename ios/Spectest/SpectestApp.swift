@@ -308,7 +308,7 @@ struct SpectestApp: App {
     // Set the dev server address for physical devices.
     // On simulator, localhost works automatically.
     #if !targetEnvironment(simulator)
-    SpecBaseURL.override = "http://192.168.86.41"
+    SpecBaseURL.override = "http://172.20.10.2"
     #endif
   }
 
