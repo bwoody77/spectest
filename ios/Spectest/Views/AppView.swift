@@ -13,82 +13,7 @@ final class AppViewModel {
   var themeBuilderOpen: Any = false
   var builderSaveName: Any = ""
   var currentLocale: Any = getCurrentLocale()
-  var showDashboard: Any { specEq(view, "dashboard") }
-  var showDetail: Any { specEq(view, "detail") }
-  var showCreate: Any { specEq(view, "create") }
-  var showWizard: Any { specEq(view, "wizard") }
-  var showTeam: Any { specEq(view, "team") }
-  var showActivity: Any { specEq(view, "activity") }
-  var showNotifications: Any { specEq(view, "notifications") }
-  var showSettings: Any { specEq(view, "settings") }
-  var showAnalytics: Any { specEq(view, "analytics") }
-  var showDataGrid: Any { specEq(view, "datagrid") }
-  var showEditGrid: Any { specEq(view, "editgrid") }
-  var showTree: Any { specEq(view, "categories") }
-  var showPerfGrid: Any { specEq(view, "perfgrid") }
-  var showPerfSignals: Any { specEq(view, "perfsignals") }
-  var showReactivityPerf: Any { specEq(view, "reactivityperf") }
-  var showThemePreview: Any { specEq(view, "themepreview") }
-  var showLanding2: Any { specEq(view, "landing2") }
-  var showCharts: Any { specEq(view, "charts") }
-  var showDrag: Any { specEq(view, "drag") }
-  var showFormDemo: Any { specEq(view, "formdemo") }
-  var showRouting: Any { specEq(view, "routing") }
-  var showFeatureTest: Any { specEq(view, "featuretest") }
-  var showMobileDemo: Any { specEq(view, "mobiledemo") }
   var isLandingPage: Any { specEq(view, "landing2") }
-  var viewTitle: Any { ({ () -> Any in switch specString(view) {
-case specString("dashboard"): return "Dashboard"
-case specString("detail"): return "Task Detail"
-case specString("create"): return "Create Task"
-case specString("wizard"): return "Task Wizard"
-case specString("team"): return "Team"
-case specString("activity"): return "Activity"
-case specString("notifications"): return "Notifications"
-case specString("settings"): return "Settings"
-case specString("analytics"): return "Analytics"
-case specString("datagrid"): return "Product Catalog"
-case specString("editgrid"): return "Editable Inventory"
-case specString("categories"): return "Categories"
-case specString("perfgrid"): return "Grid Performance"
-case specString("perfsignals"): return "Signal Performance"
-case specString("reactivityperf"): return "Reactivity Perf"
-case specString("themepreview"): return "Theme Preview"
-case specString("landing2"): return "Landing Page"
-case specString("charts"): return "Charts"
-case specString("drag"): return "Drag & Drop"
-case specString("formdemo"): return "Form Validation"
-case specString("routing"): return "Routing"
-case specString("featuretest"): return "Feature Test (P1-P8)"
-case specString("mobiledemo"): return "Mobile Demo"
-default: return "Admin"
-} })() }
-  var breadcrumbSection: Any { ({ () -> Any in switch specString(view) {
-case specString("dashboard"): return "Overview"
-case specString("detail"): return "Tasks"
-case specString("create"): return "Tasks"
-case specString("wizard"): return "Tasks"
-case specString("team"): return "People"
-case specString("activity"): return "Monitoring"
-case specString("notifications"): return "Monitoring"
-case specString("settings"): return "System"
-case specString("analytics"): return "Monitoring"
-case specString("datagrid"): return "Data"
-case specString("editgrid"): return "Data"
-case specString("categories"): return "Data"
-case specString("perfgrid"): return "Performance"
-case specString("perfsignals"): return "Performance"
-case specString("reactivityperf"): return "Performance"
-case specString("themepreview"): return "Design"
-case specString("landing2"): return "Marketing"
-case specString("charts"): return "Components"
-case specString("drag"): return "Components"
-case specString("formdemo"): return "Components"
-case specString("routing"): return "Components"
-case specString("mobiledemo"): return "Components"
-case specString("featuretest"): return "Testing"
-default: return "Overview"
-} })() }
   var statsTotal: Any { (stats != nil ? specGet(stats, "total") : 0) }
   var statsDone: Any { (stats != nil ? specGet(stats, "done") : 0) }
   var statsInProgress: Any { (stats != nil ? specGet(stats, "inProgress") : 0) }
@@ -373,13 +298,13 @@ struct AppView: View {
             VStack() {
               VStack() {
                 HStack(spacing: 4) {
-                  ForEach(Array(([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": vm.breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": vm.viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { idx, crumb in
+                  ForEach(Array(([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { idx, crumb in
                     if idx > 0 {
                       Image(systemName: "chevron.right").font(.caption2).foregroundStyle(.tertiary)
                     }
                     Text(specString((crumb as? [String: Any])?["label"] ?? crumb))
                       .font(.subheadline)
-                      .foregroundStyle(idx < ([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": vm.breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": vm.viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).count - 1 ? .secondary : .primary)
+                      .foregroundStyle(idx < ([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).count - 1 ? .secondary : .primary)
                   }
                 }
               }
@@ -392,157 +317,13 @@ struct AppView: View {
               SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: navSections)
               ScrollView(.horizontal, showsIndicators: true) {
               VStack(spacing: ThemeManager.shared.size("spacing-5")) {
-                VStack(spacing: ThemeManager.shared.size("spacing-5")) {
-                  if (vm.showDashboard) as? Bool ?? false {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
-                      SpecStatCard(title: "Total", value: vm.statsTotal, color: .blue, icon: "list.clipboard", gradientFrom: Color(hex: "#e6f4ff"), gradientTo: Color(hex: "#bae0ff"))
-                      SpecStatCard(title: "Done", value: vm.statsDone, total: vm.statsTotal, color: .green, icon: "checkmark.circle.fill", gradientFrom: Color(hex: "#f6ffed"), gradientTo: Color(hex: "#b7eb8f"))
-                      SpecStatCard(title: "In Progress", value: vm.statsInProgress, total: vm.statsTotal, color: .orange, icon: "arrow.triangle.2.circlepath", gradientFrom: Color(hex: "#fffbe6"), gradientTo: Color(hex: "#ffe58f"))
-                      SpecStatCard(title: "Todo", value: vm.statsTodo, total: vm.statsTotal, color: .purple, icon: "circle.dashed", gradientFrom: Color(hex: "#f7f7f8"), gradientTo: Color(hex: "#dce0e5"))
-                    }
-                    TaskTableView(selectedTask: vm.selectedTask, view: vm.view)
-                  }
-                }
-
-                VStack() {
-                  if (vm.showDetail) as? Bool ?? false {
-                    TaskDetailView(task: vm.selectedTask, view: vm.view)
-                  }
-                }
-
-                VStack() {
-                  if (vm.showCreate) as? Bool ?? false {
-                    TaskFormView()
-                  }
-                }
-
-                VStack(spacing: ThemeManager.shared.size("spacing-5")) {
-                  if (vm.showWizard) as? Bool ?? false {
-                    TaskWizardView()
-                      .padding(CGFloat(0))
-                      .background(Color(hex: "surface-raised"))
-                      .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
-                      .overlay(RoundedRectangle(cornerRadius: CGFloat(0)).stroke(Color.gray.opacity(0.2)))
-                  }
-                }
-
-                VStack() {
-                  if (vm.showTeam) as? Bool ?? false {
-                    TeamDirectoryView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showActivity) as? Bool ?? false {
-                    ActivityFeedView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showNotifications) as? Bool ?? false {
-                    NotificationsPanelView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showSettings) as? Bool ?? false {
-                    SettingsPanelView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showAnalytics) as? Bool ?? false {
-                    AnalyticsViewView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showDataGrid) as? Bool ?? false {
-                    DataGridDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showEditGrid) as? Bool ?? false {
-                    EditableGridDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showTree) as? Bool ?? false {
-                    TreeDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showThemePreview) as? Bool ?? false {
-                    ThemePreviewView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showCharts) as? Bool ?? false {
-                    ChartDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showDrag) as? Bool ?? false {
-                    DragDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showFormDemo) as? Bool ?? false {
-                    FormDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showRouting) as? Bool ?? false {
-                    RoutingDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showMobileDemo) as? Bool ?? false {
-                    MobileDemoView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showFeatureTest) as? Bool ?? false {
-                    FeatureTestView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showPerfGrid) as? Bool ?? false {
-                    PerfGridView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showPerfSignals) as? Bool ?? false {
-                    PerfSignalsView()
-                  }
-                }
-
-                VStack() {
-                  if (vm.showReactivityPerf) as? Bool ?? false {
-                    ReactivityPerfView()
-                  }
-                }
-
               }
               }
               .background(ThemeManager.shared.color("surface"))
               .frame(width: specPx(vm.fullWidth))
               .background(ThemeManager.shared.color("surface"))
               .frame(maxWidth: .infinity)
-              Spacer(minLength: 0)
             }
-            .frame(maxWidth: .infinity)
             .frame(maxWidth: .infinity)
             CommandPaletteView(commands: navItems, open: vm.commandPaletteOpen, placeholder: "Search views, actions...")
           }
