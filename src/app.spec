@@ -70,13 +70,13 @@
 @navigation {
   sections: [
     {heading: "Overview", items: [
-      {id: "dashboard", label: "Dashboard", icon: "home", surface: StatsBar},
+      {id: "dashboard", label: "Dashboard", icon: "home"},
       {id: "analytics", label: "Analytics", icon: "bar-chart", surface: AnalyticsView}
     ]},
     {heading: "Tasks", items: [
-      {id: "detail", label: "Task Detail", icon: "eye", surface: TaskDetail},
+      {id: "detail", label: "Task Detail", icon: "eye"},
       {id: "create", label: "Create Task", icon: "plus", surface: TaskForm},
-      {id: "wizard", label: "Task Wizard", icon: "list", surface: TaskWizard}
+      {id: "wizard", label: "Task Wizard", icon: "list"}
     ]},
     {heading: "Data", items: [
       {id: "datagrid", label: "Product Catalog", icon: "layout", surface: DataGridDemo},
@@ -106,7 +106,7 @@
       {id: "drag", label: "Drag & Drop", icon: "layout", surface: DragDemo},
       {id: "formdemo", label: "Form Validation", icon: "edit", surface: FormDemo},
       {id: "routing", label: "Routing", icon: "globe", surface: RoutingDemo},
-      {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone", surface: MobileDemo}
+      {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"}
     ]},
     {heading: "Testing", items: [
       {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle", surface: FeatureTest}
@@ -247,6 +247,7 @@ surface App {
     openCommandPalette() { commandPaletteOpen = true }
     closeCommandPalette() { commandPaletteOpen = false }
     navigateTo(v) {
+      console.log("NAVIGATE TO:", v)
       view = v
     }
     setLocale(lang) {
@@ -332,6 +333,17 @@ surface App {
         Button(label: "ES", variant: currentLocale == "es" ? "primary" : "secondary") {
           on click: setLocale("es")
         }
+      }
+
+      // Layout picker
+      Button(label: "☰ Sidebar", variant: layoutStyle == "sidebar" ? "primary" : "secondary") {
+        on click: { setLayout("sidebar") }
+      }
+      Button(label: "▤ Header", variant: layoutStyle == "header" ? "primary" : "secondary") {
+        on click: { setLayout("header") }
+      }
+      Button(label: "⋯ Tabs", variant: layoutStyle == "tabs" ? "primary" : "secondary") {
+        on click: { setLayout("tabs") }
       }
 
       // Command palette trigger (Issue #18)
@@ -538,36 +550,24 @@ surface App {
     animation: "st-glow 40s ease-in-out infinite"
   }
 
-  // Floating layout picker — always visible, bottom-right corner
-  block {
-    layout: horizontal, gap: spacing.2, align: center
-    padding: spacing.2
-    padding-left: spacing.3
-    padding-right: spacing.3
-    background: semantic.surface
-    border-radius: radius.lg
-    shadow: elevation.floating
-    border: borders.default
-
-    Icon(name: "layout", size: icon.xs, color: semantic.text-secondary)
-
-    Button(label: "Sidebar", variant: layoutStyle == "sidebar" ? "default" : "ghost") {
-      on click: { setLayout("sidebar") }
-    }
-    Button(label: "Header", variant: layoutStyle == "header" ? "default" : "ghost") {
-      on click: { setLayout("header") }
-    }
-    Button(label: "Tabs", variant: layoutStyle == "tabs" ? "default" : "ghost") {
-      on click: { setLayout("tabs") }
-    }
-  }
-
   // Layout switcher — toggle between sidebar, header, and tab layouts
   block {
     visibility: layoutStyle == "sidebar"
     SidebarLayout(activeRoute: view, sections: navSections, items: navItems, breadcrumbSection: breadcrumbSection, breadcrumbTitle: viewTitle) {
       on navigate(id): { navigateTo(id) }
+      // Auto-generated routes (self-contained surfaces)
       @navigation.content(view)
+      // Manual routes (surfaces that need parent data)
+      block { visibility: view == "dashboard"
+        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
+        TaskTable(selectedTask, view)
+      }
+      block { visibility: view == "detail"
+        TaskDetail(selectedTask, view)
+      }
+      block { visibility: view == "wizard"
+        TaskWizard()
+      }
     }
   }
   block {
@@ -575,6 +575,16 @@ surface App {
     HeaderLayout(activeRoute: view, sections: navSections) {
       on navigate(id): { navigateTo(id) }
       @navigation.content(view)
+      block { visibility: view == "dashboard"
+        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
+        TaskTable(selectedTask, view)
+      }
+      block { visibility: view == "detail"
+        TaskDetail(selectedTask, view)
+      }
+      block { visibility: view == "wizard"
+        TaskWizard()
+      }
     }
   }
   block {
@@ -582,6 +592,16 @@ surface App {
     TabLayout(activeRoute: view, items: navItems) {
       on navigate(id): { navigateTo(id) }
       @navigation.content(view)
+      block { visibility: view == "dashboard"
+        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
+        TaskTable(selectedTask, view)
+      }
+      block { visibility: view == "detail"
+        TaskDetail(selectedTask, view)
+      }
+      block { visibility: view == "wizard"
+        TaskWizard()
+      }
     }
   }
 
