@@ -66,6 +66,59 @@
 @extern { strangerThingsTransition } from "./theme-effects.js"
 @extern { startBuilderPreview, cancelBuilderPreview, saveBuilderAsTheme } from "./theme-builder.js"
 
+// Navigation structure (Phase 1 — also drives iOS nav shell generation)
+@navigation {
+  sections: [
+    {heading: "Overview", items: [
+      {id: "dashboard", label: "Dashboard", icon: "home", surface: StatsBar},
+      {id: "analytics", label: "Analytics", icon: "bar-chart", surface: AnalyticsView}
+    ]},
+    {heading: "Tasks", items: [
+      {id: "detail", label: "Task Detail", icon: "eye", surface: TaskDetail},
+      {id: "create", label: "Create Task", icon: "plus", surface: TaskForm},
+      {id: "wizard", label: "Task Wizard", icon: "list", surface: TaskWizard}
+    ]},
+    {heading: "Data", items: [
+      {id: "datagrid", label: "Product Catalog", icon: "layout", surface: DataGridDemo},
+      {id: "editgrid", label: "Editable Grid", icon: "edit", surface: EditableGridDemo},
+      {id: "categories", label: "Categories", icon: "list", surface: TreeDemo}
+    ]},
+    {heading: "People", items: [
+      {id: "team", label: "Team", icon: "user", surface: TeamDirectory}
+    ]},
+    {heading: "Monitoring", items: [
+      {id: "activity", label: "Activity", icon: "clock", surface: ActivityFeed},
+      {id: "notifications", label: "Notifications", icon: "bell", surface: NotificationsPanel}
+    ]},
+    {heading: "Performance", items: [
+      {id: "perfgrid", label: "Grid 10K", icon: "zap"},
+      {id: "perfsignals", label: "Signal Test", icon: "activity"},
+      {id: "reactivityperf", label: "Reactivity Perf", icon: "zap", surface: ReactivityPerf}
+    ]},
+    {heading: "Marketing", items: [
+      {id: "landing2", label: "Landing Page", icon: "globe"}
+    ]},
+    {heading: "Design", items: [
+      {id: "themepreview", label: "Theme Preview", icon: "palette", surface: ThemePreview}
+    ]},
+    {heading: "Components", items: [
+      {id: "charts", label: "Charts", icon: "bar-chart", surface: ChartDemo},
+      {id: "drag", label: "Drag & Drop", icon: "layout", surface: DragDemo},
+      {id: "formdemo", label: "Form Validation", icon: "edit", surface: FormDemo},
+      {id: "routing", label: "Routing", icon: "globe", surface: RoutingDemo},
+      {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone", surface: MobileDemo}
+    ]},
+    {heading: "Testing", items: [
+      {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle", surface: FeatureTest}
+    ]},
+    {heading: "System", items: [
+      {id: "settings", label: "Settings", icon: "settings", surface: SettingsPanel}
+    ]}
+  ]
+  defaultRoute: "dashboard"
+  tabs: ["dashboard", "team", "activity", "notifications"]
+}
+
 // Data sources
 
 source TasksAPI {
