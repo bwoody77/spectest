@@ -4,6 +4,7 @@ import SpecRuntime
 @Observable
 final class AppViewModel {
   var themePreset: Any = "default"
+  var layoutStyle: Any = "sidebar"
   var view: Any = "dashboard"
   var selectedTask: Any? = nil
   var sidebarCollapsed: Any = false
@@ -162,6 +163,9 @@ default: return ""
   func setLocale(_ lang: Any) {
     currentLocale = lang
     switchLocale(lang)
+  }
+  func setLayout(_ style: Any) {
+    layoutStyle = style
   }
   var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
   func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
@@ -371,7 +375,39 @@ struct AppView: View {
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
             .specFrameHeight(CGFloat(6))
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
-            SidebarLayoutView(activeRoute: vm.view, breadcrumbSection: vm.breadcrumbSection, breadcrumbTitle: vm.viewTitle, items: vm.navItems, sections: vm.navSections)
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
+              Image(systemName: specIconName(specString("layout")))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+              Picker("", selection: Binding(get: { specString(vm.layoutStyle) }, set: { vm.layoutStyle = $0 })) {
+                Text("Sidebar").tag("sidebar")
+                Text("Header").tag("header")
+                Text("Tabs").tag("tabs")
+              }
+              .pickerStyle(.segmented)
+            }
+            .padding(ThemeManager.shared.size("spacing-2"))
+            .padding(.leading, ThemeManager.shared.size("spacing-3"))
+            .padding(.trailing, ThemeManager.shared.size("spacing-3"))
+            .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
+            VStack() {
+              if specEq(vm.layoutStyle, "sidebar") {
+                SidebarLayoutView(activeRoute: vm.view, breadcrumbSection: vm.breadcrumbSection, breadcrumbTitle: vm.viewTitle, items: vm.navItems, sections: vm.navSections)
+              }
+            }
+
+            VStack() {
+              if specEq(vm.layoutStyle, "header") {
+                HeaderLayoutView(activeRoute: vm.view, sections: vm.navSections)
+              }
+            }
+
+            VStack() {
+              if specEq(vm.layoutStyle, "tabs") {
+                TabLayoutView(activeRoute: vm.view, items: vm.navItems)
+              }
+            }
+
           }
           .background(ThemeManager.shared.color("surface"))
           .background(ThemeManager.shared.color("surface"))

@@ -172,6 +172,7 @@ source CategoriesAPI {
 surface App {
   @state {
     themePreset: "default" @persist
+    layoutStyle: "sidebar" @persist
     view: "dashboard" @route
     selectedTask: null
     sidebarCollapsed: false
@@ -252,6 +253,7 @@ surface App {
       currentLocale = lang
       switchLocale(lang)
     }
+    setLayout(style) { layoutStyle = style }
   }
 
   layout: vertical
@@ -536,10 +538,51 @@ surface App {
     animation: "st-glow 40s ease-in-out infinite"
   }
 
-  // Sidebar layout: breadcrumb + sidebar + content + command palette
-  SidebarLayout(activeRoute: view, sections: navSections, items: navItems, breadcrumbSection: breadcrumbSection, breadcrumbTitle: viewTitle) {
-    on navigate(id): { navigateTo(id) }
-    @navigation.content(view)
+  // Floating layout picker — always visible, bottom-right corner
+  block {
+    layout: horizontal, gap: spacing.2, align: center
+    padding: spacing.2
+    padding-left: spacing.3
+    padding-right: spacing.3
+    background: semantic.surface
+    border-radius: radius.lg
+    shadow: elevation.floating
+    border: borders.default
+
+    Icon(name: "layout", size: icon.xs, color: semantic.text-secondary)
+
+    Button(label: "Sidebar", variant: layoutStyle == "sidebar" ? "default" : "ghost") {
+      on click: { setLayout("sidebar") }
+    }
+    Button(label: "Header", variant: layoutStyle == "header" ? "default" : "ghost") {
+      on click: { setLayout("header") }
+    }
+    Button(label: "Tabs", variant: layoutStyle == "tabs" ? "default" : "ghost") {
+      on click: { setLayout("tabs") }
+    }
+  }
+
+  // Layout switcher — toggle between sidebar, header, and tab layouts
+  block {
+    visibility: layoutStyle == "sidebar"
+    SidebarLayout(activeRoute: view, sections: navSections, items: navItems, breadcrumbSection: breadcrumbSection, breadcrumbTitle: viewTitle) {
+      on navigate(id): { navigateTo(id) }
+      @navigation.content(view)
+    }
+  }
+  block {
+    visibility: layoutStyle == "header"
+    HeaderLayout(activeRoute: view, sections: navSections) {
+      on navigate(id): { navigateTo(id) }
+      @navigation.content(view)
+    }
+  }
+  block {
+    visibility: layoutStyle == "tabs"
+    TabLayout(activeRoute: view, items: navItems) {
+      on navigate(id): { navigateTo(id) }
+      @navigation.content(view)
+    }
   }
 
   } // close surface block
