@@ -53,6 +53,7 @@ struct ModalView: View {
                   .frame(width: CGFloat(32))
                   .specFrameHeight(CGFloat(32))
                   .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .hoverEffect(.highlight)
                   }
                   .buttonStyle(.plain)
                 }
@@ -63,8 +64,6 @@ struct ModalView: View {
                 }
                 }
                 .padding(CGFloat(20))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               }

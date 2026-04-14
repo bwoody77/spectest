@@ -75,8 +75,6 @@ struct DragDemoView: View {
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack() {
               VStack(alignment: .leading) {

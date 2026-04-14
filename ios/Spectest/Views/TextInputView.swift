@@ -62,16 +62,12 @@ struct TextInputView: View {
               TextField("", text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
             }
           }
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
           VStack() {
             if specEq(vm.type, "textarea") {
               TextEditor(text: Binding(get: { vm.value as? String ?? "" }, set: { vm.value = $0 }))
             }
           }
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
           VStack() {
             if specNeq(vm.suffix, "") {

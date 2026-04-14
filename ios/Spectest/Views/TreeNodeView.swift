@@ -85,6 +85,7 @@ struct TreeNodeView: View {
         .padding(.top, CGFloat(4))
         .padding(.bottom, CGFloat(4))
         .opacity(specPx((specEq(specGet(vm.node, "disabled"), true) ? 0.5 : 1)))
+        .hoverEffect(.highlight)
         }
         .buttonStyle(.plain)
         VStack() {

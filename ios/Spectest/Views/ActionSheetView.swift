@@ -55,6 +55,7 @@ default: return "#1677ff"
 } })() as? String ?? "transparent"))
                     }
                     .padding(CGFloat(12))
+                    .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }
@@ -68,6 +69,7 @@ default: return "#1677ff"
                 }
                 .padding(CGFloat(12))
                 .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+                .hoverEffect(.highlight)
                 }
                 .buttonStyle(.plain)
               }

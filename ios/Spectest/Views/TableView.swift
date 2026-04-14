@@ -27,14 +27,12 @@ struct TableView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
             }
             .padding(CGFloat(12))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(minWidth: CGFloat(120))
             .frame(maxWidth: .infinity)
           }
         }
-        .background(ThemeManager.shared.color("semantic.on-destructive"))
-        .background(ThemeManager.shared.color("semantic.on-destructive"))
+        .background(ThemeManager.shared.color("semantic.background"))
+        .background(ThemeManager.shared.color("semantic.background"))
         ForEach(Array(specArr(vm.rows).enumerated()), id: \.offset) { rowIndex, row in
           HStack(alignment: .center, ) {
             ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
@@ -45,8 +43,6 @@ struct TableView: View {
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(minWidth: CGFloat(120))
               .frame(maxWidth: .infinity)
             }
@@ -65,6 +61,7 @@ default: return "#ffffff"
 } })()
 default: return "transparent"
 } })() as? String ?? "transparent"))
+          .hoverEffect(.highlight)
         }
       }
       }

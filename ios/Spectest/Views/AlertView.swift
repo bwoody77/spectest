@@ -55,8 +55,6 @@ case specString("error"): return "#991b1b"
 default: return "#1e40af"
 } })() as? String ?? "transparent"))
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         Button(action: { /* event callback */ }) {
         HStack(alignment: .center, ) {
@@ -77,6 +75,7 @@ default: return "#1e40af"
         .specFrameHeight(CGFloat(24))
         .frame(minWidth: CGFloat(24))
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+        .hoverEffect(.highlight)
         }
         .buttonStyle(.plain)
       }

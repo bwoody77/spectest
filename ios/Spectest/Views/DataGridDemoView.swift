@@ -221,7 +221,8 @@ struct DataGridDemoView: View {
           .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator).opacity(0.3)))
         }
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       HStack(alignment: .center, ) {
         if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
           HStack(spacing: 8) {

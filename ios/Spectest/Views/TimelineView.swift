@@ -39,8 +39,6 @@ case specString("active"): return "#3b82f6"
 case specString("error"): return "#ef4444"
 default: return "#d1d5db"
 } })() as? String ?? "transparent"))
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(width: CGFloat(2))
               .frame(minWidth: CGFloat(2))
               .frame(minHeight: CGFloat(24))
@@ -76,8 +74,6 @@ default: return "#d1d5db"
 
             }
             .padding(CGFloat(8))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
           }
 

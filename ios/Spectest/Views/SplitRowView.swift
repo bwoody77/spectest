@@ -14,14 +14,10 @@ struct SplitRowView: View {
         VStack() {
           // slot
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         VStack() {
           // slot
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
       }
 

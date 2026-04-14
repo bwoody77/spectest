@@ -154,6 +154,7 @@ default: return "#1677ff"
         .frame(maxWidth: .infinity)
         .padding(CGFloat(12))
         .background(Color(hex: ((specGet(notif, "read")) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .hoverEffect(.highlight)
       }
       VStack() {
         if (vm.hasNoNotifications) as? Bool ?? false {

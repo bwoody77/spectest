@@ -331,8 +331,6 @@ struct EditableGridSpecView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
                 }
                 .padding(CGFloat(8))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(minWidth: CGFloat(100))
                 .frame(maxWidth: .infinity)
                 }
@@ -365,6 +363,15 @@ struct EditableGridSpecView: View {
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .frame(maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .focusable()
+        .onKeyPress(.init("c")) { Task { @MainActor in await vm.copyCell() }; return .handled }
+        .onKeyPress(.init("v")) { Task { @MainActor in await vm.pasteClipboard() }; return .handled }
+        .onKeyPress(.init("d")) { Task { @MainActor in await vm.fillDown() }; return .handled }
+        .onKeyPress(.downArrow) { Task { @MainActor in await vm.moveDown() }; return .handled }
+        .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveUp() }; return .handled }
+        .onKeyPress(.leftArrow) { Task { @MainActor in await vm.moveLeft() }; return .handled }
+        .onKeyPress(.rightArrow) { Task { @MainActor in await vm.moveRight() }; return .handled }
+        .onKeyPress(.return) { Task { @MainActor in await vm.activateEdit() }; return .handled }
         Color.clear.frame(width: 0, height: 0)
           .overlay {
             if (vm.isSelectEditing) as? Bool ?? false {
@@ -386,6 +393,7 @@ struct EditableGridSpecView: View {
                     .padding(.leading, CGFloat(12))
                     .padding(.trailing, CGFloat(12))
                     .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }

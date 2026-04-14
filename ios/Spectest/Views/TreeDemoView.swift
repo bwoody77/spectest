@@ -103,7 +103,7 @@ struct TreeDemoView: View {
           }
           }
           .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         VStack(spacing: CGFloat(16)) {
           VStack() {
@@ -172,7 +172,7 @@ struct TreeDemoView: View {
 
         }
         .padding(CGFloat(20))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       .frame(minHeight: specPx(vm.treeMinHeight))
     }

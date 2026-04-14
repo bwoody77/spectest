@@ -63,15 +63,11 @@ default: return "#92a2b9"
                 }
               }
               .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .specFrameHeight(CGFloat(2))
               .frame(minHeight: CGFloat(2))
               .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
               .frame(maxWidth: .infinity)
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
           }
         }
@@ -111,8 +107,6 @@ default: return "#ffffff"
                   }
                 }
                 .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(width: CGFloat(2))
                 .frame(minHeight: CGFloat(24))
                 .background(Color(hex: ((specDouble(i) < specDouble(vm.activeStep)) ? "#22c55e" : "#dce0e5") as? String ?? "transparent"))

@@ -139,7 +139,7 @@ struct MultiSelectView: View {
                     }
                     .padding(.leading, CGFloat(8))
                     .padding(.trailing, CGFloat(4))
-                    .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                   }
                 }
               }
@@ -166,8 +166,6 @@ struct MultiSelectView: View {
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               }
               .buttonStyle(.plain)
@@ -176,6 +174,10 @@ struct MultiSelectView: View {
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
             .frame(minHeight: CGFloat(40))
             .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
+            .focusable()
+            .onKeyPress(.escape) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
+            .onKeyPress(.tab) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
           }
           Color.clear.frame(width: 0, height: 0)
             .overlay {
@@ -238,6 +240,7 @@ case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                          .hoverEffect(.highlight)
                           }
                           .buttonStyle(.plain)
                         }
@@ -325,6 +328,7 @@ case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .hoverEffect(.highlight)
                 }
                 .buttonStyle(.plain)
               }
@@ -333,6 +337,11 @@ default: return "transparent"
           }
           .frame(maxHeight: CGFloat(280))
           .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .focusable()
+          .onKeyPress(.downArrow) { Task { @MainActor in await vm.moveHighlight(1) }; return .handled }
+          .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveHighlight(-1) }; return .handled }
+          .onKeyPress(.return) { Task { @MainActor in await vm.toggleHighlighted() }; return .handled }
+          .onKeyPress(.init(" ")) { Task { @MainActor in await vm.toggleHighlighted() }; return .handled }
           HStack(alignment: .center, ) {
             if specEq(vm.hasOptions, false) {
               Text(verbatim: specString("No options"))

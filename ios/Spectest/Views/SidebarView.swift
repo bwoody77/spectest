@@ -34,6 +34,7 @@ struct SidebarView: View {
             .frame(width: CGFloat(32))
             .specFrameHeight(CGFloat(32))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
@@ -51,6 +52,7 @@ struct SidebarView: View {
             .frame(width: CGFloat(32))
             .specFrameHeight(CGFloat(32))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
@@ -90,6 +92,7 @@ struct SidebarView: View {
               }
               .padding(CGFloat(8))
               .background(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#ffffff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
             }
@@ -97,8 +100,6 @@ struct SidebarView: View {
         }
         }
         .padding(CGFloat(8))
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
       }
       .background(ThemeManager.shared.color("semantic.surface"))

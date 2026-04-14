@@ -139,6 +139,7 @@ struct TeamDirectoryView: View {
             .padding(CGFloat(20))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
             .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+            .hoverEffect(.highlight)
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }

@@ -63,6 +63,7 @@ struct DrawerView: View {
                     .frame(width: CGFloat(32))
                     .specFrameHeight(CGFloat(32))
                     .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }
@@ -74,8 +75,6 @@ struct DrawerView: View {
                 }
                 }
                 .padding(CGFloat(16))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               }
@@ -100,6 +99,7 @@ struct DrawerView: View {
                     .frame(width: CGFloat(32))
                     .specFrameHeight(CGFloat(32))
                     .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }
@@ -111,8 +111,6 @@ struct DrawerView: View {
                 }
                 }
                 .padding(CGFloat(16))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               }

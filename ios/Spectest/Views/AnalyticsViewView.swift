@@ -79,6 +79,7 @@ struct AnalyticsViewView: View {
         }
         .padding(CGFloat(20))
         .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), ThemeManager.shared.color("semantic.focus-ring")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .hoverEffect(.highlight)
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
             .font(.system(size: specPx("32px")))
@@ -90,6 +91,7 @@ struct AnalyticsViewView: View {
         }
         .padding(CGFloat(20))
         .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), ThemeManager.shared.color("semantic.success-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .hoverEffect(.highlight)
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
             .font(.system(size: specPx("32px")))
@@ -101,6 +103,7 @@ struct AnalyticsViewView: View {
         }
         .padding(CGFloat(20))
         .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), ThemeManager.shared.color("semantic.warning-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .hoverEffect(.highlight)
         VStack(spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
             .font(.system(size: specPx("32px")))
@@ -112,6 +115,7 @@ struct AnalyticsViewView: View {
         }
         .padding(CGFloat(20))
         .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.text-disabled")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .hoverEffect(.highlight)
       }
 
       LazyVGrid(columns: [GridItem(.flexible())], spacing: CGFloat(20)) {
@@ -195,6 +199,7 @@ struct AnalyticsViewView: View {
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
               .background(ThemeManager.shared.color("semantic.error-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .hoverEffect(.highlight)
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("info")))
@@ -217,6 +222,7 @@ struct AnalyticsViewView: View {
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
               .background(ThemeManager.shared.color("semantic.warning-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .hoverEffect(.highlight)
               HStack(alignment: .center, spacing: CGFloat(12)) {
                 HStack(alignment: .center, spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("check")))
@@ -239,6 +245,7 @@ struct AnalyticsViewView: View {
               .frame(maxWidth: .infinity)
               .padding(CGFloat(12))
               .background(ThemeManager.shared.color("semantic.success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .hoverEffect(.highlight)
             }
 
           }
@@ -263,6 +270,7 @@ struct AnalyticsViewView: View {
             }
             .padding(CGFloat(16))
             .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
@@ -274,6 +282,7 @@ struct AnalyticsViewView: View {
             }
             .padding(CGFloat(16))
             .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
             VStack(spacing: CGFloat(8)) {
               Image(systemName: specIconName(specString("user")))
                 .font(.system(size: specPx("24px")))
@@ -285,6 +294,7 @@ struct AnalyticsViewView: View {
             }
             .padding(CGFloat(16))
             .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
           }
 
         }

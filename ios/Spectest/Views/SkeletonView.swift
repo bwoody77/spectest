@@ -41,8 +41,6 @@ struct SkeletonView: View {
             .specFrameHeight(CGFloat(14))
             .background(Color(hex: "#e2e8f0"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           }
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
         }
 

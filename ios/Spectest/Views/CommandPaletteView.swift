@@ -80,11 +80,12 @@ struct CommandPaletteView: View {
                             }
                           }
                           .padding(CGFloat(4))
-                          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                         }
                         .padding(CGFloat(12))
                         .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "transparent"))
                         .background(Color(hex: (specEq(idx, vm.highlightIndex) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+                        .hoverEffect(.highlight)
                         }
                         .buttonStyle(.plain)
                       }

@@ -44,6 +44,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           Button(action: { /* event callback */ }) {
@@ -56,6 +57,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color(hex: (specEq(vm.currentPage, 1) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           HStack(alignment: .center, ) {
@@ -79,13 +81,14 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           HStack(alignment: .center, ) {
             if ((specDouble(vm.currentPage) > specDouble(1)) && (specDouble(vm.currentPage) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(vm.currentPage))"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
+                .foregroundStyle(ThemeManager.shared.color("semantic.background"))
             }
           }
           .padding(CGFloat(8))
@@ -104,6 +107,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           HStack(alignment: .center, ) {
@@ -127,6 +131,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .background(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           Button(action: { if (vm.hasNext) as? Bool ?? false {
@@ -143,6 +148,7 @@ struct PaginationView: View {
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
           .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
         }

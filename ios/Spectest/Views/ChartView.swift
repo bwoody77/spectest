@@ -70,8 +70,6 @@ struct ChartView: View {
             // mount: ChartSVG
           }
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, ) {
           if (vm.isEmpty) as? Bool ?? false {
@@ -80,8 +78,6 @@ struct ChartView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
           }
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         HStack(alignment: .center, spacing: CGFloat(12)) {
           if (vm.showLegendBar) as? Bool ?? false {

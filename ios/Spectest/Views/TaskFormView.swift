@@ -209,6 +209,7 @@ struct TaskFormView: View {
 
         }
         .padding(CGFloat(20))
+        .hoverEffect(.highlight)
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }

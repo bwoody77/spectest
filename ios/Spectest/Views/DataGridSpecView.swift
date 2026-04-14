@@ -144,16 +144,14 @@ struct DataGridSpecView: View {
                   .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               }
               .padding(CGFloat(8))
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(minWidth: CGFloat(100))
               .frame(maxWidth: .infinity)
               }
               .buttonStyle(.plain)
             }
           }
-          .background(ThemeManager.shared.color("semantic.on-destructive"))
-          .background(ThemeManager.shared.color("semantic.on-destructive"))
+          .background(ThemeManager.shared.color("semantic.background"))
+          .background(ThemeManager.shared.color("semantic.background"))
           HStack(alignment: .center, ) {
             if (vm.hasFilters) as? Bool ?? false {
               VStack() {
@@ -172,8 +170,6 @@ struct DataGridSpecView: View {
 
               }
               .padding(CGFloat(4))
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(minWidth: CGFloat(100))
               .frame(maxWidth: .infinity)
             }
@@ -204,8 +200,6 @@ struct DataGridSpecView: View {
                 }
                 .padding(CGFloat(8))
                 .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(minWidth: CGFloat(100))
                 .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
                 .frame(maxWidth: .infinity)
@@ -213,6 +207,7 @@ struct DataGridSpecView: View {
             }
             .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
             .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
@@ -230,6 +225,12 @@ struct DataGridSpecView: View {
       }
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .focusable()
+      .onKeyPress(.downArrow) { Task { @MainActor in await vm.moveDown() }; return .handled }
+      .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveUp() }; return .handled }
+      .onKeyPress(.rightArrow) { Task { @MainActor in await vm.moveRight() }; return .handled }
+      .onKeyPress(.leftArrow) { Task { @MainActor in await vm.moveLeft() }; return .handled }
+      .onKeyPress(.init(" ")) { Task { @MainActor in await vm.selectFocused() }; return .handled }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

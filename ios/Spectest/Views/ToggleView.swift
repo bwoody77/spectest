@@ -22,6 +22,11 @@ struct ToggleView: View {
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         VStack() {
+          VStack() {
+          }
+          .frame(width: CGFloat(18))
+          .specFrameHeight(CGFloat(18))
+          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(44))
         .specFrameHeight(CGFloat(24))
@@ -29,8 +34,6 @@ struct ToggleView: View {
 case specString(true): return "#4f46e5"
 default: return "#cbd5e1"
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(999)))
-        .overlay {
-        }
       }
       .padding(CGFloat(0))
       .background(Color.clear)

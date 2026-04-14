@@ -69,6 +69,7 @@ struct ListView: View {
             .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
             .opacity(CGFloat(0))
             .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }

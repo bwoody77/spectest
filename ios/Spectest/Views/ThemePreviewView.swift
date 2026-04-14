@@ -222,8 +222,6 @@ struct ThemePreviewView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               ListView(items: [["id": "1" as Any, "label": "Dashboard" as Any] as [String: Any], ["id": "2" as Any, "label": "Analytics" as Any] as [String: Any], ["id": "3" as Any, "label": "Settings" as Any] as [String: Any], ["id": "4" as Any, "label": "Profile" as Any] as [String: Any], ["id": "5" as Any, "label": "Logout" as Any] as [String: Any]] as [Any], searchable: true, selection: "single")
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack(spacing: CGFloat(8)) {
               Text(verbatim: specString("TS"))
@@ -231,8 +229,6 @@ struct ThemePreviewView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
               ListTSView(items: [["id": "1" as Any, "label": "Dashboard" as Any] as [String: Any], ["id": "2" as Any, "label": "Analytics" as Any] as [String: Any], ["id": "3" as Any, "label": "Settings" as Any] as [String: Any], ["id": "4" as Any, "label": "Profile" as Any] as [String: Any], ["id": "5" as Any, "label": "Logout" as Any] as [String: Any]] as [Any], searchable: true, selection: "single")
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
           }
 
@@ -328,8 +324,6 @@ struct ThemePreviewView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
               EditableGridSpecView(activation: "click", columns: [["key": "name" as Any, "header": "Name" as Any, "sortable": true as Any] as [String: Any], ["key": "role" as Any, "header": "Role" as Any, "sortable": true as Any, "type": "select" as Any, "options": [["value": "Engineer" as Any, "label": "Engineer" as Any] as [String: Any], ["value": "Designer" as Any, "label": "Designer" as Any] as [String: Any], ["value": "PM" as Any, "label": "PM" as Any] as [String: Any], ["value": "Manager" as Any, "label": "Manager" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["key": "status" as Any, "header": "Status" as Any] as [String: Any]] as [Any], height: "220px", rows: vm.cmpGridRows)
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack(spacing: CGFloat(8)) {
               Text(verbatim: specString("TS"))
@@ -337,15 +331,13 @@ struct ThemePreviewView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
               EditableGridTSView(activation: "click", columns: [["key": "name" as Any, "header": "Name" as Any, "sortable": true as Any] as [String: Any], ["key": "role" as Any, "header": "Role" as Any, "sortable": true as Any, "type": "select" as Any, "options": [["value": "Engineer" as Any, "label": "Engineer" as Any] as [String: Any], ["value": "Designer" as Any, "label": "Designer" as Any] as [String: Any], ["value": "PM" as Any, "label": "PM" as Any] as [String: Any], ["value": "Manager" as Any, "label": "Manager" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["key": "status" as Any, "header": "Status" as Any] as [String: Any]] as [Any], height: "220px", rows: vm.cmpGridRows)
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
           }
 
         }
         .padding(CGFloat(20))
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(spacing: CGFloat(20)) {
         VStack(spacing: CGFloat(20)) {
           VStack(alignment: .leading) {
@@ -665,8 +657,6 @@ struct ThemePreviewView: View {
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         VStack(spacing: CGFloat(20)) {
           VStack(alignment: .leading) {
@@ -683,8 +673,6 @@ struct ThemePreviewView: View {
                     ProgressView(value: (vm.progressValue as? Double ?? 0) / 100.0)
                       .tint(.accentColor)
                   }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
                   .frame(maxWidth: .infinity)
                 }
 
@@ -696,8 +684,6 @@ struct ThemePreviewView: View {
                     ProgressView(value: (vm.progressHalf as? Double ?? 0) / 100.0)
                       .tint(.accentColor)
                   }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
                   .frame(maxWidth: .infinity)
                 }
 
@@ -882,7 +868,7 @@ struct ThemePreviewView: View {
 
                 }
                 .padding(CGFloat(12))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 MultiSelectView(display: vm.msDisplay, label: "Tags", mode: vm.msMode, options: [["value": "bug" as Any, "label": "Bug" as Any] as [String: Any], ["value": "feature" as Any, "label": "Feature" as Any] as [String: Any], ["value": "docs" as Any, "label": "Docs" as Any] as [String: Any], ["value": "refactor" as Any, "label": "Refactor" as Any] as [String: Any]] as [Any], placeholder: "Select tags...", searchable: vm.msSearchable, showCheckbox: vm.msShowCheckbox, values: vm.cmpMsSpec)
                 Text(verbatim: specString("Checkboxes"))
                   .font(.body.bold())
@@ -949,6 +935,7 @@ struct ThemePreviewView: View {
                 }
                 .padding(CGFloat(16))
                 .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), ThemeManager.shared.color("semantic.focus-ring")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+                .hoverEffect(.highlight)
                 VStack(spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("user")))
                     .font(.system(size: specPx("24px")))
@@ -960,6 +947,7 @@ struct ThemePreviewView: View {
                 }
                 .padding(CGFloat(16))
                 .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), ThemeManager.shared.color("semantic.success-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+                .hoverEffect(.highlight)
                 VStack(spacing: CGFloat(8)) {
                   Image(systemName: specIconName(specString("loader")))
                     .font(.system(size: specPx("24px")))
@@ -971,6 +959,7 @@ struct ThemePreviewView: View {
                 }
                 .padding(CGFloat(16))
                 .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), ThemeManager.shared.color("semantic.warning-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+                .hoverEffect(.highlight)
               }
 
             }
@@ -1204,8 +1193,6 @@ struct ThemePreviewView: View {
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
       }
 
@@ -1338,7 +1325,7 @@ struct ThemePreviewView: View {
         }
         .padding(CGFloat(20))
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack() {
         VStack(spacing: CGFloat(16)) {
           Text(verbatim: specString("Tooltip"))
@@ -1354,7 +1341,7 @@ struct ThemePreviewView: View {
         }
         .padding(CGFloat(20))
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack() {
         VStack(spacing: CGFloat(16)) {
           Text(verbatim: specString("Popover"))
@@ -1370,7 +1357,7 @@ struct ThemePreviewView: View {
         }
         .padding(CGFloat(20))
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(16)) {
           Text(verbatim: specString("Command Palette"))

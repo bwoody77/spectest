@@ -61,6 +61,7 @@ struct TaskTableView: View {
       .frame(maxWidth: .infinity)
       .padding(CGFloat(12))
       .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       VStack(spacing: CGFloat(8)) {
         if (vm.tasksLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
@@ -122,7 +123,8 @@ struct TaskTableView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .hoverEffect(.highlight)
         .onTapGesture { vm.selectTask(task) }
       }
       VStack() {

@@ -172,7 +172,7 @@ struct FeatureTestView: View {
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(0))
-              .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
               .buttonStyle(.plain)
             }
@@ -212,7 +212,7 @@ struct FeatureTestView: View {
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
           Text(verbatim: specString("Navigate to Components > Routing in the sidebar for the full interactive demo with sidebar navigation, user detail routes, and 404 fallback."))
             .font(.callout.bold())
@@ -322,7 +322,7 @@ struct FeatureTestView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
       }
@@ -384,9 +384,7 @@ struct FeatureTestView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(16))
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .frame(maxWidth: .infinity)
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Surface-wide signals and actions:"))
@@ -406,9 +404,7 @@ struct FeatureTestView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(16))
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           .frame(maxWidth: .infinity)
         }
 
@@ -421,7 +417,7 @@ struct FeatureTestView: View {
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack() {
           Text(verbatim: specString("Navigate to Components > Form Validation for the full interactive demo with live error display and form state inspector."))
             .font(.callout.bold())
@@ -541,7 +537,7 @@ struct FeatureTestView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
             .padding(CGFloat(0))
-            .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
           }
@@ -573,7 +569,7 @@ struct FeatureTestView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
           }
           .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
       }

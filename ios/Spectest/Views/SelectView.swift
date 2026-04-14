@@ -91,6 +91,10 @@ struct SelectView: View {
         .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
         .frame(minHeight: CGFloat(40))
         .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .hoverEffect(.highlight)
+        .focusable()
+        .onKeyPress(.escape) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
+        .onKeyPress(.tab) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
         }
         .buttonStyle(.plain)
         Color.clear.frame(width: 0, height: 0)
@@ -126,6 +130,7 @@ case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                        .hoverEffect(.highlight)
                         }
                         .buttonStyle(.plain)
                       }

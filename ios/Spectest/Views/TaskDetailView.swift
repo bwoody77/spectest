@@ -82,6 +82,7 @@ struct TaskDetailView: View {
                 SpecStatusPill(status: specString(vm.taskStatus))
               }
               .padding(CGFloat(12))
+              .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
@@ -92,6 +93,7 @@ struct TaskDetailView: View {
                 SpecPriorityPill(priority: specString(vm.taskPriority))
               }
               .padding(CGFloat(12))
+              .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
@@ -104,6 +106,7 @@ struct TaskDetailView: View {
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
+              .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
@@ -116,6 +119,7 @@ struct TaskDetailView: View {
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
               .padding(CGFloat(12))
+              .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           }

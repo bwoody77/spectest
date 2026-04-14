@@ -33,17 +33,15 @@ struct ImageView: View {
   var body: some View {
     VStack() {
       VStack() {
+        VStack() {
+          if specEq(vm.loaded, false) {
+          }
+        }
+        .background(ThemeManager.shared.color("semantic.background"))
+        .background(ThemeManager.shared.color("semantic.background"))
         AsyncImage(url: URL(string: "" as? String ?? ""))
       }
       .frame(maxWidth: .infinity)
-      .overlay {
-        if specEq(vm.loaded, false) {
-          ZStack {
-            if specEq(vm.loaded, false) {
-            }
-          }
-        }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

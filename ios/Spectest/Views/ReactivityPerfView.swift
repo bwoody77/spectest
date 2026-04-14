@@ -34,7 +34,7 @@ struct ReactivityPerfView: View {
           TextField("", text: Binding(get: { vm.input as? String ?? "" }, set: { vm.input = $0 }))
         }
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         HStack(alignment: .center, spacing: CGFloat(12)) {
           VStack() {
             Text(verbatim: specString(vm.chars))
@@ -42,14 +42,14 @@ struct ReactivityPerfView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
           }
           .padding(CGFloat(8))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           VStack() {
             Text(verbatim: specString(vm.words))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
           }
           .padding(CGFloat(8))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         }
 
         VStack(spacing: CGFloat(8)) {
@@ -112,7 +112,7 @@ struct ReactivityPerfView: View {
 
         }
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack(spacing: CGFloat(8)) {
           Text(verbatim: specString("50 Direct Bindings"))
             .font(.headline.bold())
@@ -272,7 +272,7 @@ struct ReactivityPerfView: View {
 
         }
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack(spacing: CGFloat(8)) {
           Text(verbatim: specString("50 Computed Bindings (template strings)"))
             .font(.headline.bold())
@@ -432,7 +432,7 @@ struct ReactivityPerfView: View {
 
         }
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         VStack(spacing: CGFloat(8)) {
           Text(verbatim: specString("20 Styled Text Mirrors"))
             .font(.headline.bold())
@@ -582,7 +582,7 @@ struct ReactivityPerfView: View {
 
         }
         .padding(CGFloat(12))
-        .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       }
       .padding(CGFloat(20))
     }

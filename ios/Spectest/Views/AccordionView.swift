@@ -44,6 +44,7 @@ default: return "+"
             .padding(CGFloat(12))
             .background(ThemeManager.shared.color("semantic.surface"))
             .background(ThemeManager.shared.color("semantic.surface"))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
             VStack() {

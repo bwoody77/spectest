@@ -39,7 +39,7 @@ struct BreadcrumbView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
           }
-
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           Button(action: { /* event callback */ }) {
@@ -50,7 +50,7 @@ struct BreadcrumbView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
             }
           }
-
+          .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
           VStack() {

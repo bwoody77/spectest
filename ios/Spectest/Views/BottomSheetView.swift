@@ -102,8 +102,6 @@ struct BottomSheetView: View {
                 }
                 }
                 .padding(.bottom, CGFloat(0))
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               .specFrameHeight(specPx(vm.sheetHeight))

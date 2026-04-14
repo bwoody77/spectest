@@ -30,13 +30,12 @@ default: return "#496183"
             .padding(CGFloat(12))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
           VStack() {
           }
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
         }
 

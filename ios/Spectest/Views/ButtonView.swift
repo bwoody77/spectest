@@ -77,6 +77,7 @@ case specString("destructive"): return "#ef4444"
 default: return "#4f46e5"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

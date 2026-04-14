@@ -18,10 +18,11 @@ struct UserAvatarView: View {
       HStack(alignment: .center, ) {
         Text(verbatim: specString(vm.name))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
+          .foregroundStyle(ThemeManager.shared.color("semantic.background"))
       }
       .padding(CGFloat(12))
       .background(Color(hex: vm.bgColor as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+      .hoverEffect(.highlight)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

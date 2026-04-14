@@ -75,6 +75,7 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
               HStack(alignment: .center, ) {
@@ -84,7 +85,7 @@ struct TimePickerView: View {
               }
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
-              .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               Button(action: { if specEq(vm.disabled, false) {
   vm.incHour()
 } }) {
@@ -97,6 +98,7 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
             }
@@ -123,6 +125,7 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
               HStack(alignment: .center, ) {
@@ -132,7 +135,7 @@ struct TimePickerView: View {
               }
               .padding(CGFloat(8))
               .frame(minWidth: CGFloat(40))
-              .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               Button(action: { if specEq(vm.disabled, false) {
   vm.incMinute()
 } }) {
@@ -145,6 +148,7 @@ struct TimePickerView: View {
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
               .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
             }
@@ -169,7 +173,8 @@ struct TimePickerView: View {
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
             .frame(minWidth: CGFloat(48))
             .frame(minHeight: CGFloat(36))
-            .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }

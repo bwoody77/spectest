@@ -41,6 +41,7 @@ struct StatsBarView: View {
       }
       .padding(CGFloat(16))
       .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("check")))
@@ -62,6 +63,7 @@ struct StatsBarView: View {
       }
       .padding(CGFloat(16))
       .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("loader")))
@@ -83,6 +85,7 @@ struct StatsBarView: View {
       }
       .padding(CGFloat(16))
       .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       VStack(spacing: CGFloat(12)) {
         HStack(alignment: .center, spacing: CGFloat(12)) {
           Image(systemName: specIconName(specString("circle")))
@@ -104,6 +107,7 @@ struct StatsBarView: View {
       }
       .padding(CGFloat(16))
       .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.border")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

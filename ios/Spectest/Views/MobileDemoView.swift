@@ -74,7 +74,7 @@ struct MobileDemoView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Scroll Snap Carousel"))
               .font(.headline.bold())
@@ -156,7 +156,7 @@ struct MobileDemoView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
           VStack() {
             Text(verbatim: specString("Visibility Trigger"))
               .font(.headline.bold())
@@ -166,13 +166,11 @@ struct MobileDemoView: View {
               .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
           }
           .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
         }
         }
         .padding(CGFloat(16))
         .padding(.bottom, CGFloat(80))
-        .frame(minHeight: CGFloat(0))
-        .frame(minWidth: CGFloat(0))
         .frame(maxWidth: .infinity)
         BottomTabBarView(activeTab: vm.activeTab, tabs: [["id": "home" as Any, "label": "Home" as Any, "icon": "home" as Any] as [String: Any], ["id": "search" as Any, "label": "Search" as Any, "icon": "search" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any], ["id": "user" as Any, "label": "Profile" as Any, "icon": "user" as Any] as [String: Any]] as [Any])
         BottomSheetView(open: vm.sheetOpen)
@@ -193,7 +191,6 @@ struct MobileDemoView: View {
       }
       .background(ThemeManager.shared.color("semantic.surface"))
       .frame(maxWidth: .infinity)
-      .frame(minHeight: CGFloat(0))
       .background(ThemeManager.shared.color("semantic.surface"))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

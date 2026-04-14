@@ -124,7 +124,7 @@ struct ThemeBuilderView: View {
             HStack(alignment: .center, ) {
               Text(verbatim: specString("Aa"))
                 .font(.title3.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.on-destructive"))
+                .foregroundStyle(ThemeManager.shared.color("semantic.background"))
             }
             .specFrameHeight(CGFloat(80))
             .background(Color(hex: vm.primaryHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
@@ -135,8 +135,6 @@ struct ThemeBuilderView: View {
               VStack() {
                 TextField("", text: Binding(get: { vm.primaryHex as? String ?? "" }, set: { vm.primaryHex = $0 }))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               VStack() {
                 Text(verbatim: specString(vm.primaryHex))
@@ -216,7 +214,7 @@ struct ThemeBuilderView: View {
 
           }
           .padding(CGFloat(16))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
         VStack(spacing: CGFloat(16)) {
@@ -251,8 +249,6 @@ struct ThemeBuilderView: View {
             VStack() {
               Slider(value: Binding(get: { vm.surfaceTint as? Double ?? 0 }, set: { vm.surfaceTint = $0 }), in: (0 as? Double ?? 0)...(100 as? Double ?? 100), step: 1 as? Double ?? 1)
             }
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
             .frame(maxWidth: .infinity)
             VStack() {
               Text(verbatim: specString(vm.surfaceTint))
@@ -277,8 +273,6 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.bgHex as? String ?? "" }, set: { vm.bgHex = $0 }))
             }
@@ -302,8 +296,6 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.surfaceHex as? String ?? "" }, set: { vm.surfaceHex = $0 }))
             }
@@ -327,8 +319,6 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.surfaceRaisedHex as? String ?? "" }, set: { vm.surfaceRaisedHex = $0 }))
             }
@@ -352,15 +342,13 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.borderHex as? String ?? "" }, set: { vm.borderHex = $0 }))
             }
 
           }
           .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
         VStack(spacing: CGFloat(16)) {
@@ -390,8 +378,6 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.textPrimaryHex as? String ?? "" }, set: { vm.textPrimaryHex = $0 }))
             }
@@ -415,8 +401,6 @@ struct ThemeBuilderView: View {
                   .font(.callout.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
               }
-              .frame(minHeight: CGFloat(0))
-              .frame(minWidth: CGFloat(0))
               .frame(maxWidth: .infinity)
               TextField("", text: Binding(get: { vm.textSecondaryHex as? String ?? "" }, set: { vm.textSecondaryHex = $0 }))
             }
@@ -433,7 +417,7 @@ struct ThemeBuilderView: View {
             .background(Color(hex: vm.bgHex as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
           }
           .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
         VStack(spacing: CGFloat(16)) {
@@ -506,8 +490,6 @@ struct ThemeBuilderView: View {
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 }
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               .padding(CGFloat(12))
@@ -540,7 +522,7 @@ struct ThemeBuilderView: View {
                 }
                 .frame(width: CGFloat(52))
                 .specFrameHeight(CGFloat(36))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 VStack(spacing: CGFloat(2)) {
                   Text(verbatim: specString(specGet(p, "label")))
                     .font(.body.bold())
@@ -589,8 +571,6 @@ struct ThemeBuilderView: View {
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                 }
-                .frame(minHeight: CGFloat(0))
-                .frame(minWidth: CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               .padding(CGFloat(12))
@@ -646,14 +626,12 @@ struct ThemeBuilderView: View {
             Toggle(specString("Toggle switch"), isOn: Binding(get: { vm.motionToggle as? Bool ?? false }, set: { vm.motionToggle = $0 }))
           }
           .padding(CGFloat(16))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
 
       }
       }
       .padding(CGFloat(16))
-      .frame(minHeight: CGFloat(0))
-      .frame(minWidth: CGFloat(0))
       .frame(maxWidth: .infinity)
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

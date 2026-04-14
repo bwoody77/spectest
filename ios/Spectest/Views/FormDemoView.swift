@@ -204,8 +204,6 @@ struct FormDemoView: View {
                     }
 
                   }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
                   .frame(maxWidth: .infinity)
                   VStack(spacing: CGFloat(4)) {
                     Text(verbatim: specString("Last Name"))
@@ -221,8 +219,6 @@ struct FormDemoView: View {
                     }
 
                   }
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
                   .frame(maxWidth: .infinity)
                 }
 
@@ -284,7 +280,7 @@ struct FormDemoView: View {
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
                   .padding(CGFloat(0))
-                  .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   }
                   .buttonStyle(.plain)
                   Button(action: { vm.submitContact() }) {
@@ -304,8 +300,6 @@ struct FormDemoView: View {
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           }
-          .frame(minHeight: CGFloat(0))
-          .frame(minWidth: CGFloat(0))
           .frame(maxWidth: .infinity)
         }
         VStack() {
@@ -396,7 +390,7 @@ struct FormDemoView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 Text(verbatim: specString("2. Keep field values in @state as normal"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -406,7 +400,7 @@ struct FormDemoView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 Text(verbatim: specString("3. Call _touchField on blur, _submitForm on submit"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -416,7 +410,7 @@ struct FormDemoView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 Text(verbatim: specString("4. Use generated signals in the template"))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -426,7 +420,7 @@ struct FormDemoView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
                 .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
 
             }

@@ -27,7 +27,7 @@ struct RadioView: View {
           }
           .frame(width: CGFloat(8))
           .specFrameHeight(CGFloat(8))
-          .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         }
         .frame(width: CGFloat(18))
         .specFrameHeight(CGFloat(18))

@@ -155,7 +155,8 @@ struct ActivityFeedView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(CGFloat(12))
-            .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .hoverEffect(.highlight)
           }
         }
       }

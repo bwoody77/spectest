@@ -141,7 +141,8 @@ struct EditableGridDemoView: View {
           EditableGridSpecView(activation: "click", columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "editable": false as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "editable": true as Any, "type": "text" as Any, "required": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "editable": true as Any, "type": "select" as Any, "options": ["Electronics", "Audio", "Furniture", "Accessories"] as [Any] as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "editable": true as Any, "type": "number" as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "editable": true as Any, "type": "select" as Any, "options": ["active", "out-of-stock", "discontinued"] as [Any] as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any, "max": 5 as Any, "step": 0.1 as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any, "editable": false as Any] as [String: Any]] as [Any], rows: vm.productList, saveMode: "batch", undoDepth: 50)
         }
       }
-      .background(ThemeManager.shared.color("semantic.on-destructive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .hoverEffect(.highlight)
       VStack(alignment: .leading) {
         VStack(spacing: CGFloat(12)) {
           Text(verbatim: specString("Editing Instructions"))

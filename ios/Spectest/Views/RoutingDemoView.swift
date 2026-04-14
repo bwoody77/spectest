@@ -66,10 +66,10 @@ struct RoutingDemoView: View {
         .buttonStyle(.plain)
       }
       .padding(CGFloat(12))
-      .background(ThemeManager.shared.color("semantic.on-destructive"))
+      .background(ThemeManager.shared.color("semantic.background"))
       .frame(width: CGFloat(200))
       .frame(minHeight: CGFloat(300))
-      .background(ThemeManager.shared.color("semantic.on-destructive"))
+      .background(ThemeManager.shared.color("semantic.background"))
       VStack() {
         VStack() {
           if specEq(vm._routePath, "/") {
@@ -97,8 +97,6 @@ struct RoutingDemoView: View {
 
       }
       .background(ThemeManager.shared.color("semantic.surface"))
-      .frame(minHeight: CGFloat(0))
-      .frame(minWidth: CGFloat(0))
       .background(ThemeManager.shared.color("semantic.surface"))
       .frame(maxWidth: .infinity)
     }

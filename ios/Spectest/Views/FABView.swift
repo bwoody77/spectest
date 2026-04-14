@@ -27,9 +27,7 @@ struct FABView: View {
   init(icon: Any = "plus", label: Any = "", size: Any = "md") { self._vm = State(initialValue: FABViewModel()); self.icon = icon; self.label = label; self.size = size }
   var body: some View {
     VStack() {
-    }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-    .overlay {
+      VStack() {
         HStack(alignment: .center, spacing: CGFloat(8)) {
           Image(systemName: specIconName(specString(vm.icon)))
             .font(.system(size: specPx(vm.iconSize)))
@@ -46,8 +44,12 @@ struct FABView: View {
         .specFrameHeight(specPx(vm.btnSize))
         .frame(minWidth: specPx(vm.btnSize))
         .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: specPx((specNeq(vm.label, "") ? "28px" : "50%"))))
+        .hoverEffect(.highlight)
         .onTapGesture { /* event callback */ }
+      }
+      .padding(.bottom, CGFloat(0))
     }
+    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.icon, icon) { vm.icon = icon }; if !specEq(vm.size, size) { vm.size = size }; if !specEq(vm.label, label) { vm.label = label } }
