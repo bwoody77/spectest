@@ -42,68 +42,66 @@ struct ConfirmDialogView: View {
   init(cancelLabel: Any = "Cancel", confirmLabel: Any = "Confirm", destructive: Any = false, message: Any = "", open: Any = false, title: Any = "Confirm") { self._vm = State(initialValue: ConfirmDialogViewModel()); self.cancelLabel = cancelLabel; self.confirmLabel = confirmLabel; self.destructive = destructive; self.message = message; self.open = open; self.title = title }
   var body: some View {
     VStack() {
-      VStack() {
-      }
+      Color.clear.frame(width: 0, height: 0)
+        .overlay {
+          if (vm.showing) as? Bool ?? false {
+            ZStack {
+              Color.black.opacity(0.15).ignoresSafeArea()
+                .onTapGesture {
+                  vm.cancel()
+                }
+              VStack(spacing: CGFloat(12)) {
+                Text(verbatim: specString(vm.title))
+                  .font(.headline.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                Text(verbatim: specString(vm.message))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                HStack(alignment: .center, spacing: CGFloat(8)) {
+                  Button(action: { Task { @MainActor in await vm.cancel() } }) {
+                    Text(specString(vm.cancelLabel))
+                      .font(.subheadline.weight(.medium))
+                      .foregroundStyle(.blue)
+                      .padding(.horizontal, 16)
+                      .padding(.vertical, 8)
+                      .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8))
+                  }
+                  VStack() {
+                    if specEq(vm.destructive, false) {
+                      Button(action: { Task { @MainActor in await vm.confirm() } }) {
+                        Text(specString(vm.confirmLabel))
+                          .font(.subheadline.weight(.semibold))
+                          .foregroundStyle(.white)
+                          .padding(.horizontal, 16)
+                          .padding(.vertical, 8)
+                          .background(.blue, in: RoundedRectangle(cornerRadius: 8))
+                      }
+                    }
+                  }
 
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            if specEq(vm.showing, true) {
+                  VStack() {
+                    if specEq(vm.destructive, true) {
+                      Button(action: { Task { @MainActor in await vm.confirm() } }) {
+                        Text(specString(vm.confirmLabel))
+                          .font(.subheadline.weight(.semibold))
+                          .foregroundStyle(specString("destructive") == "primary" ? .white : .blue)
+                          .padding(.horizontal, 16)
+                          .padding(.vertical, 8)
+                          .background(specString("destructive") == "primary" ? AnyShapeStyle(.blue) : AnyShapeStyle(Color(.tertiarySystemFill)), in: RoundedRectangle(cornerRadius: 8))
+                      }
+                    }
+                  }
+
+                }
+
+              }
+              .padding(CGFloat(20))
+              .frame(width: CGFloat(440))
+              .frame(maxWidth: CGFloat(0))
+              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
             }
           }
         }
-      }
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            if specEq(vm.showing, true) {
-              Text(verbatim: specString(vm.title))
-                .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            }
-            Text(verbatim: specString(vm.message))
-              .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-            HStack(alignment: .center, spacing: CGFloat(8)) {
-              Button(action: { Task { @MainActor in await vm.cancel() } }) {
-                Text(specString(vm.cancelLabel))
-                  .font(.subheadline.weight(.medium))
-                  .foregroundStyle(.blue)
-                  .padding(.horizontal, 16)
-                  .padding(.vertical, 8)
-                  .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8))
-              }
-              VStack() {
-                if specEq(vm.destructive, false) {
-                  Button(action: { Task { @MainActor in await vm.confirm() } }) {
-                    Text(specString(vm.confirmLabel))
-                      .font(.subheadline.weight(.semibold))
-                      .foregroundStyle(.white)
-                      .padding(.horizontal, 16)
-                      .padding(.vertical, 8)
-                      .background(.blue, in: RoundedRectangle(cornerRadius: 8))
-                  }
-                }
-              }
-
-              VStack() {
-                if specEq(vm.destructive, true) {
-                  Button(action: { Task { @MainActor in await vm.confirm() } }) {
-                    Text(specString(vm.confirmLabel))
-                      .font(.subheadline.weight(.semibold))
-                      .foregroundStyle(specString("destructive") == "primary" ? .white : .blue)
-                      .padding(.horizontal, 16)
-                      .padding(.vertical, 8)
-                      .background(specString("destructive") == "primary" ? AnyShapeStyle(.blue) : AnyShapeStyle(Color(.tertiarySystemFill)), in: RoundedRectangle(cornerRadius: 8))
-                  }
-                }
-              }
-
-            }
-
-          }
-        }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

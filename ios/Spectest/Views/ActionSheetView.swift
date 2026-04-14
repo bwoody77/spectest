@@ -31,58 +31,51 @@ struct ActionSheetView: View {
   init(actions: Any = [] as [Any], open: Any = false, title: Any = "") { self._vm = State(initialValue: ActionSheetViewModel()); self.actions = actions; self.open = open; self.title = title }
   var body: some View {
     VStack() {
-      VStack() {
-      }
-
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.doClose() }
-            if specEq(vm.showing, true) {
-            }
-          }
-        }
-      }
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            if specEq(vm.showing, true) {
-              VStack() {
-                Text(verbatim: specString(vm.title))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
-                  Button(action: { vm.selectAction(specGet(action, "id")) }) {
-                  HStack(alignment: .center, ) {
-                    Text(verbatim: specString(specGet(action, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
+      Color.clear.frame(width: 0, height: 0)
+        .overlay {
+          if (vm.showing) as? Bool ?? false {
+            ZStack {
+              Color.black.opacity(0.15).ignoresSafeArea()
+                .onTapGesture {
+                  vm.doClose()
+                }
+              VStack(spacing: CGFloat(8)) {
+                VStack() {
+                  Text(verbatim: specString(vm.title))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
+                    Button(action: { vm.selectAction(specGet(action, "id")) }) {
+                    HStack(alignment: .center, ) {
+                      Text(verbatim: specString(specGet(action, "label")))
+                        .font(.body.bold())
+                        .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
 case specString(true): return "rgb(239, 68, 68)"
 default: return "#1677ff"
 } })() as? String ?? "transparent"))
+                    }
+                    .padding(CGFloat(12))
+                    }
+                    .buttonStyle(.plain)
                   }
-                  .padding(CGFloat(12))
-                  }
-                  .buttonStyle(.plain)
                 }
+                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+                Button(action: { vm.doClose() }) {
+                HStack(alignment: .center, ) {
+                  Text(verbatim: specString("Cancel"))
+                    .font(.body.bold())
+                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                }
+                .padding(CGFloat(12))
+                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+                }
+                .buttonStyle(.plain)
               }
-              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+              .padding(CGFloat(8))
+              .padding(.bottom, CGFloat(0))
             }
-            Button(action: { vm.doClose() }) {
-            HStack(alignment: .center, ) {
-              Text(verbatim: specString("Cancel"))
-                .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-            }
-            .padding(CGFloat(12))
-            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
-            }
-            .buttonStyle(.plain)
           }
         }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

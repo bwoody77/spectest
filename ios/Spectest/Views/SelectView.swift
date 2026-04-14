@@ -93,64 +93,63 @@ struct SelectView: View {
         .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
-      }
-
-      .overlay {
-        if specEq(vm.open, true) {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.closeDropdown() }
-            if specEq(vm.open, true) {
-            }
-          }
-        }
-      }
-      .overlay {
-        if specEq(vm.open, true) {
-          ZStack {
-            if specEq(vm.open, true) {
-              VStack() {
-                if (vm.searchable) as? Bool ?? false {
-                  TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
-                }
-              }
-              .padding(CGFloat(8))
-            }
-            VStack() {
-              if (vm.hasOptions) as? Bool ?? false {
-                ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
-                  Button(action: { vm.selectOption(specGet(option, "value")) }) {
+        Color.clear.frame(width: 0, height: 0)
+          .overlay {
+            if (vm.open) as? Bool ?? false {
+              ZStack {
+                Color.clear.ignoresSafeArea()
+                  .onTapGesture {
+                    vm.closeDropdown()
+                  }
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
                   VStack() {
-                    Text(verbatim: specString(specGet(option, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                    if (vm.searchable) as? Bool ?? false {
+                      TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                    }
                   }
                   .padding(CGFloat(8))
-                  .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
+                  VStack() {
+                    if (vm.hasOptions) as? Bool ?? false {
+                      ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                        Button(action: { vm.selectOption(specGet(option, "value")) }) {
+                        VStack() {
+                          Text(verbatim: specString(specGet(option, "label")))
+                            .font(.body.bold())
+                            .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                        }
+                        .padding(CGFloat(8))
+                        .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
 default: return ({ () -> Any in switch specString(specEq(specGet(option, "value"), vm.value)) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                        }
+                        .buttonStyle(.plain)
+                      }
+                    }
                   }
-                  .buttonStyle(.plain)
-                }
-              }
-            }
 
-            HStack(alignment: .center, ) {
-              if specEq(vm.hasOptions, false) {
-                Text(verbatim: specString("No options"))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  HStack(alignment: .center, ) {
+                    if specEq(vm.hasOptions, false) {
+                      Text(verbatim: specString("No options"))
+                        .font(.body.bold())
+                        .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    }
+                  }
+                  .padding(CGFloat(12))
+                }
+                }
+                .padding(CGFloat(4))
+                .frame(maxHeight: CGFloat(240))
+                .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
             }
-            .padding(CGFloat(12))
           }
-        }
       }
+
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

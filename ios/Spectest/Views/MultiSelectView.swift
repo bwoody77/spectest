@@ -177,92 +177,91 @@ struct MultiSelectView: View {
             .frame(minHeight: CGFloat(40))
             .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
-        }
-
-        .overlay {
-          if specEq(vm.open, true) {
-            ZStack {
-              Color.black.opacity(0.15)
-                .ignoresSafeArea()
-                .onTapGesture { vm.closeDropdown() }
-              if specEq(vm.open, true) {
-              }
-            }
-          }
-        }
-        .overlay {
-          if specEq(vm.open, true) {
-            ZStack {
-              if specEq(vm.open, true) {
-                VStack() {
-                  if (vm.searchable) as? Bool ?? false {
-                    TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
-                  }
-                }
-                .padding(CGFloat(8))
-              }
-              HStack(alignment: .center, spacing: CGFloat(8)) {
-                Button(action: { vm.selectAll() }) {
-                VStack() {
-                  Text(verbatim: specString("Select all"))
-                    .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                }
-
-                }
-                .buttonStyle(.plain)
-                Button(action: { vm.clearAll() }) {
-                VStack() {
-                  Text(verbatim: specString("Clear all"))
-                    .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                }
-
-                }
-                .buttonStyle(.plain)
-              }
-              .padding(CGFloat(8))
-              VStack() {
-                if (vm.hasOptions) as? Bool ?? false {
-                  ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
-                    Button(action: { vm.toggleOption(specGet(option, "value")) }) {
+          Color.clear.frame(width: 0, height: 0)
+            .overlay {
+              if (vm.open) as? Bool ?? false {
+                ZStack {
+                  Color.clear.ignoresSafeArea()
+                    .onTapGesture {
+                      vm.closeDropdown()
+                    }
+                  ScrollView(.horizontal, showsIndicators: true) {
+                  VStack() {
+                    VStack() {
+                      if (vm.searchable) as? Bool ?? false {
+                        TextField(specString("Search..."), text: Binding(get: { vm.query as? String ?? "" }, set: { vm.query = $0 }))
+                      }
+                    }
+                    .padding(CGFloat(8))
                     HStack(alignment: .center, spacing: CGFloat(8)) {
-                      Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
+                      Button(action: { vm.selectAll() }) {
+                      VStack() {
+                        Text(verbatim: specString("Select all"))
+                          .font(.body.bold())
+                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                      }
+
+                      }
+                      .buttonStyle(.plain)
+                      Button(action: { vm.clearAll() }) {
+                      VStack() {
+                        Text(verbatim: specString("Clear all"))
+                          .font(.body.bold())
+                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                      }
+
+                      }
+                      .buttonStyle(.plain)
+                    }
+                    .padding(CGFloat(8))
+                    VStack() {
+                      if (vm.hasOptions) as? Bool ?? false {
+                        ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
+                          Button(action: { vm.toggleOption(specGet(option, "value")) }) {
+                          HStack(alignment: .center, spacing: CGFloat(8)) {
+                            Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
 default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
-                        .font(.body.bold())
-                        .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                      Text(verbatim: specString(specGet(option, "label")))
-                        .font(.body.bold())
-                        .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
-                    }
-                    .padding(CGFloat(8))
-                    .opacity(CGFloat(0))
-                    .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
+                              .font(.body.bold())
+                              .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                            Text(verbatim: specString(specGet(option, "label")))
+                              .font(.body.bold())
+                              .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                          }
+                          .padding(CGFloat(8))
+                          .opacity(CGFloat(0))
+                          .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
 case specString(true): return "#f1f5f9"
 default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
 case specString(true): return "#eef2ff"
 default: return "transparent"
 } })()
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                          }
+                          .buttonStyle(.plain)
+                        }
+                      }
                     }
-                    .buttonStyle(.plain)
-                  }
-                }
-              }
 
-              HStack(alignment: .center, ) {
-                if specEq(vm.hasOptions, false) {
-                  Text(verbatim: specString("No options"))
-                    .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    HStack(alignment: .center, ) {
+                      if specEq(vm.hasOptions, false) {
+                        Text(verbatim: specString("No options"))
+                          .font(.body.bold())
+                          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                      }
+                    }
+                    .padding(CGFloat(12))
+                  }
+                  }
+                  .padding(CGFloat(4))
+                  .frame(maxHeight: CGFloat(280))
+                  .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                 }
               }
-              .padding(CGFloat(12))
             }
-          }
         }
+
         VStack(spacing: CGFloat(4)) {
           if specEq(vm.isDropdownMode, false) {
             VStack() {
