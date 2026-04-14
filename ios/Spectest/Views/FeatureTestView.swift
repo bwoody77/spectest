@@ -60,7 +60,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP1) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP1) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -70,7 +69,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP2) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP2) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -80,7 +78,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP3) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP3) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -90,7 +87,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP4) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP4) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -100,7 +96,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP6) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP6) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -110,7 +105,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP7) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP7) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -120,7 +114,6 @@ struct FeatureTestView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: ((vm.isP8) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isP8) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -162,7 +155,6 @@ struct FeatureTestView: View {
                 Text(verbatim: specString("Increment (\(specString(vm.counter)))"))
                   .foregroundStyle(Color(hex: "#fff"))
               }
-              .padding(CGFloat(0))
               .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
               .buttonStyle(.plain)
@@ -171,7 +163,6 @@ struct FeatureTestView: View {
                 Text(verbatim: specString("Reset"))
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               }
-              .padding(CGFloat(0))
               .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
               .buttonStyle(.plain)
@@ -469,7 +460,6 @@ struct FeatureTestView: View {
                 .font(.callout.bold())
                 .foregroundStyle(Color(hex: (specEq(vm.matchValue, "A") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
-            .padding(CGFloat(0))
             .background(Color(hex: (specEq(vm.matchValue, "A") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
@@ -479,7 +469,6 @@ struct FeatureTestView: View {
                 .font(.callout.bold())
                 .foregroundStyle(Color(hex: (specEq(vm.matchValue, "B") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
-            .padding(CGFloat(0))
             .background(Color(hex: (specEq(vm.matchValue, "B") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
@@ -489,7 +478,6 @@ struct FeatureTestView: View {
                 .font(.callout.bold())
                 .foregroundStyle(Color(hex: (specEq(vm.matchValue, "C") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
-            .padding(CGFloat(0))
             .background(Color(hex: (specEq(vm.matchValue, "C") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
@@ -499,7 +487,6 @@ struct FeatureTestView: View {
                 .font(.callout.bold())
                 .foregroundStyle(Color(hex: (specEq(vm.matchValue, "D") ? "#fff" : "#202732") as? String ?? "transparent"))
             }
-            .padding(CGFloat(0))
             .background(Color(hex: (specEq(vm.matchValue, "D") ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
@@ -527,7 +514,6 @@ struct FeatureTestView: View {
               Text(verbatim: specString("Count up"))
                 .foregroundStyle(Color(hex: "#fff"))
             }
-            .padding(CGFloat(0))
             .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)
@@ -536,7 +522,6 @@ struct FeatureTestView: View {
               Text(verbatim: specString("Reset to 0"))
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
             }
-            .padding(CGFloat(0))
             .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
             .buttonStyle(.plain)

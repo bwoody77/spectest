@@ -231,15 +231,11 @@ struct AppView: View {
               .frame(maxWidth: .infinity)
 
             }
-            .padding(.leading, CGFloat(0))
-            .padding(.trailing, CGFloat(0))
-            .padding(.top, CGFloat(0))
-            .padding(.bottom, CGFloat(0))
             .background(Color(hex: "var(--spec-background)"))
             .background(Color(hex: "var(--spec-background)"))
             VStack() {
               if (vm.themeDrawerOpen) as? Bool ?? false {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Themes"))
                     .font(.headline.bold())
                     .foregroundStyle(Color(hex: "var(--spec-text-primary)"))
@@ -307,7 +303,7 @@ struct AppView: View {
             .background(Color(hex: "var(--spec-surface-raised)"))
             VStack() {
               if (vm.themeBuilderOpen) as? Bool ?? false {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   HStack(alignment: .center, spacing: CGFloat(8)) {
                     Image(systemName: specIconName(specString("palette")))
                       .font(.system(size: specPx("18px")))
@@ -386,15 +382,12 @@ struct AppView: View {
                   }
                 }
               }
-              .padding(.leading, CGFloat(0))
-              .padding(.trailing, CGFloat(0))
-              .padding(.top, CGFloat(0))
-              .padding(.bottom, CGFloat(0))
+
             }
             .background(Color(hex: "var(--spec-surface-raised)"))
             .frame(maxHeight: CGFloat(0))
             .background(Color(hex: "var(--spec-surface-raised)"))
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: [["heading": "Overview" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "bar-chart" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Tasks" as Any, "items": [["id": "detail" as Any, "label": "Task Detail" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Data" as Any, "items": [["id": "datagrid" as Any, "label": "Product Catalog" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "People" as Any, "items": [["id": "team" as Any, "label": "Team" as Any, "icon": "user" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Monitoring" as Any, "items": [["id": "activity" as Any, "label": "Activity" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "icon": "bell" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Performance" as Any, "items": [["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "icon": "zap" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Marketing" as Any, "items": [["id": "landing2" as Any, "label": "Landing Page" as Any, "icon": "globe" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Design" as Any, "items": [["id": "themepreview" as Any, "label": "Theme Preview" as Any, "icon": "palette" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Components" as Any, "items": [["id": "charts" as Any, "label": "Charts" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "icon": "smartphone" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Testing" as Any, "items": [["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "icon": "check-circle" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "System" as Any, "items": [["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any])
               ScrollView(.horizontal, showsIndicators: true) {
               VStack(spacing: CGFloat(20)) {
@@ -542,7 +535,6 @@ struct AppView: View {
 
               }
               }
-              .padding(CGFloat(0))
               .background(Color(hex: "var(--spec-surface)"))
               .frame(width: specPx(vm.fullWidth))
               .background(Color(hex: "var(--spec-surface)"))

@@ -84,7 +84,7 @@ struct BottomSheetView: View {
                   vm.doClose()
                 }
               VStack() {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   if specEq(vm.showHandle, true) {
                     VStack() {
                     }
@@ -101,7 +101,6 @@ struct BottomSheetView: View {
                   // slot
                 }
                 }
-                .padding(.bottom, CGFloat(0))
                 .frame(maxWidth: .infinity)
               }
               .specFrameHeight(specPx(vm.sheetHeight))

@@ -39,7 +39,6 @@ struct DragDemoView: View {
           Text(verbatim: specString("Sortable List"))
             .foregroundStyle(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -48,7 +47,6 @@ struct DragDemoView: View {
           Text(verbatim: specString("Kanban Board"))
             .foregroundStyle(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -60,7 +58,7 @@ struct DragDemoView: View {
             VStack() {
               VStack(alignment: .leading) {
                 VStack(spacing: CGFloat(16)) {
-                  HStack(alignment: .center, ) {
+                  HStack(alignment: .center) {
                     Text(verbatim: specString("Task Priority Queue"))
                       .font(.headline.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -110,7 +108,7 @@ struct DragDemoView: View {
 
       VStack(spacing: CGFloat(16)) {
         if specEq(vm.activeDemo, "kanban") {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             Text(verbatim: specString("Project Board"))
               .font(.headline.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -125,7 +123,6 @@ struct DragDemoView: View {
                     .foregroundStyle(Color(hex: "#166534"))
                 }
               }
-              .padding(CGFloat(0))
               .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
 

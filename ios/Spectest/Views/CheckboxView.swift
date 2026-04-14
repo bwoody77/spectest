@@ -18,7 +18,7 @@ struct CheckboxView: View {
   var body: some View {
     VStack() {
       Button(action: {  }) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           VStack() {
             if specEq(vm.checked, true) {
               Image(systemName: specIconName(specString("check")))
@@ -38,7 +38,6 @@ default: return "transparent"
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
       }
-      .padding(CGFloat(0))
       .background(Color.clear)
       .opacity(specPx(({ () -> Any in switch specString(vm.disabled) {
 case specString(true): return 0.5

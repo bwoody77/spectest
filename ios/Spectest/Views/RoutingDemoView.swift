@@ -25,7 +25,6 @@ struct RoutingDemoView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: (specEq(vm._routePath, "/") ? "#1677ff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: (specEq(vm._routePath, "/") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -35,7 +34,6 @@ struct RoutingDemoView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: (specEq(vm._routePath, "/about") ? "#1677ff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: (specEq(vm._routePath, "/about") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -49,7 +47,6 @@ struct RoutingDemoView: View {
               .font(.callout.bold())
               .foregroundStyle(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? "#1677ff" : "#202732") as? String ?? "transparent"))
           }
-          .padding(CGFloat(0))
           .background(Color(hex: (specEq(vm._routePath, specAdd("/users/", specGet(user, "id"))) ? specAdd("#1677ff", "22") : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           }
           .buttonStyle(.plain)
@@ -60,7 +57,6 @@ struct RoutingDemoView: View {
             .font(.callout.bold())
             .foregroundStyle(Color(hex: "#dc2626"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: (specEq(vm._routePath, "/nowhere") ? specAdd("#1677ff", "22") : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)

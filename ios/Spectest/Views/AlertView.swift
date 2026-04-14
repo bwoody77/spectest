@@ -57,7 +57,7 @@ default: return "#1e40af"
         }
         .frame(maxWidth: .infinity)
         Button(action: { /* event callback */ }) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specEq(vm.dismissible, true) {
             Text(verbatim: specString("u00D7"))
               .font(.body.bold())

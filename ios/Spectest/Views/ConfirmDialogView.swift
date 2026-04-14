@@ -11,22 +11,28 @@ final class ConfirmDialogViewModel {
   var title: Any = "Confirm"
   var showing: Any = false
   func doOpen() {
+    if (showing) as? Bool ?? false {
+      return
+    }
     showing = true
     // unsupported: builtin-call
     // unsupported: builtin-call
   }
   func doClose() {
+    if ((!((showing) as? Bool ?? false))) as? Bool ?? false {
+      return
+    }
     showing = false
     // unsupported: builtin-call
     // unsupported: builtin-call
   }
   func confirm() {
-    doClose()
     /* event callback */
+    doClose()
   }
   func cancel() {
-    doClose()
     /* event callback */
+    doClose()
   }
   func dispatch(_ event: Any, _ payload: Any? = nil) {}
 }

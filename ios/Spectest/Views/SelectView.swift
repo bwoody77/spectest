@@ -79,7 +79,7 @@ struct SelectView: View {
         }
 
         Button(action: { vm.toggleOpen() }) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           Text(verbatim: specString(vm.displayText))
             .font(.body.bold())
             .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "transparent"))
@@ -138,7 +138,7 @@ default: return "transparent"
                     }
                   }
 
-                  HStack(alignment: .center, ) {
+                  HStack(alignment: .center) {
                     if specEq(vm.hasOptions, false) {
                       Text(verbatim: specString("No options"))
                         .font(.body.bold())

@@ -20,7 +20,7 @@ struct BottomTabBarView: View {
   init(activeTab: Any = "", showLabels: Any = true, tabs: Any = [] as [Any]) { self._vm = State(initialValue: BottomTabBarViewModel()); self.activeTab = activeTab; self.showLabels = showLabels; self.tabs = tabs }
   var body: some View {
     VStack() {
-      HStack(alignment: .center, ) {
+      HStack(alignment: .center) {
         ForEach(Array(specArr(vm.tabs).enumerated()), id: \.offset) { _idx, tab in
           Button(action: { vm.selectTab(specGet(tab, "id")) }) {
           VStack(spacing: CGFloat(2)) {
@@ -46,7 +46,6 @@ struct BottomTabBarView: View {
           .buttonStyle(.plain)
         }
       }
-      .padding(.bottom, CGFloat(0))
       .background(ThemeManager.shared.color("semantic.surface"))
       .background(ThemeManager.shared.color("semantic.surface"))
     }

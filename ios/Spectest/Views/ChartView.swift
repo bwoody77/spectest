@@ -57,7 +57,7 @@ struct ChartView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specNeq(vm.title, "") {
             Text(verbatim: specString(vm.title))
               .font(.body.bold())
@@ -71,7 +71,7 @@ struct ChartView: View {
           }
         }
         .frame(maxWidth: .infinity)
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if (vm.isEmpty) as? Bool ?? false {
             Text(verbatim: specString("No data"))
               .font(.body.bold())

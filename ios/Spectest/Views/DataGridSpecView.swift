@@ -110,8 +110,8 @@ struct DataGridSpecView: View {
       VStack() {
         ScrollView(.horizontal, showsIndicators: true) {
         VStack() {
-          HStack(alignment: .center, ) {
-            HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
+            HStack(alignment: .center) {
               if specEq(vm.selection, "multi") {
                 Toggle(specString(""), isOn: .constant(vm.allSelected as? Bool ?? false))
                   .toggleStyle(.automatic)
@@ -152,7 +152,7 @@ struct DataGridSpecView: View {
           }
           .background(ThemeManager.shared.color("semantic.background"))
           .background(ThemeManager.shared.color("semantic.background"))
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if (vm.hasFilters) as? Bool ?? false {
               VStack() {
                 if specEq(vm.selection, "multi") {
@@ -179,8 +179,8 @@ struct DataGridSpecView: View {
           .background(ThemeManager.shared.color("semantic.surface"))
           ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
             Button(action: { vm.clickRow(row, rowIdx) }) {
-            HStack(alignment: .center, ) {
-              HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
+              HStack(alignment: .center) {
                 if specEq(vm.selection, "multi") {
                   Toggle(specString(""), isOn: .constant(false))
                     .toggleStyle(.automatic)
@@ -212,7 +212,7 @@ struct DataGridSpecView: View {
             }
             .buttonStyle(.plain)
           }
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if specEq(specLength(vm.processedRows), 0) {
               Text(verbatim: specString("No rows"))
                 .font(.body.bold())

@@ -35,7 +35,6 @@ case specString(true): return "#4f46e5"
 default: return "#cbd5e1"
 } })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: CGFloat(999)))
       }
-      .padding(CGFloat(0))
       .background(Color.clear)
       .opacity(specPx(({ () -> Any in switch specString(vm.disabled) {
 case specString(true): return 0.5

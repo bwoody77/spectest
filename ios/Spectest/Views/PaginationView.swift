@@ -33,7 +33,7 @@ struct PaginationView: View {
           Button(action: { if (vm.hasPrev) as? Bool ?? false {
   /* event callback */
 } }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             Text(verbatim: specString("u2039"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -48,7 +48,7 @@ struct PaginationView: View {
           }
           .buttonStyle(.plain)
           Button(action: { /* event callback */ }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             Text(verbatim: specString("1"))
               .font(.body.bold())
               .foregroundStyle(Color(hex: (specEq(vm.currentPage, 1) ? "#ffffff" : "#496183") as? String ?? "transparent"))
@@ -60,7 +60,7 @@ struct PaginationView: View {
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if ((specDouble(vm.currentPage) > specDouble(3)) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
                 .font(.body.bold())
@@ -70,7 +70,7 @@ struct PaginationView: View {
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           Button(action: { /* event callback */ }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble((specDouble(vm.currentPage) - specDouble(1))) > specDouble(1))) {
               Text(verbatim: specString("\(specString((specDouble(vm.currentPage) - specDouble(1))))"))
                 .font(.body.bold())
@@ -84,7 +84,7 @@ struct PaginationView: View {
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if ((specDouble(vm.currentPage) > specDouble(1)) && (specDouble(vm.currentPage) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(vm.currentPage))"))
                 .font(.body.bold())
@@ -96,7 +96,7 @@ struct PaginationView: View {
           .frame(minHeight: CGFloat(32))
           .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
           Button(action: { /* event callback */ }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble(specAdd(vm.currentPage, 1)) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(specAdd(vm.currentPage, 1)))"))
                 .font(.body.bold())
@@ -110,7 +110,7 @@ struct PaginationView: View {
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if ((specDouble(vm.currentPage) < specDouble((specDouble(vm.totalPages) - specDouble(2)))) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
                 .font(.body.bold())
@@ -120,7 +120,7 @@ struct PaginationView: View {
           .padding(CGFloat(8))
           .frame(minWidth: CGFloat(32))
           Button(action: { /* event callback */ }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if (specDouble(vm.totalPages) > specDouble(1)) {
               Text(verbatim: specString("\(specString(vm.totalPages))"))
                 .font(.body.bold())
@@ -137,7 +137,7 @@ struct PaginationView: View {
           Button(action: { if (vm.hasNext) as? Bool ?? false {
   /* event callback */
 } }) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             Text(verbatim: specString("u203A"))
               .font(.body.bold())
               .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

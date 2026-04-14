@@ -460,7 +460,7 @@ struct ThemePreviewView: View {
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString("Accordion (Spec Component)"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

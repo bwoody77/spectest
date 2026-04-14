@@ -22,10 +22,10 @@ struct SidebarView: View {
   var body: some View {
     VStack() {
       VStack() {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specEq(vm.collapsed, true) {
             Button(action: { /* event callback */ }) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString("u00BB"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -40,10 +40,10 @@ struct SidebarView: View {
           }
         }
         .padding(CGFloat(8))
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specEq(vm.collapsed, false) {
             Button(action: { /* event callback */ }) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString("u00AB"))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -73,7 +73,7 @@ struct SidebarView: View {
             ForEach(Array(specArr(specGet(section, "items")).enumerated()), id: \.offset) { _idx, item in
               Button(action: { /* event callback */ }) {
               HStack(alignment: .center, spacing: CGFloat(8)) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Image(systemName: specIconName(specString((specGet(item, "icon") != nil ? specGet(item, "icon") : "circle"))))
                     .font(.system(size: specPx(18)))
                     .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#1677ff" : "#496183") as? String ?? "transparent"))

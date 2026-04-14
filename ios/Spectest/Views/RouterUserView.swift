@@ -24,7 +24,7 @@ struct RouterUserView: View {
           .font(.callout.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         HStack(alignment: .center, spacing: CGFloat(12)) {
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             Text(verbatim: ({ () -> String in
           if (vm.userId) as? Bool ?? false { return specString((vm.userId as? [Any])?[0]) }
           return specString("?")

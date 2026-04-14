@@ -50,7 +50,7 @@ case specString("warning"): return "#92400e"
 default: return "#1e40af"
 } })() as? String ?? "transparent"))
         Button(action: { /* event callback */ }) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           Text(verbatim: specString("✕"))
             .font(.body.bold())
             .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))

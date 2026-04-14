@@ -121,7 +121,7 @@ struct ThemeBuilderView: View {
 
           }
           VStack(spacing: CGFloat(12)) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString("Aa"))
                 .font(.title3.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.background"))
@@ -220,7 +220,7 @@ struct ThemeBuilderView: View {
 
         VStack(spacing: CGFloat(16)) {
           if specEq(vm.activeSection, "colors") {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               VStack(spacing: CGFloat(4)) {
                 Text(verbatim: specString("Surface Colors"))
                   .font(.body.bold())
@@ -489,7 +489,7 @@ struct ThemeBuilderView: View {
                 .frame(width: CGFloat(8))
                 .specFrameHeight(CGFloat(8))
                 .background(Color(hex: (specEq(vm.fontPreset, specGet(f, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString(specGet(f, "label")))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -570,7 +570,7 @@ struct ThemeBuilderView: View {
                 .frame(width: CGFloat(8))
                 .specFrameHeight(CGFloat(8))
                 .background(Color(hex: (specEq(vm.motionPreset, specGet(p, "id")) ? "#1677ff" : "#dce0e5") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString(specGet(p, "label")))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

@@ -153,7 +153,7 @@ struct MultiSelectView: View {
               }
 
               Button(action: { vm.toggleOpen() }) {
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 VStack() {
                   if specEq(vm.hasSelections, false) {
                     Text(verbatim: specString(vm.placeholder))
@@ -248,7 +248,7 @@ default: return "transparent"
                       }
                     }
 
-                    HStack(alignment: .center, ) {
+                    HStack(alignment: .center) {
                       if specEq(vm.hasOptions, false) {
                         Text(verbatim: specString("No options"))
                           .font(.body.bold())
@@ -344,7 +344,7 @@ default: return "transparent"
           .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveHighlight(-1) }; return .handled }
           .onKeyPress(.return) { Task { @MainActor in await vm.toggleHighlighted() }; return .handled }
           .onKeyPress(.init(" ")) { Task { @MainActor in await vm.toggleHighlighted() }; return .handled }
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if specEq(vm.hasOptions, false) {
               Text(verbatim: specString("No options"))
                 .font(.body.bold())

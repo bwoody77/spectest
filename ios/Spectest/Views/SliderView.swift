@@ -30,7 +30,7 @@ struct SliderView: View {
   var body: some View {
     VStack() {
       VStack(spacing: CGFloat(8)) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
@@ -41,7 +41,7 @@ struct SliderView: View {
             .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
         }
 
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specEq(vm.label, "") {
             Text(verbatim: specString("\(specString(vm.displayValue))"))
               .font(.body.bold())

@@ -15,7 +15,7 @@ struct TimelineView: View {
     VStack() {
       VStack() {
         ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { index, item in
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             VStack() {
               VStack() {
               }

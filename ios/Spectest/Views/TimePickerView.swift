@@ -78,7 +78,7 @@ struct TimePickerView: View {
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString(vm.formattedH))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -128,7 +128,7 @@ struct TimePickerView: View {
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString(vm.formattedM))
                   .font(.body.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -164,7 +164,7 @@ struct TimePickerView: View {
             Button(action: { if specEq(vm.disabled, false) {
   vm.toggleAmPm()
 } }) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString(vm.ampm))
                 .font(.body.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))

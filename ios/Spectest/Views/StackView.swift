@@ -25,7 +25,7 @@ struct StackView: View {
         }
       }
 
-      HStack(alignment: .center, ) {
+      HStack(alignment: .center) {
         if specEq(vm.direction, "horizontal") {
           // slot
         }

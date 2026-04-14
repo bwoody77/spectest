@@ -47,7 +47,7 @@ struct FABView: View {
         .hoverEffect(.highlight)
         .onTapGesture { /* event callback */ }
       }
-      .padding(.bottom, CGFloat(0))
+
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

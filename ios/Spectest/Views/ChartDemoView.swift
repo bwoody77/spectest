@@ -39,7 +39,6 @@ struct ChartDemoView: View {
           Text(verbatim: specString("Line"))
             .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -48,7 +47,6 @@ struct ChartDemoView: View {
           Text(verbatim: specString("Bar"))
             .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -57,7 +55,6 @@ struct ChartDemoView: View {
           Text(verbatim: specString("Area"))
             .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -66,7 +63,6 @@ struct ChartDemoView: View {
           Text(verbatim: specString("Pie"))
             .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -75,7 +71,6 @@ struct ChartDemoView: View {
           Text(verbatim: specString("Donut"))
             .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -85,7 +80,7 @@ struct ChartDemoView: View {
         if (vm.isLine) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString("Monthly Revenue"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -95,7 +90,6 @@ struct ChartDemoView: View {
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
-                .padding(CGFloat(0))
                 .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 }
                 .buttonStyle(.plain)
@@ -129,7 +123,7 @@ struct ChartDemoView: View {
         if (vm.isBar) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString("Sales by Region"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -139,7 +133,6 @@ struct ChartDemoView: View {
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
-                .padding(CGFloat(0))
                 .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 }
                 .buttonStyle(.plain)
@@ -204,7 +197,7 @@ struct ChartDemoView: View {
         if (vm.isPie) as? Bool ?? false {
           VStack(alignment: .leading) {
             VStack(spacing: CGFloat(16)) {
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 Text(verbatim: specString("Revenue by Category"))
                   .font(.headline.bold())
                   .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -214,7 +207,6 @@ struct ChartDemoView: View {
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
                 }
-                .padding(CGFloat(0))
                 .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 }
                 .buttonStyle(.plain)

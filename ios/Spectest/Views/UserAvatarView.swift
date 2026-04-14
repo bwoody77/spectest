@@ -15,7 +15,7 @@ struct UserAvatarView: View {
   init(bgColor: Any? = nil, name: Any? = nil) { self._vm = State(initialValue: UserAvatarViewModel()); self.bgColor = bgColor; self.name = name }
   var body: some View {
     VStack() {
-      HStack(alignment: .center, ) {
+      HStack(alignment: .center) {
         Text(verbatim: specString(vm.name))
           .font(.body.bold())
           .foregroundStyle(ThemeManager.shared.color("semantic.background"))

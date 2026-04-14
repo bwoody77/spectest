@@ -154,7 +154,6 @@ struct FormDemoView: View {
           Text(verbatim: specString("Contact Form"))
             .foregroundStyle(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -163,7 +162,6 @@ struct FormDemoView: View {
           Text(verbatim: specString("How It Works"))
             .foregroundStyle(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
         }
-        .padding(CGFloat(0))
         .background(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
         .buttonStyle(.plain)
@@ -174,7 +172,7 @@ struct FormDemoView: View {
           VStack() {
             VStack(alignment: .leading) {
               VStack(spacing: CGFloat(20)) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Contact Us"))
                     .font(.headline.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
@@ -185,7 +183,6 @@ struct FormDemoView: View {
                         .foregroundStyle(Color(hex: "#92400e"))
                     }
                   }
-                  .padding(CGFloat(0))
                   .background(Color(hex: "#fef9c3"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
                 }
 
@@ -283,7 +280,6 @@ struct FormDemoView: View {
                     Text(verbatim: specString("Reset"))
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
                   }
-                  .padding(CGFloat(0))
                   .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   }
                   .buttonStyle(.plain)
@@ -292,7 +288,6 @@ struct FormDemoView: View {
                     Text(verbatim: specString("Send Message"))
                       .foregroundStyle(Color(hex: "#fff"))
                   }
-                  .padding(CGFloat(0))
                   .opacity(specPx(((vm._form_valid) as? Bool ?? false ? 1 : 0.6)))
                   .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   }
@@ -313,7 +308,7 @@ struct FormDemoView: View {
                 .font(.headline.bold())
                 .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
               VStack(spacing: CGFloat(8)) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Valid"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -325,7 +320,7 @@ struct FormDemoView: View {
                     .foregroundStyle(Color(hex: ((vm._form_valid) as? Bool ?? false ? "#166534" : "#dc2626") as? String ?? "transparent"))
                 }
 
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Dirty"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
@@ -337,7 +332,7 @@ struct FormDemoView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                 }
 
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Submit attempted"))
                     .font(.callout.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))

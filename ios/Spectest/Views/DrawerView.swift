@@ -49,12 +49,12 @@ struct DrawerView: View {
               ScrollView(.horizontal, showsIndicators: true) {
               VStack() {
                 if specEq(vm.side, "left") {
-                  HStack(alignment: .center, ) {
+                  HStack(alignment: .center) {
                     Text(verbatim: specString(vm.title))
                       .font(.headline.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     Button(action: { vm.doClose() }) {
-                    HStack(alignment: .center, ) {
+                    HStack(alignment: .center) {
                       Text(verbatim: specString("u00D7"))
                         .font(.headline.bold())
                         .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
@@ -85,12 +85,12 @@ struct DrawerView: View {
               ScrollView(.horizontal, showsIndicators: true) {
               VStack() {
                 if specEq(vm.side, "right") {
-                  HStack(alignment: .center, ) {
+                  HStack(alignment: .center) {
                     Text(verbatim: specString(vm.title))
                       .font(.headline.bold())
                       .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
                     Button(action: { vm.doClose() }) {
-                    HStack(alignment: .center, ) {
+                    HStack(alignment: .center) {
                       Text(verbatim: specString("u00D7"))
                         .font(.headline.bold())
                         .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))

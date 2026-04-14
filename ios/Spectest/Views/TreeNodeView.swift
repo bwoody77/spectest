@@ -50,7 +50,7 @@ struct TreeNodeView: View {
     VStack() {
       VStack() {
         Button(action: { vm.handleRowClick() }) {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           Button(action: { vm.handleToggle() }) {
           VStack() {
             if (vm.hasChildren) as? Bool ?? false {
@@ -69,7 +69,7 @@ struct TreeNodeView: View {
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             if specGet(vm.node, "icon") != nil {
               Image(systemName: specIconName(specString((specGet(vm.node, "icon") != nil ? specGet(vm.node, "icon") : ""))))
                 .font(.system(size: specPx(16)))

@@ -58,7 +58,7 @@ struct CommandPaletteView: View {
                     if (vm.hasResults) as? Bool ?? false {
                       ForEach(Array(specArr(vm.results).enumerated()), id: \.offset) { idx, cmd in
                         Button(action: { vm.selectItem(specGet(cmd, "id")) }) {
-                        HStack(alignment: .center, ) {
+                        HStack(alignment: .center) {
                           VStack(spacing: CGFloat(4)) {
                             Text(verbatim: specString(specGet(cmd, "label")))
                               .font(.body.bold())
@@ -93,7 +93,7 @@ struct CommandPaletteView: View {
                     }
                   }
 
-                  HStack(alignment: .center, ) {
+                  HStack(alignment: .center) {
                     if (specEq(vm.hasResults, false) && specNeq(vm.query, "")) {
                       Text(verbatim: specString("No matching commands"))
                         .font(.body.bold())

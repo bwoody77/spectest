@@ -19,7 +19,7 @@ struct TableView: View {
     VStack() {
       ScrollView(.horizontal, showsIndicators: true) {
       VStack() {
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
             VStack() {
               Text(verbatim: specString(specGet(col, "header")))
@@ -34,7 +34,7 @@ struct TableView: View {
         .background(ThemeManager.shared.color("semantic.background"))
         .background(ThemeManager.shared.color("semantic.background"))
         ForEach(Array(specArr(vm.rows).enumerated()), id: \.offset) { rowIndex, row in
-          HStack(alignment: .center, ) {
+          HStack(alignment: .center) {
             ForEach(Array(specArr(vm.columns).enumerated()), id: \.offset) { _idx, col in
               VStack() {
                 // slot

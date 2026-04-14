@@ -223,7 +223,7 @@ struct DataGridDemoView: View {
       }
       .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       .hoverEffect(.highlight)
-      HStack(alignment: .center, ) {
+      HStack(alignment: .center) {
         if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
           HStack(spacing: 8) {
             Button(action: { vm.page = (vm.page as? Int ?? 1) - 1 }) {

@@ -46,7 +46,7 @@ struct ActionSheetView: View {
                     .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
                   ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
                     Button(action: { vm.selectAction(specGet(action, "id")) }) {
-                    HStack(alignment: .center, ) {
+                    HStack(alignment: .center) {
                       Text(verbatim: specString(specGet(action, "label")))
                         .font(.body.bold())
                         .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
@@ -62,7 +62,7 @@ default: return "#1677ff"
                 }
                 .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
                 Button(action: { vm.doClose() }) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString("Cancel"))
                     .font(.body.bold())
                     .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
@@ -74,7 +74,6 @@ default: return "#1677ff"
                 .buttonStyle(.plain)
               }
               .padding(CGFloat(8))
-              .padding(.bottom, CGFloat(0))
             }
           }
         }

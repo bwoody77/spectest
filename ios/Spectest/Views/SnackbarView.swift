@@ -50,7 +50,7 @@ struct SnackbarView: View {
             }
             .buttonStyle(.plain)
             Button(action: { vm.doClose() }) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString("u00D7"))
                 .foregroundStyle(Color(.sRGB, red: 1.0000, green: 1.0000, blue: 1.0000, opacity: 0.7))
             }
@@ -70,7 +70,7 @@ struct SnackbarView: View {
           .background(Color(.sRGB, red: 0.1176, green: 0.1176, blue: 0.1176), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
       }
-      .padding(.bottom, CGFloat(0))
+
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

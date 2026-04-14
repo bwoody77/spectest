@@ -60,7 +60,6 @@ struct MobileDemoView: View {
             .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
         }
         .padding(CGFloat(16))
-        .padding(.top, CGFloat(0))
         .background(ThemeManager.shared.color("semantic.surface"))
         .background(ThemeManager.shared.color("semantic.surface"))
         ScrollView(.horizontal, showsIndicators: true) {

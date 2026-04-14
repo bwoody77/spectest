@@ -61,7 +61,7 @@ struct ListView: View {
         VStack() {
           ForEach(Array(specArr(vm.filteredItems).enumerated()), id: \.offset) { _idx, item in
             Button(action: { vm.handleSelect(specGet(item, "id")) }) {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Text(verbatim: specString(specGet(item, "label")))
                 .font(.body.bold())
                 .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
@@ -77,7 +77,7 @@ struct ListView: View {
         }
         }
 
-        HStack(alignment: .center, ) {
+        HStack(alignment: .center) {
           if specEq(vm.hasItems, false) {
             Text(verbatim: specString("No items"))
               .font(.body.bold())

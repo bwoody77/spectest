@@ -307,7 +307,7 @@ struct EditableGridSpecView: View {
         VStack() {
           ScrollView(.horizontal, showsIndicators: true) {
           VStack() {
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { _idx, col in
                 Button(action: { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSort(specGet(col, "key")) } }) {
                 HStack(alignment: .center, spacing: CGFloat(4)) {
@@ -340,7 +340,7 @@ struct EditableGridSpecView: View {
             .background(ThemeManager.shared.color("semantic.surface"))
             .background(ThemeManager.shared.color("semantic.surface"))
             ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
-              HStack(alignment: .center, ) {
+              HStack(alignment: .center) {
                 ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { colIdx, col in
                   SpecEditableCell(vm: vm, row: row, col: col, rowIdx: rowIdx, colIdx: colIdx)
                 }
@@ -348,7 +348,7 @@ struct EditableGridSpecView: View {
               .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "transparent"))
               .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "transparent"))
             }
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               if specEq(specLength(vm.processedRows), 0) {
                 Text(verbatim: specString("No rows"))
                   .font(.body.bold())

@@ -20,15 +20,15 @@ struct StepperView: View {
   init(activeStep: Any = 0, allowBack: Any = true, orientation: Any = "horizontal", steps: Any = [] as [Any]) { self._vm = State(initialValue: StepperViewModel()); self.activeStep = activeStep; self.allowBack = allowBack; self.orientation = orientation; self.steps = steps }
   var body: some View {
     VStack() {
-      HStack(alignment: .center, ) {
+      HStack(alignment: .center) {
         if specEq(vm.orientation, "horizontal") {
           ForEach(Array(specArr(vm.steps).enumerated()), id: \.offset) { i, step in
-            HStack(alignment: .center, ) {
+            HStack(alignment: .center) {
               Button(action: { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
   /* event callback */
 } }) {
               VStack(spacing: CGFloat(4)) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString(({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
@@ -81,7 +81,7 @@ default: return "#92a2b9"
                 Button(action: { if ((vm.allowBack) as? Bool ?? false && (specDouble(i) < specDouble(vm.activeStep))) {
   /* event callback */
 } }) {
-                HStack(alignment: .center, ) {
+                HStack(alignment: .center) {
                   Text(verbatim: specString(({ () -> Any in switch specString(true) {
 case specString((specDouble(i) < specDouble(vm.activeStep))): return "u2713"
 default: return "\(specString(specAdd(i, 1)))"
