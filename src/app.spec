@@ -644,53 +644,7 @@ surface App {
 
     // Sidebar navigation (Issue #18)
     Sidebar(
-      sections: [
-        {heading: "Overview", items: [
-          {id: "dashboard", label: "Dashboard", icon: "home"},
-          {id: "analytics", label: "Analytics", icon: "bar-chart"}
-        ]},
-        {heading: "Tasks", items: [
-          {id: "detail", label: "Task Detail", icon: "eye"},
-          {id: "create", label: "Create Task", icon: "plus"},
-          {id: "wizard", label: "Task Wizard", icon: "list"}
-        ]},
-        {heading: "Data", items: [
-          {id: "datagrid", label: "Product Catalog", icon: "layout"},
-          {id: "editgrid", label: "Editable Grid", icon: "edit"},
-          {id: "categories", label: "Categories", icon: "list"}
-        ]},
-        {heading: "People", items: [
-          {id: "team", label: "Team", icon: "user"}
-        ]},
-        {heading: "Monitoring", items: [
-          {id: "activity", label: "Activity", icon: "clock"},
-          {id: "notifications", label: "Notifications", icon: "bell"}
-        ]},
-        {heading: "Performance", items: [
-          {id: "perfgrid", label: "Grid 10K", icon: "zap"},
-          {id: "perfsignals", label: "Signal Test", icon: "activity"},
-          {id: "reactivityperf", label: "Reactivity Perf", icon: "zap"}
-        ]},
-        {heading: "Marketing", items: [
-          {id: "landing2", label: "Landing Page", icon: "globe"}
-        ]},
-        {heading: "Design", items: [
-          {id: "themepreview", label: "Theme Preview", icon: "palette"}
-        ]},
-        {heading: "Components", items: [
-          {id: "charts", label: "Charts", icon: "bar-chart"},
-          {id: "drag", label: "Drag & Drop", icon: "layout"},
-          {id: "formdemo", label: "Form Validation", icon: "edit"},
-          {id: "routing", label: "Routing", icon: "globe"},
-          {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"}
-        ]},
-        {heading: "Testing", items: [
-          {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle"}
-        ]},
-        {heading: "System", items: [
-          {id: "settings", label: "Settings", icon: "settings"}
-        ]}
-      ],
+      sections: navSections,
       activeItem: view,
       collapsed: sidebarCollapsed
     ) {
@@ -895,31 +849,7 @@ surface App {
   // CommandPalette overlay (Issue #18, #57 backdrop-blur)
   CommandPalette(
     open: commandPaletteOpen,
-    commands: [
-      {id: "dashboard", label: "Dashboard", group: "Views", icon: "home"},
-      {id: "analytics", label: "Analytics", group: "Views", icon: "bar-chart"},
-      {id: "team", label: "Team Directory", group: "Views", icon: "user"},
-      {id: "activity", label: "Activity Feed", group: "Views", icon: "clock"},
-      {id: "notifications", label: "Notifications", group: "Views", icon: "bell"},
-      {id: "detail", label: "Task Detail", group: "Tasks", icon: "eye"},
-      {id: "create", label: "Create Task", group: "Tasks", icon: "plus"},
-      {id: "wizard", label: "Task Wizard", group: "Tasks", icon: "list"},
-      {id: "datagrid", label: "Product Catalog", group: "Data", icon: "layout"},
-      {id: "editgrid", label: "Editable Grid", group: "Data", icon: "edit"},
-      {id: "categories", label: "Categories", group: "Data", icon: "list"},
-      {id: "landing2", label: "Landing Page", group: "Marketing", icon: "globe"},
-      {id: "themepreview", label: "Theme Preview", group: "Design", icon: "palette"},
-      {id: "charts", label: "Charts", group: "Components", icon: "bar-chart"},
-      {id: "drag", label: "Drag & Drop", group: "Components", icon: "layout"},
-      {id: "formdemo", label: "Form Validation", group: "Components", icon: "edit"},
-      {id: "routing", label: "Routing", group: "Components", icon: "globe"},
-      {id: "mobiledemo", label: "Mobile Demo", group: "Components", icon: "smartphone"},
-      {id: "featuretest", label: "Feature Test (P1-P8)", group: "Testing", icon: "check-circle"},
-      {id: "perfgrid", label: "Grid Performance", group: "Performance", icon: "zap"},
-      {id: "perfsignals", label: "Signal Performance", group: "Performance", icon: "activity"},
-      {id: "reactivityperf", label: "Reactivity Perf", group: "Performance", icon: "zap"},
-      {id: "settings", label: "Settings", group: "System", icon: "settings"}
-    ],
+    commands: navItems,
     placeholder: "Search views, actions..."
   ) {
     on select(id): { navigateTo(id) }
