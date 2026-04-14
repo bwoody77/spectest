@@ -247,7 +247,6 @@ surface App {
     closeCommandPalette() { commandPaletteOpen = false }
     navigateTo(v) {
       view = v
-      commandPaletteOpen = false
     }
     setLocale(lang) {
       currentLocale = lang
@@ -537,70 +536,10 @@ surface App {
     animation: "st-glow 40s ease-in-out infinite"
   }
 
-  // Breadcrumb navigation (Issue #18) — hidden on mobile
-  block {
-    max-height: responsive(0px, md: 50px)
-    overflow: hidden
-    background: semantic.surface-raised
-    border-bottom: borders.default
-
-    block {
-      padding-y: responsive(4px, md: 8px)
-      padding-x: responsive(12px, md: 20px)
-      Breadcrumb(
-        items: [
-          {id: "dashboard", label: "Home"},
-          {id: view, label: breadcrumbSection},
-          {id: view, label: viewTitle}
-        ]
-      ) {
-        on select(id): { view = id }
-      }
-    }
-  }
-
-  // Main content area: Sidebar + content
-  block {
-    grow: true
-    layout: horizontal
-    overflow: hidden
-
-    // Sidebar navigation (Issue #18)
-    Sidebar(
-      sections: navSections,
-      activeItem: view,
-      collapsed: sidebarCollapsed
-    ) {
-      on select(id): {
-        view = id
-        mobileNavOpen = false
-      }
-      on collapse(c): { sidebarCollapsed = c }
-      on mobileClose: closeMobileNav()
-    }
-
-    // Main content area — @navigation.content auto-generates visibility-gated
-    // blocks for each @navigation item that has a surface reference.
-    block {
-      grow: true
-      padding: responsive(spacing.3, md: spacing.5)
-      background: semantic.surface
-      layout: vertical, gap: spacing.5
-      overflow: "auto"
-      width: fullWidth
-
-      @navigation.content(view)
-    }
-  }
-
-  // CommandPalette overlay (Issue #18, #57 backdrop-blur)
-  CommandPalette(
-    open: commandPaletteOpen,
-    commands: navItems,
-    placeholder: "Search views, actions..."
-  ) {
-    on select(id): { navigateTo(id) }
-    on close: closeCommandPalette()
+  // Sidebar layout: breadcrumb + sidebar + content + command palette
+  SidebarLayout(activeRoute: view, sections: navSections, items: navItems, breadcrumbSection: breadcrumbSection, breadcrumbTitle: viewTitle) {
+    on navigate(id): { navigateTo(id) }
+    @navigation.content(view)
   }
 
   } // close surface block

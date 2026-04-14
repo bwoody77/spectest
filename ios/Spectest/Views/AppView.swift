@@ -21,6 +21,83 @@ final class AppViewModel {
   var appColorScheme: Any { ((((((((((((((((specEq(themePreset, "dark") || specEq(themePreset, "geek")) || specEq(themePreset, "glass")) || specEq(themePreset, "nord")) || specEq(themePreset, "cyberpunk")) || specEq(themePreset, "dracula")) || specEq(themePreset, "ocean")) || specEq(themePreset, "monokai")) || specEq(themePreset, "retro")) || specEq(themePreset, "gruvbox")) || specEq(themePreset, "catppuccin")) || specEq(themePreset, "synthwave")) || specEq(themePreset, "rose-pine")) || specEq(themePreset, "cobalt")) || specEq(themePreset, "stranger-things")) || specEq(themePreset, "mtg")) ? "dark" : "light") }
   var fullHeight: Any { "100vh" }
   var fullWidth: Any { "100%" }
+  var navSections: Any { [["heading": "Overview" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "bar-chart" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Tasks" as Any, "items": [["id": "detail" as Any, "label": "Task Detail" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Data" as Any, "items": [["id": "datagrid" as Any, "label": "Product Catalog" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "People" as Any, "items": [["id": "team" as Any, "label": "Team" as Any, "icon": "user" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Monitoring" as Any, "items": [["id": "activity" as Any, "label": "Activity" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "icon": "bell" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Performance" as Any, "items": [["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "icon": "zap" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Marketing" as Any, "items": [["id": "landing2" as Any, "label": "Landing Page" as Any, "icon": "globe" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Design" as Any, "items": [["id": "themepreview" as Any, "label": "Theme Preview" as Any, "icon": "palette" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Components" as Any, "items": [["id": "charts" as Any, "label": "Charts" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "icon": "smartphone" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Testing" as Any, "items": [["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "icon": "check-circle" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "System" as Any, "items": [["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any] }
+  var navItems: Any { [["id": "dashboard" as Any, "label": "Dashboard" as Any, "group": "Overview" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "group": "Overview" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "detail" as Any, "label": "Task Detail" as Any, "group": "Tasks" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "group": "Tasks" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "group": "Tasks" as Any, "icon": "list" as Any] as [String: Any], ["id": "datagrid" as Any, "label": "Product Catalog" as Any, "group": "Data" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "group": "Data" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "group": "Data" as Any, "icon": "list" as Any] as [String: Any], ["id": "team" as Any, "label": "Team" as Any, "group": "People" as Any, "icon": "user" as Any] as [String: Any], ["id": "activity" as Any, "label": "Activity" as Any, "group": "Monitoring" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "group": "Monitoring" as Any, "icon": "bell" as Any] as [String: Any], ["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "group": "Performance" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "landing2" as Any, "label": "Landing Page" as Any, "group": "Marketing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "themepreview" as Any, "label": "Theme Preview" as Any, "group": "Design" as Any, "icon": "palette" as Any] as [String: Any], ["id": "charts" as Any, "label": "Charts" as Any, "group": "Components" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "group": "Components" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "group": "Components" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "group": "Components" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "group": "Components" as Any, "icon": "smartphone" as Any] as [String: Any], ["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "group": "Testing" as Any, "icon": "check-circle" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "group": "System" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] }
+  var viewTitle: Any { ({ () -> Any in switch specString(view) {
+case specString("dashboard"): return "Dashboard"
+case specString("analytics"): return "Analytics"
+case specString("detail"): return "Task Detail"
+case specString("create"): return "Create Task"
+case specString("wizard"): return "Task Wizard"
+case specString("datagrid"): return "Product Catalog"
+case specString("editgrid"): return "Editable Grid"
+case specString("categories"): return "Categories"
+case specString("team"): return "Team"
+case specString("activity"): return "Activity"
+case specString("notifications"): return "Notifications"
+case specString("perfgrid"): return "Grid 10K"
+case specString("perfsignals"): return "Signal Test"
+case specString("reactivityperf"): return "Reactivity Perf"
+case specString("landing2"): return "Landing Page"
+case specString("themepreview"): return "Theme Preview"
+case specString("charts"): return "Charts"
+case specString("drag"): return "Drag & Drop"
+case specString("formdemo"): return "Form Validation"
+case specString("routing"): return "Routing"
+case specString("mobiledemo"): return "Mobile Demo"
+case specString("featuretest"): return "Feature Test (P1-P8)"
+case specString("settings"): return "Settings"
+default: return "App"
+} })() }
+  var breadcrumbSection: Any { ({ () -> Any in switch specString(view) {
+case specString("dashboard"): return "Overview"
+case specString("analytics"): return "Overview"
+case specString("detail"): return "Tasks"
+case specString("create"): return "Tasks"
+case specString("wizard"): return "Tasks"
+case specString("datagrid"): return "Data"
+case specString("editgrid"): return "Data"
+case specString("categories"): return "Data"
+case specString("team"): return "People"
+case specString("activity"): return "Monitoring"
+case specString("notifications"): return "Monitoring"
+case specString("perfgrid"): return "Performance"
+case specString("perfsignals"): return "Performance"
+case specString("reactivityperf"): return "Performance"
+case specString("landing2"): return "Marketing"
+case specString("themepreview"): return "Design"
+case specString("charts"): return "Components"
+case specString("drag"): return "Components"
+case specString("formdemo"): return "Components"
+case specString("routing"): return "Components"
+case specString("mobiledemo"): return "Components"
+case specString("featuretest"): return "Testing"
+case specString("settings"): return "System"
+default: return ""
+} })() }
+  var showDashboard: Any { specEq(view, "dashboard") }
+  var showAnalytics: Any { specEq(view, "analytics") }
+  var showTaskDetail: Any { specEq(view, "detail") }
+  var showCreateTask: Any { specEq(view, "create") }
+  var showTaskWizard: Any { specEq(view, "wizard") }
+  var showProductCatalog: Any { specEq(view, "datagrid") }
+  var showEditableGrid: Any { specEq(view, "editgrid") }
+  var showCategories: Any { specEq(view, "categories") }
+  var showTeam: Any { specEq(view, "team") }
+  var showActivity: Any { specEq(view, "activity") }
+  var showNotifications: Any { specEq(view, "notifications") }
+  var showGrid10K: Any { specEq(view, "perfgrid") }
+  var showSignalTest: Any { specEq(view, "perfsignals") }
+  var showReactivityPerf: Any { specEq(view, "reactivityperf") }
+  var showLandingPage: Any { specEq(view, "landing2") }
+  var showThemePreview: Any { specEq(view, "themepreview") }
+  var showCharts: Any { specEq(view, "charts") }
+  var showDragDrop: Any { specEq(view, "drag") }
+  var showFormValidation: Any { specEq(view, "formdemo") }
+  var showRouting: Any { specEq(view, "routing") }
+  var showMobileDemo: Any { specEq(view, "mobiledemo") }
+  var showFeatureTestP1P8: Any { specEq(view, "featuretest") }
+  var showSettings: Any { specEq(view, "settings") }
   let statsSource = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
@@ -81,7 +158,6 @@ final class AppViewModel {
   }
   func navigateTo(_ v: Any) {
     view = v
-    commandPaletteOpen = false
   }
   func setLocale(_ lang: Any) {
     currentLocale = lang
@@ -295,37 +371,7 @@ struct AppView: View {
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
             .specFrameHeight(CGFloat(6))
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
-            VStack() {
-              VStack() {
-                HStack(spacing: 4) {
-                  ForEach(Array(([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { idx, crumb in
-                    if idx > 0 {
-                      Image(systemName: "chevron.right").font(.caption2).foregroundStyle(.tertiary)
-                    }
-                    Text(specString((crumb as? [String: Any])?["label"] ?? crumb))
-                      .font(.subheadline)
-                      .foregroundStyle(idx < ([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).count - 1 ? .secondary : .primary)
-                  }
-                }
-              }
-
-            }
-            .background(ThemeManager.shared.color("surface-raised"))
-            .frame(maxHeight: CGFloat(0))
-            .background(ThemeManager.shared.color("surface-raised"))
-            HStack(alignment: .center) {
-              SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: navSections)
-              ScrollView(.horizontal, showsIndicators: true) {
-              VStack(spacing: ThemeManager.shared.size("spacing-5")) {
-              }
-              }
-              .background(ThemeManager.shared.color("surface"))
-              .frame(width: specPx(vm.fullWidth))
-              .background(ThemeManager.shared.color("surface"))
-              .frame(maxWidth: .infinity)
-            }
-            .frame(maxWidth: .infinity)
-            CommandPaletteView(commands: navItems, open: vm.commandPaletteOpen, placeholder: "Search views, actions...")
+            SidebarLayoutView(activeRoute: vm.view, breadcrumbSection: vm.breadcrumbSection, breadcrumbTitle: vm.viewTitle, items: vm.navItems, sections: vm.navSections)
           }
           .background(ThemeManager.shared.color("surface"))
           .background(ThemeManager.shared.color("surface"))
