@@ -344,65 +344,7 @@ struct EditableGridSpecView: View {
             ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
               HStack(alignment: .center, ) {
                 ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { colIdx, col in
-                  Button(action: { vm.clickCell(rowIdx, colIdx) }) {
-                  VStack() {
-                    VStack() {
-                      if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specEq(specGet(col, "type"), "select")) {
-                        Text(verbatim: specString(vm.editValue))
-                          .font(.callout.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
-                      }
-                    }
-
-                    VStack() {
-                      if ((specNeq(rowIdx, vm.activeRow) || specNeq(colIdx, vm.activeCol)) || specEq(vm.editing, false)) {
-                        Text(verbatim: ({ () -> String in
-          let _h0: Any? = specFirst(vm.editedValues, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) })
-          if _h0 != nil { return specString(specGet(specFirst(vm.editedValues, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }), "value")) }
-          let _h1: Any? = specGet(row, specGet(col, "key"))
-          if _h1 != nil { return specString(specAdd(specGet(row, specGet(col, "key")), "")) }
-          return specString("")
-        })())
-                          .font(.callout.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                      }
-                    }
-
-                  }
-                  .padding(CGFloat(8))
-                  .background(Color(hex: (specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) ? "rgba(245,158,11,0.08)" : "transparent") as? String ?? "transparent"))
-                  .frame(minHeight: CGFloat(0))
-                  .frame(minWidth: CGFloat(0))
-                  .frame(minWidth: CGFloat(100))
-                  .background(Color(hex: (specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) ? "rgba(245,158,11,0.08)" : "transparent") as? String ?? "transparent"))
-                  .frame(maxWidth: .infinity)
-                  }
-                  .buttonStyle(.plain)
-                  .overlay {
-                    if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specNeq(specGet(col, "type"), "select")) {
-                      ZStack {
-                        if (((specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)) && specEq(vm.editing, true)) && specNeq(specGet(col, "type"), "select")) {
-                          TextField("", text: Binding(get: { vm.editValue as? String ?? "" }, set: { vm.editValue = $0 }))
-                        }
-                      }
-                    }
-                  }
-                  .overlay {
-                    if specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) {
-                      ZStack {
-                        if specIncludes(vm.dirtyCells, specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) {
-                        }
-                      }
-                    }
-                  }
-                  .overlay {
-                    if specFirst(vm.validationErrors, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }) != nil {
-                      ZStack {
-                        if specFirst(vm.validationErrors, { (e: Any) -> Bool in return specEq(specGet(e, "key"), specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key"))) }) != nil {
-                        }
-                      }
-                    }
-                  }
+                  SpecEditableCell(vm: vm, row: row, col: col, rowIdx: rowIdx, colIdx: colIdx)
                 }
               }
               .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "transparent"))
@@ -465,4 +407,127 @@ struct EditableGridSpecView: View {
     .onAppear { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.sort, sort) { vm.sort = sort }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.striped, striped) { vm.striped = striped }; if !specEq(vm.rowIdField, rowIdField) { vm.rowIdField = rowIdField }; if !specEq(vm.activation, activation) { vm.activation = activation }; if !specEq(vm.saveMode, saveMode) { vm.saveMode = saveMode }; if !specEq(vm.undoDepth, undoDepth) { vm.undoDepth = undoDepth } }
     .task(id: specPropsKey([columns, rows, selection, selected, sort, height, striped, rowIdField, activation, saveMode, undoDepth])) { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.sort, sort) { vm.sort = sort }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.striped, striped) { vm.striped = striped }; if !specEq(vm.rowIdField, rowIdField) { vm.rowIdField = rowIdField }; if !specEq(vm.activation, activation) { vm.activation = activation }; if !specEq(vm.saveMode, saveMode) { vm.saveMode = saveMode }; if !specEq(vm.undoDepth, undoDepth) { vm.undoDepth = undoDepth } }
   }
+}
+
+/// A single cell in the editable grid, extracted to its own View so the
+/// Swift type-checker doesn't choke on the deeply nested ForEach body.
+struct SpecEditableCell: View {
+    @Bindable var vm: EditableGridSpecViewModel
+    let row: Any
+    let col: Any
+    let rowIdx: Int
+    let colIdx: Int
+
+    private var isActive: Bool {
+        specEq(rowIdx, vm.activeRow) && specEq(colIdx, vm.activeCol)
+    }
+    private var isEditing: Bool {
+        isActive && specEq(vm.editing, true)
+    }
+    private var isSelectCol: Bool {
+        specEq(specGet(col, "type"), "select")
+    }
+    private var cellKey: String {
+        specString(specAdd(specAdd(specGet(row, vm.rowIdField), "::"), specGet(col, "key")))
+    }
+    private var displayValue: String {
+        let edited = specFirst(vm.editedValues, { (e: Any) -> Bool in
+            return specEq(specGet(e, "key"), cellKey)
+        })
+        if edited != nil {
+            return specString(specGet(edited, "value"))
+        }
+        let raw = specGet(row, specGet(col, "key"))
+        if raw != nil { return specString(raw) }
+        return ""
+    }
+
+    var body: some View {
+        Button(action: { vm.clickCell(rowIdx, colIdx) }) {
+            VStack {
+                if isEditing && isSelectCol {
+                    Text(verbatim: specString(vm.editValue))
+                        .font(.callout.bold())
+                        .foregroundStyle(.blue)
+                } else {
+                    Text(verbatim: displayValue)
+                        .font(.callout)
+                        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                }
+            }
+            .frame(maxWidth: .infinity, minHeight: 32, alignment: .leading)
+            .padding(.horizontal, 8).padding(.vertical, 4)
+            .background(
+                specIncludes(vm.dirtyCells, cellKey)
+                    ? Color.orange.opacity(0.08)
+                    : Color.clear
+            )
+        }
+        .buttonStyle(.plain)
+        .frame(minWidth: 100)
+        .overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(isActive ? (isEditing ? Color.blue : Color.blue.opacity(0.4)) : Color.clear,
+                        lineWidth: isEditing ? 2 : 1)
+        )
+        .overlay {
+            if isEditing && !isSelectCol {
+                TextField("", text: Binding(
+                    get: { vm.editValue as? String ?? "" },
+                    set: { vm.editValue = $0 }
+                ))
+                .textFieldStyle(.roundedBorder)
+                .padding(2)
+                .onSubmit { vm.commitEdit() }
+            }
+        }
+        .popover(isPresented: Binding(
+            get: { isEditing && isSelectCol },
+            set: { if !$0 { vm.cancelEdit() } }
+        )) {
+            SpecSelectPopover(
+                options: specArr(vm.selectOptions).map { item -> Any in
+                    if item is [String: Any] { return item }
+                    let s = specString(item)
+                    return ["label": s as Any, "value": s as Any] as [String: Any]
+                },
+                currentValue: vm.editValue,
+                onSelect: { vm.selectOption($0) }
+            )
+        }
+    }
+}
+
+/// Popover content for select-type columns.
+struct SpecSelectPopover: View {
+    let options: [Any]
+    let currentValue: Any?
+    let onSelect: (Any?) -> Void
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(Array(options.enumerated()), id: \.offset) { _, opt in
+                    let isSelected = specEq(specGet(opt, "value"), currentValue)
+                    Button {
+                        onSelect(specGet(opt, "value"))
+                    } label: {
+                        HStack {
+                            Text(verbatim: specString(specGet(opt, "label")))
+                                .foregroundStyle(isSelected ? Color.white : Color.primary)
+                            Spacer()
+                            if isSelected {
+                                Image(systemName: "checkmark").foregroundStyle(Color.white)
+                            }
+                        }
+                        .padding(.horizontal, 16).padding(.vertical, 10)
+                        .background(isSelected ? Color.blue : Color.clear)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .frame(minWidth: 200, maxHeight: 300)
+        .presentationCompactAdaptation(.popover)
+    }
 }
