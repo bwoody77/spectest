@@ -75,49 +75,43 @@ struct BottomSheetView: View {
   init(backdrop: Any = true, initialSnap: Any = 0, open: Any = false, showHandle: Any = true, snapPoints: Any = [0.5, 1] as [Any]) { self._vm = State(initialValue: BottomSheetViewModel()); self.backdrop = backdrop; self.initialSnap = initialSnap; self.open = open; self.showHandle = showHandle; self.snapPoints = snapPoints }
   var body: some View {
     VStack() {
-      VStack() {
-      }
-
-      .overlay {
-        if (specEq(vm.showing, true) && specEq(vm.backdrop, true)) {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.doClose() }
-            if (specEq(vm.showing, true) && specEq(vm.backdrop, true)) {
-            }
-          }
-        }
-      }
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            if specEq(vm.showing, true) {
-              HStack(alignment: .center, ) {
-                if specEq(vm.showHandle, true) {
-                  VStack() {
-                  }
-                  .opacity(CGFloat(0.4))
-                  .frame(width: CGFloat(36))
-                  .specFrameHeight(CGFloat(4))
-                  .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+      Color.clear.frame(width: 0, height: 0)
+        .overlay {
+          if (vm.showing) as? Bool ?? false {
+            ZStack {
+              Color.black.opacity(0.15).ignoresSafeArea()
+                .onTapGesture {
+                  vm.doClose()
                 }
+              VStack() {
+                HStack(alignment: .center, ) {
+                  if specEq(vm.showHandle, true) {
+                    VStack() {
+                    }
+                    .opacity(CGFloat(0.4))
+                    .frame(width: CGFloat(36))
+                    .specFrameHeight(CGFloat(4))
+                    .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                  }
+                }
+                .padding(.top, CGFloat(8))
+                .padding(.bottom, CGFloat(8))
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
+                  // slot
+                }
+                }
+                .padding(.bottom, CGFloat(0))
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
               }
-              .padding(.top, CGFloat(8))
-              .padding(.bottom, CGFloat(8))
+              .specFrameHeight(specPx(vm.sheetHeight))
+              .frame(maxHeight: CGFloat(0))
+              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
             }
-            ScrollView(.horizontal, showsIndicators: true) {
-            VStack() {
-              // slot
-            }
-            }
-            .padding(.bottom, CGFloat(0))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
-            .frame(maxWidth: .infinity)
           }
         }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

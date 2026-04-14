@@ -38,90 +38,91 @@ struct DrawerView: View {
   init(open: Any = false, side: Any = "left", title: Any = "", width: Any = "280px") { self._vm = State(initialValue: DrawerViewModel()); self.open = open; self.side = side; self.title = title; self.width = width }
   var body: some View {
     VStack() {
-      VStack() {
-      }
-
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.doClose() }
-            if specEq(vm.showing, true) {
-            }
-          }
-        }
-      }
-      .overlay {
-        if (specEq(vm.showing, true) && specEq(vm.side, "left")) {
-          ZStack {
-            if (specEq(vm.showing, true) && specEq(vm.side, "left")) {
-              HStack(alignment: .center, ) {
-                Text(verbatim: specString(vm.title))
-                  .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                Button(action: { vm.doClose() }) {
-                HStack(alignment: .center, ) {
-                  Text(verbatim: specString("u00D7"))
-                    .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+      Color.clear.frame(width: 0, height: 0)
+        .overlay {
+          if (vm.showing) as? Bool ?? false {
+            ZStack {
+              Color.black.opacity(0.15).ignoresSafeArea()
+                .onTapGesture {
+                  vm.doClose()
                 }
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .frame(width: CGFloat(32))
-                .specFrameHeight(CGFloat(32))
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              ScrollView(.horizontal, showsIndicators: true) {
+              VStack() {
+                if specEq(vm.side, "left") {
+                  HStack(alignment: .center, ) {
+                    Text(verbatim: specString(vm.title))
+                      .font(.headline.bold())
+                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    Button(action: { vm.doClose() }) {
+                    HStack(alignment: .center, ) {
+                      Text(verbatim: specString("u00D7"))
+                        .font(.headline.bold())
+                        .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    .frame(width: CGFloat(32))
+                    .specFrameHeight(CGFloat(32))
+                    .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    }
+                    .buttonStyle(.plain)
+                  }
+                  .padding(CGFloat(16))
                 }
-                .buttonStyle(.plain)
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
+                  // slot
+                }
+                }
+                .padding(CGFloat(16))
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
               }
-              .padding(CGFloat(16))
-            }
-            ScrollView(.horizontal, showsIndicators: true) {
-            VStack() {
-              // slot
-            }
-            }
-            .padding(CGFloat(16))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
-            .frame(maxWidth: .infinity)
-          }
-        }
-      }
-      .overlay {
-        if (specEq(vm.showing, true) && specEq(vm.side, "right")) {
-          ZStack {
-            if (specEq(vm.showing, true) && specEq(vm.side, "right")) {
-              HStack(alignment: .center, ) {
-                Text(verbatim: specString(vm.title))
-                  .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                Button(action: { vm.doClose() }) {
-                HStack(alignment: .center, ) {
-                  Text(verbatim: specString("u00D7"))
-                    .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-                }
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .frame(width: CGFloat(32))
-                .specFrameHeight(CGFloat(32))
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                }
-                .buttonStyle(.plain)
               }
-              .padding(CGFloat(16))
+              .background(ThemeManager.shared.color("semantic.surface"))
+              .frame(width: specPx(vm.width))
+              .frame(maxWidth: CGFloat(0))
+              .background(ThemeManager.shared.color("semantic.surface"))
+              ScrollView(.horizontal, showsIndicators: true) {
+              VStack() {
+                if specEq(vm.side, "right") {
+                  HStack(alignment: .center, ) {
+                    Text(verbatim: specString(vm.title))
+                      .font(.headline.bold())
+                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    Button(action: { vm.doClose() }) {
+                    HStack(alignment: .center, ) {
+                      Text(verbatim: specString("u00D7"))
+                        .font(.headline.bold())
+                        .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    .frame(width: CGFloat(32))
+                    .specFrameHeight(CGFloat(32))
+                    .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                    }
+                    .buttonStyle(.plain)
+                  }
+                  .padding(CGFloat(16))
+                }
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
+                  // slot
+                }
+                }
+                .padding(CGFloat(16))
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
+              }
+              }
+              .background(ThemeManager.shared.color("semantic.surface"))
+              .frame(width: specPx(vm.width))
+              .frame(maxWidth: CGFloat(0))
+              .background(ThemeManager.shared.color("semantic.surface"))
             }
-            ScrollView(.horizontal, showsIndicators: true) {
-            VStack() {
-              // slot
-            }
-            }
-            .padding(CGFloat(16))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
-            .frame(maxWidth: .infinity)
           }
         }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

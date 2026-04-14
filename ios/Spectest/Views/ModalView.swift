@@ -29,55 +29,52 @@ struct ModalView: View {
   init(open: Any = false, title: Any = "", width: Any = "500px") { self._vm = State(initialValue: ModalViewModel()); self.open = open; self.title = title; self.width = width }
   var body: some View {
     VStack() {
-      VStack() {
-      }
-
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.doClose() }
-            if specEq(vm.showing, true) {
-            }
-          }
-        }
-      }
-      .overlay {
-        if specEq(vm.showing, true) {
-          ZStack {
-            if specEq(vm.showing, true) {
-              HStack(alignment: .center, ) {
-                Text(verbatim: specString(vm.title))
-                  .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-                Button(action: { vm.doClose() }) {
+      Color.clear.frame(width: 0, height: 0)
+        .overlay {
+          if (vm.showing) as? Bool ?? false {
+            ZStack {
+              Color.black.opacity(0.15).ignoresSafeArea()
+                .onTapGesture {
+                  vm.doClose()
+                }
+              ScrollView(.horizontal, showsIndicators: true) {
+              VStack() {
                 HStack(alignment: .center, ) {
-                  Text(verbatim: specString("u00D7"))
+                  Text(verbatim: specString(vm.title))
                     .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  Button(action: { vm.doClose() }) {
+                  HStack(alignment: .center, ) {
+                    Text(verbatim: specString("u00D7"))
+                      .font(.headline.bold())
+                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  }
+                  .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .frame(width: CGFloat(32))
+                  .specFrameHeight(CGFloat(32))
+                  .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  }
+                  .buttonStyle(.plain)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                .frame(width: CGFloat(32))
-                .specFrameHeight(CGFloat(32))
-                .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .padding(CGFloat(16))
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
+                  // slot
                 }
-                .buttonStyle(.plain)
+                }
+                .padding(CGFloat(20))
+                .frame(minHeight: CGFloat(0))
+                .frame(minWidth: CGFloat(0))
+                .frame(maxWidth: .infinity)
               }
-              .padding(CGFloat(16))
+              }
+              .frame(width: specPx(vm.width))
+              .frame(maxWidth: CGFloat(0))
+              .frame(maxHeight: CGFloat(0))
+              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
             }
-            ScrollView(.horizontal, showsIndicators: true) {
-            VStack() {
-              // slot
-            }
-            }
-            .padding(CGFloat(20))
-            .frame(minHeight: CGFloat(0))
-            .frame(minWidth: CGFloat(0))
-            .frame(maxWidth: .infinity)
           }
         }
-      }
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())

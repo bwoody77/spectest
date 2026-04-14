@@ -365,41 +365,41 @@ struct EditableGridSpecView: View {
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         .frame(maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      }
-      .specFrameHeight(specPx((specNeq(vm.height, "") ? vm.height : "auto")))
-      .overlay {
-        if (vm.isSelectEditing) as? Bool ?? false {
-          ZStack {
-            Color.black.opacity(0.15)
-              .ignoresSafeArea()
-              .onTapGesture { vm.cancelEdit() }
+        Color.clear.frame(width: 0, height: 0)
+          .overlay {
             if (vm.isSelectEditing) as? Bool ?? false {
-              ScrollView(.horizontal, showsIndicators: true) {
-              VStack() {
-                ForEach(Array(specArr(vm.selectOptions).enumerated()), id: \.offset) { _idx, opt in
-                  Button(action: { vm.selectOption(specGet(opt, "value")) }) {
-                  VStack() {
-                    Text(verbatim: specString(specGet(opt, "label")))
-                      .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#f7f7f8" : "#202732") as? String ?? "transparent"))
+              ZStack {
+                Color.black.opacity(0.15).ignoresSafeArea()
+                  .onTapGesture {
+                    vm.cancelEdit()
                   }
-                  .padding(CGFloat(8))
-                  .padding(.leading, CGFloat(12))
-                  .padding(.trailing, CGFloat(12))
-                  .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                ScrollView(.horizontal, showsIndicators: true) {
+                VStack() {
+                  ForEach(Array(specArr(vm.selectOptions).enumerated()), id: \.offset) { _idx, opt in
+                    Button(action: { vm.selectOption(specGet(opt, "value")) }) {
+                    VStack() {
+                      Text(verbatim: specString(specGet(opt, "label")))
+                        .font(.body.bold())
+                        .foregroundStyle(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#f7f7f8" : "#202732") as? String ?? "transparent"))
+                    }
+                    .padding(CGFloat(8))
+                    .padding(.leading, CGFloat(12))
+                    .padding(.trailing, CGFloat(12))
+                    .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    }
+                    .buttonStyle(.plain)
                   }
-                  .buttonStyle(.plain)
                 }
+                }
+                .padding(CGFloat(4))
+                .frame(minWidth: CGFloat(180))
+                .frame(maxHeight: CGFloat(200))
+                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
               }
-              }
-              .padding(CGFloat(4))
-              .frame(minWidth: CGFloat(180))
-              .frame(maxHeight: CGFloat(200))
-              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
             }
           }
-        }
       }
+      .specFrameHeight(specPx((specNeq(vm.height, "") ? vm.height : "auto")))
     }
     .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
