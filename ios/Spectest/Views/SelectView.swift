@@ -55,7 +55,8 @@ final class SelectViewModel {
       selectOption(specGet(specGet(filteredOptions, highlightIndex), "value"))
     }
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SelectView: View {
@@ -69,12 +70,12 @@ struct SelectView: View {
   init(disabled: Any = false, label: Any = "", options: Any = [] as [Any], placeholder: Any = "Select...", searchable: Any = false, value: Any = "") { self._vm = State(initialValue: SelectViewModel()); self.disabled = disabled; self.label = label; self.options = options; self.placeholder = placeholder; self.searchable = searchable; self.value = value }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(4)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-1")) {
         VStack() {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
         }
 
@@ -82,15 +83,15 @@ struct SelectView: View {
         HStack(alignment: .center) {
           Text(verbatim: specString(vm.displayText))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: (vm.selectedOption != nil ? "#202732" : "#92a2b9") as? String ?? "transparent"))
+            .foregroundStyle((vm.selectedOption != nil ? ThemeManager.shared.color("text-primary") : ThemeManager.shared.color("text-tertiary")))
           Text(verbatim: specString("u25BE"))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+            .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
         .frame(minHeight: CGFloat(40))
-        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(ThemeManager.shared.color("select-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("select-radius")))
         .hoverEffect(.highlight)
         .focusable()
         .onKeyPress(.escape) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
@@ -113,7 +114,7 @@ struct SelectView: View {
                         .textFieldStyle(.roundedBorder)
                     }
                   }
-                  .padding(CGFloat(8))
+                  .padding(ThemeManager.shared.size("spacing-2"))
                   VStack() {
                     if (vm.hasOptions) as? Bool ?? false {
                       ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
@@ -121,16 +122,16 @@ struct SelectView: View {
                         VStack() {
                           Text(verbatim: specString(specGet(option, "label")))
                             .font(.body.bold())
-                            .foregroundStyle(Color(hex: (specEq(specGet(option, "value"), vm.value) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                            .foregroundStyle((specEq(specGet(option, "value"), vm.value) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
                         }
-                        .padding(CGFloat(8))
-                        .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
-case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString(specEq(specGet(option, "value"), vm.value)) {
-case specString(true): return "#eef2ff"
-default: return "transparent"
+                        .padding(ThemeManager.shared.size("spacing-2"))
+                        .background(({ () -> Color in switch specString(specEq(idx, vm.highlightIndex)) {
+case specString(true): return ThemeManager.shared.color("select-optionHover")
+default: return ({ () -> Color in switch specString(specEq(specGet(option, "value"), vm.value)) {
+case specString(true): return ThemeManager.shared.color("select-optionSelected")
+default: return Color.clear
 } })()
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                         .hoverEffect(.highlight)
                         }
                         .buttonStyle(.plain)
@@ -142,22 +143,22 @@ default: return "transparent"
                     if specEq(vm.hasOptions, false) {
                       Text(verbatim: specString("No options"))
                         .font(.body.bold())
-                        .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                        .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                     }
                   }
-                  .padding(CGFloat(12))
+                  .padding(ThemeManager.shared.size("spacing-3"))
                 }
                 }
-                .padding(CGFloat(4))
+                .padding(ThemeManager.shared.size("spacing-1"))
                 .frame(maxHeight: CGFloat(240))
-                .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("select-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("select-radius")))
               }
             }
           }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label } }

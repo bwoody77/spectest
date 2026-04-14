@@ -35,7 +35,8 @@ final class TimePickerViewModel {
     ampm = (specEq(ampm, "AM") ? "PM" : "AM")
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TimePickerView: View {
@@ -48,56 +49,56 @@ struct TimePickerView: View {
   init(disabled: Any = false, format: Any = "24", label: Any = "", minuteStep: Any = 1, value: Any = "12:00") { self._vm = State(initialValue: TimePickerViewModel()); self.disabled = disabled; self.format = format; self.label = label; self.minuteStep = minuteStep; self.value = value }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(8)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         VStack() {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
         }
 
-        HStack(alignment: .center, spacing: CGFloat(8)) {
-          VStack(spacing: CGFloat(4)) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             Text(verbatim: specString("Hr"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-            HStack(alignment: .center, spacing: CGFloat(4)) {
+              .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
               Button(action: { if specEq(vm.disabled, false) {
   vm.decHour()
 } }) {
               VStack() {
                 Text(verbatim: specString("u25BC"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
-              .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .padding(ThemeManager.shared.size("spacing-1"))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
               HStack(alignment: .center) {
                 Text(verbatim: specString(vm.formattedH))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
-              .padding(CGFloat(8))
+              .padding(ThemeManager.shared.size("spacing-2"))
               .frame(minWidth: CGFloat(40))
-              .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               Button(action: { if specEq(vm.disabled, false) {
   vm.incHour()
 } }) {
               VStack() {
                 Text(verbatim: specString("u25B2"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
-              .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .padding(ThemeManager.shared.size("spacing-1"))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
@@ -107,47 +108,47 @@ struct TimePickerView: View {
 
           Text(verbatim: specString(":"))
             .font(.headline.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          VStack(spacing: CGFloat(4)) {
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             Text(verbatim: specString("Min"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
-            HStack(alignment: .center, spacing: CGFloat(4)) {
+              .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
               Button(action: { if specEq(vm.disabled, false) {
   vm.decMinute()
 } }) {
               VStack() {
                 Text(verbatim: specString("u25BC"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
-              .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .padding(ThemeManager.shared.size("spacing-1"))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
               HStack(alignment: .center) {
                 Text(verbatim: specString(vm.formattedM))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
-              .padding(CGFloat(8))
+              .padding(ThemeManager.shared.size("spacing-2"))
               .frame(minWidth: CGFloat(40))
-              .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               Button(action: { if specEq(vm.disabled, false) {
   vm.incMinute()
 } }) {
               VStack() {
                 Text(verbatim: specString("u25B2"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
-              .padding(CGFloat(4))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .padding(ThemeManager.shared.size("spacing-1"))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
-              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+              .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
@@ -155,7 +156,7 @@ struct TimePickerView: View {
 
           }
 
-          VStack(spacing: CGFloat(4)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             if specEq(vm.format, "12") {
               Text(verbatim: specString(" "))
                 .font(.body.bold())
@@ -167,13 +168,13 @@ struct TimePickerView: View {
             HStack(alignment: .center) {
               Text(verbatim: specString(vm.ampm))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.4 : 1)))
             .frame(minWidth: CGFloat(48))
             .frame(minHeight: CGFloat(36))
-            .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
@@ -184,7 +185,7 @@ struct TimePickerView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.format, format) { vm.format = format }; if !specEq(vm.minuteStep, minuteStep) { vm.minuteStep = minuteStep }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }

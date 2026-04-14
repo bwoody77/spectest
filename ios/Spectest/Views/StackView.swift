@@ -7,7 +7,8 @@ final class StackViewModel {
   var direction: Any = "vertical"
   var gap: Any = "0"
   var wrap: Any = false
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct StackView: View {
@@ -32,7 +33,7 @@ struct StackView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.direction, direction) { vm.direction = direction }; if !specEq(vm.gap, gap) { vm.gap = gap }; if !specEq(vm.align, align) { vm.align = align }; if !specEq(vm.wrap, wrap) { vm.wrap = wrap } }

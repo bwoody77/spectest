@@ -21,7 +21,8 @@ final class TextInputViewModel {
     focused = false
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TextInputView: View {
@@ -44,7 +45,7 @@ struct TextInputView: View {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
         }
 
@@ -53,7 +54,7 @@ struct TextInputView: View {
             if specNeq(vm.prefix, "") {
               Text(verbatim: specString(vm.prefix))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
 
@@ -75,18 +76,18 @@ struct TextInputView: View {
             if specNeq(vm.suffix, "") {
               Text(verbatim: specString(vm.suffix))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
 
         }
-        .padding(CGFloat(8))
-        .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .padding(ThemeManager.shared.size("spacing-2"))
+        .background(ThemeManager.shared.color("input-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("input-radius")))
         VStack() {
           if specEq(vm.error, true) {
             Text(verbatim: specString(vm.errorMessage))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.destructive"))
+              .foregroundStyle(ThemeManager.shared.color("destructive"))
           }
         }
 
@@ -96,7 +97,7 @@ case specString(true): return 0.5
 default: return 1
 } })()))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.type, type) { vm.type = type }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.readonly, readonly) { vm.readonly = readonly }; if !specEq(vm.prefix, prefix) { vm.prefix = prefix }; if !specEq(vm.suffix, suffix) { vm.suffix = suffix }; if !specEq(vm.error, error) { vm.error = error }; if !specEq(vm.errorMessage, errorMessage) { vm.errorMessage = errorMessage } }

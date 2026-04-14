@@ -34,7 +34,8 @@ final class ConfirmDialogViewModel {
     /* event callback */
     doClose()
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ConfirmDialogView: View {
@@ -56,14 +57,14 @@ struct ConfirmDialogView: View {
                 .onTapGesture {
                   vm.cancel()
                 }
-              VStack(spacing: CGFloat(12)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-3")) {
                 Text(verbatim: specString(vm.title))
                   .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 Text(verbatim: specString(vm.message))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Button(action: { Task { @MainActor in await vm.cancel() } }) {
                     Text(specString(vm.cancelLabel))
                       .font(.subheadline.weight(.medium))
@@ -101,15 +102,15 @@ struct ConfirmDialogView: View {
                 }
 
               }
-              .padding(CGFloat(20))
+              .padding(ThemeManager.shared.size("spacing-5"))
               .frame(width: CGFloat(440))
               .frame(maxWidth: CGFloat(0))
-              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+              .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
             }
           }
         }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.confirmLabel, confirmLabel) { vm.confirmLabel = confirmLabel }; if !specEq(vm.cancelLabel, cancelLabel) { vm.cancelLabel = cancelLabel }; if !specEq(vm.destructive, destructive) { vm.destructive = destructive } }

@@ -25,7 +25,8 @@ final class AnalyticsViewViewModel {
   var tasks: Any? { tasksSource.data }
   var tasksLoading: Bool { tasksSource.loading }
   var tasksError: String? { tasksSource.error }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await statsSource.fetch()
     await tasksSource.fetch()
@@ -35,18 +36,18 @@ final class AnalyticsViewViewModel {
 struct AnalyticsViewView: View {
   @State private var vm = AnalyticsViewViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(24)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-6")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("bar-chart")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Analytics"))
           .font(.title2.bold())
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
 
-      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
         if (vm.statsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -67,99 +68,99 @@ struct AnalyticsViewView: View {
         }
       }
 
-      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-        VStack(spacing: CGFloat(12)) {
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
+        VStack(spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString("list")))
-            .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xl"))))
+            .foregroundStyle(ThemeManager.shared.color("interactive"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.total))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Total Tasks")).font(.subheadline).foregroundStyle(.secondary)
           }
         }
-        .padding(CGFloat(20))
-        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), ThemeManager.shared.color("semantic.focus-ring")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .padding(ThemeManager.shared.size("spacing-5"))
+        .background(ThemeManager.shared.color("gradient-stat-primary"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
         .hoverEffect(.highlight)
-        VStack(spacing: CGFloat(12)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString("check")))
-            .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xl"))))
+            .foregroundStyle(ThemeManager.shared.color("success"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.done))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Completed")).font(.subheadline).foregroundStyle(.secondary)
           }
         }
-        .padding(CGFloat(20))
-        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), ThemeManager.shared.color("semantic.success-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .padding(ThemeManager.shared.size("spacing-5"))
+        .background(ThemeManager.shared.color("gradient-stat-success"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
         .hoverEffect(.highlight)
-        VStack(spacing: CGFloat(12)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString("loader")))
-            .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xl"))))
+            .foregroundStyle(ThemeManager.shared.color("warning"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.inProgress))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("In Progress")).font(.subheadline).foregroundStyle(.secondary)
           }
         }
-        .padding(CGFloat(20))
-        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), ThemeManager.shared.color("semantic.warning-muted")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .padding(ThemeManager.shared.size("spacing-5"))
+        .background(ThemeManager.shared.color("gradient-stat-warning"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
         .hoverEffect(.highlight)
-        VStack(spacing: CGFloat(12)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString("circle")))
-            .font(.system(size: specPx("32px")))
-            .foregroundStyle(Color(hex: "#5c7aa3" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xl"))))
+            .foregroundStyle(ThemeManager.shared.color("text-muted"))
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("\(specString(vm.todo))")).font(.system(size: 32, weight: .bold, design: .rounded))
             Text(specString("Todo")).font(.subheadline).foregroundStyle(.secondary)
           }
         }
-        .padding(CGFloat(20))
-        .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.surface"), ThemeManager.shared.color("semantic.text-disabled")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+        .padding(ThemeManager.shared.size("spacing-5"))
+        .background(ThemeManager.shared.color("gradient-stat-neutral"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
         .hoverEffect(.highlight)
       }
 
-      LazyVGrid(columns: [GridItem(.flexible())], spacing: CGFloat(20)) {
+      LazyVGrid(columns: [GridItem(.flexible())], spacing: ThemeManager.shared.size("spacing-5")) {
         VStack(alignment: .leading) {
-          VStack(spacing: CGFloat(16)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-4")) {
             Text(verbatim: specString("Status Breakdown"))
               .font(.title3.bold())
-            VStack(spacing: CGFloat(12)) {
-              VStack(spacing: CGFloat(8)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Text(verbatim: specString("Completed"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
+                    .foregroundStyle(ThemeManager.shared.color("success-text"))
                   Text(verbatim: specString("\(specString(vm.done))"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.success"))
+                    .foregroundStyle(ThemeManager.shared.color("success"))
                 }
 
                 ProgressView(value: (vm.donePercent as? Double ?? 0) / 100.0)
                   .tint(.accentColor)
               }
 
-              VStack(spacing: CGFloat(8)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Text(verbatim: specString("In Progress"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.warning-text"))
+                    .foregroundStyle(ThemeManager.shared.color("warning-text"))
                   Text(verbatim: specString("\(specString(vm.inProgress))"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.warning"))
+                    .foregroundStyle(ThemeManager.shared.color("warning"))
                 }
 
                 ProgressView(value: (vm.inProgressPercent as? Double ?? 0) / 100.0)
                   .tint(.accentColor)
               }
 
-              VStack(spacing: CGFloat(8)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Text(verbatim: specString("Todo"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-strong"))
+                    .foregroundStyle(ThemeManager.shared.color("text-strong"))
                   Text(verbatim: specString("\(specString(vm.todo))"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-muted"))
+                    .foregroundStyle(ThemeManager.shared.color("text-muted"))
                 }
 
                 ProgressView(value: (vm.todoPercent as? Double ?? 0) / 100.0)
@@ -169,19 +170,19 @@ struct AnalyticsViewView: View {
             }
 
           }
-          .padding(CGFloat(20))
+          .padding(ThemeManager.shared.size("spacing-5"))
         }
         .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         VStack(alignment: .leading) {
-          VStack(spacing: CGFloat(16)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-4")) {
             Text(verbatim: specString("Priority Breakdown"))
               .font(.title3.bold())
-            VStack(spacing: CGFloat(12)) {
-              HStack(alignment: .center, spacing: CGFloat(12)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Image(systemName: specIconName(specString("alert-triangle")))
-                    .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#ff4d4f" as? String ?? "transparent"))
+                    .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+                    .foregroundStyle(ThemeManager.shared.color("destructive"))
                   Text(verbatim: specString("High Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -197,14 +198,14 @@ struct AnalyticsViewView: View {
                   .background(specBadgeBackground(specString("error")), in: Capsule())
               }
               .frame(maxWidth: .infinity)
-              .padding(CGFloat(12))
-              .background(ThemeManager.shared.color("semantic.error-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .background(ThemeManager.shared.color("error-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               .hoverEffect(.highlight)
-              HStack(alignment: .center, spacing: CGFloat(12)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Image(systemName: specIconName(specString("info")))
-                    .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
+                    .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+                    .foregroundStyle(ThemeManager.shared.color("warning"))
                   Text(verbatim: specString("Medium Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -220,14 +221,14 @@ struct AnalyticsViewView: View {
                   .background(specBadgeBackground(specString("warning")), in: Capsule())
               }
               .frame(maxWidth: .infinity)
-              .padding(CGFloat(12))
-              .background(ThemeManager.shared.color("semantic.warning-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .background(ThemeManager.shared.color("warning-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               .hoverEffect(.highlight)
-              HStack(alignment: .center, spacing: CGFloat(12)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Image(systemName: specIconName(specString("check")))
-                    .font(.system(size: specPx("18px")))
-                    .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
+                    .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+                    .foregroundStyle(ThemeManager.shared.color("success"))
                   Text(verbatim: specString("Low Priority"))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -243,66 +244,66 @@ struct AnalyticsViewView: View {
                   .background(specBadgeBackground(specString("success")), in: Capsule())
               }
               .frame(maxWidth: .infinity)
-              .padding(CGFloat(12))
-              .background(ThemeManager.shared.color("semantic.success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .background(ThemeManager.shared.color("success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               .hoverEffect(.highlight)
             }
 
           }
-          .padding(CGFloat(20))
+          .padding(ThemeManager.shared.size("spacing-5"))
         }
         .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       }
 
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
           Text(verbatim: specString("Workload Distribution"))
             .font(.title3.bold())
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: CGFloat(16)) {
-            VStack(spacing: CGFloat(8)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: ThemeManager.shared.size("spacing-4")) {
+            VStack(spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("user")))
-                .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+                .foregroundStyle(ThemeManager.shared.color("interactive"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.aliceCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Alice's tasks")).font(.subheadline).foregroundStyle(.secondary)
               }
             }
-            .padding(CGFloat(16))
-            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.info-bg"), Color(hex: "#bae0ff")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .padding(ThemeManager.shared.size("spacing-4"))
+            .background(ThemeManager.shared.color("gradient-stat-primary-subtle"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
-            VStack(spacing: CGFloat(8)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("user")))
-                .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+                .foregroundStyle(ThemeManager.shared.color("success"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.bobCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Bob's tasks")).font(.subheadline).foregroundStyle(.secondary)
               }
             }
-            .padding(CGFloat(16))
-            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.success-light"), Color(hex: "#b7eb8f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .padding(ThemeManager.shared.size("spacing-4"))
+            .background(ThemeManager.shared.color("gradient-stat-success-subtle"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
-            VStack(spacing: CGFloat(8)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("user")))
-                .font(.system(size: specPx("24px")))
-                .foregroundStyle(Color(hex: "#faad14" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+                .foregroundStyle(ThemeManager.shared.color("warning"))
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("\(specString(vm.carolCount))")).font(.system(size: 32, weight: .bold, design: .rounded))
                 Text(specString("Carol's tasks")).font(.subheadline).foregroundStyle(.secondary)
               }
             }
-            .padding(CGFloat(16))
-            .background(LinearGradient(colors: [ThemeManager.shared.color("semantic.warning-light"), Color(hex: "#ffe58f")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .padding(ThemeManager.shared.size("spacing-4"))
+            .background(ThemeManager.shared.color("gradient-stat-warning-subtle"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
           }
 
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

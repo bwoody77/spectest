@@ -5,7 +5,8 @@ import SpecRuntime
 final class BadgeViewModel {
   var text: Any? = nil
   var variant: Any = "neutral"
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct BadgeView: View {
@@ -18,29 +19,29 @@ struct BadgeView: View {
       HStack(alignment: .center, spacing: CGFloat(4)) {
         Text(verbatim: specString(vm.text))
           .font(.body.bold())
-          .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.variant) {
-case specString("info"): return "#3b82f6"
-case specString("success"): return "#10b981"
-case specString("warning"): return "#f59e0b"
-case specString("error"): return "#ef4444"
-case specString("neutral"): return "#64748b"
-default: return "#64748b"
-} })() as? String ?? "transparent"))
+          .foregroundStyle(({ () -> Color in switch specString(vm.variant) {
+case specString("info"): return ThemeManager.shared.color("badge-info-color")
+case specString("success"): return ThemeManager.shared.color("badge-success-color")
+case specString("warning"): return ThemeManager.shared.color("badge-warning-color")
+case specString("error"): return ThemeManager.shared.color("badge-error-color")
+case specString("neutral"): return ThemeManager.shared.color("badge-neutral-color")
+default: return ThemeManager.shared.color("badge-neutral-color")
+} })())
       }
       .padding(.leading, CGFloat(10))
       .padding(.trailing, CGFloat(10))
       .padding(.top, CGFloat(2))
       .padding(.bottom, CGFloat(2))
-      .background(Color(hex: ({ () -> Any in switch specString(vm.variant) {
-case specString("info"): return "#eff6ff"
-case specString("success"): return "#ecfdf5"
-case specString("warning"): return "#fffbeb"
-case specString("error"): return "#fef2f2"
-case specString("neutral"): return "#f1f5f9"
-default: return "#f1f5f9"
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+      .background(({ () -> Color in switch specString(vm.variant) {
+case specString("info"): return ThemeManager.shared.color("badge-info-bg")
+case specString("success"): return ThemeManager.shared.color("badge-success-bg")
+case specString("warning"): return ThemeManager.shared.color("badge-warning-bg")
+case specString("error"): return ThemeManager.shared.color("badge-error-bg")
+case specString("neutral"): return ThemeManager.shared.color("badge-neutral-bg")
+default: return ThemeManager.shared.color("badge-neutral-bg")
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("badge-radius")))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.text, text) { vm.text = text }; if !specEq(vm.variant, variant) { vm.variant = variant } }

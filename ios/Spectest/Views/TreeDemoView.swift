@@ -21,7 +21,8 @@ final class TreeDemoViewModel {
   func setSearch(_ v: Any) {
     searchQuery = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await categoriesSource.fetch()
   }
@@ -30,20 +31,20 @@ final class TreeDemoViewModel {
 struct TreeDemoView: View {
   @State private var vm = TreeDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("list")))
-          .font(.system(size: specPx("24px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Category Browser"))
           .font(.title2.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
-      .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      VStack(spacing: CGFloat(8)) {
+      .padding(ThemeManager.shared.size("spacing-5"))
+      .background(ThemeManager.shared.color("gradient-header-accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         if (vm.categoriesLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -88,10 +89,10 @@ struct TreeDemoView: View {
         }
       }
 
-      HStack(alignment: .center, spacing: CGFloat(20)) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-5")) {
         if ((!((vm.categoriesLoading) as? Bool ?? false))) as? Bool ?? false {
           ScrollView(.horizontal, showsIndicators: true) {
-          VStack(spacing: CGFloat(12)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-3")) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Filter categories")).font(.subheadline).foregroundStyle(.secondary)
               TextField(specString("Search..."), text: Binding(get: { vm.searchQuery as? String ?? "" }, set: { vm.searchQuery = $0 }))
@@ -102,10 +103,10 @@ struct TreeDemoView: View {
             TreeView(expanded: [] as [Any], nodes: vm.categoryList, selection: "single")
           }
           }
-          .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .padding(ThemeManager.shared.size("spacing-3"))
+          .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
-        VStack(spacing: CGFloat(16)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
           VStack() {
             if ((!((vm.hasSelection) as? Bool ?? false))) as? Bool ?? false {
               ContentUnavailableView(specString("No Category Selected"), systemImage: "tray", description: Text(specString("Select a category from the tree to view its details.")))
@@ -113,35 +114,35 @@ struct TreeDemoView: View {
             }
           }
 
-          VStack(spacing: CGFloat(16)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-4")) {
             if (vm.hasSelection) as? Bool ?? false {
               Text(verbatim: specString(vm.selectedLabel))
                 .font(.title2.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
             }
-            VStack(spacing: CGFloat(12)) {
-              HStack(alignment: .center, spacing: CGFloat(8)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("ID:"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString(vm.selectedId))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
 
-              HStack(alignment: .center, spacing: CGFloat(8)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("Name:"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString(vm.selectedLabel))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
 
             }
-            .padding(CGFloat(16))
-            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            HStack(alignment: .center, spacing: CGFloat(12)) {
+            .padding(ThemeManager.shared.size("spacing-4"))
+            .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
               Button(action: {  }) {
                 Text(specString("Add Subcategory"))
                   .font(.subheadline.weight(.semibold))
@@ -171,12 +172,12 @@ struct TreeDemoView: View {
           }
 
         }
-        .padding(CGFloat(20))
-        .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .padding(ThemeManager.shared.size("spacing-5"))
+        .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
       }
       .frame(minHeight: specPx(vm.treeMinHeight))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

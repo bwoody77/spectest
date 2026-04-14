@@ -18,7 +18,8 @@ final class ModalViewModel {
     // unsupported: builtin-call
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ModalView: View {
@@ -42,12 +43,12 @@ struct ModalView: View {
                 HStack(alignment: .center) {
                   Text(verbatim: specString(vm.title))
                     .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                   Button(action: { vm.doClose() }) {
                   HStack(alignment: .center) {
                     Text(verbatim: specString("u00D7"))
                       .font(.headline.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                      .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                   }
                   .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
                   .frame(width: CGFloat(32))
@@ -57,25 +58,25 @@ struct ModalView: View {
                   }
                   .buttonStyle(.plain)
                 }
-                .padding(CGFloat(16))
+                .padding(ThemeManager.shared.size("spacing-4"))
                 ScrollView(.horizontal, showsIndicators: true) {
                 VStack() {
                   // slot
                 }
                 }
-                .padding(CGFloat(20))
+                .padding(ThemeManager.shared.size("spacing-5"))
                 .frame(maxWidth: .infinity)
               }
               }
               .frame(width: specPx(vm.width))
               .frame(maxWidth: CGFloat(0))
               .frame(maxHeight: CGFloat(0))
-              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+              .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
             }
           }
         }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.width, width) { vm.width = width } }

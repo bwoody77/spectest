@@ -20,7 +20,8 @@ final class SnackbarViewModel {
     /* event callback */
     doClose()
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SnackbarView: View {
@@ -43,7 +44,7 @@ struct SnackbarView: View {
               if specNeq(vm.actionLabel, "") {
                 Text(verbatim: specString(vm.actionLabel))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                  .foregroundStyle(ThemeManager.shared.color("accent"))
               }
             }
 
@@ -62,17 +63,17 @@ struct SnackbarView: View {
             }
             .buttonStyle(.plain)
           }
-          .padding(.leading, CGFloat(16))
-          .padding(.trailing, CGFloat(16))
-          .padding(.top, CGFloat(12))
-          .padding(.bottom, CGFloat(12))
+          .padding(.leading, ThemeManager.shared.size("spacing-4"))
+          .padding(.trailing, ThemeManager.shared.size("spacing-4"))
+          .padding(.top, ThemeManager.shared.size("spacing-3"))
+          .padding(.bottom, ThemeManager.shared.size("spacing-3"))
           .frame(maxWidth: CGFloat(560))
           .background(Color(.sRGB, red: 0.1176, green: 0.1176, blue: 0.1176), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
         }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.duration, duration) { vm.duration = duration }; if !specEq(vm.actionLabel, actionLabel) { vm.actionLabel = actionLabel } }

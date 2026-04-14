@@ -92,7 +92,8 @@ final class DataGridSpecViewModel {
   func selectFocused() {
     selectRow(focusedRow)
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct DataGridSpecView: View {
@@ -117,11 +118,11 @@ struct DataGridSpecView: View {
                   .toggleStyle(.automatic)
               }
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
             .frame(width: CGFloat(40))
             ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { _idx, col in
               Button(action: { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSortCol(specGet(col, "key")) } }) {
-              HStack(alignment: .center, spacing: CGFloat(4)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
                 Text(verbatim: ({ () -> String in
           let _h0: Any? = specGet(col, "header")
           if _h0 != nil { return specString(specGet(col, "header")) }
@@ -141,17 +142,17 @@ struct DataGridSpecView: View {
           return specString("")
         })())
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                  .foregroundStyle(ThemeManager.shared.color("interactive"))
               }
-              .padding(CGFloat(8))
+              .padding(ThemeManager.shared.size("spacing-2"))
               .frame(minWidth: CGFloat(100))
               .frame(maxWidth: .infinity)
               }
               .buttonStyle(.plain)
             }
           }
-          .background(ThemeManager.shared.color("semantic.background"))
-          .background(ThemeManager.shared.color("semantic.background"))
+          .background(ThemeManager.shared.color("surface-raised"))
+          .background(ThemeManager.shared.color("surface-raised"))
           HStack(alignment: .center) {
             if (vm.hasFilters) as? Bool ?? false {
               VStack() {
@@ -170,13 +171,13 @@ struct DataGridSpecView: View {
                 }
 
               }
-              .padding(CGFloat(4))
+              .padding(ThemeManager.shared.size("spacing-1"))
               .frame(minWidth: CGFloat(100))
               .frame(maxWidth: .infinity)
             }
           }
-          .background(ThemeManager.shared.color("semantic.surface"))
-          .background(ThemeManager.shared.color("semantic.surface"))
+          .background(ThemeManager.shared.color("surface"))
+          .background(ThemeManager.shared.color("surface"))
           ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
             Button(action: { vm.clickRow(row, rowIdx) }) {
             HStack(alignment: .center) {
@@ -186,7 +187,7 @@ struct DataGridSpecView: View {
                     .toggleStyle(.automatic)
                 }
               }
-              .padding(CGFloat(8))
+              .padding(ThemeManager.shared.size("spacing-2"))
               .frame(width: CGFloat(40))
               ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { colIdx, col in
                 VStack() {
@@ -197,17 +198,17 @@ struct DataGridSpecView: View {
           return specString("")
         })())
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(8))
-                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
+                .padding(ThemeManager.shared.size("spacing-2"))
+                .background(((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? Color(hex: "rgba(59,130,246,0.08)" as? String ?? "transparent") : Color.clear))
                 .frame(minWidth: CGFloat(100))
-                .background(Color(hex: ((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? "rgba(59,130,246,0.08)" : "transparent") as? String ?? "transparent"))
+                .background(((specEq(vm.focusedRow, rowIdx) && specEq(vm.focusedCol, colIdx)) ? Color(hex: "rgba(59,130,246,0.08)" as? String ?? "transparent") : Color.clear))
                 .frame(maxWidth: .infinity)
               }
             }
-            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
-            .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? "#f7f7f8" : "transparent")) as? String ?? "transparent"))
+            .background((specIncludes(vm.selectedSet, rowIdx) ? ThemeManager.shared.color("surface-raised") : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? ThemeManager.shared.color("surface") : Color.clear)))
+            .background((specIncludes(vm.selectedSet, rowIdx) ? ThemeManager.shared.color("surface-raised") : (((vm.striped) as? Bool ?? false && specEq((specDouble(rowIdx) .truncatingRemainder(dividingBy: specDouble(2))), 1)) ? ThemeManager.shared.color("surface") : Color.clear)))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
@@ -216,16 +217,16 @@ struct DataGridSpecView: View {
             if specEq(specLength(vm.processedRows), 0) {
               Text(verbatim: specString("No rows"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
-          .padding(CGFloat(24))
+          .padding(ThemeManager.shared.size("spacing-6"))
         }
         }
         .frame(maxHeight: .infinity)
       }
-      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+      .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
       .focusable()
       .onKeyPress(.downArrow) { Task { @MainActor in await vm.moveDown() }; return .handled }
       .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveUp() }; return .handled }
@@ -233,7 +234,7 @@ struct DataGridSpecView: View {
       .onKeyPress(.leftArrow) { Task { @MainActor in await vm.moveLeft() }; return .handled }
       .onKeyPress(.init(" ")) { Task { @MainActor in await vm.selectFocused() }; return .handled }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.sort, sort) { vm.sort = sort }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.striped, striped) { vm.striped = striped } }

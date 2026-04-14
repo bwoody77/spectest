@@ -16,7 +16,8 @@ default: return [id] as [Any]
 } })()
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct AccordionView: View {
@@ -30,20 +31,20 @@ struct AccordionView: View {
         ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
           VStack() {
             Button(action: { vm.toggle(specGet(item, "id")) }) {
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Text(verbatim: specString(specGet(item, "title")))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
               Text(verbatim: specString(({ () -> Any in switch specString(specIncludes(vm.openIds, specGet(item, "id"))) {
 case specString(true): return "−"
 default: return "+"
 } })()))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
-            .padding(CGFloat(12))
-            .background(ThemeManager.shared.color("semantic.surface"))
-            .background(ThemeManager.shared.color("semantic.surface"))
+            .padding(ThemeManager.shared.size("spacing-3"))
+            .background(ThemeManager.shared.color("surface"))
+            .background(ThemeManager.shared.color("surface"))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
@@ -51,9 +52,9 @@ default: return "+"
               VStack() {
                 Text(verbatim: specString(specGet(item, "content")))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
-              .padding(CGFloat(12))
+              .padding(ThemeManager.shared.size("spacing-3"))
             }
             .frame(maxHeight: specPx(({ () -> Any in switch specString(specIncludes(vm.openIds, specGet(item, "id"))) {
 case specString(true): return "500px"
@@ -66,7 +67,7 @@ default: return "0"
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
       .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.multiple, multiple) { vm.multiple = multiple } }

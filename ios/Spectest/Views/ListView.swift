@@ -35,7 +35,8 @@ final class ListViewModel {
       }
     }
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ListView: View {
@@ -56,7 +57,7 @@ struct ListView: View {
               .textFieldStyle(.roundedBorder)
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         ScrollView(.horizontal, showsIndicators: true) {
         VStack() {
           ForEach(Array(specArr(vm.filteredItems).enumerated()), id: \.offset) { _idx, item in
@@ -64,12 +65,12 @@ struct ListView: View {
             HStack(alignment: .center) {
               Text(verbatim: specString(specGet(item, "label")))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                .foregroundStyle((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
             }
-            .padding(CGFloat(8))
-            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+            .padding(ThemeManager.shared.size("spacing-2"))
+            .background((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("surface-raised") : Color.clear))
             .opacity(CGFloat(0))
-            .background(Color(hex: (specIncludes(vm.selectedIds, specGet(item, "id")) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+            .background((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("surface-raised") : Color.clear))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
@@ -81,14 +82,14 @@ struct ListView: View {
           if specEq(vm.hasItems, false) {
             Text(verbatim: specString("No items"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+              .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
           }
         }
-        .padding(CGFloat(12))
+        .padding(ThemeManager.shared.size("spacing-3"))
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.searchPlaceholder, searchPlaceholder) { vm.searchPlaceholder = searchPlaceholder }; if !specEq(vm.height, height) { vm.height = height } }

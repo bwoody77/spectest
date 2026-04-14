@@ -284,7 +284,8 @@ final class EditableGridSpecViewModel {
       }
     }
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct EditableGridSpecView: View {
@@ -310,7 +311,7 @@ struct EditableGridSpecView: View {
             HStack(alignment: .center) {
               ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { _idx, col in
                 Button(action: { if (specGet(col, "sortable")) as? Bool ?? false { vm.toggleSort(specGet(col, "key")) } }) {
-                HStack(alignment: .center, spacing: CGFloat(4)) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: ({ () -> String in
           let _h0: Any? = specGet(col, "header")
           if _h0 != nil { return specString(specGet(col, "header")) }
@@ -328,41 +329,41 @@ struct EditableGridSpecView: View {
           return specString("")
         })())
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                    .foregroundStyle(ThemeManager.shared.color("interactive"))
                 }
-                .padding(CGFloat(8))
+                .padding(ThemeManager.shared.size("spacing-2"))
                 .frame(minWidth: CGFloat(100))
                 .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.plain)
               }
             }
-            .background(ThemeManager.shared.color("semantic.surface"))
-            .background(ThemeManager.shared.color("semantic.surface"))
+            .background(ThemeManager.shared.color("surface"))
+            .background(ThemeManager.shared.color("surface"))
             ForEach(Array(specArr(vm.processedRows).enumerated()), id: \.offset) { rowIdx, row in
               HStack(alignment: .center) {
                 ForEach(Array(specArr(vm.visibleColumns).enumerated()), id: \.offset) { colIdx, col in
                   SpecEditableCell(vm: vm, row: row, col: col, rowIdx: rowIdx, colIdx: colIdx)
                 }
               }
-              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "transparent"))
-              .background(Color(hex: (specIncludes(vm.selectedSet, rowIdx) ? "#ffffff" : "transparent") as? String ?? "transparent"))
+              .background((specIncludes(vm.selectedSet, rowIdx) ? ThemeManager.shared.color("surface-raised") : Color.clear))
+              .background((specIncludes(vm.selectedSet, rowIdx) ? ThemeManager.shared.color("surface-raised") : Color.clear))
             }
             HStack(alignment: .center) {
               if specEq(specLength(vm.processedRows), 0) {
                 Text(verbatim: specString("No rows"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
               }
             }
-            .padding(CGFloat(24))
+            .padding(ThemeManager.shared.size("spacing-6"))
           }
           }
           .frame(maxHeight: .infinity)
         }
-        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         .frame(maxHeight: .infinity)
-        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         .focusable()
         .onKeyPress(.init("c")) { Task { @MainActor in await vm.copyCell() }; return .handled }
         .onKeyPress(.init("v")) { Task { @MainActor in await vm.pasteClipboard() }; return .handled }
@@ -387,29 +388,29 @@ struct EditableGridSpecView: View {
                     VStack() {
                       Text(verbatim: specString(specGet(opt, "label")))
                         .font(.body.bold())
-                        .foregroundStyle(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#f7f7f8" : "#202732") as? String ?? "transparent"))
+                        .foregroundStyle((specEq(specGet(opt, "value"), vm.editValue) ? ThemeManager.shared.color("surface") : ThemeManager.shared.color("text-primary")))
                     }
-                    .padding(CGFloat(8))
-                    .padding(.leading, CGFloat(12))
-                    .padding(.trailing, CGFloat(12))
-                    .background(Color(hex: (specEq(specGet(opt, "value"), vm.editValue) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    .padding(ThemeManager.shared.size("spacing-2"))
+                    .padding(.leading, ThemeManager.shared.size("spacing-3"))
+                    .padding(.trailing, ThemeManager.shared.size("spacing-3"))
+                    .background((specEq(specGet(opt, "value"), vm.editValue) ? ThemeManager.shared.color("interactive") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                     .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }
                 }
                 }
-                .padding(CGFloat(4))
+                .padding(ThemeManager.shared.size("spacing-1"))
                 .frame(minWidth: CGFloat(180))
                 .frame(maxHeight: CGFloat(200))
-                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               }
             }
           }
       }
       .specFrameHeight(specPx((specNeq(vm.height, "") ? vm.height : "auto")))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.columns, columns) { vm.columns = columns }; if !specEq(vm.rows, rows) { vm.rows = rows }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.sort, sort) { vm.sort = sort }; if !specEq(vm.height, height) { vm.height = height }; if !specEq(vm.striped, striped) { vm.striped = striped }; if !specEq(vm.rowIdField, rowIdField) { vm.rowIdField = rowIdField }; if !specEq(vm.activation, activation) { vm.activation = activation }; if !specEq(vm.saveMode, saveMode) { vm.saveMode = saveMode }; if !specEq(vm.undoDepth, undoDepth) { vm.undoDepth = undoDepth } }

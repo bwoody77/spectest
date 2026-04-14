@@ -4,7 +4,8 @@ import SpecRuntime
 @Observable
 final class PriorityBadgeViewModel {
   var priority: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct PriorityBadgeView: View {
@@ -38,7 +39,7 @@ case specString("critical"): return "error"
 default: return "neutral"
 } })())), in: Capsule())
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.priority, priority) { vm.priority = priority } }

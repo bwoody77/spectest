@@ -4,7 +4,8 @@ import SpecRuntime
 @Observable
 final class TimelineViewModel {
   var items: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TimelineView: View {
@@ -23,31 +24,31 @@ struct TimelineView: View {
               .specFrameHeight(CGFloat(12))
               .frame(minWidth: CGFloat(12))
               .frame(minHeight: CGFloat(12))
-              .background(Color(hex: ({ () -> Any in switch specString(specGet(item, "status")) {
-case specString("completed"): return "#22c55e"
-case specString("active"): return "#3b82f6"
-case specString("error"): return "#ef4444"
-default: return "#9ca3af"
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+              .background(({ () -> Color in switch specString(specGet(item, "status")) {
+case specString("completed"): return Color(hex: "#22c55e")
+case specString("active"): return Color(hex: "#3b82f6")
+case specString("error"): return Color(hex: "#ef4444")
+default: return Color(hex: "#9ca3af")
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
               VStack() {
                 if specNeq(index, (specDouble(specLength(vm.items)) - specDouble(1))) {
                 }
               }
-              .background(Color(hex: ({ () -> Any in switch specString(specGet(item, "status")) {
-case specString("completed"): return "#22c55e"
-case specString("active"): return "#3b82f6"
-case specString("error"): return "#ef4444"
-default: return "#d1d5db"
-} })() as? String ?? "transparent"))
+              .background(({ () -> Color in switch specString(specGet(item, "status")) {
+case specString("completed"): return Color(hex: "#22c55e")
+case specString("active"): return Color(hex: "#3b82f6")
+case specString("error"): return Color(hex: "#ef4444")
+default: return Color(hex: "#d1d5db")
+} })())
               .frame(width: CGFloat(2))
               .frame(minWidth: CGFloat(2))
               .frame(minHeight: CGFloat(24))
-              .background(Color(hex: ({ () -> Any in switch specString(specGet(item, "status")) {
-case specString("completed"): return "#22c55e"
-case specString("active"): return "#3b82f6"
-case specString("error"): return "#ef4444"
-default: return "#d1d5db"
-} })() as? String ?? "transparent"))
+              .background(({ () -> Color in switch specString(specGet(item, "status")) {
+case specString("completed"): return Color(hex: "#22c55e")
+case specString("active"): return Color(hex: "#3b82f6")
+case specString("error"): return Color(hex: "#ef4444")
+default: return Color(hex: "#d1d5db")
+} })())
               .frame(maxWidth: .infinity)
             }
             .frame(width: CGFloat(24))
@@ -57,23 +58,23 @@ default: return "#d1d5db"
                 if specNeq(specGet(item, "date"), "") {
                   Text(verbatim: specString(specGet(item, "date")))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                 }
               }
 
               Text(verbatim: specString(specGet(item, "title")))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
               VStack() {
                 if specNeq(specGet(item, "description"), "") {
                   Text(verbatim: specString(specGet(item, "description")))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 }
               }
 
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
             .frame(maxWidth: .infinity)
           }
 
@@ -81,7 +82,7 @@ default: return "#d1d5db"
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.items, items) { vm.items = items } }

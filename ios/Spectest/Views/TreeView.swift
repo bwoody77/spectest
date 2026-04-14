@@ -38,7 +38,8 @@ final class TreeViewModel {
     /* event callback */
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TreeView: View {
@@ -58,7 +59,7 @@ struct TreeView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.nodes, nodes) { vm.nodes = nodes }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.expanded, expanded) { vm.expanded = expanded }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }

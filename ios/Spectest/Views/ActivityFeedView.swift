@@ -20,7 +20,8 @@ default: return "active"
   func setTypeFilter(_ v: Any) {
     typeFilter = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await activityItemsSource.fetch()
   }
@@ -29,11 +30,11 @@ default: return "active"
 struct ActivityFeedView: View {
   @State private var vm = ActivityFeedViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("clock")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Activity Feed"))
           .font(.title2.bold())
         Spacer(minLength: 0)
@@ -41,7 +42,7 @@ struct ActivityFeedView: View {
       .frame(maxWidth: .infinity)
 
       VStack(alignment: .leading) {
-        HStack(alignment: .center, spacing: CGFloat(8)) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
           Text(specString(vm.activityCount))
             .font(.caption.weight(.medium))
             .padding(.horizontal, 8)
@@ -56,10 +57,10 @@ struct ActivityFeedView: View {
           }
           .pickerStyle(.segmented)
         }
-        .padding(CGFloat(12))
+        .padding(ThemeManager.shared.size("spacing-3"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      VStack(spacing: CGFloat(12)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
         if (vm.activityItemsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -125,13 +126,13 @@ struct ActivityFeedView: View {
         }
       }
 
-      VStack(spacing: CGFloat(12)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
         if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
           ForEach(Array(specArr(vm.filteredActivity).enumerated()), id: \.offset) { idx, item in
-            HStack(alignment: .center, spacing: CGFloat(12)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
               ActivityIconView(activityType: specGet(item, "type"))
-              VStack(spacing: CGFloat(4)) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-1")) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Text(verbatim: specString(specGet(item, "user")))
                     .font(.body.bold())
                   Spacer(minLength: 0)
@@ -148,21 +149,21 @@ struct ActivityFeedView: View {
                   .font(.callout.bold())
                 Text(verbatim: specString(specGet(item, "timestamp")))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
 
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
-            .padding(CGFloat(12))
-            .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .padding(ThemeManager.shared.size("spacing-3"))
+            .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
           }
         }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

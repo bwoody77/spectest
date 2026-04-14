@@ -20,58 +20,59 @@ final class ChartDemoViewModel {
   func toggleValues() {
     showValues = (!((showValues) as? Bool ?? false))
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ChartDemoView: View {
   @State private var vm = ChartDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
       Text(verbatim: specString("Chart Component"))
         .font(.title2.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+        .foregroundStyle(ThemeManager.shared.color("text-primary"))
       Text(verbatim: specString("Built-in SVG charts — no external library required. Supports line, bar, area, pie, and donut types."))
         .font(.body.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-      HStack(alignment: .center, spacing: CGFloat(8)) {
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
         Button(action: { vm.setChart("line") }) {
         VStack() {
           Text(verbatim: specString("Line"))
-            .foregroundStyle(Color(hex: ((vm.isLine) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isLine) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isLine) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isLine) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setChart("bar") }) {
         VStack() {
           Text(verbatim: specString("Bar"))
-            .foregroundStyle(Color(hex: ((vm.isBar) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isBar) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isBar) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isBar) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setChart("area") }) {
         VStack() {
           Text(verbatim: specString("Area"))
-            .foregroundStyle(Color(hex: ((vm.isArea) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isArea) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isArea) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isArea) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setChart("pie") }) {
         VStack() {
           Text(verbatim: specString("Pie"))
-            .foregroundStyle(Color(hex: ((vm.isPie) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isPie) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isPie) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isPie) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setChart("donut") }) {
         VStack() {
           Text(verbatim: specString("Donut"))
-            .foregroundStyle(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isDonut) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isDonut) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isDonut) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
       }
@@ -79,18 +80,18 @@ struct ChartDemoView: View {
       VStack() {
         if (vm.isLine) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
               HStack(alignment: .center) {
                 Text(verbatim: specString("Monthly Revenue"))
                   .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 Button(action: { vm.toggleGrid() }) {
                 VStack() {
                   Text(verbatim: specString("Grid"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
+                    .foregroundStyle(((vm.showGrid) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-secondary")))
                 }
-                .background(Color(hex: ((vm.showGrid) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .background(((vm.showGrid) as? Bool ?? false ? ThemeManager.shared.color("primary") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                 }
                 .buttonStyle(.plain)
               }
@@ -111,9 +112,9 @@ struct ChartDemoView: View {
               )
               Text(verbatim: specString("Monthly revenue vs target. Multi-series line chart with legend."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -122,18 +123,18 @@ struct ChartDemoView: View {
       VStack() {
         if (vm.isBar) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
               HStack(alignment: .center) {
                 Text(verbatim: specString("Sales by Region"))
                   .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 Button(action: { vm.toggleValues() }) {
                 VStack() {
                   Text(verbatim: specString("Values"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
+                    .foregroundStyle(((vm.showValues) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-secondary")))
                 }
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .background(((vm.showValues) as? Bool ?? false ? ThemeManager.shared.color("primary") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                 }
                 .buttonStyle(.plain)
               }
@@ -154,9 +155,9 @@ struct ChartDemoView: View {
               )
               Text(verbatim: specString("Grouped bar chart — quarterly sales per region. Toggle Values for labels."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -165,10 +166,10 @@ struct ChartDemoView: View {
       VStack() {
         if (vm.isArea) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
               Text(verbatim: specString("Active Users (Last 30 Days)"))
                 .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
               SpecChartView(
                 type: specString("area"), data: [["day": "1" as Any, "users": 1200 as Any] as [String: Any], ["day": "2" as Any, "users": 1350 as Any] as [String: Any], ["day": "3" as Any, "users": 1180 as Any] as [String: Any], ["day": "4" as Any, "users": 1420 as Any] as [String: Any], ["day": "5" as Any, "users": 1680 as Any] as [String: Any], ["day": "6" as Any, "users": 1950 as Any] as [String: Any], ["day": "7" as Any, "users": 2100 as Any] as [String: Any], ["day": "8" as Any, "users": 1870 as Any] as [String: Any], ["day": "9" as Any, "users": 1640 as Any] as [String: Any], ["day": "10" as Any, "users": 1820 as Any] as [String: Any], ["day": "11" as Any, "users": 2050 as Any] as [String: Any], ["day": "12" as Any, "users": 2280 as Any] as [String: Any], ["day": "13" as Any, "users": 2150 as Any] as [String: Any], ["day": "14" as Any, "users": 2400 as Any] as [String: Any], ["day": "15" as Any, "users": 2650 as Any] as [String: Any], ["day": "16" as Any, "users": 2480 as Any] as [String: Any], ["day": "17" as Any, "users": 2710 as Any] as [String: Any], ["day": "18" as Any, "users": 2890 as Any] as [String: Any], ["day": "19" as Any, "users": 2730 as Any] as [String: Any], ["day": "20" as Any, "users": 3010 as Any] as [String: Any], ["day": "21" as Any, "users": 3250 as Any] as [String: Any], ["day": "22" as Any, "users": 3080 as Any] as [String: Any], ["day": "23" as Any, "users": 3320 as Any] as [String: Any], ["day": "24" as Any, "users": 3150 as Any] as [String: Any], ["day": "25" as Any, "users": 3480 as Any] as [String: Any], ["day": "26" as Any, "users": 3620 as Any] as [String: Any], ["day": "27" as Any, "users": 3390 as Any] as [String: Any], ["day": "28" as Any, "users": 3750 as Any] as [String: Any], ["day": "29" as Any, "users": 3920 as Any] as [String: Any], ["day": "30" as Any, "users": 4100 as Any] as [String: Any]] as [Any],
                 xKey: specString("day"), yKey: specString("users"),
@@ -185,9 +186,9 @@ struct ChartDemoView: View {
               )
               Text(verbatim: specString("Single-series area chart with filled region. Good for trends over time."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -196,18 +197,18 @@ struct ChartDemoView: View {
       VStack() {
         if (vm.isPie) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
               HStack(alignment: .center) {
                 Text(verbatim: specString("Revenue by Category"))
                   .font(.headline.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 Button(action: { vm.toggleValues() }) {
                 VStack() {
                   Text(verbatim: specString("Values"))
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm.showValues) as? Bool ?? false ? "#fff" : "#496183") as? String ?? "transparent"))
+                    .foregroundStyle(((vm.showValues) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-secondary")))
                 }
-                .background(Color(hex: ((vm.showValues) as? Bool ?? false ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                .background(((vm.showValues) as? Bool ?? false ? ThemeManager.shared.color("primary") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                 }
                 .buttonStyle(.plain)
               }
@@ -228,9 +229,9 @@ struct ChartDemoView: View {
               )
               Text(verbatim: specString("Pie chart with legend. Toggle Values to show amounts inside segments."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -239,10 +240,10 @@ struct ChartDemoView: View {
       VStack() {
         if (vm.isDonut) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
               Text(verbatim: specString("Task Status Distribution"))
                 .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
               SpecChartView(
                 type: specString("donut"), data: [["status": "Done" as Any, "count": 142 as Any] as [String: Any], ["status": "In Progress" as Any, "count": 38 as Any] as [String: Any], ["status": "Review" as Any, "count": 24 as Any] as [String: Any], ["status": "Blocked" as Any, "count": 11 as Any] as [String: Any], ["status": "Todo" as Any, "count": 67 as Any] as [String: Any]] as [Any],
                 xKey: specString("x"), yKey: specString("y"),
@@ -259,16 +260,16 @@ struct ChartDemoView: View {
               )
               Text(verbatim: specString("Donut chart — total shown in center ring. Good for part-to-whole relationships."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

@@ -8,7 +8,8 @@ final class StatViewModel {
   var trend: Any = ""
   var trendValue: Any = ""
   var value: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct StatView: View {
@@ -24,10 +25,10 @@ struct StatView: View {
       VStack() {
         Text(verbatim: specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+          .foregroundStyle(ThemeManager.shared.color("text-secondary"))
         Text(verbatim: specString(vm.value))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
         HStack(alignment: .center, spacing: CGFloat(4)) {
           if specNeq(vm.trend, "") {
             Text(verbatim: specString(({ () -> Any in switch specString(vm.trend) {
@@ -36,28 +37,28 @@ case specString("down"): return "↓"
 default: return "→"
 } })()))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.trend) {
-case specString("up"): return "#22c55e"
-case specString("down"): return "#ef4444"
-default: return "#92a2b9"
-} })() as? String ?? "transparent"))
+              .foregroundStyle(({ () -> Color in switch specString(vm.trend) {
+case specString("up"): return Color(hex: "#22c55e")
+case specString("down"): return Color(hex: "#ef4444")
+default: return ThemeManager.shared.color("text-tertiary")
+} })())
           }
           Text(verbatim: specString(vm.trendValue))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.trend) {
-case specString("up"): return "#22c55e"
-case specString("down"): return "#ef4444"
-default: return "#92a2b9"
-} })() as? String ?? "transparent"))
+            .foregroundStyle(({ () -> Color in switch specString(vm.trend) {
+case specString("up"): return Color(hex: "#22c55e")
+case specString("down"): return Color(hex: "#ef4444")
+default: return ThemeManager.shared.color("text-tertiary")
+} })())
         }
 
         Text(verbatim: specString(vm.helpText))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+          .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.trend, trend) { vm.trend = trend }; if !specEq(vm.trendValue, trendValue) { vm.trendValue = trendValue }; if !specEq(vm.helpText, helpText) { vm.helpText = helpText } }

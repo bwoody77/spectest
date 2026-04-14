@@ -34,7 +34,8 @@ final class TreeNodeViewModel {
       handleSelect()
     }
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TreeNodeView: View {
@@ -56,7 +57,7 @@ struct TreeNodeView: View {
             if (vm.hasChildren) as? Bool ?? false {
               Text(verbatim: specString(vm.toggleIcon))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
           }
           .frame(width: CGFloat(20))
@@ -73,17 +74,17 @@ struct TreeNodeView: View {
             if specGet(vm.node, "icon") != nil {
               Image(systemName: specIconName(specString((specGet(vm.node, "icon") != nil ? specGet(vm.node, "icon") : ""))))
                 .font(.system(size: specPx(16)))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
           }
           .frame(width: CGFloat(20))
           .frame(minWidth: CGFloat(20))
           Text(verbatim: specString(specGet(vm.node, "label")))
             .font(.body.bold())
-            .foregroundStyle(Color(hex: ((vm.isSelected) as? Bool ?? false ? "#1677ff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isSelected) as? Bool ?? false ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
         }
-        .padding(.top, CGFloat(4))
-        .padding(.bottom, CGFloat(4))
+        .padding(.top, ThemeManager.shared.size("spacing-1"))
+        .padding(.bottom, ThemeManager.shared.size("spacing-1"))
         .opacity(specPx((specEq(specGet(vm.node, "disabled"), true) ? 0.5 : 1)))
         .hoverEffect(.highlight)
         }
@@ -99,7 +100,7 @@ struct TreeNodeView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.node, node) { vm.node = node }; if !specEq(vm.level, level) { vm.level = level }; if !specEq(vm.expandedIds, expandedIds) { vm.expandedIds = expandedIds }; if !specEq(vm.selectedIds, selectedIds) { vm.selectedIds = selectedIds }; if !specEq(vm.selectionMode, selectionMode) { vm.selectionMode = selectionMode }; if !specEq(vm.expandMode, expandMode) { vm.expandMode = expandMode } }

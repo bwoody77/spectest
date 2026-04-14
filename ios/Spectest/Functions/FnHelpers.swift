@@ -6,6 +6,13 @@ import Foundation
 import SwiftUI
 @_exported import SpecRuntime
 
+// MARK: - Navigation stub
+
+/// Stub: client-side routing is handled by the iOS navigation shell.
+/// On iOS, navigation is handled by NavigationStack/NavigationSplitView,
+/// not by URL-based routing. This is a no-op.
+func navigate(_ path: Any) {}
+
 // MARK: - Theme Picker
 
 struct SpecThemePickerView: View {

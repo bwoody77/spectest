@@ -20,69 +20,70 @@ final class DragDemoViewModel {
   func moveCard(_ cardId: Any, _ fromCol: Any, _ toCol: Any, _ idx: Any) {
     lastMove = specAdd(specAdd(specAdd("Moved card to ", toCol), " at position "), idx)
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct DragDemoView: View {
   @State private var vm = DragDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
       Text(verbatim: specString("Drag & Drop"))
         .font(.title2.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+        .foregroundStyle(ThemeManager.shared.color("text-primary"))
       Text(verbatim: specString("Sortable lists and Kanban boards with HTML5 drag-and-drop. Zero external dependencies."))
         .font(.body.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-      HStack(alignment: .center, spacing: CGFloat(8)) {
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
         Button(action: { vm.setActiveDemo("sortable") }) {
         VStack() {
           Text(verbatim: specString("Sortable List"))
-            .foregroundStyle(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isSortable) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isSortable) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isSortable) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setActiveDemo("kanban") }) {
         VStack() {
           Text(verbatim: specString("Kanban Board"))
-            .foregroundStyle(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isKanban) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isKanban) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isKanban) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
       }
 
-      VStack(spacing: CGFloat(16)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-4")) {
         if specEq(vm.activeDemo, "sortable") {
-          HStack(alignment: .center, spacing: CGFloat(16)) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-4")) {
             VStack() {
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(16)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-4")) {
                   HStack(alignment: .center) {
                     Text(verbatim: specString("Task Priority Queue"))
                       .font(.headline.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                      .foregroundStyle(ThemeManager.shared.color("text-primary"))
                     Text(verbatim: specString("Drag to reorder"))
                       .font(.callout.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                      .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                   }
 
                   SortableView(badgeColors: ["Critical": "#fef2f2" as Any, "High": "#fef9c3" as Any, "Medium": "#ede9fe" as Any, "Low": "#f0fdf4" as Any] as [String: Any], badgeKey: "priority", gap: "6px", items: vm.sortableItems, labelKey: "name")
                 }
-                .padding(CGFloat(20))
+                .padding(ThemeManager.shared.size("spacing-5"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             }
             .frame(maxWidth: .infinity)
             VStack() {
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(12)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-3")) {
                   Text(verbatim: specString("How it works"))
                     .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                   Text(verbatim: specString("Drag any row by its handle icon to change the order. The onReorder callback fires with the updated array."))
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   VStack() {
                     if specNeq(vm.lastReorder, "") {
                       Text(verbatim: specString(vm.lastReorder))
@@ -90,13 +91,13 @@ struct DragDemoView: View {
                         .foregroundStyle(Color(hex: "#166534"))
                     }
                   }
-                  .padding(CGFloat(12))
-                  .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .padding(ThemeManager.shared.size("spacing-3"))
+                  .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                   Text(verbatim: specString("Items: \(specString(specLength(vm.sortableItems)))"))
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                 }
-                .padding(CGFloat(20))
+                .padding(ThemeManager.shared.size("spacing-5"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             }
@@ -106,16 +107,16 @@ struct DragDemoView: View {
         }
       }
 
-      VStack(spacing: CGFloat(16)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-4")) {
         if specEq(vm.activeDemo, "kanban") {
           HStack(alignment: .center) {
             Text(verbatim: specString("Project Board"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-            HStack(alignment: .center, spacing: CGFloat(12)) {
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
               Text(verbatim: specString("Drag cards between columns. The In Progress column has a WIP limit of 3."))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               VStack() {
                 if specNeq(vm.lastMove, "") {
                   Text(verbatim: specString(vm.lastMove))
@@ -123,7 +124,7 @@ struct DragDemoView: View {
                     .foregroundStyle(Color(hex: "#166534"))
                 }
               }
-              .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             }
 
           }
@@ -138,7 +139,7 @@ struct DragDemoView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

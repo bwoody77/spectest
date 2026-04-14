@@ -19,7 +19,8 @@ final class ImageViewModel {
     errored = true
     loaded = true
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ImageView: View {
@@ -37,13 +38,13 @@ struct ImageView: View {
           if specEq(vm.loaded, false) {
           }
         }
-        .background(ThemeManager.shared.color("semantic.background"))
-        .background(ThemeManager.shared.color("semantic.background"))
+        .background(ThemeManager.shared.color("surface-raised"))
+        .background(ThemeManager.shared.color("surface-raised"))
         AsyncImage(url: URL(string: "" as? String ?? ""))
       }
       .frame(maxWidth: .infinity)
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.src, src) { vm.src = src }; if !specEq(vm.alt, alt) { vm.alt = alt }; if !specEq(vm.aspectRatio, aspectRatio) { vm.aspectRatio = aspectRatio }; if !specEq(vm.lazy, lazy) { vm.lazy = lazy }; if !specEq(vm.fallbackSrc, fallbackSrc) { vm.fallbackSrc = fallbackSrc } }

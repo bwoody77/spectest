@@ -5,7 +5,8 @@ import SpecRuntime
 final class EmptyStateViewModel {
   var description: Any = ""
   var message: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct EmptyStateView: View {
@@ -15,20 +16,20 @@ struct EmptyStateView: View {
   init(description: Any = "", message: Any? = nil) { self._vm = State(initialValue: EmptyStateViewModel()); self.description = description; self.message = message }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(8)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         Image(systemName: specIconName(specString("inbox")))
-          .font(.system(size: specPx("48px")))
-          .foregroundStyle(Color(hex: "#92a2b9" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xxl"))))
+          .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
         Text(verbatim: specString(vm.message))
           .font(.headline.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
         Text(verbatim: specString(vm.description))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+          .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       }
-      .padding(CGFloat(24))
+      .padding(ThemeManager.shared.size("spacing-6"))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.message, message) { vm.message = message }; if !specEq(vm.description, description) { vm.description = description } }

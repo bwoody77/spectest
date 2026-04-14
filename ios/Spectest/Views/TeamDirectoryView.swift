@@ -20,7 +20,8 @@ final class TeamDirectoryViewModel {
   func setRoleFilter(_ v: Any) {
     roleFilter = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await usersSource.fetch()
   }
@@ -29,11 +30,11 @@ final class TeamDirectoryViewModel {
 struct TeamDirectoryView: View {
   @State private var vm = TeamDirectoryViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("user")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Team Directory"))
           .font(.title2.bold())
         Spacer(minLength: 0)
@@ -41,7 +42,7 @@ struct TeamDirectoryView: View {
       .frame(maxWidth: .infinity)
 
       VStack(alignment: .leading) {
-        HStack(alignment: .center, spacing: CGFloat(12)) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("Search")).font(.subheadline).foregroundStyle(.secondary)
             TextField(specString("Search members..."), text: Binding(get: { vm.search as? String ?? "" }, set: { vm.search = $0 }))
@@ -76,10 +77,10 @@ struct TeamDirectoryView: View {
             .foregroundStyle(specBadgeForeground(specString("neutral")))
             .background(specBadgeBackground(specString("neutral")), in: Capsule())
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
         if (vm.usersLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -112,12 +113,12 @@ struct TeamDirectoryView: View {
         }
       }
 
-      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
         ForEach(Array(specArr(vm.searchResults).enumerated()), id: \.offset) { idx, user in
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(16)) {
-              UserAvatarView(bgColor: "#1677ff", name: specGet(user, "name"))
-              VStack(spacing: CGFloat(4)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+              UserAvatarView(bgColor: ThemeManager.shared.resolve("interactive"), name: specGet(user, "name"))
+              VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                 Text(verbatim: specString(specGet(user, "name")))
                   .font(.body.bold())
                 Text(specString(specGet(user, "role")))
@@ -128,10 +129,10 @@ struct TeamDirectoryView: View {
                   .background(specBadgeBackground(specString("neutral")), in: Capsule())
                 Text(verbatim: specString(specGet(user, "email")))
                   .font(.callout.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
 
-              HStack(alignment: .center, spacing: CGFloat(8)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                 Button(action: {  }) {
                   Text(specString("Message"))
                     .font(.subheadline.weight(.medium))
@@ -150,9 +151,9 @@ struct TeamDirectoryView: View {
               }
 
             }
-            .padding(CGFloat(20))
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+            .padding(ThemeManager.shared.size("spacing-5"))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
             .hoverEffect(.highlight)
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
@@ -167,7 +168,7 @@ struct TeamDirectoryView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

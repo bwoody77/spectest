@@ -7,7 +7,8 @@ final class RadioViewModel {
   var disabled: Any = false
   var label: Any? = nil
   var value: Any = ""
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct RadioView: View {
@@ -31,13 +32,13 @@ struct RadioView: View {
         }
         .frame(width: CGFloat(18))
         .specFrameHeight(CGFloat(18))
-        .background(Color(hex: ({ () -> Any in switch specString(vm.checked) {
-case specString(true): return "#4f46e5"
-default: return "transparent"
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
+        .background(({ () -> Color in switch specString(vm.checked) {
+case specString(true): return ThemeManager.shared.color("checkbox-checkedBg")
+default: return Color.clear
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("full")))
         Text(verbatim: specString(vm.label))
           .font(.body.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+          .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       }
       .background(Color.clear)
       .opacity(specPx(({ () -> Any in switch specString(vm.disabled) {
@@ -46,7 +47,7 @@ default: return 1
 } })()))
       .background(Color.clear)
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.checked, checked) { vm.checked = checked }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }

@@ -37,7 +37,8 @@ final class DataGridDemoViewModel {
     pageSize = s
     page = 1
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await productsSource.fetch()
   }
@@ -46,26 +47,26 @@ final class DataGridDemoViewModel {
 struct DataGridDemoView: View {
   @State private var vm = DataGridDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      VStack(spacing: CGFloat(12)) {
-        HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString("layout")))
-            .font(.system(size: specPx("24px")))
-            .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+            .foregroundStyle(ThemeManager.shared.color("interactive"))
           Text(verbatim: specString("Product Catalog"))
             .font(.title2.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
 
         Text(verbatim: specString(vm.productCount))
           .font(.callout.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+          .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       }
-      .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      VStack(spacing: CGFloat(12)) {
+      .padding(ThemeManager.shared.size("spacing-5"))
+      .background(ThemeManager.shared.color("gradient-header-accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
         if (vm.productsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -221,7 +222,7 @@ struct DataGridDemoView: View {
           .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator).opacity(0.3)))
         }
       }
-      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
       .hoverEffect(.highlight)
       HStack(alignment: .center) {
         if ((!((vm.productsLoading) as? Bool ?? false))) as? Bool ?? false {
@@ -239,13 +240,13 @@ struct DataGridDemoView: View {
           }
         }
       }
-      .padding(CGFloat(12))
+      .padding(ThemeManager.shared.size("spacing-3"))
       EmptyView().sheet(isPresented: Binding(get: { vm.drawerOpen as? Bool ?? false }, set: { vm.drawerOpen = $0 })) {
         VStack {
-          VStack(spacing: CGFloat(16)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-4")) {
             Text(verbatim: specString(vm.selectedName))
               .font(.title2.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             VStack() {
               if (vm.stockWarning) as? Bool ?? false {
                 HStack(alignment: .top, spacing: 12) {
@@ -262,66 +263,66 @@ struct DataGridDemoView: View {
               }
             }
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: CGFloat(12)) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: ThemeManager.shared.size("spacing-3")) {
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Category"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: specString(vm.selectedCategory))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(12))
+                .padding(ThemeManager.shared.size("spacing-3"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Price"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: specString(vm.selectedPrice))
                     .font(.title3.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                    .foregroundStyle(ThemeManager.shared.color("interactive"))
                 }
-                .padding(CGFloat(12))
+                .padding(ThemeManager.shared.size("spacing-3"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Stock"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   VStack(alignment: .leading, spacing: 4) {
                     Text(specString("\(specString(vm.selectedStock))")).font(.system(size: 32, weight: .bold, design: .rounded))
                     Text(specString("units")).font(.subheadline).foregroundStyle(.secondary)
                   }
                 }
-                .padding(CGFloat(12))
+                .padding(ThemeManager.shared.size("spacing-3"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
               VStack(alignment: .leading) {
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Rating"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: specString(vm.selectedRating))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(12))
+                .padding(ThemeManager.shared.size("spacing-3"))
               }
               .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             }
 
-            HStack(alignment: .center, spacing: CGFloat(16)) {
-              VStack(spacing: CGFloat(4)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-4")) {
+              VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                 Text(verbatim: specString("SKU"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString(vm.selectedSku))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
 
               Spacer(minLength: 0)
@@ -333,9 +334,9 @@ struct DataGridDemoView: View {
                 .background(specBadgeBackground(specString("neutral")), in: Capsule())
             }
             .frame(maxWidth: .infinity)
-            .padding(CGFloat(12))
-            .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-            HStack(alignment: .center, spacing: CGFloat(12)) {
+            .padding(ThemeManager.shared.size("spacing-3"))
+            .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
               Button(action: { Task { @MainActor in await vm.closeDrawer() } }) {
                 Text(specString("Edit Product"))
                   .font(.subheadline.weight(.semibold))
@@ -355,12 +356,12 @@ struct DataGridDemoView: View {
             }
 
           }
-          .padding(CGFloat(16))
+          .padding(ThemeManager.shared.size("spacing-4"))
         }
         .presentationDetents([.medium, .large])
       }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

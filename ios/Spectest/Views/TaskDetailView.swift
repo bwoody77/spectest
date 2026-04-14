@@ -30,7 +30,8 @@ final class TaskDetailViewModel {
     task = nil
     view = "dashboard"
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TaskDetailView: View {
@@ -39,14 +40,14 @@ struct TaskDetailView: View {
   var view: Any? = nil
   init(task: Any? = nil, view: Any? = nil) { self._vm = State(initialValue: TaskDetailViewModel()); self.task = task; self.view = view }
   var body: some View {
-    VStack(spacing: CGFloat(12)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("eye")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Task Detail"))
           .font(.title2.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
         Spacer(minLength: 0)
       }
       .frame(maxWidth: .infinity)
@@ -58,73 +59,73 @@ struct TaskDetailView: View {
         }
       }
 
-      VStack(spacing: CGFloat(12)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
         if (vm.hasTask) as? Bool ?? false {
           VStack() {
             Text(verbatim: specString(vm.detailHeading))
               .font(.title3.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
           }
-          .padding(CGFloat(16))
-          .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .padding(ThemeManager.shared.size("spacing-4"))
+          .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           AsyncImage(url: URL(string: specString("https://via.placeholder.com/64"))) { image in
             image.resizable().aspectRatio(contentMode: .fit)
           } placeholder: {
             ProgressView()
           }
           .accessibilityLabel(specString("Task thumbnail"))
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(12)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-3")) {
             VStack(alignment: .leading) {
-              VStack(spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("Status"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 SpecStatusPill(status: specString(vm.taskStatus))
               }
-              .padding(CGFloat(12))
+              .padding(ThemeManager.shared.size("spacing-3"))
               .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
-              VStack(spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("Priority"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 SpecPriorityPill(priority: specString(vm.taskPriority))
               }
-              .padding(CGFloat(12))
+              .padding(ThemeManager.shared.size("spacing-3"))
               .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
-              VStack(spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("Assignee"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString(vm.taskAssignee))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
-              .padding(CGFloat(12))
+              .padding(ThemeManager.shared.size("spacing-3"))
               .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading) {
-              VStack(spacing: CGFloat(8)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                 Text(verbatim: specString("Created"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString(vm.taskDate))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
               }
-              .padding(CGFloat(12))
+              .padding(ThemeManager.shared.size("spacing-3"))
               .hoverEffect(.highlight)
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           }
 
-          HStack(alignment: .center, spacing: CGFloat(12)) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
             Button(action: { Task { @MainActor in await vm.goBack() } }) {
               Text(specString("Back to Dashboard"))
                 .font(.subheadline.weight(.medium))
@@ -153,7 +154,7 @@ struct TaskDetailView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.task, task) { vm.task = task }; if !specEq(vm.view, view) { vm.view = view } }

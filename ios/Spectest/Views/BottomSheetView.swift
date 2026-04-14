@@ -62,7 +62,8 @@ default: return resetPosition()
     snapIndex = index
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct BottomSheetView: View {
@@ -91,11 +92,11 @@ struct BottomSheetView: View {
                     .opacity(CGFloat(0.4))
                     .frame(width: CGFloat(36))
                     .specFrameHeight(CGFloat(4))
-                    .background(ThemeManager.shared.color("semantic.border-strong"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
+                    .background(ThemeManager.shared.color("text-tertiary"), in: RoundedRectangle(cornerRadius: CGFloat(2)))
                   }
                 }
-                .padding(.top, CGFloat(8))
-                .padding(.bottom, CGFloat(8))
+                .padding(.top, ThemeManager.shared.size("spacing-2"))
+                .padding(.bottom, ThemeManager.shared.size("spacing-2"))
                 ScrollView(.horizontal, showsIndicators: true) {
                 VStack() {
                   // slot
@@ -105,12 +106,12 @@ struct BottomSheetView: View {
               }
               .specFrameHeight(specPx(vm.sheetHeight))
               .frame(maxHeight: CGFloat(0))
-              .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
+              .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: CGFloat(0)))
             }
           }
         }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.snapPoints, snapPoints) { vm.snapPoints = snapPoints }; if !specEq(vm.initialSnap, initialSnap) { vm.initialSnap = initialSnap }; if !specEq(vm.showHandle, showHandle) { vm.showHandle = showHandle }; if !specEq(vm.backdrop, backdrop) { vm.backdrop = backdrop } }

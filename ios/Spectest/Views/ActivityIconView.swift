@@ -4,7 +4,8 @@ import SpecRuntime
 @Observable
 final class ActivityIconViewModel {
   var activityType: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ActivityIconView: View {
@@ -22,16 +23,16 @@ case specString("deploy"): return "upload"
 default: return "circle"
 } })())))
         .font(.system(size: specPx("18px")))
-        .foregroundStyle(Color(hex: ({ () -> Any in switch specString(vm.activityType) {
-case specString("task_created"): return "#3b82f6"
-case specString("task_completed"): return "#10b981"
-case specString("task_assigned"): return "#8b5cf6"
-case specString("comment"): return "#f59e0b"
-case specString("deploy"): return "#06b6d4"
-default: return "#64748b"
-} })() as? String ?? "transparent"))
+        .foregroundStyle(({ () -> Color in switch specString(vm.activityType) {
+case specString("task_created"): return Color(hex: "#3b82f6")
+case specString("task_completed"): return Color(hex: "#10b981")
+case specString("task_assigned"): return Color(hex: "#8b5cf6")
+case specString("comment"): return Color(hex: "#f59e0b")
+case specString("deploy"): return Color(hex: "#06b6d4")
+default: return Color(hex: "#64748b")
+} })())
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.activityType, activityType) { vm.activityType = activityType } }

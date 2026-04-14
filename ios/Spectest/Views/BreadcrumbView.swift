@@ -10,7 +10,8 @@ final class BreadcrumbViewModel {
   func expand() {
     expanded = true
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct BreadcrumbView: View {
@@ -27,7 +28,7 @@ struct BreadcrumbView: View {
             if ((specDouble(index) > specDouble(0)) && (((((vm.expanded) as? Bool ?? false || specEq(vm.maxVisible, 0)) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible))) || specEq(index, 1)) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))))) {
               Text(verbatim: specString(vm.separator))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
 
@@ -36,7 +37,7 @@ struct BreadcrumbView: View {
             if (((((!((vm.expanded) as? Bool ?? false))) as? Bool ?? false && (specDouble(vm.maxVisible) > specDouble(0))) && (specDouble(specLength(vm.items)) > specDouble(vm.maxVisible))) && specEq(index, 1)) {
               Text(verbatim: specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                .foregroundStyle(ThemeManager.shared.color("interactive"))
             }
           }
           .hoverEffect(.highlight)
@@ -47,7 +48,7 @@ struct BreadcrumbView: View {
             if (specNeq(index, (specDouble(specLength(vm.items)) - specDouble(1))) && (((((vm.expanded) as? Bool ?? false || specEq(vm.maxVisible, 0)) || (specDouble(specLength(vm.items)) <= specDouble(vm.maxVisible))) || specEq(index, 0)) || (specDouble(index) >= specDouble(specAdd((specDouble(specLength(vm.items)) - specDouble(vm.maxVisible)), 1))))) {
               Text(verbatim: specString(specGet(item, "label")))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                .foregroundStyle(ThemeManager.shared.color("interactive"))
             }
           }
           .hoverEffect(.highlight)
@@ -57,7 +58,7 @@ struct BreadcrumbView: View {
             if specEq(index, (specDouble(specLength(vm.items)) - specDouble(1))) {
               Text(verbatim: specString(specGet(item, "label")))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
             }
           }
 
@@ -65,7 +66,7 @@ struct BreadcrumbView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.separator, separator) { vm.separator = separator }; if !specEq(vm.maxVisible, maxVisible) { vm.maxVisible = maxVisible } }

@@ -71,17 +71,18 @@ final class SettingsPanelViewModel {
   func dismissSaved() {
     saved = false
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SettingsPanelView: View {
   @State private var vm = SettingsPanelViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("settings")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Settings"))
           .font(.title2.bold())
         Spacer(minLength: 0)
@@ -90,7 +91,7 @@ struct SettingsPanelView: View {
 
       Text(verbatim: specString(vm.settingsSummary))
         .font(.callout.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       VStack() {
         if (vm.savedVisible) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
@@ -109,19 +110,19 @@ struct SettingsPanelView: View {
       }
 
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          HStack(alignment: .center, spacing: CGFloat(8)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
             Image(systemName: specIconName(specString("user")))
-              .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+              .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+              .foregroundStyle(ThemeManager.shared.color("interactive"))
             Text(verbatim: specString("Profile"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
 
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-            VStack(spacing: CGFloat(4)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
+            VStack(spacing: ThemeManager.shared.size("spacing-1")) {
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("Display Name")).font(.subheadline).foregroundStyle(.secondary)
                 TextField(specString("Your name"), text: Binding(get: { vm.displayName as? String ?? "" }, set: { vm.displayName = $0 }))
@@ -137,7 +138,7 @@ struct SettingsPanelView: View {
 
             }
 
-            VStack(spacing: CGFloat(4)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-1")) {
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("Email")).font(.subheadline).foregroundStyle(.secondary)
                 TextField(specString("Your email"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
@@ -161,22 +162,22 @@ struct SettingsPanelView: View {
             .textFieldStyle(.roundedBorder)
           }
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          HStack(alignment: .center, spacing: CGFloat(8)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
             Image(systemName: specIconName(specString("globe")))
-              .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+              .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+              .foregroundStyle(ThemeManager.shared.color("interactive"))
             Text(verbatim: specString("Localization"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
 
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: CGFloat(16)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: ThemeManager.shared.size("spacing-4")) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Language")).font(.subheadline).foregroundStyle(.secondary)
               Menu {
@@ -240,44 +241,44 @@ struct SettingsPanelView: View {
           }
 
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          HStack(alignment: .center, spacing: CGFloat(8)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
             Image(systemName: specIconName(specString("bell")))
-              .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+              .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+              .foregroundStyle(ThemeManager.shared.color("interactive"))
             Text(verbatim: specString("Notifications"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
 
-          VStack(spacing: CGFloat(12)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-3")) {
             Toggle(specString("Email notifications"), isOn: Binding(get: { vm.emailNotifications as? Bool ?? false }, set: { vm.emailNotifications = $0 }))
             Toggle(specString("Push notifications"), isOn: Binding(get: { vm.pushNotifications as? Bool ?? false }, set: { vm.pushNotifications = $0 }))
             Toggle(specString("Weekly digest email"), isOn: Binding(get: { vm.weeklyDigest as? Bool ?? false }, set: { vm.weeklyDigest = $0 }))
           }
 
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          HStack(alignment: .center, spacing: CGFloat(8)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
             Image(systemName: specIconName(specString("monitor")))
-              .font(.system(size: specPx("18px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+              .font(.system(size: specPx(ThemeManager.shared.resolve("icon-sm"))))
+              .foregroundStyle(ThemeManager.shared.color("interactive"))
             Text(verbatim: specString("Display"))
               .font(.title3.bold())
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
 
-          VStack(spacing: CGFloat(12)) {
+          VStack(spacing: ThemeManager.shared.size("spacing-3")) {
             Toggle(specString("Auto-save changes"), isOn: Binding(get: { vm.autoSave as? Bool ?? false }, set: { vm.autoSave = $0 }))
             Toggle(specString("Compact mode"), isOn: Binding(get: { vm.compactMode as? Bool ?? false }, set: { vm.compactMode = $0 }))
             Toggle(specString("Show avatars"), isOn: Binding(get: { vm.showAvatars as? Bool ?? false }, set: { vm.showAvatars = $0 }))
@@ -304,10 +305,10 @@ struct SettingsPanelView: View {
             }
           }
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Button(action: { Task { @MainActor in await vm.saveSettings() } }) {
           Text(specString("Save Settings"))
             .font(.subheadline.weight(.semibold))
@@ -326,7 +327,7 @@ struct SettingsPanelView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

@@ -5,7 +5,8 @@ import SpecRuntime
 final class TabsViewModel {
   var activeTab: Any = ""
   var tabs: Any? = nil
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TabsView: View {
@@ -22,12 +23,12 @@ struct TabsView: View {
             VStack() {
               Text(verbatim: specString(specGet(tab, "label")))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
-case specString(true): return "#1677ff"
-default: return "#496183"
-} })() as? String ?? "transparent"))
+                .foregroundStyle(({ () -> Color in switch specString(specEq(specGet(tab, "id"), vm.activeTab)) {
+case specString(true): return ThemeManager.shared.color("interactive")
+default: return ThemeManager.shared.color("text-secondary")
+} })())
             }
-            .padding(CGFloat(12))
+            .padding(ThemeManager.shared.size("spacing-3"))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
             .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
             .hoverEffect(.highlight)
@@ -42,11 +43,11 @@ default: return "#496183"
         VStack() {
           // slot
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab } }

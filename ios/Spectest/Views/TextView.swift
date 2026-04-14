@@ -6,7 +6,8 @@ final class TextViewModel {
   var content: Any? = nil
   var selectable: Any = true
   var variant: Any = "body-md"
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TextView: View {
@@ -21,7 +22,7 @@ struct TextView: View {
         if specEq(vm.variant, "heading-xl") {
           Text(verbatim: specString(vm.content))
             .font(.title.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
       }
 
@@ -29,7 +30,7 @@ struct TextView: View {
         if specEq(vm.variant, "heading-lg") {
           Text(verbatim: specString(vm.content))
             .font(.title2.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
       }
 
@@ -37,7 +38,7 @@ struct TextView: View {
         if specEq(vm.variant, "heading-md") {
           Text(verbatim: specString(vm.content))
             .font(.title3.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
       }
 
@@ -45,7 +46,7 @@ struct TextView: View {
         if specEq(vm.variant, "heading-sm") {
           Text(verbatim: specString(vm.content))
             .font(.headline.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
       }
 
@@ -53,7 +54,7 @@ struct TextView: View {
         if specEq(vm.variant, "body-lg") {
           Text(verbatim: specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+            .foregroundStyle(ThemeManager.shared.color("text-secondary"))
         }
       }
 
@@ -61,7 +62,7 @@ struct TextView: View {
         if specEq(vm.variant, "body-md") {
           Text(verbatim: specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+            .foregroundStyle(ThemeManager.shared.color("text-secondary"))
         }
       }
 
@@ -69,7 +70,7 @@ struct TextView: View {
         if specEq(vm.variant, "body-sm") {
           Text(verbatim: specString(vm.content))
             .font(.callout.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+            .foregroundStyle(ThemeManager.shared.color("text-secondary"))
         }
       }
 
@@ -77,7 +78,7 @@ struct TextView: View {
         if specEq(vm.variant, "label-sm") {
           Text(verbatim: specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
       }
 
@@ -85,12 +86,12 @@ struct TextView: View {
         if specEq(vm.variant, "caption") {
           Text(verbatim: specString(vm.content))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+            .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
         }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.content, content) { vm.content = content }; if !specEq(vm.variant, variant) { vm.variant = variant }; if !specEq(vm.selectable, selectable) { vm.selectable = selectable } }

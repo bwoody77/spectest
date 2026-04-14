@@ -39,7 +39,8 @@ final class EditableGridDemoViewModel {
     lastSaveEvent = "Row \(specString(rowId)) saved"
     hasChanges = false
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await productsSource.fetch()
   }
@@ -48,21 +49,21 @@ final class EditableGridDemoViewModel {
 struct EditableGridDemoView: View {
   @State private var vm = EditableGridDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      VStack(spacing: CGFloat(12)) {
-        HStack(alignment: .center, spacing: CGFloat(12)) {
-          HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
             Image(systemName: specIconName(specString("edit")))
-              .font(.system(size: specPx("24px")))
-              .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+              .font(.system(size: specPx(ThemeManager.shared.resolve("icon-lg"))))
+              .foregroundStyle(ThemeManager.shared.color("interactive"))
             Text(verbatim: specString("Editable Inventory"))
               .font(.title2.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             Spacer(minLength: 0)
           }
           .frame(maxWidth: .infinity)
 
-          HStack(alignment: .center, spacing: CGFloat(12)) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
             VStack() {
               if (vm.saving) as? Bool ?? false {
                 ProgressView(value: (vm.saveProgress as? Double ?? 0) / 100.0)
@@ -102,16 +103,16 @@ struct EditableGridDemoView: View {
         }
 
       }
-      .padding(CGFloat(20))
-      .background(LinearGradient(colors: [Color(hex: "#1677ff15"), Color(hex: "#1677ff05")], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+      .padding(ThemeManager.shared.size("spacing-5"))
+      .background(ThemeManager.shared.color("gradient-header-accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         if (vm.showSaved) as? Bool ?? false {
           Image(systemName: specIconName(specString("check")))
-            .font(.system(size: specPx("20px")))
-            .foregroundStyle(Color(hex: "#52c41a" as? String ?? "transparent"))
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+            .foregroundStyle(ThemeManager.shared.color("success"))
           Text(verbatim: specString("Changes saved successfully!"))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.success-text"))
+            .foregroundStyle(ThemeManager.shared.color("success-text"))
           Button(action: { Task { @MainActor in await vm.dismissSaved() } }) {
             Text(specString("Dismiss"))
               .font(.subheadline.weight(.medium))
@@ -121,9 +122,9 @@ struct EditableGridDemoView: View {
           }
         }
       }
-      .padding(CGFloat(12))
-      .background(ThemeManager.shared.color("semantic.success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-      VStack(spacing: CGFloat(12)) {
+      .padding(ThemeManager.shared.size("spacing-3"))
+      .background(ThemeManager.shared.color("success-light"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
         if (vm.productsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -141,65 +142,65 @@ struct EditableGridDemoView: View {
           EditableGridSpecView(activation: "click", columns: [["key": "id" as Any, "label": "ID" as Any, "width": "60px" as Any, "editable": false as Any] as [String: Any], ["key": "name" as Any, "label": "Product Name" as Any, "editable": true as Any, "type": "text" as Any, "required": true as Any] as [String: Any], ["key": "category" as Any, "label": "Category" as Any, "editable": true as Any, "type": "select" as Any, "options": ["Electronics", "Audio", "Furniture", "Accessories"] as [Any] as Any] as [String: Any], ["key": "price" as Any, "label": "Price" as Any, "editable": true as Any, "type": "number" as Any, "format": "currency" as Any] as [String: Any], ["key": "stock" as Any, "label": "Stock" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any] as [String: Any], ["key": "status" as Any, "label": "Status" as Any, "editable": true as Any, "type": "select" as Any, "options": ["active", "out-of-stock", "discontinued"] as [Any] as Any] as [String: Any], ["key": "rating" as Any, "label": "Rating" as Any, "editable": true as Any, "type": "number" as Any, "min": 0 as Any, "max": 5 as Any, "step": 0.1 as Any] as [String: Any], ["key": "sku" as Any, "label": "SKU" as Any, "editable": false as Any] as [String: Any]] as [Any], rows: vm.productList, saveMode: "batch", undoDepth: 50)
         }
       }
-      .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+      .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
       .hoverEffect(.highlight)
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(12)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-3")) {
           Text(verbatim: specString("Editing Instructions"))
             .font(.headline.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-          VStack(spacing: CGFloat(8)) {
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
+          VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("edit")))
-                .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Text(verbatim: specString("Click any editable cell to start editing"))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
 
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("arrow-right")))
-                .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Text(verbatim: specString("Use Tab/Arrow keys to navigate between cells"))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
 
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("check")))
-                .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Text(verbatim: specString("Modified cells show a yellow indicator"))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
 
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("arrow-left")))
-                .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Text(verbatim: specString("Ctrl+Z to undo, Ctrl+Y to redo"))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
 
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               Image(systemName: specIconName(specString("clipboard")))
-                .font(.system(size: specPx("16px")))
-                .foregroundStyle(Color(hex: "#496183" as? String ?? "transparent"))
+                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Text(verbatim: specString("Ctrl+C to copy, Ctrl+V to paste, Ctrl+D to fill down"))
                 .font(.callout.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -207,11 +208,11 @@ struct EditableGridDemoView: View {
           }
 
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

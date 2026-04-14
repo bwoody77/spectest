@@ -59,20 +59,21 @@ final class TaskFormViewModel {
   func dismissSuccess() {
     submitted = false
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TaskFormView: View {
   @State private var vm = TaskFormViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(12)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("plus")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Create New Task"))
           .font(.title2.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
         Spacer(minLength: 0)
         EmptyView().popover(isPresented: .constant(false)) {
         }
@@ -81,7 +82,7 @@ struct TaskFormView: View {
 
       Text(verbatim: specString(vm.formSummary))
         .font(.callout.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       VStack() {
         if (vm.successVisible) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
@@ -116,8 +117,8 @@ struct TaskFormView: View {
       }
 
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          VStack(spacing: CGFloat(4)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Title")).font(.subheadline).foregroundStyle(.secondary)
               TextField(specString("Enter task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
@@ -138,8 +139,8 @@ struct TaskFormView: View {
             TextField(specString("Optional notes..."), text: Binding(get: { vm.notes as? String ?? "" }, set: { vm.notes = $0 }))
             .textFieldStyle(.roundedBorder)
           }
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
-            VStack(spacing: CGFloat(4)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
+            VStack(spacing: ThemeManager.shared.size("spacing-1")) {
               VStack(alignment: .leading, spacing: 4) {
                 Text(specString("Assignee")).font(.subheadline).foregroundStyle(.secondary)
                 Menu {
@@ -192,7 +193,7 @@ struct TaskFormView: View {
             }
           }
 
-          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: CGFloat(16)) {
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-4")) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Status")).font(.subheadline).foregroundStyle(.secondary)
               Menu {
@@ -225,15 +226,15 @@ struct TaskFormView: View {
 
           Toggle(specString("Mark as urgent"), isOn: Binding(get: { vm.urgent as? Bool ?? false }, set: { vm.urgent = $0 }))
             .toggleStyle(.automatic)
-          HStack(alignment: .center, spacing: CGFloat(12)) {
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
             if (vm.isSubmitting) as? Bool ?? false {
               ProgressView(value: (75 as? Double ?? 0) / 100.0)
                 .tint(.accentColor)
             }
           }
-          .padding(CGFloat(12))
-          .background(ThemeManager.shared.color("semantic.info-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-          HStack(alignment: .center, spacing: CGFloat(12)) {
+          .padding(ThemeManager.shared.size("spacing-3"))
+          .background(ThemeManager.shared.color("info-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
             Button(action: { Task { @MainActor in await vm.submitForm() } }) {
               Text(specString("Create Task"))
                 .font(.subheadline.weight(.semibold))
@@ -252,12 +253,12 @@ struct TaskFormView: View {
           }
 
         }
-        .padding(CGFloat(20))
+        .padding(ThemeManager.shared.size("spacing-5"))
         .hoverEffect(.highlight)
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

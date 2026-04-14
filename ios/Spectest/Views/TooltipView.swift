@@ -13,7 +13,8 @@ final class TooltipViewModel {
     // unsupported: clear-delay
     visible = false
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct TooltipView: View {
@@ -32,7 +33,7 @@ struct TooltipView: View {
               .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if (specEq(vm.visible, true) && specEq(vm.placement, "bottom")) {
@@ -41,7 +42,7 @@ struct TooltipView: View {
               .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if (specEq(vm.visible, true) && specEq(vm.placement, "left")) {
@@ -50,7 +51,7 @@ struct TooltipView: View {
               .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
         VStack() {
           if (specEq(vm.visible, true) && specEq(vm.placement, "right")) {
@@ -59,12 +60,12 @@ struct TooltipView: View {
               .foregroundStyle(Color(hex: "#f1f5f9"))
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .background(Color(hex: "#1e293b"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.text, text) { vm.text = text }; if !specEq(vm.placement, placement) { vm.placement = placement } }

@@ -15,20 +15,21 @@ final class WizardStep2ViewModel {
   func setAutoAssign(_ v: Any) {
     autoAssign = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct WizardStep2View: View {
   @State private var vm = WizardStep2ViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
       Text(verbatim: specString("Step 2: Options"))
         .font(.title3.bold())
       Text(verbatim: specString("Configure priority, deadline, and assignment options."))
         .font(.callout.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
           VStack(alignment: .leading, spacing: 4) {
             Text(specString("Priority")).font(.subheadline).foregroundStyle(.secondary)
             Menu {
@@ -59,18 +60,18 @@ struct WizardStep2View: View {
           }
           Toggle(specString("Auto-assign reviewer"), isOn: Binding(get: { vm.autoAssign as? Bool ?? false }, set: { vm.autoAssign = $0 }))
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+        Button(action: { Task { @MainActor in await vm.dispatch("back", nil) } }) {
           Text(specString("Back"))
             .font(.subheadline.weight(.medium))
             .foregroundStyle(.blue)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
-        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
+        Button(action: { Task { @MainActor in await vm.dispatch("next", nil) } }) {
           Text(specString("Next"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -81,7 +82,7 @@ struct WizardStep2View: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

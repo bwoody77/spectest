@@ -9,7 +9,8 @@ final class BottomTabBarViewModel {
   func selectTab(_ tabId: Any) {
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct BottomTabBarView: View {
@@ -26,30 +27,30 @@ struct BottomTabBarView: View {
           VStack(spacing: CGFloat(2)) {
             Image(systemName: specIconName(specString(specGet(tab, "icon"))))
               .font(.system(size: specPx("22px")))
-              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "transparent"))
+              .foregroundStyle((specEq(vm.activeTab, specGet(tab, "id")) ? ThemeManager.shared.color("accent") : ThemeManager.shared.color("text-tertiary")))
             Text(verbatim: specString(specGet(tab, "label")))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: (specEq(vm.activeTab, specGet(tab, "id")) ? "#1677ff" : "#92a2b9") as? String ?? "transparent"))
+              .foregroundStyle((specEq(vm.activeTab, specGet(tab, "id")) ? ThemeManager.shared.color("accent") : ThemeManager.shared.color("text-tertiary")))
             VStack() {
               if specEq(vm.activeTab, specGet(tab, "id")) {
               }
             }
             .frame(width: CGFloat(24))
             .specFrameHeight(CGFloat(2))
-            .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: CGFloat(1)))
+            .background(ThemeManager.shared.color("accent"), in: RoundedRectangle(cornerRadius: CGFloat(1)))
           }
-          .padding(.top, CGFloat(8))
-          .padding(.bottom, CGFloat(4))
+          .padding(.top, ThemeManager.shared.size("spacing-2"))
+          .padding(.bottom, ThemeManager.shared.size("spacing-1"))
           .frame(maxWidth: .infinity)
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
         }
       }
-      .background(ThemeManager.shared.color("semantic.surface"))
-      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("surface"))
+      .background(ThemeManager.shared.color("surface"))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.tabs, tabs) { vm.tabs = tabs }; if !specEq(vm.activeTab, activeTab) { vm.activeTab = activeTab }; if !specEq(vm.showLabels, showLabels) { vm.showLabels = showLabels } }

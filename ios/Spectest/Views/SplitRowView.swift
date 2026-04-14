@@ -3,14 +3,15 @@ import SpecRuntime
 
 @Observable
 final class SplitRowViewModel {
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SplitRowView: View {
   @State private var vm = SplitRowViewModel()
   var body: some View {
     VStack() {
-      HStack(alignment: .center, spacing: CGFloat(16)) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-4")) {
         VStack() {
           // slot
         }
@@ -22,7 +23,7 @@ struct SplitRowView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

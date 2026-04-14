@@ -41,7 +41,8 @@ final class MobileDemoViewModel {
   func handleSwipeRight() {
     openSheet()
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct MobileDemoView: View {
@@ -54,30 +55,30 @@ struct MobileDemoView: View {
         VStack() {
           Text(verbatim: specString("Mobile Demo"))
             .font(.title2.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
           Text(verbatim: specString("Gesture events, bottom sheet, safe areas"))
             .font(.callout.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+            .foregroundStyle(ThemeManager.shared.color("text-secondary"))
         }
-        .padding(CGFloat(16))
-        .background(ThemeManager.shared.color("semantic.surface"))
-        .background(ThemeManager.shared.color("semantic.surface"))
+        .padding(ThemeManager.shared.size("spacing-4"))
+        .background(ThemeManager.shared.color("surface"))
+        .background(ThemeManager.shared.color("surface"))
         ScrollView(.horizontal, showsIndicators: true) {
         VStack(spacing: CGFloat(16)) {
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Swipe Zone"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             Text(verbatim: specString("Swipe left for snackbar, right for bottom sheet"))
               .font(.callout.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
-          .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .padding(ThemeManager.shared.size("spacing-5"))
+          .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Scroll Snap Carousel"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             ScrollView(.horizontal, showsIndicators: true) {
             HStack(alignment: .center, spacing: CGFloat(16)) {
               ForEach(Array(specArr(vm.items).enumerated()), id: \.offset) { _idx, item in
@@ -89,9 +90,9 @@ struct MobileDemoView: View {
                     .font(.callout.bold())
                     .foregroundStyle(Color(.sRGB, red: 1.0000, green: 1.0000, blue: 1.0000, opacity: 0.8))
                 }
-                .padding(CGFloat(20))
+                .padding(ThemeManager.shared.size("spacing-5"))
                 .frame(minWidth: CGFloat(280))
-                .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+                .background(ThemeManager.shared.color("accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
               }
             }
             }
@@ -101,7 +102,7 @@ struct MobileDemoView: View {
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Components"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             HStack(alignment: .center, spacing: CGFloat(8)) {
               Button(action: { vm.openSheet() }) {
               VStack() {
@@ -109,11 +110,11 @@ struct MobileDemoView: View {
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
-              .padding(.leading, CGFloat(16))
-              .padding(.trailing, CGFloat(16))
-              .padding(.top, CGFloat(8))
-              .padding(.bottom, CGFloat(8))
-              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(.leading, ThemeManager.shared.size("spacing-4"))
+              .padding(.trailing, ThemeManager.shared.size("spacing-4"))
+              .padding(.top, ThemeManager.shared.size("spacing-2"))
+              .padding(.bottom, ThemeManager.shared.size("spacing-2"))
+              .background(ThemeManager.shared.color("accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               }
               .buttonStyle(.plain)
               Button(action: { vm.openActionSheet() }) {
@@ -122,11 +123,11 @@ struct MobileDemoView: View {
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
-              .padding(.leading, CGFloat(16))
-              .padding(.trailing, CGFloat(16))
-              .padding(.top, CGFloat(8))
-              .padding(.bottom, CGFloat(8))
-              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(.leading, ThemeManager.shared.size("spacing-4"))
+              .padding(.trailing, ThemeManager.shared.size("spacing-4"))
+              .padding(.top, ThemeManager.shared.size("spacing-2"))
+              .padding(.bottom, ThemeManager.shared.size("spacing-2"))
+              .background(ThemeManager.shared.color("accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               }
               .buttonStyle(.plain)
               Button(action: { vm.showSnackbar() }) {
@@ -135,11 +136,11 @@ struct MobileDemoView: View {
                   .font(.body)
                   .foregroundStyle(Color.white)
               }
-              .padding(.leading, CGFloat(16))
-              .padding(.trailing, CGFloat(16))
-              .padding(.top, CGFloat(8))
-              .padding(.bottom, CGFloat(8))
-              .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(.leading, ThemeManager.shared.size("spacing-4"))
+              .padding(.trailing, ThemeManager.shared.size("spacing-4"))
+              .padding(.top, ThemeManager.shared.size("spacing-2"))
+              .padding(.bottom, ThemeManager.shared.size("spacing-2"))
+              .background(ThemeManager.shared.color("accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               }
               .buttonStyle(.plain)
             }
@@ -149,26 +150,26 @@ struct MobileDemoView: View {
           VStack(spacing: CGFloat(8)) {
             Text(verbatim: specString("Long Press"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             Text(verbatim: specString("Long press this card to open the action sheet"))
               .font(.callout.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
-          .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .padding(ThemeManager.shared.size("spacing-5"))
+          .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
           VStack() {
             Text(verbatim: specString("Visibility Trigger"))
               .font(.headline.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
             Text(verbatim: specString("Snackbar shown when this card scrolled into view"))
               .font(.callout.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
-          .padding(CGFloat(20))
-          .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("lg")))
+          .padding(ThemeManager.shared.size("spacing-5"))
+          .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
         }
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
         .padding(.bottom, CGFloat(80))
         .frame(maxWidth: .infinity)
         BottomTabBarView(activeTab: vm.activeTab, tabs: [["id": "home" as Any, "label": "Home" as Any, "icon": "home" as Any] as [String: Any], ["id": "search" as Any, "label": "Search" as Any, "icon": "search" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any], ["id": "user" as Any, "label": "Profile" as Any, "icon": "user" as Any] as [String: Any]] as [Any])
@@ -188,11 +189,11 @@ struct MobileDemoView: View {
         }
         FABView(icon: "plus")
       }
-      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("surface"))
       .frame(maxWidth: .infinity)
-      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("surface"))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.api, api) { vm.api = api } }

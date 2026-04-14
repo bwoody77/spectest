@@ -14,21 +14,22 @@ final class WizardStep1ViewModel {
   func setAssignee(_ v: Any) {
     assignee = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct WizardStep1View: View {
   @State private var vm = WizardStep1ViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
       Text(verbatim: specString("Step 1: Basic Info"))
         .font(.title3.bold())
       Text(verbatim: specString("Provide the core details for this task."))
         .font(.callout.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
       VStack(alignment: .leading) {
-        VStack(spacing: CGFloat(16)) {
-          VStack(spacing: CGFloat(4)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             VStack(alignment: .leading, spacing: 4) {
               Text(specString("Title")).font(.subheadline).foregroundStyle(.secondary)
               TextField(specString("Task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
@@ -65,11 +66,11 @@ struct WizardStep1View: View {
             }
           }
         }
-        .padding(CGFloat(16))
+        .padding(ThemeManager.shared.size("spacing-4"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      HStack(alignment: .center, spacing: CGFloat(12)) {
-        Button(action: { Task { @MainActor in await /* unsupported: dispatch */ Optional<Any>.none as Any } }) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+        Button(action: { Task { @MainActor in await vm.dispatch("next", nil) } }) {
           Text(specString("Next"))
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
@@ -81,7 +82,7 @@ struct WizardStep1View: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }

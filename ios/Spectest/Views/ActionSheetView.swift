@@ -20,7 +20,8 @@ final class ActionSheetViewModel {
     /* event callback */
     doClose()
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct ActionSheetView: View {
@@ -43,42 +44,42 @@ struct ActionSheetView: View {
                 VStack() {
                   Text(verbatim: specString(vm.title))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                    .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                   ForEach(Array(specArr(vm.actions).enumerated()), id: \.offset) { _idx, action in
                     Button(action: { vm.selectAction(specGet(action, "id")) }) {
                     HStack(alignment: .center) {
                       Text(verbatim: specString(specGet(action, "label")))
                         .font(.body.bold())
-                        .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(action, "destructive")) {
-case specString(true): return "rgb(239, 68, 68)"
-default: return "#1677ff"
-} })() as? String ?? "transparent"))
+                        .foregroundStyle(({ () -> Color in switch specString(specGet(action, "destructive")) {
+case specString(true): return Color(hex: "rgb(239, 68, 68)" as? String ?? "transparent")
+default: return ThemeManager.shared.color("accent")
+} })())
                     }
-                    .padding(CGFloat(12))
+                    .padding(ThemeManager.shared.size("spacing-3"))
                     .hoverEffect(.highlight)
                     }
                     .buttonStyle(.plain)
                   }
                 }
-                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+                .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
                 Button(action: { vm.doClose() }) {
                 HStack(alignment: .center) {
                   Text(verbatim: specString("Cancel"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                    .foregroundStyle(ThemeManager.shared.color("accent"))
                 }
-                .padding(CGFloat(12))
-                .background(ThemeManager.shared.color("semantic.surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
+                .padding(ThemeManager.shared.size("spacing-3"))
+                .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: CGFloat(14)))
                 .hoverEffect(.highlight)
                 }
                 .buttonStyle(.plain)
               }
-              .padding(CGFloat(8))
+              .padding(ThemeManager.shared.size("spacing-2"))
             }
           }
         }
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.open, open) { vm.open = open }; if !specEq(vm.title, title) { vm.title = title }; if !specEq(vm.actions, actions) { vm.actions = actions } }

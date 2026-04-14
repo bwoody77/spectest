@@ -13,7 +13,8 @@ final class PaginationViewModel {
   var endItem: Any { ((specDouble((specDouble(currentPage) * specDouble(pageSize))) > specDouble(total)) ? total : (specDouble(currentPage) * specDouble(pageSize))) }
   var hasPrev: Any { (specDouble(currentPage) > specDouble(1)) }
   var hasNext: Any { (specDouble(currentPage) < specDouble(totalPages)) }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct PaginationView: View {
@@ -25,25 +26,25 @@ struct PaginationView: View {
   init(maxButtons: Any = 7, page: Any = 1, pageSize: Any = 10, total: Any? = nil) { self._vm = State(initialValue: PaginationViewModel()); self.maxButtons = maxButtons; self.page = page; self.pageSize = pageSize; self.total = total }
   var body: some View {
     VStack() {
-      HStack(alignment: .center, spacing: CGFloat(8)) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
         Text(verbatim: specString("\(specString(vm.startItem))-\(specString(vm.endItem)) of \(specString(vm.total))"))
           .font(.callout.bold())
-          .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-        HStack(alignment: .center, spacing: CGFloat(4)) {
+          .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
           Button(action: { if (vm.hasPrev) as? Bool ?? false {
   /* event callback */
 } }) {
           HStack(alignment: .center) {
             Text(verbatim: specString("u2039"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
           }
-          .padding(CGFloat(8))
-          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .padding(ThemeManager.shared.size("spacing-2"))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .opacity(specPx(((vm.hasPrev) as? Bool ?? false ? 1 : 0.4)))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -51,12 +52,12 @@ struct PaginationView: View {
           HStack(alignment: .center) {
             Text(verbatim: specString("1"))
               .font(.body.bold())
-              .foregroundStyle(Color(hex: (specEq(vm.currentPage, 1) ? "#ffffff" : "#496183") as? String ?? "transparent"))
+              .foregroundStyle((specEq(vm.currentPage, 1) ? ThemeManager.shared.color("semantic.background") : ThemeManager.shared.color("text-secondary")))
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: (specEq(vm.currentPage, 1) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background((specEq(vm.currentPage, 1) ? ThemeManager.shared.color("interactive") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -64,23 +65,23 @@ struct PaginationView: View {
             if ((specDouble(vm.currentPage) > specDouble(3)) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           Button(action: { /* event callback */ }) {
           HStack(alignment: .center) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble((specDouble(vm.currentPage) - specDouble(1))) > specDouble(1))) {
               Text(verbatim: specString("\(specString((specDouble(vm.currentPage) - specDouble(1))))"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -91,22 +92,22 @@ struct PaginationView: View {
                 .foregroundStyle(ThemeManager.shared.color("semantic.background"))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("interactive"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           Button(action: { /* event callback */ }) {
           HStack(alignment: .center) {
             if ((specDouble(vm.totalPages) > specDouble(2)) && (specDouble(specAdd(vm.currentPage, 1)) < specDouble(vm.totalPages))) {
               Text(verbatim: specString("\(specString(specAdd(vm.currentPage, 1)))"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(Color.clear, in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -114,23 +115,23 @@ struct PaginationView: View {
             if ((specDouble(vm.currentPage) < specDouble((specDouble(vm.totalPages) - specDouble(2)))) && (specDouble(vm.totalPages) > specDouble(vm.maxButtons))) {
               Text(verbatim: specString("u2026"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           Button(action: { /* event callback */ }) {
           HStack(alignment: .center) {
             if (specDouble(vm.totalPages) > specDouble(1)) {
               Text(verbatim: specString("\(specString(vm.totalPages))"))
                 .font(.body.bold())
-                .foregroundStyle(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#ffffff" : "#496183") as? String ?? "transparent"))
+                .foregroundStyle((specEq(vm.currentPage, vm.totalPages) ? ThemeManager.shared.color("semantic.background") : ThemeManager.shared.color("text-secondary")))
             }
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .background(Color(hex: (specEq(vm.currentPage, vm.totalPages) ? "#1677ff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background((specEq(vm.currentPage, vm.totalPages) ? ThemeManager.shared.color("interactive") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -140,14 +141,14 @@ struct PaginationView: View {
           HStack(alignment: .center) {
             Text(verbatim: specString("u203A"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
           }
-          .padding(CGFloat(8))
-          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .padding(ThemeManager.shared.size("spacing-2"))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .opacity(specPx(((vm.hasNext) as? Bool ?? false ? 1 : 0.4)))
           .frame(minWidth: CGFloat(32))
           .frame(minHeight: CGFloat(32))
-          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
           .hoverEffect(.highlight)
           }
           .buttonStyle(.plain)
@@ -156,7 +157,7 @@ struct PaginationView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.total, total) { vm.total = total }; if !specEq(vm.pageSize, pageSize) { vm.pageSize = pageSize }; if !specEq(vm.page, page) { vm.page = page }; if !specEq(vm.maxButtons, maxButtons) { vm.maxButtons = maxButtons } }

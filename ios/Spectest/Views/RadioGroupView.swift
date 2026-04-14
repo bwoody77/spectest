@@ -6,7 +6,8 @@ final class RadioGroupViewModel {
   var disabled: Any = false
   var options: Any = [] as [Any]
   var value: Any = ""
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct RadioGroupView: View {
@@ -17,7 +18,7 @@ struct RadioGroupView: View {
   init(disabled: Any = false, options: Any = [] as [Any], value: Any = "") { self._vm = State(initialValue: RadioGroupViewModel()); self.disabled = disabled; self.options = options; self.value = value }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(8)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         ForEach(Array(specArr(vm.options).enumerated()), id: \.offset) { _idx, option in
           Picker(specString(specGet(option, "label")), selection: .constant("")) {
             ForEach(Array(([] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { _, opt in
@@ -29,7 +30,7 @@ struct RadioGroupView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }

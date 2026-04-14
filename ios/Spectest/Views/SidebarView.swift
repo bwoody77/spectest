@@ -8,7 +8,8 @@ final class SidebarViewModel {
   var collapsedWidth: Any = "56px"
   var sections: Any? = nil
   var width: Any = "240px"
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SidebarView: View {
@@ -28,55 +29,55 @@ struct SidebarView: View {
             HStack(alignment: .center) {
               Text(verbatim: specString("u00BB"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .frame(width: CGFloat(32))
             .specFrameHeight(CGFloat(32))
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         HStack(alignment: .center) {
           if specEq(vm.collapsed, false) {
             Button(action: { /* event callback */ }) {
             HStack(alignment: .center) {
               Text(verbatim: specString("u00AB"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .frame(width: CGFloat(32))
             .specFrameHeight(CGFloat(32))
-            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .clipShape(RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
             .hoverEffect(.highlight)
             }
             .buttonStyle(.plain)
           }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         ScrollView(.horizontal, showsIndicators: true) {
-        VStack(spacing: CGFloat(4)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-1")) {
           ForEach(Array(specArr(vm.sections).enumerated()), id: \.offset) { _idx, section in
             VStack() {
               if (specEq(vm.collapsed, false) && specGet(section, "title") != nil) {
                 Text(verbatim: specString(specGet(section, "title")))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
               }
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
             .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
             ForEach(Array(specArr(specGet(section, "items")).enumerated()), id: \.offset) { _idx, item in
               Button(action: { /* event callback */ }) {
-              HStack(alignment: .center, spacing: CGFloat(8)) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                 HStack(alignment: .center) {
                   Image(systemName: specIconName(specString((specGet(item, "icon") != nil ? specGet(item, "icon") : "circle"))))
                     .font(.system(size: specPx(18)))
-                    .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#1677ff" : "#496183") as? String ?? "transparent"))
+                    .foregroundStyle((specEq(specGet(item, "id"), vm.activeItem) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-secondary")))
                 }
                 .frame(width: CGFloat(24))
                 .specFrameHeight(CGFloat(24))
@@ -85,13 +86,13 @@ struct SidebarView: View {
                   if specEq(vm.collapsed, false) {
                     Text(verbatim: specString(specGet(item, "label")))
                       .font(.body.bold())
-                      .foregroundStyle(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#202732" : "#496183") as? String ?? "transparent"))
+                      .foregroundStyle((specEq(specGet(item, "id"), vm.activeItem) ? ThemeManager.shared.color("text-primary") : ThemeManager.shared.color("text-secondary")))
                   }
                 }
                 .opacity(specPx((specEq(vm.collapsed, false) ? 1 : 0)))
               }
-              .padding(CGFloat(8))
-              .background(Color(hex: (specEq(specGet(item, "id"), vm.activeItem) ? "#ffffff" : "transparent") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+              .padding(ThemeManager.shared.size("spacing-2"))
+              .background((specEq(specGet(item, "id"), vm.activeItem) ? ThemeManager.shared.color("surface-raised") : Color.clear), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               .hoverEffect(.highlight)
               }
               .buttonStyle(.plain)
@@ -99,16 +100,16 @@ struct SidebarView: View {
           }
         }
         }
-        .padding(CGFloat(8))
+        .padding(ThemeManager.shared.size("spacing-2"))
         .frame(maxWidth: .infinity)
       }
-      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("surface"))
       .frame(width: specPx(((vm.collapsed) as? Bool ?? false ? vm.collapsedWidth : vm.width)))
       .frame(maxHeight: .infinity)
       .frame(minWidth: specPx(((vm.collapsed) as? Bool ?? false ? vm.collapsedWidth : vm.width)))
-      .background(ThemeManager.shared.color("semantic.surface"))
+      .background(ThemeManager.shared.color("surface"))
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.sections, sections) { vm.sections = sections }; if !specEq(vm.activeItem, activeItem) { vm.activeItem = activeItem }; if !specEq(vm.collapsed, collapsed) { vm.collapsed = collapsed }; if !specEq(vm.width, width) { vm.width = width }; if !specEq(vm.collapsedWidth, collapsedWidth) { vm.collapsedWidth = collapsedWidth } }

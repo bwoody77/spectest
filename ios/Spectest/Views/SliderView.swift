@@ -15,7 +15,8 @@ final class SliderViewModel {
     currentValue = v
     /* event callback */
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct SliderView: View {
@@ -29,23 +30,23 @@ struct SliderView: View {
   init(disabled: Any = false, label: Any = "", max: Any = 100, min: Any = 0, step: Any = 1, value: Any = 50) { self._vm = State(initialValue: SliderViewModel()); self.disabled = disabled; self.label = label; self.max = max; self.min = min; self.step = step; self.value = value }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(8)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         HStack(alignment: .center) {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
           Text(verbatim: specString("\(specString(vm.displayValue))"))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+            .foregroundStyle(ThemeManager.shared.color("text-primary"))
         }
 
         HStack(alignment: .center) {
           if specEq(vm.label, "") {
             Text(verbatim: specString("\(specString(vm.displayValue))"))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
           }
         }
 
@@ -54,7 +55,7 @@ struct SliderView: View {
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.min, min) { vm.min = min }; if !specEq(vm.max, max) { vm.max = max }; if !specEq(vm.step, step) { vm.step = step }; if !specEq(vm.value, value) { vm.value = value }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled } }

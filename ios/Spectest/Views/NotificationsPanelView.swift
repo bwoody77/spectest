@@ -19,7 +19,8 @@ final class NotificationsPanelViewModel {
   func setSeverityFilter(_ v: Any) {
     severityFilter = v
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
   func loadSources() async {
     await notificationsSource.fetch()
   }
@@ -28,11 +29,11 @@ final class NotificationsPanelViewModel {
 struct NotificationsPanelView: View {
   @State private var vm = NotificationsPanelViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
-      HStack(alignment: .center, spacing: CGFloat(12)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
         Image(systemName: specIconName(specString("bell")))
-          .font(.system(size: specPx("20px")))
-          .foregroundStyle(Color(hex: "#1677ff" as? String ?? "transparent"))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Notifications"))
           .font(.title2.bold())
         VStack() {
@@ -65,10 +66,10 @@ struct NotificationsPanelView: View {
       }
 
       VStack(alignment: .leading) {
-        HStack(alignment: .center, spacing: CGFloat(8)) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
           Text(verbatim: specString("Filter:"))
             .font(.body.bold())
-            .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+            .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           Spacer(minLength: 0)
           Picker("", selection: Binding(get: { specString(vm.severityFilter) }, set: { vm.severityFilter = $0 })) {
             Text("All").tag("all")
@@ -80,10 +81,10 @@ struct NotificationsPanelView: View {
           .pickerStyle(.segmented)
         }
         .frame(maxWidth: .infinity)
-        .padding(CGFloat(12))
+        .padding(ThemeManager.shared.size("spacing-3"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      VStack(spacing: CGFloat(8)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-2")) {
         if (vm.notificationsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -121,28 +122,28 @@ struct NotificationsPanelView: View {
       }
 
       ForEach(Array(specArr(vm.filteredNotifications).enumerated()), id: \.offset) { idx, notif in
-        HStack(alignment: .center, spacing: CGFloat(12)) {
+        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
           Image(systemName: specIconName(specString(({ () -> Any in switch specString(specGet(notif, "severity")) {
 case specString("success"): return "check"
 case specString("error"): return "alert-triangle"
 case specString("warning"): return "alert-triangle"
 default: return "info"
 } })())))
-            .font(.system(size: specPx("20px")))
-            .foregroundStyle(Color(hex: ({ () -> Any in switch specString(specGet(notif, "severity")) {
-case specString("success"): return "#52c41a"
-case specString("error"): return "#ff4d4f"
-case specString("warning"): return "#faad14"
-default: return "#1677ff"
-} })() as? String ?? "transparent"))
-          VStack(spacing: CGFloat(4)) {
+            .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+            .foregroundStyle(({ () -> Color in switch specString(specGet(notif, "severity")) {
+case specString("success"): return ThemeManager.shared.color("success")
+case specString("error"): return ThemeManager.shared.color("destructive")
+case specString("warning"): return ThemeManager.shared.color("warning")
+default: return ThemeManager.shared.color("interactive")
+} })())
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
             Text(verbatim: specString(specGet(notif, "title")))
               .font(.body.bold())
-            HStack(alignment: .center, spacing: CGFloat(8)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
               SeverityBadgeView(severity: specGet(notif, "severity"))
               Text(verbatim: specString(specGet(notif, "createdAt")))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               Spacer(minLength: 0)
             }
             .frame(maxWidth: .infinity)
@@ -152,8 +153,8 @@ default: return "#1677ff"
           Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
-        .padding(CGFloat(12))
-        .background(Color(hex: ((specGet(notif, "read")) as? Bool ?? false ? "#ffffff" : "#f0f9ff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .padding(ThemeManager.shared.size("spacing-3"))
+        .background(((specGet(notif, "read")) as? Bool ?? false ? ThemeManager.shared.color("surface-raised") : ThemeManager.shared.color("surface-unread")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         .hoverEffect(.highlight)
       }
       VStack() {
@@ -164,7 +165,7 @@ default: return "#1677ff"
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }

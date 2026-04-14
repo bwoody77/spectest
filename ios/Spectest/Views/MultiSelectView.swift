@@ -91,7 +91,8 @@ final class MultiSelectViewModel {
       /* event callback */
     }
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct MultiSelectView: View {
@@ -108,38 +109,38 @@ struct MultiSelectView: View {
   init(disabled: Any = false, display: Any = "chips", label: Any = "", mode: Any = "dropdown", options: Any = [] as [Any], placeholder: Any = "Select...", searchable: Any = true, showCheckbox: Any = true, values: Any = [] as [Any]) { self._vm = State(initialValue: MultiSelectViewModel()); self.disabled = disabled; self.display = display; self.label = label; self.mode = mode; self.options = options; self.placeholder = placeholder; self.searchable = searchable; self.showCheckbox = showCheckbox; self.values = values }
   var body: some View {
     VStack() {
-      VStack(spacing: CGFloat(4)) {
+      VStack(spacing: ThemeManager.shared.size("spacing-1")) {
         VStack() {
           if specNeq(vm.label, "") {
             Text(verbatim: specString(vm.label))
               .font(.body.bold())
-              .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+              .foregroundStyle(ThemeManager.shared.color("text-secondary"))
           }
         }
 
-        VStack(spacing: CGFloat(4)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-1")) {
           if (vm.isDropdownMode) as? Bool ?? false {
-            HStack(alignment: .center, spacing: CGFloat(4)) {
-              HStack(alignment: .center, spacing: CGFloat(4)) {
+            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
+              HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
                 if ((vm.hasSelections) as? Bool ?? false && specEq(vm.display, "chips")) {
                   ForEach(Array(specArr(vm.selectedOptions).enumerated()), id: \.offset) { _idx, opt in
-                    HStack(alignment: .center, spacing: CGFloat(4)) {
+                    HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-1")) {
                       Text(verbatim: specString(specGet(opt, "label")))
                         .font(.body.bold())
-                        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                        .foregroundStyle(ThemeManager.shared.color("text-primary"))
                       Button(action: { vm.removeTag(specGet(opt, "value")) }) {
                       VStack() {
                         Text(verbatim: specString("u00D7"))
                           .font(.body.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                          .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                       }
 
                       }
                       .buttonStyle(.plain)
                     }
-                    .padding(.leading, CGFloat(8))
-                    .padding(.trailing, CGFloat(4))
-                    .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                    .padding(.leading, ThemeManager.shared.size("spacing-2"))
+                    .padding(.trailing, ThemeManager.shared.size("spacing-1"))
+                    .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                   }
                 }
               }
@@ -148,7 +149,7 @@ struct MultiSelectView: View {
                 if ((vm.hasSelections) as? Bool ?? false && specEq(vm.display, "text")) {
                   Text(verbatim: specString(vm.displayText))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
               }
 
@@ -158,22 +159,22 @@ struct MultiSelectView: View {
                   if specEq(vm.hasSelections, false) {
                     Text(verbatim: specString(vm.placeholder))
                       .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                      .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                   }
                 }
 
                 Text(verbatim: specString("u25BE"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
               }
               .frame(maxWidth: .infinity)
               }
               .buttonStyle(.plain)
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
             .opacity(specPx(((vm.disabled) as? Bool ?? false ? 0.5 : 1)))
             .frame(minHeight: CGFloat(40))
-            .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+            .background(ThemeManager.shared.color("select-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("select-radius")))
             .hoverEffect(.highlight)
             .focusable()
             .onKeyPress(.escape) { Task { @MainActor in await vm.closeDropdown() }; return .handled }
@@ -195,13 +196,13 @@ struct MultiSelectView: View {
                           .textFieldStyle(.roundedBorder)
                       }
                     }
-                    .padding(CGFloat(8))
-                    HStack(alignment: .center, spacing: CGFloat(8)) {
+                    .padding(ThemeManager.shared.size("spacing-2"))
+                    HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                       Button(action: { vm.selectAll() }) {
                       VStack() {
                         Text(verbatim: specString("Select all"))
                           .font(.body.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                          .foregroundStyle(ThemeManager.shared.color("interactive"))
                       }
 
                       }
@@ -210,37 +211,37 @@ struct MultiSelectView: View {
                       VStack() {
                         Text(verbatim: specString("Clear all"))
                           .font(.body.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                          .foregroundStyle(ThemeManager.shared.color("interactive"))
                       }
 
                       }
                       .buttonStyle(.plain)
                     }
-                    .padding(CGFloat(8))
+                    .padding(ThemeManager.shared.size("spacing-2"))
                     VStack() {
                       if (vm.hasOptions) as? Bool ?? false {
                         ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
                           Button(action: { vm.toggleOption(specGet(option, "value")) }) {
-                          HStack(alignment: .center, spacing: CGFloat(8)) {
+                          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                             Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
 default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
                               .font(.body.bold())
-                              .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                              .foregroundStyle(ThemeManager.shared.color("interactive"))
                             Text(verbatim: specString(specGet(option, "label")))
                               .font(.body.bold())
-                              .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                              .foregroundStyle((specIncludes(vm.safeSelected, specGet(option, "value")) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
                           }
-                          .padding(CGFloat(8))
+                          .padding(ThemeManager.shared.size("spacing-2"))
                           .opacity(CGFloat(0))
-                          .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
-case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
-case specString(true): return "#eef2ff"
-default: return "transparent"
+                          .background(({ () -> Color in switch specString(specEq(idx, vm.highlightIndex)) {
+case specString(true): return ThemeManager.shared.color("select-optionHover")
+default: return ({ () -> Color in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
+case specString(true): return ThemeManager.shared.color("select-optionSelected")
+default: return Color.clear
 } })()
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                           .hoverEffect(.highlight)
                           }
                           .buttonStyle(.plain)
@@ -252,30 +253,30 @@ default: return "transparent"
                       if specEq(vm.hasOptions, false) {
                         Text(verbatim: specString("No options"))
                           .font(.body.bold())
-                          .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                          .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                       }
                     }
-                    .padding(CGFloat(12))
+                    .padding(ThemeManager.shared.size("spacing-3"))
                   }
                   }
-                  .padding(CGFloat(4))
+                  .padding(ThemeManager.shared.size("spacing-1"))
                   .frame(maxHeight: CGFloat(280))
-                  .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .background(ThemeManager.shared.color("select-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("select-radius")))
                 }
               }
             }
         }
 
-        VStack(spacing: CGFloat(4)) {
+        VStack(spacing: ThemeManager.shared.size("spacing-1")) {
           if specEq(vm.isDropdownMode, false) {
             VStack() {
               if (vm.hasSelections) as? Bool ?? false {
                 Text(verbatim: specString(specAdd(specLength(vm.safeSelected), " selected")))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
               }
             }
-            .padding(CGFloat(8))
+            .padding(ThemeManager.shared.size("spacing-2"))
           }
           VStack() {
             if (vm.searchable) as? Bool ?? false {
@@ -283,13 +284,13 @@ default: return "transparent"
                 .textFieldStyle(.roundedBorder)
             }
           }
-          .padding(CGFloat(8))
-          HStack(alignment: .center, spacing: CGFloat(8)) {
+          .padding(ThemeManager.shared.size("spacing-2"))
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
             Button(action: { vm.selectAll() }) {
             VStack() {
               Text(verbatim: specString("Select all"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                .foregroundStyle(ThemeManager.shared.color("interactive"))
             }
 
             }
@@ -298,38 +299,38 @@ default: return "transparent"
             VStack() {
               Text(verbatim: specString("Clear all"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                .foregroundStyle(ThemeManager.shared.color("interactive"))
             }
 
             }
             .buttonStyle(.plain)
           }
-          .padding(CGFloat(8))
+          .padding(ThemeManager.shared.size("spacing-2"))
           ScrollView(.horizontal, showsIndicators: true) {
           VStack() {
             if (vm.hasOptions) as? Bool ?? false {
               ForEach(Array(specArr(vm.filteredOptions).enumerated()), id: \.offset) { idx, option in
                 Button(action: { vm.toggleOption(specGet(option, "value")) }) {
-                HStack(alignment: .center, spacing: CGFloat(8)) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
                   Text(verbatim: specString(({ () -> Any in switch specString(vm.showCheckbox) {
 case specString(true): return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2611" : "u2610")
 default: return (specIncludes(vm.safeSelected, specGet(option, "value")) ? "u2713" : "")
 } })()))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.accent"))
+                    .foregroundStyle(ThemeManager.shared.color("interactive"))
                   Text(verbatim: specString(specGet(option, "label")))
                     .font(.body.bold())
-                    .foregroundStyle(Color(hex: (specIncludes(vm.safeSelected, specGet(option, "value")) ? "#1677ff" : "#202732") as? String ?? "transparent"))
+                    .foregroundStyle((specIncludes(vm.safeSelected, specGet(option, "value")) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
                 }
-                .padding(CGFloat(8))
+                .padding(ThemeManager.shared.size("spacing-2"))
                 .opacity(CGFloat(0))
-                .background(Color(hex: ({ () -> Any in switch specString(specEq(idx, vm.highlightIndex)) {
-case specString(true): return "#f1f5f9"
-default: return ({ () -> Any in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
-case specString(true): return "#eef2ff"
-default: return "transparent"
+                .background(({ () -> Color in switch specString(specEq(idx, vm.highlightIndex)) {
+case specString(true): return ThemeManager.shared.color("select-optionHover")
+default: return ({ () -> Color in switch specString(specIncludes(vm.safeSelected, specGet(option, "value"))) {
+case specString(true): return ThemeManager.shared.color("select-optionSelected")
+default: return Color.clear
 } })()
-} })() as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+} })(), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                 .hoverEffect(.highlight)
                 }
                 .buttonStyle(.plain)
@@ -338,7 +339,7 @@ default: return "transparent"
           }
           }
           .frame(maxHeight: CGFloat(280))
-          .background(Color(hex: "#fff"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+          .background(ThemeManager.shared.color("select-bg"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("select-radius")))
           .focusable()
           .onKeyPress(.downArrow) { Task { @MainActor in await vm.moveHighlight(1) }; return .handled }
           .onKeyPress(.upArrow) { Task { @MainActor in await vm.moveHighlight(-1) }; return .handled }
@@ -348,16 +349,16 @@ default: return "transparent"
             if specEq(vm.hasOptions, false) {
               Text(verbatim: specString("No options"))
                 .font(.body.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
             }
           }
-          .padding(CGFloat(12))
+          .padding(ThemeManager.shared.size("spacing-3"))
         }
 
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .onAppear { if !specEq(vm.options, options) { vm.options = options }; if !specEq(vm.values, values) { vm.values = values }; if !specEq(vm.placeholder, placeholder) { vm.placeholder = placeholder }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.disabled, disabled) { vm.disabled = disabled }; if !specEq(vm.label, label) { vm.label = label }; if !specEq(vm.display, display) { vm.display = display }; if !specEq(vm.showCheckbox, showCheckbox) { vm.showCheckbox = showCheckbox }; if !specEq(vm.mode, mode) { vm.mode = mode } }

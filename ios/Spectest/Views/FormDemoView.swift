@@ -135,47 +135,48 @@ final class FormDemoViewModel {
     submittedData = nil
     _resetForm()
   }
-  func dispatch(_ event: Any, _ payload: Any? = nil) {}
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
 }
 
 struct FormDemoView: View {
   @State private var vm = FormDemoViewModel()
   var body: some View {
-    VStack(spacing: CGFloat(20)) {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
       Text(verbatim: specString("Form Validation (@form block)"))
         .font(.title2.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+        .foregroundStyle(ThemeManager.shared.color("text-primary"))
       Text(verbatim: specString("The @form block adds field-level validation, touched tracking, and dirty state with zero boilerplate."))
         .font(.body.bold())
-        .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
-      HStack(alignment: .center, spacing: CGFloat(8)) {
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
         Button(action: { vm.setActiveForm("contact") }) {
         VStack() {
           Text(verbatim: specString("Contact Form"))
-            .foregroundStyle(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isContactForm) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isContactForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isContactForm) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
         Button(action: { vm.setActiveForm("how") }) {
         VStack() {
           Text(verbatim: specString("How It Works"))
-            .foregroundStyle(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#fff" : "#202732") as? String ?? "transparent"))
+            .foregroundStyle(((vm.isHowForm) as? Bool ?? false ? Color(hex: "#fff") : ThemeManager.shared.color("text-primary")))
         }
-        .background(Color(hex: ((vm.isHowForm) as? Bool ?? false ? "#1677ff" : "#ffffff") as? String ?? "transparent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+        .background(((vm.isHowForm) as? Bool ?? false ? ThemeManager.shared.color("primary") : ThemeManager.shared.color("surface-raised")), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
         }
         .buttonStyle(.plain)
       }
 
-      HStack(alignment: .center, spacing: CGFloat(20)) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-5")) {
         if (vm.isContactForm) as? Bool ?? false {
           VStack() {
             VStack(alignment: .leading) {
-              VStack(spacing: CGFloat(20)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-5")) {
                 HStack(alignment: .center) {
                   Text(verbatim: specString("Contact Us"))
                     .font(.headline.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                   VStack() {
                     if (vm._form_dirty) as? Bool ?? false {
                       Text(verbatim: specString("Unsaved changes"))
@@ -183,14 +184,14 @@ struct FormDemoView: View {
                         .foregroundStyle(Color(hex: "#92400e"))
                     }
                   }
-                  .background(Color(hex: "#fef9c3"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("sm")))
+                  .background(Color(hex: "#fef9c3"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-sm")))
                 }
 
-                HStack(alignment: .center, spacing: CGFloat(16)) {
-                  VStack(spacing: CGFloat(4)) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-4")) {
+                  VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                     Text(verbatim: specString("First Name"))
                       .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                      .foregroundStyle(ThemeManager.shared.color("text-primary"))
                     TextField(specString("Jane"), text: Binding(get: { vm.firstName as? String ?? "" }, set: { vm.firstName = $0 }))
                       .textFieldStyle(.roundedBorder)
                     VStack() {
@@ -203,10 +204,10 @@ struct FormDemoView: View {
 
                   }
                   .frame(maxWidth: .infinity)
-                  VStack(spacing: CGFloat(4)) {
+                  VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                     Text(verbatim: specString("Last Name"))
                       .font(.body.bold())
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                      .foregroundStyle(ThemeManager.shared.color("text-primary"))
                     TextField(specString("Doe"), text: Binding(get: { vm.lastName as? String ?? "" }, set: { vm.lastName = $0 }))
                       .textFieldStyle(.roundedBorder)
                     VStack() {
@@ -221,10 +222,10 @@ struct FormDemoView: View {
                   .frame(maxWidth: .infinity)
                 }
 
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Email"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                   TextField(specString("jane@example.com"), text: Binding(get: { vm.email as? String ?? "" }, set: { vm.email = $0 }))
                     .textFieldStyle(.roundedBorder)
                   VStack() {
@@ -237,10 +238,10 @@ struct FormDemoView: View {
 
                 }
 
-                VStack(spacing: CGFloat(4)) {
+                VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                   Text(verbatim: specString("Message"))
                     .font(.body.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                   TextField(specString("Tell us how we can help..."), text: Binding(get: { vm.message as? String ?? "" }, set: { vm.message = $0 }))
                     .textFieldStyle(.roundedBorder)
                   VStack() {
@@ -253,16 +254,16 @@ struct FormDemoView: View {
 
                 }
 
-                HStack(alignment: .center, spacing: CGFloat(12)) {
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
                   if ((vm._form_submit_attempted) as? Bool ?? false && ((!((vm._form_valid) as? Bool ?? false))) as? Bool ?? false) {
                     Text(verbatim: specString("Please fix the errors above before submitting."))
                       .font(.callout.bold())
                       .foregroundStyle(Color(hex: "#dc2626"))
                   }
                 }
-                .padding(CGFloat(16))
-                .background(Color(hex: "#fef2f2"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                VStack(spacing: CGFloat(8)) {
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(Color(hex: "#fef2f2"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+                VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                   if (vm.submitted) as? Bool ?? false {
                     Text(verbatim: specString("Message sent successfully!"))
                       .font(.headline.bold())
@@ -272,15 +273,15 @@ struct FormDemoView: View {
                     .font(.callout.bold())
                     .foregroundStyle(Color(hex: "#166534"))
                 }
-                .padding(CGFloat(16))
-                .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
-                HStack(alignment: .center, spacing: CGFloat(12)) {
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(Color(hex: "#f0fdf4"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
                   Button(action: { vm.resetContact() }) {
                   VStack() {
                     Text(verbatim: specString("Reset"))
-                      .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                      .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   }
-                  .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                   }
                   .buttonStyle(.plain)
                   Button(action: { vm.submitContact() }) {
@@ -289,13 +290,13 @@ struct FormDemoView: View {
                       .foregroundStyle(Color(hex: "#fff"))
                   }
                   .opacity(specPx(((vm._form_valid) as? Bool ?? false ? 1 : 0.6)))
-                  .background(ThemeManager.shared.color("semantic.accent"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                  .background(ThemeManager.shared.color("primary"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                   }
                   .buttonStyle(.plain)
                 }
 
               }
-              .padding(CGFloat(24))
+              .padding(ThemeManager.shared.size("spacing-6"))
             }
             .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
           }
@@ -303,69 +304,69 @@ struct FormDemoView: View {
         }
         VStack() {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(12)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-3")) {
               Text(verbatim: specString("Form State"))
                 .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              VStack(spacing: CGFloat(8)) {
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
                 HStack(alignment: .center) {
                   Text(verbatim: specString("Valid"))
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: ({ () -> String in
           if (vm._form_valid) as? Bool ?? false { return specString("✓ Yes") }
           return specString("✗ No")
         })())
                     .font(.callout.bold())
-                    .foregroundStyle(Color(hex: ((vm._form_valid) as? Bool ?? false ? "#166534" : "#dc2626") as? String ?? "transparent"))
+                    .foregroundStyle(((vm._form_valid) as? Bool ?? false ? Color(hex: "#166534") : Color(hex: "#dc2626")))
                 }
 
                 HStack(alignment: .center) {
                   Text(verbatim: specString("Dirty"))
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: ({ () -> String in
           if (vm._form_dirty) as? Bool ?? false { return specString("Yes") }
           return specString("No")
         })())
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
 
                 HStack(alignment: .center) {
                   Text(verbatim: specString("Submit attempted"))
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                   Text(verbatim: ({ () -> String in
           if (vm._form_submit_attempted) as? Bool ?? false { return specString("Yes") }
           return specString("No")
         })())
                     .font(.callout.bold())
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
 
               }
 
-              VStack(spacing: CGFloat(4)) {
+              VStack(spacing: ThemeManager.shared.size("spacing-1")) {
                 Text(verbatim: specString("Field errors:"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-secondary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
                 Text(verbatim: specString("firstName: \(specString((vm._fld_firstName_error ?? "OK")))"))
                   .font(.callout.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                 Text(verbatim: specString("lastName: \(specString((vm._fld_lastName_error ?? "OK")))"))
                   .font(.callout.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                 Text(verbatim: specString("email: \(specString((vm._fld_email_error ?? "OK")))"))
                   .font(.callout.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
                 Text(verbatim: specString("message: \(specString((vm._fld_message_error ?? "OK")))"))
                   .font(.callout.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.border-strong"))
+                  .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
               }
 
             }
-            .padding(CGFloat(20))
+            .padding(ThemeManager.shared.size("spacing-5"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
@@ -375,62 +376,62 @@ struct FormDemoView: View {
       VStack() {
         if (vm.isHowForm) as? Bool ?? false {
           VStack(alignment: .leading) {
-            VStack(spacing: CGFloat(20)) {
+            VStack(spacing: ThemeManager.shared.size("spacing-5")) {
               Text(verbatim: specString("How @form works"))
                 .font(.headline.bold())
-                .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
-              VStack(spacing: CGFloat(12)) {
+                .foregroundStyle(ThemeManager.shared.color("text-primary"))
+              VStack(spacing: ThemeManager.shared.size("spacing-3")) {
                 Text(verbatim: specString("1. Declare field validators in @form"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 VStack() {
                   Text(verbatim: specString("@form {n  email: required, emailn  password: required, min-length(8)n}"))
                     .font(.body)
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                 Text(verbatim: specString("2. Keep field values in @state as normal"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 VStack() {
                   Text(verbatim: specString("@state { email: \"\"  password: \"\" }"))
                     .font(.body)
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                 Text(verbatim: specString("3. Call _touchField on blur, _submitForm on submit"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 VStack() {
                   Text(verbatim: specString("TextInput(...) { on blur: _touchField(\"email\") }nButton(\"Submit\") { on click: _submitForm() }"))
                     .font(.body)
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
                 Text(verbatim: specString("4. Use generated signals in the template"))
                   .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 VStack() {
                   Text(verbatim: specString("error: _fld_email_touched && _fld_email_error != nullnbutton disabled: !_form_validntext(_fld_email_error)  // shows error message"))
                     .font(.body)
-                    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+                    .foregroundStyle(ThemeManager.shared.color("text-primary"))
                 }
-                .padding(CGFloat(16))
-                .background(ThemeManager.shared.color("semantic.background"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.radius("md")))
+                .padding(ThemeManager.shared.size("spacing-4"))
+                .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
               }
 
             }
-            .padding(CGFloat(24))
+            .padding(ThemeManager.shared.size("spacing-6"))
           }
           .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
         }
       }
 
     }
-    .foregroundStyle(ThemeManager.shared.color("semantic.text-primary"))
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
   }
