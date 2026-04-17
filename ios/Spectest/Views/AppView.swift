@@ -4,7 +4,6 @@ import SpecRuntime
 @Observable
 final class AppViewModel {
   var themePreset: Any = "default"
-  var layoutStyle: Any = "sidebar"
   var view: Any = "dashboard"
   var selectedTask: Any? = nil
   var sidebarCollapsed: Any = false
@@ -14,7 +13,82 @@ final class AppViewModel {
   var themeBuilderOpen: Any = false
   var builderSaveName: Any = ""
   var currentLocale: Any = getCurrentLocale()
+  var showDashboard: Any { specEq(view, "dashboard") }
+  var showDetail: Any { specEq(view, "detail") }
+  var showCreate: Any { specEq(view, "create") }
+  var showWizard: Any { specEq(view, "wizard") }
+  var showTeam: Any { specEq(view, "team") }
+  var showActivity: Any { specEq(view, "activity") }
+  var showNotifications: Any { specEq(view, "notifications") }
+  var showSettings: Any { specEq(view, "settings") }
+  var showAnalytics: Any { specEq(view, "analytics") }
+  var showDataGrid: Any { specEq(view, "datagrid") }
+  var showEditGrid: Any { specEq(view, "editgrid") }
+  var showTree: Any { specEq(view, "categories") }
+  var showPerfGrid: Any { specEq(view, "perfgrid") }
+  var showPerfSignals: Any { specEq(view, "perfsignals") }
+  var showReactivityPerf: Any { specEq(view, "reactivityperf") }
+  var showThemePreview: Any { specEq(view, "themepreview") }
+  var showLanding2: Any { specEq(view, "landing2") }
+  var showCharts: Any { specEq(view, "charts") }
+  var showDrag: Any { specEq(view, "drag") }
+  var showFormDemo: Any { specEq(view, "formdemo") }
+  var showRouting: Any { specEq(view, "routing") }
+  var showFeatureTest: Any { specEq(view, "featuretest") }
+  var showMobileDemo: Any { specEq(view, "mobiledemo") }
   var isLandingPage: Any { specEq(view, "landing2") }
+  var viewTitle: Any { ({ () -> Any in switch specString(view) {
+case specString("dashboard"): return "Dashboard"
+case specString("detail"): return "Task Detail"
+case specString("create"): return "Create Task"
+case specString("wizard"): return "Task Wizard"
+case specString("team"): return "Team"
+case specString("activity"): return "Activity"
+case specString("notifications"): return "Notifications"
+case specString("settings"): return "Settings"
+case specString("analytics"): return "Analytics"
+case specString("datagrid"): return "Product Catalog"
+case specString("editgrid"): return "Editable Inventory"
+case specString("categories"): return "Categories"
+case specString("perfgrid"): return "Grid Performance"
+case specString("perfsignals"): return "Signal Performance"
+case specString("reactivityperf"): return "Reactivity Perf"
+case specString("themepreview"): return "Theme Preview"
+case specString("landing2"): return "Landing Page"
+case specString("charts"): return "Charts"
+case specString("drag"): return "Drag & Drop"
+case specString("formdemo"): return "Form Validation"
+case specString("routing"): return "Routing"
+case specString("featuretest"): return "Feature Test (P1-P8)"
+case specString("mobiledemo"): return "Mobile Demo"
+default: return "Admin"
+} })() }
+  var breadcrumbSection: Any { ({ () -> Any in switch specString(view) {
+case specString("dashboard"): return "Overview"
+case specString("detail"): return "Tasks"
+case specString("create"): return "Tasks"
+case specString("wizard"): return "Tasks"
+case specString("team"): return "People"
+case specString("activity"): return "Monitoring"
+case specString("notifications"): return "Monitoring"
+case specString("settings"): return "System"
+case specString("analytics"): return "Monitoring"
+case specString("datagrid"): return "Data"
+case specString("editgrid"): return "Data"
+case specString("categories"): return "Data"
+case specString("perfgrid"): return "Performance"
+case specString("perfsignals"): return "Performance"
+case specString("reactivityperf"): return "Performance"
+case specString("themepreview"): return "Design"
+case specString("landing2"): return "Marketing"
+case specString("charts"): return "Components"
+case specString("drag"): return "Components"
+case specString("formdemo"): return "Components"
+case specString("routing"): return "Components"
+case specString("mobiledemo"): return "Components"
+case specString("featuretest"): return "Testing"
+default: return "Overview"
+} })() }
   var statsTotal: Any { (stats != nil ? specGet(stats, "total") : 0) }
   var statsDone: Any { (stats != nil ? specGet(stats, "done") : 0) }
   var statsInProgress: Any { (stats != nil ? specGet(stats, "inProgress") : 0) }
@@ -22,83 +96,6 @@ final class AppViewModel {
   var appColorScheme: Any { ((((((((((((((((specEq(themePreset, "dark") || specEq(themePreset, "geek")) || specEq(themePreset, "glass")) || specEq(themePreset, "nord")) || specEq(themePreset, "cyberpunk")) || specEq(themePreset, "dracula")) || specEq(themePreset, "ocean")) || specEq(themePreset, "monokai")) || specEq(themePreset, "retro")) || specEq(themePreset, "gruvbox")) || specEq(themePreset, "catppuccin")) || specEq(themePreset, "synthwave")) || specEq(themePreset, "rose-pine")) || specEq(themePreset, "cobalt")) || specEq(themePreset, "stranger-things")) || specEq(themePreset, "mtg")) ? "dark" : "light") }
   var fullHeight: Any { "100vh" }
   var fullWidth: Any { "100%" }
-  var navSections: Any { [["heading": "Overview" as Any, "items": [["id": "dashboard" as Any, "label": "Dashboard" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "icon": "bar-chart" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Tasks" as Any, "items": [["id": "detail" as Any, "label": "Task Detail" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Data" as Any, "items": [["id": "datagrid" as Any, "label": "Product Catalog" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "icon": "list" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "People" as Any, "items": [["id": "team" as Any, "label": "Team" as Any, "icon": "user" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Monitoring" as Any, "items": [["id": "activity" as Any, "label": "Activity" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "icon": "bell" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Performance" as Any, "items": [["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "icon": "zap" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Marketing" as Any, "items": [["id": "landing2" as Any, "label": "Landing Page" as Any, "icon": "globe" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Design" as Any, "items": [["id": "themepreview" as Any, "label": "Theme Preview" as Any, "icon": "palette" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Components" as Any, "items": [["id": "charts" as Any, "label": "Charts" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "icon": "smartphone" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "Testing" as Any, "items": [["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "icon": "check-circle" as Any] as [String: Any]] as [Any] as Any] as [String: Any], ["heading": "System" as Any, "items": [["id": "settings" as Any, "label": "Settings" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] as Any] as [String: Any]] as [Any] }
-  var navItems: Any { [["id": "dashboard" as Any, "label": "Dashboard" as Any, "group": "Overview" as Any, "icon": "home" as Any] as [String: Any], ["id": "analytics" as Any, "label": "Analytics" as Any, "group": "Overview" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "detail" as Any, "label": "Task Detail" as Any, "group": "Tasks" as Any, "icon": "eye" as Any] as [String: Any], ["id": "create" as Any, "label": "Create Task" as Any, "group": "Tasks" as Any, "icon": "plus" as Any] as [String: Any], ["id": "wizard" as Any, "label": "Task Wizard" as Any, "group": "Tasks" as Any, "icon": "list" as Any] as [String: Any], ["id": "datagrid" as Any, "label": "Product Catalog" as Any, "group": "Data" as Any, "icon": "layout" as Any] as [String: Any], ["id": "editgrid" as Any, "label": "Editable Grid" as Any, "group": "Data" as Any, "icon": "edit" as Any] as [String: Any], ["id": "categories" as Any, "label": "Categories" as Any, "group": "Data" as Any, "icon": "list" as Any] as [String: Any], ["id": "team" as Any, "label": "Team" as Any, "group": "People" as Any, "icon": "user" as Any] as [String: Any], ["id": "activity" as Any, "label": "Activity" as Any, "group": "Monitoring" as Any, "icon": "clock" as Any] as [String: Any], ["id": "notifications" as Any, "label": "Notifications" as Any, "group": "Monitoring" as Any, "icon": "bell" as Any] as [String: Any], ["id": "perfgrid" as Any, "label": "Grid 10K" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "perfsignals" as Any, "label": "Signal Test" as Any, "group": "Performance" as Any, "icon": "activity" as Any] as [String: Any], ["id": "reactivityperf" as Any, "label": "Reactivity Perf" as Any, "group": "Performance" as Any, "icon": "zap" as Any] as [String: Any], ["id": "landing2" as Any, "label": "Landing Page" as Any, "group": "Marketing" as Any, "icon": "globe" as Any] as [String: Any], ["id": "themepreview" as Any, "label": "Theme Preview" as Any, "group": "Design" as Any, "icon": "palette" as Any] as [String: Any], ["id": "charts" as Any, "label": "Charts" as Any, "group": "Components" as Any, "icon": "bar-chart" as Any] as [String: Any], ["id": "drag" as Any, "label": "Drag & Drop" as Any, "group": "Components" as Any, "icon": "layout" as Any] as [String: Any], ["id": "formdemo" as Any, "label": "Form Validation" as Any, "group": "Components" as Any, "icon": "edit" as Any] as [String: Any], ["id": "routing" as Any, "label": "Routing" as Any, "group": "Components" as Any, "icon": "globe" as Any] as [String: Any], ["id": "mobiledemo" as Any, "label": "Mobile Demo" as Any, "group": "Components" as Any, "icon": "smartphone" as Any] as [String: Any], ["id": "featuretest" as Any, "label": "Feature Test (P1-P8)" as Any, "group": "Testing" as Any, "icon": "check-circle" as Any] as [String: Any], ["id": "settings" as Any, "label": "Settings" as Any, "group": "System" as Any, "icon": "settings" as Any] as [String: Any]] as [Any] }
-  var viewTitle: Any { ({ () -> Any in switch specString(view) {
-case specString("dashboard"): return "Dashboard"
-case specString("analytics"): return "Analytics"
-case specString("detail"): return "Task Detail"
-case specString("create"): return "Create Task"
-case specString("wizard"): return "Task Wizard"
-case specString("datagrid"): return "Product Catalog"
-case specString("editgrid"): return "Editable Grid"
-case specString("categories"): return "Categories"
-case specString("team"): return "Team"
-case specString("activity"): return "Activity"
-case specString("notifications"): return "Notifications"
-case specString("perfgrid"): return "Grid 10K"
-case specString("perfsignals"): return "Signal Test"
-case specString("reactivityperf"): return "Reactivity Perf"
-case specString("landing2"): return "Landing Page"
-case specString("themepreview"): return "Theme Preview"
-case specString("charts"): return "Charts"
-case specString("drag"): return "Drag & Drop"
-case specString("formdemo"): return "Form Validation"
-case specString("routing"): return "Routing"
-case specString("mobiledemo"): return "Mobile Demo"
-case specString("featuretest"): return "Feature Test (P1-P8)"
-case specString("settings"): return "Settings"
-default: return "App"
-} })() }
-  var breadcrumbSection: Any { ({ () -> Any in switch specString(view) {
-case specString("dashboard"): return "Overview"
-case specString("analytics"): return "Overview"
-case specString("detail"): return "Tasks"
-case specString("create"): return "Tasks"
-case specString("wizard"): return "Tasks"
-case specString("datagrid"): return "Data"
-case specString("editgrid"): return "Data"
-case specString("categories"): return "Data"
-case specString("team"): return "People"
-case specString("activity"): return "Monitoring"
-case specString("notifications"): return "Monitoring"
-case specString("perfgrid"): return "Performance"
-case specString("perfsignals"): return "Performance"
-case specString("reactivityperf"): return "Performance"
-case specString("landing2"): return "Marketing"
-case specString("themepreview"): return "Design"
-case specString("charts"): return "Components"
-case specString("drag"): return "Components"
-case specString("formdemo"): return "Components"
-case specString("routing"): return "Components"
-case specString("mobiledemo"): return "Components"
-case specString("featuretest"): return "Testing"
-case specString("settings"): return "System"
-default: return ""
-} })() }
-  var showDashboard: Any { specEq(view, "dashboard") }
-  var showAnalytics: Any { specEq(view, "analytics") }
-  var showTaskDetail: Any { specEq(view, "detail") }
-  var showCreateTask: Any { specEq(view, "create") }
-  var showTaskWizard: Any { specEq(view, "wizard") }
-  var showProductCatalog: Any { specEq(view, "datagrid") }
-  var showEditableGrid: Any { specEq(view, "editgrid") }
-  var showCategories: Any { specEq(view, "categories") }
-  var showTeam: Any { specEq(view, "team") }
-  var showActivity: Any { specEq(view, "activity") }
-  var showNotifications: Any { specEq(view, "notifications") }
-  var showGrid10K: Any { specEq(view, "perfgrid") }
-  var showSignalTest: Any { specEq(view, "perfsignals") }
-  var showReactivityPerf: Any { specEq(view, "reactivityperf") }
-  var showLandingPage: Any { specEq(view, "landing2") }
-  var showThemePreview: Any { specEq(view, "themepreview") }
-  var showCharts: Any { specEq(view, "charts") }
-  var showDragDrop: Any { specEq(view, "drag") }
-  var showFormValidation: Any { specEq(view, "formdemo") }
-  var showRouting: Any { specEq(view, "routing") }
-  var showMobileDemo: Any { specEq(view, "mobiledemo") }
-  var showFeatureTestP1P8: Any { specEq(view, "featuretest") }
-  var showSettings: Any { specEq(view, "settings") }
   let statsSource = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
@@ -159,13 +156,11 @@ default: return ""
   }
   func navigateTo(_ v: Any) {
     view = v
+    commandPaletteOpen = false
   }
   func setLocale(_ lang: Any) {
     currentLocale = lang
     switchLocale(lang)
-  }
-  func setLayout(_ style: Any) {
-    layoutStyle = style
   }
   var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
   func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
@@ -375,39 +370,181 @@ struct AppView: View {
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
             .specFrameHeight(CGFloat(6))
             .background(LinearGradient(colors: [Color(hex: "#E82020"), Color(hex: "#8B0000")], startPoint: .topLeading, endPoint: .bottomTrailing))
-            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
-              Image(systemName: specIconName(specString("layout")))
-                .font(.system(size: specPx(ThemeManager.shared.resolve("icon-xs"))))
-                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
-              Picker("", selection: Binding(get: { specString(vm.layoutStyle) }, set: { vm.layoutStyle = $0 })) {
-                Text("Sidebar").tag("sidebar")
-                Text("Header").tag("header")
-                Text("Tabs").tag("tabs")
-              }
-              .pickerStyle(.segmented)
-            }
-            .padding(ThemeManager.shared.size("spacing-2"))
-            .padding(.leading, ThemeManager.shared.size("spacing-3"))
-            .padding(.trailing, ThemeManager.shared.size("spacing-3"))
-            .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-lg")))
             VStack() {
-              if specEq(vm.layoutStyle, "sidebar") {
-                SidebarLayoutView(activeRoute: vm.view, breadcrumbSection: vm.breadcrumbSection, breadcrumbTitle: vm.viewTitle, items: vm.navItems, sections: vm.navSections)
+              VStack() {
+                HStack(spacing: 4) {
+                  ForEach(Array(([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": vm.breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": vm.viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).enumerated()), id: \.offset) { idx, crumb in
+                    if idx > 0 {
+                      Image(systemName: "chevron.right").font(.caption2).foregroundStyle(.tertiary)
+                    }
+                    Text(specString((crumb as? [String: Any])?["label"] ?? crumb))
+                      .font(.subheadline)
+                      .foregroundStyle(idx < ([["id": "dashboard" as Any, "label": "Home" as Any] as [String: Any], ["id": vm.view as Any, "label": vm.breadcrumbSection as Any] as [String: Any], ["id": vm.view as Any, "label": vm.viewTitle as Any] as [String: Any]] as [Any] as? [Any] ?? []).count - 1 ? .secondary : .primary)
+                  }
+                }
               }
-            }
 
-            VStack() {
-              if specEq(vm.layoutStyle, "header") {
-                HeaderLayoutView(activeRoute: vm.view, sections: vm.navSections)
+            }
+            .background(ThemeManager.shared.color("surface-raised"))
+            .frame(maxHeight: CGFloat(0))
+            .background(ThemeManager.shared.color("surface-raised"))
+            HStack(alignment: .center) {
+              SidebarView(activeItem: vm.view, collapsed: vm.sidebarCollapsed, sections: navSections)
+              ScrollView(.horizontal, showsIndicators: true) {
+              VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+                VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+                  if (vm.showDashboard) as? Bool ?? false {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                      SpecStatCard(title: "Total", value: vm.statsTotal, color: .blue, icon: "list.clipboard", gradientFrom: Color(hex: "#e6f4ff"), gradientTo: Color(hex: "#bae0ff"))
+                      SpecStatCard(title: "Done", value: vm.statsDone, total: vm.statsTotal, color: .green, icon: "checkmark.circle.fill", gradientFrom: Color(hex: "#f6ffed"), gradientTo: Color(hex: "#b7eb8f"))
+                      SpecStatCard(title: "In Progress", value: vm.statsInProgress, total: vm.statsTotal, color: .orange, icon: "arrow.triangle.2.circlepath", gradientFrom: Color(hex: "#fffbe6"), gradientTo: Color(hex: "#ffe58f"))
+                      SpecStatCard(title: "Todo", value: vm.statsTodo, total: vm.statsTotal, color: .purple, icon: "circle.dashed", gradientFrom: Color(hex: "#f7f7f8"), gradientTo: Color(hex: "#dce0e5"))
+                    }
+                    TaskTableView(selectedTask: vm.selectedTask, view: vm.view)
+                  }
+                }
+
+                VStack() {
+                  if (vm.showDetail) as? Bool ?? false {
+                    TaskDetailView(task: vm.selectedTask, view: vm.view)
+                  }
+                }
+
+                VStack() {
+                  if (vm.showCreate) as? Bool ?? false {
+                    TaskFormView()
+                  }
+                }
+
+                VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+                  if (vm.showWizard) as? Bool ?? false {
+                    TaskWizardView()
+                      .padding(CGFloat(0))
+                      .background(Color(hex: "surface-raised"))
+                      .clipShape(RoundedRectangle(cornerRadius: CGFloat(0)))
+                      .overlay(RoundedRectangle(cornerRadius: CGFloat(0)).stroke(Color.gray.opacity(0.2)))
+                  }
+                }
+
+                VStack() {
+                  if (vm.showTeam) as? Bool ?? false {
+                    TeamDirectoryView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showActivity) as? Bool ?? false {
+                    ActivityFeedView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showNotifications) as? Bool ?? false {
+                    NotificationsPanelView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showSettings) as? Bool ?? false {
+                    SettingsPanelView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showAnalytics) as? Bool ?? false {
+                    AnalyticsViewView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showDataGrid) as? Bool ?? false {
+                    DataGridDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showEditGrid) as? Bool ?? false {
+                    EditableGridDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showTree) as? Bool ?? false {
+                    TreeDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showThemePreview) as? Bool ?? false {
+                    ThemePreviewView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showCharts) as? Bool ?? false {
+                    ChartDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showDrag) as? Bool ?? false {
+                    DragDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showFormDemo) as? Bool ?? false {
+                    FormDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showRouting) as? Bool ?? false {
+                    RoutingDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showMobileDemo) as? Bool ?? false {
+                    MobileDemoView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showFeatureTest) as? Bool ?? false {
+                    FeatureTestView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showPerfGrid) as? Bool ?? false {
+                    PerfGridView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showPerfSignals) as? Bool ?? false {
+                    PerfSignalsView()
+                  }
+                }
+
+                VStack() {
+                  if (vm.showReactivityPerf) as? Bool ?? false {
+                    ReactivityPerfView()
+                  }
+                }
+
               }
-            }
-
-            VStack() {
-              if specEq(vm.layoutStyle, "tabs") {
-                TabLayoutView(activeRoute: vm.view, items: vm.navItems)
               }
+              .background(ThemeManager.shared.color("surface"))
+              .frame(width: specPx(vm.fullWidth))
+              .background(ThemeManager.shared.color("surface"))
+              .frame(maxWidth: .infinity)
+              Spacer(minLength: 0)
             }
-
+            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity)
+            CommandPaletteView(commands: navItems, open: vm.commandPaletteOpen, placeholder: "Search views, actions...")
           }
           .background(ThemeManager.shared.color("surface"))
           .background(ThemeManager.shared.color("surface"))

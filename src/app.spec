@@ -70,13 +70,13 @@
 @navigation {
   sections: [
     {heading: "Overview", items: [
-      {id: "dashboard", label: "Dashboard", icon: "home"},
+      {id: "dashboard", label: "Dashboard", icon: "home", surface: StatsBar},
       {id: "analytics", label: "Analytics", icon: "bar-chart", surface: AnalyticsView}
     ]},
     {heading: "Tasks", items: [
-      {id: "detail", label: "Task Detail", icon: "eye"},
+      {id: "detail", label: "Task Detail", icon: "eye", surface: TaskDetail},
       {id: "create", label: "Create Task", icon: "plus", surface: TaskForm},
-      {id: "wizard", label: "Task Wizard", icon: "list"}
+      {id: "wizard", label: "Task Wizard", icon: "list", surface: TaskWizard}
     ]},
     {heading: "Data", items: [
       {id: "datagrid", label: "Product Catalog", icon: "layout", surface: DataGridDemo},
@@ -106,7 +106,7 @@
       {id: "drag", label: "Drag & Drop", icon: "layout", surface: DragDemo},
       {id: "formdemo", label: "Form Validation", icon: "edit", surface: FormDemo},
       {id: "routing", label: "Routing", icon: "globe", surface: RoutingDemo},
-      {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone"}
+      {id: "mobiledemo", label: "Mobile Demo", icon: "smartphone", surface: MobileDemo}
     ]},
     {heading: "Testing", items: [
       {id: "featuretest", label: "Feature Test (P1-P8)", icon: "check-circle", surface: FeatureTest}
@@ -172,7 +172,6 @@ source CategoriesAPI {
 surface App {
   @state {
     themePreset: "default" @persist
-    layoutStyle: "sidebar" @persist
     view: "dashboard" @route
     selectedTask: null
     sidebarCollapsed: false
@@ -188,10 +187,87 @@ surface App {
     stats: StatsAPI
   }
 
-  // showXxx flags, viewTitle, and breadcrumbSection are auto-generated from @navigation
-
   @computed {
+    // View visibility flags
+    showDashboard: view == "dashboard"
+    showDetail: view == "detail"
+    showCreate: view == "create"
+    showWizard: view == "wizard"
+    showTeam: view == "team"
+    showActivity: view == "activity"
+    showNotifications: view == "notifications"
+    showSettings: view == "settings"
+    showAnalytics: view == "analytics"
+    showDataGrid: view == "datagrid"
+    showEditGrid: view == "editgrid"
+    showTree: view == "categories"
+    showPerfGrid: view == "perfgrid"
+    showPerfSignals: view == "perfsignals"
+    showReactivityPerf: view == "reactivityperf"
+    showThemePreview: view == "themepreview"
+    showLanding2: view == "landing2"
+    showCharts: view == "charts"
+    showDrag: view == "drag"
+    showFormDemo: view == "formdemo"
+    showRouting: view == "routing"
+    showFeatureTest: view == "featuretest"
+    showMobileDemo: view == "mobiledemo"
     isLandingPage: view == "landing2"
+
+    viewTitle: match view {
+      "dashboard" -> "Dashboard",
+      "detail" -> "Task Detail",
+      "create" -> "Create Task",
+      "wizard" -> "Task Wizard",
+      "team" -> "Team",
+      "activity" -> "Activity",
+      "notifications" -> "Notifications",
+      "settings" -> "Settings",
+      "analytics" -> "Analytics",
+      "datagrid" -> "Product Catalog",
+      "editgrid" -> "Editable Inventory",
+      "categories" -> "Categories",
+      "perfgrid" -> "Grid Performance",
+      "perfsignals" -> "Signal Performance",
+      "reactivityperf" -> "Reactivity Perf",
+      "themepreview" -> "Theme Preview",
+      "landing2" -> "Landing Page",
+      "charts" -> "Charts",
+      "drag" -> "Drag & Drop",
+      "formdemo" -> "Form Validation",
+      "routing" -> "Routing",
+      "featuretest" -> "Feature Test (P1-P8)",
+      "mobiledemo" -> "Mobile Demo",
+      _ -> "Admin"
+    }
+
+    // Breadcrumb segments
+    breadcrumbSection: match view {
+      "dashboard" -> "Overview",
+      "detail" -> "Tasks",
+      "create" -> "Tasks",
+      "wizard" -> "Tasks",
+      "team" -> "People",
+      "activity" -> "Monitoring",
+      "notifications" -> "Monitoring",
+      "settings" -> "System",
+      "analytics" -> "Monitoring",
+      "datagrid" -> "Data",
+      "editgrid" -> "Data",
+      "categories" -> "Data",
+      "perfgrid" -> "Performance",
+      "perfsignals" -> "Performance",
+      "reactivityperf" -> "Performance",
+      "themepreview" -> "Design",
+      "landing2" -> "Marketing",
+      "charts" -> "Components",
+      "drag" -> "Components",
+      "formdemo" -> "Components",
+      "routing" -> "Components",
+      "mobiledemo" -> "Components",
+      "featuretest" -> "Testing",
+      _ -> "Overview"
+    }
 
     statsTotal: stats != null ? stats.total : 0
     statsDone: stats != null ? stats.done : 0
@@ -247,14 +323,13 @@ surface App {
     openCommandPalette() { commandPaletteOpen = true }
     closeCommandPalette() { commandPaletteOpen = false }
     navigateTo(v) {
-      console.log("NAVIGATE TO:", v)
       view = v
+      commandPaletteOpen = false
     }
     setLocale(lang) {
       currentLocale = lang
       switchLocale(lang)
     }
-    setLayout(style) { layoutStyle = style }
   }
 
   layout: vertical
@@ -333,17 +408,6 @@ surface App {
         Button(label: "ES", variant: currentLocale == "es" ? "primary" : "secondary") {
           on click: setLocale("es")
         }
-      }
-
-      // Layout picker
-      Button(label: "☰ Sidebar", variant: layoutStyle == "sidebar" ? "primary" : "secondary") {
-        on click: { setLayout("sidebar") }
-      }
-      Button(label: "▤ Header", variant: layoutStyle == "header" ? "primary" : "secondary") {
-        on click: { setLayout("header") }
-      }
-      Button(label: "⋯ Tabs", variant: layoutStyle == "tabs" ? "primary" : "secondary") {
-        on click: { setLayout("tabs") }
       }
 
       // Command palette trigger (Issue #18)
@@ -550,59 +614,246 @@ surface App {
     animation: "st-glow 40s ease-in-out infinite"
   }
 
-  // Layout switcher — toggle between sidebar, header, and tab layouts
+  // Breadcrumb navigation (Issue #18) — hidden on mobile
   block {
-    visibility: layoutStyle == "sidebar"
-    SidebarLayout(activeRoute: view, sections: navSections, items: navItems, breadcrumbSection: breadcrumbSection, breadcrumbTitle: viewTitle) {
-      on navigate(id): { navigateTo(id) }
-      // Auto-generated routes (self-contained surfaces)
-      @navigation.content(view)
-      // Manual routes (surfaces that need parent data)
-      block { visibility: view == "dashboard"
-        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
-        TaskTable(selectedTask, view)
-      }
-      block { visibility: view == "detail"
-        TaskDetail(selectedTask, view)
-      }
-      block { visibility: view == "wizard"
-        TaskWizard()
+    max-height: responsive(0px, md: 50px)
+    overflow: hidden
+    background: semantic.surface-raised
+    border-bottom: borders.default
+
+    block {
+      padding-y: responsive(4px, md: 8px)
+      padding-x: responsive(12px, md: 20px)
+      Breadcrumb(
+        items: [
+          {id: "dashboard", label: "Home"},
+          {id: view, label: breadcrumbSection},
+          {id: view, label: viewTitle}
+        ]
+      ) {
+        on select(id): { view = id }
       }
     }
   }
+
+  // Main content area: Sidebar + content
   block {
-    visibility: layoutStyle == "header"
-    HeaderLayout(activeRoute: view, sections: navSections) {
-      on navigate(id): { navigateTo(id) }
-      @navigation.content(view)
-      block { visibility: view == "dashboard"
-        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
+    grow: true
+    layout: horizontal
+    overflow: hidden
+
+    // Sidebar navigation (Issue #18)
+    Sidebar(
+      sections: navSections,
+      activeItem: view,
+      collapsed: sidebarCollapsed
+    ) {
+      on select(id): {
+        view = id
+        mobileNavOpen = false
+      }
+      on collapse(c): { sidebarCollapsed = c }
+      on mobileClose: closeMobileNav()
+    }
+
+    // Main content area
+    block {
+      grow: true
+      padding: responsive(spacing.3, md: spacing.5)
+      background: semantic.surface
+      layout: vertical, gap: spacing.5
+      overflow: "auto"
+      width: fullWidth
+
+      // Dashboard view
+      block {
+        role: "region"
+        aria-label: "Dashboard"
+        visibility: showDashboard
+        layout: vertical, gap: spacing.5
+        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo, themePreset)
         TaskTable(selectedTask, view)
       }
-      block { visibility: view == "detail"
+
+      // Detail view
+      block {
+        role: "region"
+        aria-label: "Task detail"
+        visibility: showDetail
         TaskDetail(selectedTask, view)
       }
-      block { visibility: view == "wizard"
+
+      // Create view
+      block {
+        role: "region"
+        aria-label: "Create task"
+        visibility: showCreate
+        TaskForm(themePreset)
+      }
+
+      // Wizard view with Stepper (Issue #18)
+      block {
+        role: "region"
+        aria-label: "Task wizard"
+        visibility: showWizard
+        layout: vertical, gap: spacing.5
         TaskWizard()
+      }
+
+      // Team view
+      block {
+        role: "region"
+        aria-label: "Team directory"
+        visibility: showTeam
+        TeamDirectory()
+      }
+
+      // Activity view
+      block {
+        role: "region"
+        aria-label: "Activity feed"
+        visibility: showActivity
+        ActivityFeed()
+      }
+
+      // Notifications view
+      block {
+        role: "region"
+        aria-label: "Notifications"
+        visibility: showNotifications
+        NotificationsPanel()
+      }
+
+      // Settings view
+      block {
+        role: "region"
+        aria-label: "Settings"
+        visibility: showSettings
+        SettingsPanel()
+      }
+
+      // Analytics view
+      block {
+        role: "region"
+        aria-label: "Analytics"
+        visibility: showAnalytics
+        AnalyticsView()
+      }
+
+      // DataGrid view (Issue #17)
+      block {
+        role: "region"
+        aria-label: "Product catalog"
+        visibility: showDataGrid
+        DataGridDemo(themePreset)
+      }
+
+      // EditableGrid view (Issue #20)
+      block {
+        role: "region"
+        aria-label: "Editable inventory"
+        visibility: showEditGrid
+        EditableGridDemo(themePreset)
+      }
+
+      // Tree view (Issue #17)
+      block {
+        role: "region"
+        aria-label: "Category browser"
+        visibility: showTree
+        TreeDemo(themePreset)
+      }
+
+      // Theme Preview
+      block {
+        role: "region"
+        aria-label: "Theme preview"
+        visibility: showThemePreview
+        ThemePreview()
+      }
+
+      // Charts
+      block {
+        role: "region"
+        aria-label: "Chart components"
+        visibility: showCharts
+        ChartDemo()
+      }
+
+      // Drag & Drop
+      block {
+        role: "region"
+        aria-label: "Drag and drop"
+        visibility: showDrag
+        DragDemo()
+      }
+
+      // Form Validation
+      block {
+        role: "region"
+        aria-label: "Form validation demo"
+        visibility: showFormDemo
+        FormDemo()
+      }
+
+      // Routing
+      block {
+        role: "region"
+        aria-label: "Routing demo"
+        visibility: showRouting
+        RoutingDemo()
+      }
+
+      // Mobile Demo
+      block {
+        role: "region"
+        aria-label: "Mobile demo"
+        visibility: showMobileDemo
+        MobileDemo()
+      }
+
+      // Feature Test — P1-P8
+      block {
+        role: "region"
+        aria-label: "Feature test"
+        visibility: showFeatureTest
+        FeatureTest()
+      }
+
+      // Performance: Grid 10K
+      block {
+        role: "region"
+        aria-label: "Grid performance"
+        visibility: showPerfGrid
+        PerfGrid()
+      }
+
+      // Performance: Signal throughput
+      block {
+        role: "region"
+        aria-label: "Signal performance"
+        visibility: showPerfSignals
+        PerfSignals()
+      }
+
+      // Performance: Reactivity test
+      block {
+        role: "region"
+        aria-label: "Reactivity performance"
+        visibility: showReactivityPerf
+        ReactivityPerf()
       }
     }
   }
-  block {
-    visibility: layoutStyle == "tabs"
-    TabLayout(activeRoute: view, items: navItems) {
-      on navigate(id): { navigateTo(id) }
-      @navigation.content(view)
-      block { visibility: view == "dashboard"
-        StatsBar(statsTotal, statsDone, statsInProgress, statsTodo)
-        TaskTable(selectedTask, view)
-      }
-      block { visibility: view == "detail"
-        TaskDetail(selectedTask, view)
-      }
-      block { visibility: view == "wizard"
-        TaskWizard()
-      }
-    }
+
+  // CommandPalette overlay (Issue #18, #57 backdrop-blur)
+  CommandPalette(
+    open: commandPaletteOpen,
+    commands: navItems,
+    placeholder: "Search views, actions..."
+  ) {
+    on select(id): { navigateTo(id) }
+    on close: closeCommandPalette()
   }
 
   } // close surface block
