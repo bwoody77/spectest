@@ -661,7 +661,7 @@ surface App {
       grow: true
       padding: responsive(spacing.3, md: spacing.5)
       background: semantic.surface
-      layout: vertical
+      layout: vertical, gap: spacing.5
       overflow: "auto"
       width: fullWidth
 

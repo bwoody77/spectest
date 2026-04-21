@@ -636,24 +636,35 @@ surface App {
     }
   }
 
-  // Main content area: Sidebar + content
+  // Main content area: Header nav with dropdowns + content
   block {
     grow: true
-    layout: horizontal
+    layout: vertical
     overflow: hidden
 
-    // Sidebar navigation (Issue #18)
-    Sidebar(
-      sections: navSections,
-      activeItem: view,
-      collapsed: sidebarCollapsed
-    ) {
-      on select(id): {
-        view = id
-        mobileNavOpen = false
+    // Header navigation bar with nested dropdowns
+    block {
+      layout: horizontal, gap: spacing.1, align: center
+      padding-x: spacing.4
+      padding-y: spacing.2
+      background: semantic.surface-raised
+      border-bottom: borders.default
+
+      each navSections as section {
+        block {
+          layout: horizontal, gap: spacing.1, align: center
+          padding-x: spacing.2
+          border-right: borders.subtle
+
+          text(section.heading) { style: type.label-sm, color: semantic.text-secondary }
+
+          each section.items as item {
+            Button(label: item.label, variant: view == item.id ? "primary" : "ghost") {
+              on click: { view = item.id }
+            }
+          }
+        }
       }
-      on collapse(c): { sidebarCollapsed = c }
-      on mobileClose: closeMobileNav()
     }
 
     // Main content area

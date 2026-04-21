@@ -636,32 +636,18 @@ surface App {
     }
   }
 
-  // Main content area: Sidebar + content
+  // Main content area: Content + bottom tab bar
   block {
     grow: true
-    layout: horizontal
+    layout: vertical
     overflow: hidden
-
-    // Sidebar navigation (Issue #18)
-    Sidebar(
-      sections: navSections,
-      activeItem: view,
-      collapsed: sidebarCollapsed
-    ) {
-      on select(id): {
-        view = id
-        mobileNavOpen = false
-      }
-      on collapse(c): { sidebarCollapsed = c }
-      on mobileClose: closeMobileNav()
-    }
 
     // Main content area
     block {
       grow: true
       padding: responsive(spacing.3, md: spacing.5)
       background: semantic.surface
-      layout: vertical
+      layout: vertical, gap: spacing.5
       overflow: "auto"
       width: fullWidth
 
@@ -842,6 +828,29 @@ surface App {
         aria-label: "Reactivity performance"
         visibility: showReactivityPerf
         ReactivityPerf()
+      }
+    }
+
+    // Bottom tab bar
+    block {
+      layout: horizontal, justify: around, align: center
+      padding: spacing.2
+      padding-bottom: spacing.3
+      background: semantic.surface
+      border-top: borders.default
+
+      each navItems as item {
+        block {
+          layout: vertical, align: center, gap: spacing.1
+          cursor: pointer
+          on click: { view = item.id }
+
+          Icon(name: item.icon, size: icon.md, color: view == item.id ? semantic.interactive : semantic.text-secondary)
+          text(item.label) {
+            style: type.caption
+            color: view == item.id ? semantic.interactive : semantic.text-secondary
+          }
+        }
       }
     }
   }
