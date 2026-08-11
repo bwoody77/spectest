@@ -117,21 +117,20 @@ async function mountHost(page: Page) {
 /**
  * Open the chooser and wait for its drag wire to ATTACH.
  *
- * Not for the panel to be visible — the wire polls for its list on an 80 ms
- * timer, so the rows are on screen and interactive for roughly one frame
- * before any grip works. A test that asserts in that window passes against a
- * completely broken wire; this has happened here before. `cursor: grab` is the
- * attach's own observable side effect, so it is what we wait on.
+ * Not for the panel to be visible: the wire polls for its list on an 80 ms
+ * timer, so the rows are on screen and look interactive for several frames
+ * before any grip does anything.
+ *
+ * `data-colchooser-armed` is set by the WIRE, and that is the whole point.
+ * This first waited on `cursor: grab` — copied from the grid's header-drag
+ * test, where the wire sets the cursor itself. In the chooser the `.spec` sets
+ * it STATICALLY in markup, so the wait was true before the wire existed and
+ * did not wait for anything at all. It passed against the worktree and failed
+ * against main, which is the shape of a race, not of a bug in the component.
  */
 async function openChooser(page: Page) {
   await page.locator('[data-colchooser-trigger]').click();
-  await page.waitForSelector('[data-colchooser-list]');
-  await page.waitForFunction(() => {
-    const grips = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-colchooser-grip]'),
-    ).filter((el) => el.offsetParent !== null);
-    return grips.length > 0 && grips.every((el) => getComputedStyle(el).cursor === 'grab');
-  });
+  await page.waitForSelector('[data-colchooser-list][data-colchooser-armed]');
 }
 
 function headerKeys(page: Page): Promise<(string | null)[]> {
