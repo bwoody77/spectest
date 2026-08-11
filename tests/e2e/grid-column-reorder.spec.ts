@@ -113,7 +113,7 @@ declare global {
   }
 }
 
-async function mountHost(page: Page, surface: MountName) {
+async function mountHost(page: Page, surface: MountName, grabbable = ['a', 'b', 'c', 'd']) {
   await page.goto('about:blank');
   await page.setContent('<div id="host"></div>');
   await page.addScriptTag({ content: bundleSrc, type: 'module' });
@@ -130,12 +130,32 @@ async function mountHost(page: Page, surface: MountName) {
   // grid is fully rendered and interactive for roughly one frame BEFORE any
   // header cell is draggable. Dragging in that window does nothing at all and
   // reads exactly like a broken wire. `cursor: grab` is the attach's own
-  // observable side effect, and asserting on it also proves the affordance
-  // appears (which in turn proves the four columns resolved to ONE segment —
-  // the wire refuses to make a size-1 segment draggable).
-  await page.waitForFunction(() =>
-    Array.from(document.querySelectorAll<HTMLElement>('[data-grid-row="header"] [data-grid-col]'))
-      .every((el) => el.style.cursor === 'grab'),
+  // observable side effect.
+  //
+  // `grabbable` is the EXACT set of columns expected to be draggable, and the
+  // complement is asserted to be non-draggable in the same breath — so this
+  // wait doubles as an assertion about segment membership. That matters: the
+  // wire refuses to register a size-1 segment (it would offer a grab cursor on
+  // a column with nowhere to drop), so "which columns are grabbable" IS the
+  // observable shape of the segmentation.
+  //
+  // It defaults to all four because the ungrouped host's columns are one run.
+  // The GROUPED host is not: `a` and `d` sit on opposite sides of group Q, and
+  // since segments are keyed on a RUN ID they are two DIFFERENT size-1
+  // segments — neither is draggable. Under the old label-keyed scheme both
+  // carried the value `s:` and merged into one NON-CONTIGUOUS segment of two,
+  // which is precisely the bug the run id fixed, so hard-coding "all four are
+  // grabbable" here would re-assert the bug as the expectation.
+  await page.waitForFunction(
+    (keys) =>
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[data-grid-row="header"] [data-grid-col]'),
+      ).every((el) =>
+        keys.includes(el.getAttribute('data-grid-col') ?? '')
+          ? el.style.cursor === 'grab'
+          : el.style.cursor !== 'grab',
+      ),
+    grabbable,
   );
 }
 
@@ -246,8 +266,9 @@ test.describe('DataGridSpec column reorder', () => {
 
   test('a grouped column cannot leave its group', async ({ page }) => {
     // Same four columns, but b and c share group "Q" — so they form segment
-    // 's:Q' while a and d share 's:'. b may swap with c, never cross out.
-    await mountHost(page, 'mountGroupedReorderHost');
+    // 's:1', while a is 's:0' and d is 's:2' (run ids, not labels). b may swap
+    // with c, never cross out.
+    await mountHost(page, 'mountGroupedReorderHost', ['b', 'c']);
     expect(await headerKeys(page)).toEqual(['a', 'b', 'c', 'd']);
 
     await dragColumn(page, 'b', 'd');
@@ -260,5 +281,40 @@ test.describe('DataGridSpec column reorder', () => {
     const keys = await headerKeys(page);
     expect(keys.indexOf('b')).toBeGreaterThan(keys.indexOf('a'));
     expect(keys.indexOf('b')).toBeLessThan(keys.indexOf('d'));
+  });
+
+  test('an UNGROUPED column cannot cross a group to reach the other side', async ({ page }) => {
+    // The case the suite was missing. The test above drags a column WITHIN its
+    // group, which the label-keyed scheme also got right — so it stayed green
+    // while ungrouped columns either side of a group were silently merged into
+    // one non-contiguous segment. This drags the other way: `a` (left of group
+    // Q) toward `d` (right of it).
+    //
+    // Under run-id segments `a` is alone in 's:0' and `d` alone in 's:2', so
+    // `a` is not draggable at all and nothing moves. Under the old label
+    // scheme both carried 's:', forming a size-2 segment STRADDLING the group:
+    // `a` and `d` were both grabbable and the wire ran a cross-group reorder
+    // between them, emitting a columnOrderChange it must never emit.
+    //
+    // Verified to discriminate on 2026-08-11 by re-pointing `_segId` at
+    // `s.label` in data-grid-spec.spec: `a`/`d` came back as `s:`/`s:` with a
+    // grab cursor on both, and this test failed on the emit assertion
+    // (Received "a,b,c,d", Expected ""). Both halves below matter — the
+    // grabbable-set precondition in mountHost catches the affordance, and the
+    // emit assertion catches the reorder itself.
+    await mountHost(page, 'mountGroupedReorderHost', ['b', 'c']);
+    expect(await headerKeys(page)).toEqual(['a', 'b', 'c', 'd']);
+
+    await dragColumn(page, 'a', 'd');
+
+    // Nothing was emitted: the caller was never told of a reorder, which is a
+    // stronger claim than the header merely looking unchanged (the grid can
+    // rearrange its own header without emitting, and vice versa).
+    await expect(page.locator('[data-testid="emitted"]')).toHaveText('');
+
+    // `a` never entered the group, let alone crossed it.
+    const keys = await headerKeys(page);
+    expect(keys.indexOf('a')).toBeLessThan(keys.indexOf('b'));
+    expect(keys).toEqual(['a', 'b', 'c', 'd']);
   });
 });
