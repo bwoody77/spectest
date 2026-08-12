@@ -258,7 +258,7 @@ surface ThemePreview() {
           layout: vertical, gap: spacing.2
           overflow: visible
           text("Spec") { style: type.label-sm, color: semantic.interactive }
-          EditableGridSpec(
+          EditableGrid(
             columns: [
               {key: "name", header: "Name", sortable: true},
               {key: "role", header: "Role", sortable: true, type: "select", options: [{value: "Engineer", label: "Engineer"}, {value: "Designer", label: "Designer"}, {value: "PM", label: "PM"}, {value: "Manager", label: "Manager"}]},

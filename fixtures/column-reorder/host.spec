@@ -1,4 +1,4 @@
-// Real-layout fixture for DataGridSpec column drag-to-reorder.
+// Real-layout fixture for DataGrid column drag-to-reorder.
 //
 // Mounted by tests/e2e/grid-column-reorder.spec.ts against a `--standalone`
 // bundle, so it needs no app shell, no router and no API. Four equal 150px
@@ -25,7 +25,7 @@ surface ReorderHost {
   block {
     width: 900px
 
-    DataGridSpec(
+    DataGrid(
       columns: [
         { key: "a", header: "Alpha", width: 150, sortable: true },
         { key: "b", header: "Bravo", width: 150, sortable: true },
@@ -38,7 +38,7 @@ surface ReorderHost {
     ) {
       // The handler MUST live inside the component's braces. Written on an
       // indented line after the closing paren instead — the form the language
-      // reference shows for DataGridSpec's `selectionChange` — it compiles to
+      // reference shows for DataGrid's `selectionChange` — it compiles to
       // `parentEl.addEventListener("columnorderchange", …)`, a DOM listener
       // that nothing ever dispatches: `emit()` in a `component` lowers to
       // `props.onColumnOrderChange?.(…)`, not a CustomEvent. It fails silently,
@@ -70,7 +70,7 @@ surface GroupedReorderHost {
   block {
     width: 900px
 
-    DataGridSpec(
+    DataGrid(
       columns: [
         { key: "a", header: "Alpha", width: 150, sortable: true },
         { key: "b", header: "Bravo", width: 150, sortable: true, group: "Q" },

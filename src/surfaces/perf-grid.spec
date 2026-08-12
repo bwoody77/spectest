@@ -199,7 +199,7 @@ surface PerfGrid() {
     shadow: elevation.raised
     overflow: "hidden"
 
-    DataGrid(
+    DataGridNative(
       rows: displayRows,
       columns: [
         { key: "id", label: "ID", width: "80px", sortable: true },

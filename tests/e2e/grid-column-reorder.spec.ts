@@ -1,5 +1,5 @@
 /**
- * DataGridSpec column drag-to-reorder — real-layout test.
+ * DataGrid column drag-to-reorder — real-layout test.
  *
  * ── Why this file exists ────────────────────────────────────────────────────
  * The component suite runs in happy-dom, which computes NO geometry:
@@ -201,7 +201,7 @@ function sortIndicator(page: Page, key: string): Promise<string> {
     .then((t) => (t.includes('↑') ? '↑' : t.includes('↓') ? '↓' : ''));
 }
 
-test.describe('DataGridSpec column reorder', () => {
+test.describe('DataGrid column reorder', () => {
   test('dragging a column right reorders it and emits the new order', async ({ page }) => {
     await mountHost(page, 'mountReorderHost');
     expect(await headerKeys(page)).toEqual(['a', 'b', 'c', 'd']);

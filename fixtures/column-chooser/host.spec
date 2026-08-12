@@ -30,7 +30,7 @@ surface ChooserHost {
   block {
     width: 1100px
 
-    DataGridSpec(
+    DataGrid(
       columns: [
         { key: "a", label: "Alpha", header: "Alpha", width: 150, sortable: true },
         { key: "b", label: "Bravo", header: "Bravo", width: 150, sortable: true },

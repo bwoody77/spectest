@@ -111,7 +111,7 @@ surface EditableGridDemo() {
     Skeleton(height: "400px", width: "100%")
   }
 
-  // EditableGridSpec
+  // EditableGrid
   block {
     visibility: !productsLoading
     background: semantic.surface-raised
@@ -124,7 +124,7 @@ surface EditableGridDemo() {
       shadow: elevation.layered
     }
 
-    EditableGridSpec(
+    EditableGrid(
       rows: productList,
       columns: [
         { key: "id", label: "ID", width: "60px", editable: false },
