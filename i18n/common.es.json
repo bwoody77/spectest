@@ -1,0 +1,767 @@
+{
+  "10 per page": {
+    "value": "10 por página"
+  },
+  "100 per page": {
+    "value": "100 por página"
+  },
+  "25 per page": {
+    "value": "25 por página"
+  },
+  "50 per page": {
+    "value": "50 por página"
+  },
+  "Accessories": {
+    "value": "Accesorios"
+  },
+  "Active": {
+    "value": "Activo"
+  },
+  "Activity": {
+    "value": "Actividad"
+  },
+  "Activity Feed": {
+    "value": "Feed de Actividad"
+  },
+  "Activity filters": {
+    "value": "Filtros de actividad"
+  },
+  "Add Subcategory": {
+    "value": "Agregar Subcategoría"
+  },
+  "Admin": {
+    "value": "Administración"
+  },
+  "Alice": {
+    "value": "Alice"
+  },
+  "Alice's tasks": {
+    "value": "Tareas de Alice"
+  },
+  "All": {
+    "value": "Todos"
+  },
+  "All Roles": {
+    "value": "Todos los Roles"
+  },
+  "All fields can be edited after creation.": {
+    "value": "Todos los campos se pueden editar después de la creación."
+  },
+  "Analytics": {
+    "value": "Analíticas"
+  },
+  "Are you sure you want to delete this task? This action cannot be undone.": {
+    "value": "¿Estás seguro de que deseas eliminar esta tarea? Esta acción no se puede deshacer."
+  },
+  "Assignee": {
+    "value": "Responsable"
+  },
+  "Assignee is required": {
+    "value": "El responsable es obligatorio"
+  },
+  "Audio": {
+    "value": "Audio"
+  },
+  "Auto-assign reviewer": {
+    "value": "Asignar revisor automáticamente"
+  },
+  "Auto-save changes": {
+    "value": "Guardar cambios automáticamente"
+  },
+  "Back": {
+    "value": "Atrás"
+  },
+  "Back to Dashboard": {
+    "value": "Volver al Panel"
+  },
+  "Basic Info": {
+    "value": "Info Básica"
+  },
+  "Bio": {
+    "value": "Biografía"
+  },
+  "Bob": {
+    "value": "Bob"
+  },
+  "Bob's tasks": {
+    "value": "Tareas de Bob"
+  },
+  "Cancel": {
+    "value": "Cancelar"
+  },
+  "Carol": {
+    "value": "Carol"
+  },
+  "Carol's tasks": {
+    "value": "Tareas de Carol"
+  },
+  "Categories": {
+    "value": "Categorías"
+  },
+  "Category": {
+    "value": "Categoría"
+  },
+  "Category Browser": {
+    "value": "Explorador de Categorías"
+  },
+  "Central European": {
+    "value": "Centroeuropeo"
+  },
+  "Changes saved successfully!": {
+    "value": "¡Cambios guardados exitosamente!"
+  },
+  "Choose assignee": {
+    "value": "Elegir responsable"
+  },
+  "Click any editable cell to start editing": {
+    "value": "Haz clic en cualquier celda editable para empezar a editar"
+  },
+  "Close": {
+    "value": "Cerrar"
+  },
+  "Comments": {
+    "value": "Comentarios"
+  },
+  "Compact mode": {
+    "value": "Modo compacto"
+  },
+  "Completed": {
+    "value": "Completadas"
+  },
+  "Configure priority, deadline, and assignment options.": {
+    "value": "Configura la prioridad, fecha límite y opciones de asignación."
+  },
+  "Confirm details": {
+    "value": "Confirmar detalles"
+  },
+  "Could not load the category tree.": {
+    "value": "No se pudo cargar el árbol de categorías."
+  },
+  "Could not retrieve notifications from the server.": {
+    "value": "No se pudieron recuperar las notificaciones del servidor."
+  },
+  "Could not retrieve team member data.": {
+    "value": "No se pudieron recuperar los datos del equipo."
+  },
+  "Could not retrieve the activity feed.": {
+    "value": "No se pudo recuperar el feed de actividad."
+  },
+  "Create Another": {
+    "value": "Crear Otra"
+  },
+  "Create New Task": {
+    "value": "Crear Nueva Tarea"
+  },
+  "Create Task": {
+    "value": "Crear Tarea"
+  },
+  "Created": {
+    "value": "Creado"
+  },
+  "Creating: {title}": {
+    "value": "Creando: {title}"
+  },
+  "Critical": {
+    "value": "Crítica"
+  },
+  "Ctrl+Z to undo, Ctrl+Y to redo": {
+    "value": "Ctrl+Z para deshacer, Ctrl+Y para rehacer"
+  },
+  "DD/MM/YYYY": {
+    "value": "DD/MM/AAAA"
+  },
+  "Dark Mode": {
+    "value": "Modo Oscuro"
+  },
+  "Dashboard": {
+    "value": "Panel"
+  },
+  "Data": {
+    "value": "Datos"
+  },
+  "Date Format": {
+    "value": "Formato de Fecha"
+  },
+  "Delete": {
+    "value": "Eliminar"
+  },
+  "Delete Task": {
+    "value": "Eliminar Tarea"
+  },
+  "Deploys": {
+    "value": "Despliegues"
+  },
+  "Designer": {
+    "value": "Diseñador"
+  },
+  "Developer": {
+    "value": "Desarrollador"
+  },
+  "Discontinued": {
+    "value": "Descontinuado"
+  },
+  "Dismiss": {
+    "value": "Descartar"
+  },
+  "Display": {
+    "value": "Pantalla"
+  },
+  "Display Name": {
+    "value": "Nombre para Mostrar"
+  },
+  "Display name is required": {
+    "value": "El nombre para mostrar es obligatorio"
+  },
+  "Done": {
+    "value": "Listo"
+  },
+  "Due Date": {
+    "value": "Fecha de Vencimiento"
+  },
+  "Edit Category": {
+    "value": "Editar Categoría"
+  },
+  "Edit Product": {
+    "value": "Editar Producto"
+  },
+  "Editable Grid": {
+    "value": "Tabla Editable"
+  },
+  "Editable Inventory": {
+    "value": "Inventario Editable"
+  },
+  "Editable Later": {
+    "value": "Editable Después"
+  },
+  "Editing Instructions": {
+    "value": "Instrucciones de Edición"
+  },
+  "Electronics": {
+    "value": "Electrónica"
+  },
+  "Email": {
+    "value": "Correo Electrónico"
+  },
+  "Email is required": {
+    "value": "El correo electrónico es obligatorio"
+  },
+  "Email notifications": {
+    "value": "Notificaciones por correo"
+  },
+  "English": {
+    "value": "Inglés"
+  },
+  "Enter task title": {
+    "value": "Ingrese título de la tarea"
+  },
+  "Enterprise": {
+    "value": "Corporativo"
+  },
+  "Error": {
+    "value": "Error"
+  },
+  "Failed to load activity": {
+    "value": "Error al cargar la actividad"
+  },
+  "Failed to load categories": {
+    "value": "Error al cargar categorías"
+  },
+  "Failed to load notifications": {
+    "value": "Error al cargar notificaciones"
+  },
+  "Failed to load products": {
+    "value": "Error al cargar productos"
+  },
+  "Failed to load tasks": {
+    "value": "Error al cargar tareas"
+  },
+  "Failed to load team directory": {
+    "value": "Error al cargar el directorio del equipo"
+  },
+  "Fill in the form below": {
+    "value": "Completa el formulario a continuación"
+  },
+  "Fill in the required fields (Title and Assignee) then click Create Task.": {
+    "value": "Completa los campos obligatorios (Título y Responsable) y haz clic en Crear Tarea."
+  },
+  "Filter categories": {
+    "value": "Filtrar categorías"
+  },
+  "Filter:": {
+    "value": "Filtro:"
+  },
+  "French": {
+    "value": "Francés"
+  },
+  "Furniture": {
+    "value": "Muebles"
+  },
+  "German": {
+    "value": "Alemán"
+  },
+  "Grid 10K": {
+    "value": "Tabla 10K"
+  },
+  "Grid Performance": {
+    "value": "Rendimiento de Tabla"
+  },
+  "High": {
+    "value": "Alta"
+  },
+  "High Priority": {
+    "value": "Prioridad Alta"
+  },
+  "Home": {
+    "value": "Inicio"
+  },
+  "I confirm this task is correct": {
+    "value": "Confirmo que esta tarea es correcta"
+  },
+  "ID": {
+    "value": "ID"
+  },
+  "ID:": {
+    "value": "ID:"
+  },
+  "In Progress": {
+    "value": "En Progreso"
+  },
+  "Info": {
+    "value": "Info"
+  },
+  "Items per page": {
+    "value": "Elementos por página"
+  },
+  "Japan Standard": {
+    "value": "Estándar de Japón"
+  },
+  "Japanese": {
+    "value": "Japonés"
+  },
+  "Language": {
+    "value": "Idioma"
+  },
+  "Light Mode": {
+    "value": "Modo Claro"
+  },
+  "Localization": {
+    "value": "Localización"
+  },
+  "Logged in as {displayName} ({email})": {
+    "value": "Conectado como {displayName} ({email})"
+  },
+  "Low": {
+    "value": "Baja"
+  },
+  "Low Priority": {
+    "value": "Prioridad Baja"
+  },
+  "Low Stock": {
+    "value": "Stock Bajo"
+  },
+  "MM/DD/YYYY": {
+    "value": "DD/MM/AAAA"
+  },
+  "Mark as urgent": {
+    "value": "Marcar como urgente"
+  },
+  "Medium": {
+    "value": "Media"
+  },
+  "Medium Priority": {
+    "value": "Prioridad Media"
+  },
+  "Message": {
+    "value": "Mensaje"
+  },
+  "Minimal": {
+    "value": "Minimalista"
+  },
+  "Modified cells show a blue indicator": {
+    "value": "Las celdas modificadas muestran un indicador azul"
+  },
+  "Monitoring": {
+    "value": "Monitoreo"
+  },
+  "Name:": {
+    "value": "Nombre:"
+  },
+  "Next": {
+    "value": "Siguiente"
+  },
+  "No Activity": {
+    "value": "Sin Actividad"
+  },
+  "No Category Selected": {
+    "value": "Ninguna Categoría Seleccionada"
+  },
+  "No Notifications": {
+    "value": "Sin Notificaciones"
+  },
+  "No Task Selected": {
+    "value": "Ninguna Tarea Seleccionada"
+  },
+  "No Tasks Found": {
+    "value": "No se Encontraron Tareas"
+  },
+  "No Team Members Found": {
+    "value": "No se Encontraron Miembros"
+  },
+  "No activity events match your current filter.": {
+    "value": "Ningún evento de actividad coincide con tu filtro actual."
+  },
+  "No notifications match your current filter.": {
+    "value": "Ninguna notificación coincide con tu filtro actual."
+  },
+  "No selection": {
+    "value": "Sin selección"
+  },
+  "No tasks match the current filter. Try changing your filter criteria.": {
+    "value": "Ninguna tarea coincide con el filtro actual. Intenta cambiar tus criterios de filtro."
+  },
+  "No team members match your search criteria.": {
+    "value": "Ningún miembro del equipo coincide con tu búsqueda."
+  },
+  "Notes": {
+    "value": "Notas"
+  },
+  "Notifications": {
+    "value": "Notificaciones"
+  },
+  "Optional notes...": {
+    "value": "Notas opcionales..."
+  },
+  "Options": {
+    "value": "Opciones"
+  },
+  "Out of Stock": {
+    "value": "Agotado"
+  },
+  "Overview": {
+    "value": "Resumen"
+  },
+  "People": {
+    "value": "Personas"
+  },
+  "Performance": {
+    "value": "Rendimiento"
+  },
+  "Pick a date": {
+    "value": "Elegir una fecha"
+  },
+  "Playful": {
+    "value": "Juguetón"
+  },
+  "Please review your task details and confirm submission.": {
+    "value": "Por favor revisa los detalles de tu tarea y confirma el envío."
+  },
+  "Price": {
+    "value": "Precio"
+  },
+  "Priority": {
+    "value": "Prioridad"
+  },
+  "Priority & dates": {
+    "value": "Prioridad y fechas"
+  },
+  "Priority Breakdown": {
+    "value": "Desglose por Prioridad"
+  },
+  "Priority: {task.priority}": {
+    "value": "Prioridad: {task.priority}"
+  },
+  "Product Catalog": {
+    "value": "Catálogo de Productos"
+  },
+  "Product Name": {
+    "value": "Nombre del Producto"
+  },
+  "Profile": {
+    "value": "Perfil"
+  },
+  "Provide the core details for this task.": {
+    "value": "Proporciona los detalles principales de esta tarea."
+  },
+  "Push notifications": {
+    "value": "Notificaciones push"
+  },
+  "Rating": {
+    "value": "Calificación"
+  },
+  "Reset": {
+    "value": "Restablecer"
+  },
+  "Review": {
+    "value": "Revisión"
+  },
+  "Review your notifications below to stay up to date.": {
+    "value": "Revisa tus notificaciones a continuación para estar al día."
+  },
+  "Role": {
+    "value": "Rol"
+  },
+  "SKU": {
+    "value": "SKU"
+  },
+  "Save All Changes": {
+    "value": "Guardar Todos los Cambios"
+  },
+  "Save Settings": {
+    "value": "Guardar Configuración"
+  },
+  "Saving...": {
+    "value": "Guardando..."
+  },
+  "Search": {
+    "value": "Buscar"
+  },
+  "Search members...": {
+    "value": "Buscar miembros..."
+  },
+  "Search views, actions...": {
+    "value": "Buscar vistas, acciones..."
+  },
+  "Search...": {
+    "value": "Buscar..."
+  },
+  "Select a category from the tree to view its details.": {
+    "value": "Selecciona una categoría del árbol para ver sus detalles."
+  },
+  "Select a task from the Dashboard to view its details here.": {
+    "value": "Selecciona una tarea del Panel para ver sus detalles aquí."
+  },
+  "Select assignee": {
+    "value": "Seleccionar responsable"
+  },
+  "Select deadline": {
+    "value": "Seleccionar fecha límite"
+  },
+  "Settings": {
+    "value": "Configuración"
+  },
+  "Settings saved!": {
+    "value": "¡Configuración guardada!"
+  },
+  "Severity filters": {
+    "value": "Filtros de severidad"
+  },
+  "Show avatars": {
+    "value": "Mostrar avatares"
+  },
+  "Signal Performance": {
+    "value": "Rendimiento de Señales"
+  },
+  "Signal Test": {
+    "value": "Prueba de Señales"
+  },
+  "Social": {
+    "value": "Social"
+  },
+  "Spanish": {
+    "value": "Español"
+  },
+  "Spec Admin": {
+    "value": "Spec Admin"
+  },
+  "Status": {
+    "value": "Estado"
+  },
+  "Status Breakdown": {
+    "value": "Desglose por Estado"
+  },
+  "Step 1: Basic Info": {
+    "value": "Paso 1: Información Básica"
+  },
+  "Step 2: Options": {
+    "value": "Paso 2: Opciones"
+  },
+  "Step 3: Review & Confirm": {
+    "value": "Paso 3: Revisar y Confirmar"
+  },
+  "Stock": {
+    "value": "Stock"
+  },
+  "Submission failed": {
+    "value": "Error en el envío"
+  },
+  "Submit": {
+    "value": "Enviar"
+  },
+  "Submitting...": {
+    "value": "Enviando..."
+  },
+  "Success": {
+    "value": "Éxito"
+  },
+  "System": {
+    "value": "Sistema"
+  },
+  "Task Created!": {
+    "value": "¡Tarea Creada!"
+  },
+  "Task Detail": {
+    "value": "Detalle de Tarea"
+  },
+  "Task Wizard": {
+    "value": "Asistente de Tareas"
+  },
+  "Task created": {
+    "value": "Tarea creada"
+  },
+  "Task created!": {
+    "value": "¡Tarea creada!"
+  },
+  "Task filters": {
+    "value": "Filtros de tareas"
+  },
+  "Task thumbnail": {
+    "value": "Miniatura de tarea"
+  },
+  "Task title": {
+    "value": "Título de la tarea"
+  },
+  "Task: {taskTitle}": {
+    "value": "Tarea: {taskTitle}"
+  },
+  "Tasks": {
+    "value": "Tareas"
+  },
+  "Team": {
+    "value": "Equipo"
+  },
+  "Team Directory": {
+    "value": "Directorio del Equipo"
+  },
+  "Tell us about yourself...": {
+    "value": "Cuéntanos sobre ti..."
+  },
+  "The product catalog could not be loaded.": {
+    "value": "No se pudo cargar el catálogo de productos."
+  },
+  "The task list could not be retrieved from the server.": {
+    "value": "No se pudo recuperar la lista de tareas del servidor."
+  },
+  "Theme selection": {
+    "value": "Selección de tema"
+  },
+  "This product has fewer than 10 units remaining.": {
+    "value": "Este producto tiene menos de 10 unidades restantes."
+  },
+  "Timezone": {
+    "value": "Zona Horaria"
+  },
+  "Title": {
+    "value": "Título"
+  },
+  "Title & assignee": {
+    "value": "Título y responsable"
+  },
+  "Title is required": {
+    "value": "El título es obligatorio"
+  },
+  "Todo": {
+    "value": "Pendientes"
+  },
+  "Total Tasks": {
+    "value": "Total de Tareas"
+  },
+  "US Eastern": {
+    "value": "Este de EE.UU."
+  },
+  "US Pacific": {
+    "value": "Pacífico de EE.UU."
+  },
+  "UTC": {
+    "value": "UTC"
+  },
+  "Unknown": {
+    "value": "Desconocido"
+  },
+  "Unsaved changes": {
+    "value": "Cambios sin guardar"
+  },
+  "Use Tab/Arrow keys to navigate between cells": {
+    "value": "Usa Tab/Flechas para navegar entre celdas"
+  },
+  "Views": {
+    "value": "Vistas"
+  },
+  "Warning": {
+    "value": "Advertencia"
+  },
+  "Weekly digest email": {
+    "value": "Resumen semanal por correo"
+  },
+  "Workload Distribution": {
+    "value": "Distribución de Carga"
+  },
+  "You have modified cells. Click Save to persist.": {
+    "value": "Tienes celdas modificadas. Haz clic en Guardar para persistir."
+  },
+  "You have unread notifications": {
+    "value": "Tienes notificaciones sin leer"
+  },
+  "Your email": {
+    "value": "Tu correo electrónico"
+  },
+  "Your name": {
+    "value": "Tu nombre"
+  },
+  "Your new task has been added to the backlog.": {
+    "value": "Tu nueva tarea ha sido agregada al backlog."
+  },
+  "Your preferences have been updated.": {
+    "value": "Tus preferencias han sido actualizadas."
+  },
+  "Your task has been successfully submitted.": {
+    "value": "Tu tarea ha sido enviada exitosamente."
+  },
+  "active": {
+    "value": "activas"
+  },
+  "backlog": {
+    "value": "pendientes"
+  },
+  "completion": {
+    "value": "completado"
+  },
+  "done": {
+    "value": "listas"
+  },
+  "in progress": {
+    "value": "en progreso"
+  },
+  "progress": {
+    "value": "progreso"
+  },
+  "remaining": {
+    "value": "restantes"
+  },
+  "tasks": {
+    "value": "tareas"
+  },
+  "todo": {
+    "value": "pendiente"
+  },
+  "units": {
+    "value": "unidades"
+  },
+  "{filteredActivity.length} events": {
+    "value": "{filteredActivity.length} eventos"
+  },
+  "{filteredNotifications.length} notifications": {
+    "value": "{filteredNotifications.length} notificaciones"
+  },
+  "{filteredTasks.length} tasks": {
+    "value": "{filteredTasks.length} tareas"
+  },
+  "{productList.length} products": {
+    "value": "{productList.length} productos"
+  },
+  "{searchResults.length} members": {
+    "value": "{searchResults.length} miembros"
+  },
+  "{unreadCount} unread": {
+    "value": "{unreadCount} sin leer"
+  }
+}
