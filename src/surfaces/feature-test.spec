@@ -447,7 +447,7 @@ surface FeatureTest() {
     }
 
     block {
-      layout: horizontal, gap: spacing.4, align: "flex-start"
+      layout: horizontal, gap: spacing.4, align: start
 
       block {
         grow: true

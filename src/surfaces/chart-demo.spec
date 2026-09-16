@@ -98,7 +98,7 @@ surface ChartDemo() {
         layout: vertical, gap: spacing.4
 
         block {
-          layout: horizontal, justify: "space-between", align: "center"
+          layout: horizontal, justify: between, align: "center"
           text("Monthly Revenue") { style: type.heading-sm, color: semantic.text-primary }
           block {
             padding: "4px 10px"
@@ -154,7 +154,7 @@ surface ChartDemo() {
         layout: vertical, gap: spacing.4
 
         block {
-          layout: horizontal, justify: "space-between", align: "center"
+          layout: horizontal, justify: between, align: "center"
           text("Sales by Region") { style: type.heading-sm, color: semantic.text-primary }
           block {
             padding: "4px 10px"
@@ -245,7 +245,7 @@ surface ChartDemo() {
         layout: vertical, gap: spacing.4
 
         block {
-          layout: horizontal, justify: "space-between", align: "center"
+          layout: horizontal, justify: between, align: "center"
           text("Revenue by Category") { style: type.heading-sm, color: semantic.text-primary }
           block {
             padding: "4px 10px"

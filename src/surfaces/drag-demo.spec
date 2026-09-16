@@ -103,7 +103,7 @@ surface DragDemo() {
     layout: vertical, gap: spacing.4
 
     block {
-      layout: horizontal, gap: spacing.4, align: "flex-start"
+      layout: horizontal, gap: spacing.4, align: start
 
       // Sortable list
       block {
@@ -114,7 +114,7 @@ surface DragDemo() {
             layout: vertical, gap: spacing.4
 
             block {
-              layout: horizontal, justify: "space-between", align: "center"
+              layout: horizontal, justify: between, align: "center"
               text("Task Priority Queue") { style: type.heading-sm, color: semantic.text-primary }
               text("Drag to reorder") { style: type.body-sm, color: semantic.text-tertiary }
             }
@@ -167,7 +167,7 @@ surface DragDemo() {
     layout: vertical, gap: spacing.4
 
     block {
-      layout: horizontal, justify: "space-between", align: "center"
+      layout: horizontal, justify: between, align: "center"
       text("Project Board") { style: type.heading-sm, color: semantic.text-primary }
       block {
         layout: horizontal, gap: spacing.3, align: "center"

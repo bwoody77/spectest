@@ -111,7 +111,7 @@ surface FormDemo() {
   // ── Contact form ──────────────────────────────────────────────────────────
   block {
     visibility: isContactForm
-    layout: horizontal, gap: spacing.5, align: "flex-start"
+    layout: horizontal, gap: spacing.5, align: start
 
     // The form
     block {
@@ -122,7 +122,7 @@ surface FormDemo() {
           layout: vertical, gap: spacing.5
 
           block {
-            layout: horizontal, justify: "space-between", align: "center"
+            layout: horizontal, justify: between, align: "center"
             text("Contact Us") { style: type.heading-sm, color: semantic.text-primary }
 
             // Dirty indicator
@@ -254,7 +254,7 @@ surface FormDemo() {
 
           // Actions
           block {
-            layout: horizontal, gap: spacing.3, justify: "flex-end"
+            layout: horizontal, gap: spacing.3, justify: end
 
             block {
               padding: "8px 20px"
@@ -294,7 +294,7 @@ surface FormDemo() {
             layout: vertical, gap: spacing.2
 
             block {
-              layout: horizontal, justify: "space-between"
+              layout: horizontal, justify: between
               text("Valid") { style: type.body-sm, color: semantic.text-secondary }
               text(_form_valid ? "✓ Yes" : "✗ No") {
                 style: type.body-sm
@@ -302,12 +302,12 @@ surface FormDemo() {
               }
             }
             block {
-              layout: horizontal, justify: "space-between"
+              layout: horizontal, justify: between
               text("Dirty") { style: type.body-sm, color: semantic.text-secondary }
               text(_form_dirty ? "Yes" : "No") { style: type.body-sm, color: semantic.text-primary }
             }
             block {
-              layout: horizontal, justify: "space-between"
+              layout: horizontal, justify: between
               text("Submit attempted") { style: type.body-sm, color: semantic.text-secondary }
               text(_form_submit_attempted ? "Yes" : "No") { style: type.body-sm, color: semantic.text-primary }
             }
