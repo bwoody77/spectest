@@ -59,9 +59,8 @@
 // Internationalization
 @i18n {
   defaultLocale: "en"
-  locales: ["en", "es"]
-  fallback: "en"
-  translationDir: "./i18n"
+  locales: ["es"]
+  commonDir: "../i18n"
 }
 
 @extern { strangerThingsTransition } from "./theme-effects.js"
@@ -128,7 +127,6 @@ surface App {
     themeDrawerOpen: false
     themeBuilderOpen: false
     builderSaveName: ''
-    currentLocale: getCurrentLocale()
   }
 
   @source {
@@ -277,10 +275,6 @@ surface App {
       view = v
       commandPaletteOpen = false
     }
-    setLocale(lang) {
-      currentLocale = lang
-      switchLocale(lang)
-    }
   }
 
   layout: vertical
@@ -350,15 +344,9 @@ surface App {
         on click: openThemeBuilder()
       }
 
-      // Language selector
-      block {
-        layout: horizontal, gap: spacing.1, align: center
-        Button(label: "EN", variant: currentLocale == "en" ? "primary" : "secondary") {
-          on click: setLocale("en")
-        }
-        Button(label: "ES", variant: currentLocale == "es" ? "primary" : "secondary") {
-          on click: setLocale("es")
-        }
+      // Language: each locale is its own build — `spec dev --locale es`
+      text(getCurrentLocale()) {
+        color: semantic.text-tertiary
       }
 
       // Command palette trigger (Issue #18)
