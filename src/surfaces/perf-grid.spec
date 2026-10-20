@@ -38,13 +38,11 @@ surface PerfGrid() {
   @actions {
     loadFromServer(count) {
       let t0 = performance.now()
-      await fetch("http://localhost:4500/api/products/bulk?count=" + count + "&delay=0")
-        .then(r => r.json())
-        .then(data => {
-          rows = data
-          isLoaded = true
-          loadTime = performance.now() - t0
-        })
+      // Spec's fetch() answers the parsed JSON body, not a Response: no .json()
+      let data = await fetch("http://localhost:4500/api/products/bulk?count=" + count + "&delay=0")
+      rows = data
+      isLoaded = true
+      loadTime = performance.now() - t0
     }
 
     setRowCount(n) {
