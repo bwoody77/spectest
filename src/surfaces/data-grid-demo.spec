@@ -97,7 +97,7 @@ surface DataGridDemo() {
     DataGrid(
       rows: pagedProducts,
       columns: [
-        { key: "id", label: "ID", width: "60px", sortable: true },
+        { key: "id", label: "ID", width: 60, sortable: true },
         { key: "name", label: "Product Name", sortable: true, filterable: true },
         { key: "category", label: "Category", sortable: true, filterable: true },
         { key: "price", label: "Price", sortable: true, format: "currency" },
