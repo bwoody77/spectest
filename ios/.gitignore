@@ -1,0 +1,9 @@
+# Xcode
+*.xcuserstate
+xcuserdata/
+.swiftpm/xcode/xcuserdata/
+DerivedData/
+*.xcodeproj/xcuserdata/
+
+# SpecRuntime symlink (points to spec monorepo)
+SpecRuntime

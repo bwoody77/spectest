@@ -1,0 +1,98 @@
+import SwiftUI
+import SpecRuntime
+
+@Observable
+final class ListViewModel {
+  var height: Any = ""
+  var items: Any = [] as [Any]
+  var searchable: Any = false
+  var searchPlaceholder: Any = "Search..."
+  var selected: Any = [] as [Any]
+  var selection: Any = "none"
+  var selectedIds: Any? = nil as Any? as Any
+  var searchQuery: Any = ""
+  init() {
+    selectedIds = selected
+  }
+  var filteredItems: Any { (specNeq(searchQuery, "") ? specFilter(items, { (item: Any) -> Bool in return specIncludes((specGet(item, "label") as? String ?? "").lowercased(), (searchQuery as? String ?? "").lowercased()) }) : items) }
+  var hasItems: Any { (specDouble(specLength(filteredItems)) > specDouble(0)) }
+  func setSearch(_ v: Any) {
+    searchQuery = v
+    /* event callback */
+  }
+  func handleSelect(_ id: Any) {
+    if specEq(selection, "single") {
+      selectedIds = [id] as [Any]
+      /* event callback */
+    } else {
+      if specEq(selection, "multi") {
+        if specIncludes(selectedIds, id) {
+          selectedIds = specFilter(selectedIds, { (sid: Any) -> Bool in return specNeq(sid, id) })
+        } else {
+          selectedIds = specAdd(selectedIds, [id] as [Any])
+        }
+        /* event callback */
+      }
+    }
+  }
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
+}
+
+struct ListView: View {
+  @State private var vm = ListViewModel()
+  var height: Any = ""
+  var items: Any = [] as [Any]
+  var searchable: Any = false
+  var searchPlaceholder: Any = "Search..."
+  var selected: Any = [] as [Any]
+  var selection: Any = "none"
+  init(height: Any = "", items: Any = [] as [Any], searchable: Any = false, searchPlaceholder: Any = "Search...", selected: Any = [] as [Any], selection: Any = "none") { self._vm = State(initialValue: ListViewModel()); self.height = height; self.items = items; self.searchable = searchable; self.searchPlaceholder = searchPlaceholder; self.selected = selected; self.selection = selection }
+  var body: some View {
+    VStack() {
+      VStack() {
+        VStack() {
+          if (vm.searchable) as? Bool ?? false {
+            TextField(specString(vm.searchPlaceholder), text: Binding(get: { vm.searchQuery as? String ?? "" }, set: { vm.searchQuery = $0 }))
+              .textFieldStyle(.roundedBorder)
+          }
+        }
+        .padding(ThemeManager.shared.size("spacing-2"))
+        ScrollView(.horizontal, showsIndicators: true) {
+        VStack() {
+          ForEach(Array(specArr(vm.filteredItems).enumerated()), id: \.offset) { _idx, item in
+            Button(action: { vm.handleSelect(specGet(item, "id")) }) {
+            HStack(alignment: .center) {
+              Text(verbatim: specString(specGet(item, "label")))
+                .font(.body.bold())
+                .foregroundStyle((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("interactive") : ThemeManager.shared.color("text-primary")))
+            }
+            .padding(ThemeManager.shared.size("spacing-2"))
+            .background((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("surface-raised") : Color.clear))
+            .opacity(CGFloat(0))
+            .background((specIncludes(vm.selectedIds, specGet(item, "id")) ? ThemeManager.shared.color("surface-raised") : Color.clear))
+            .hoverEffect(.highlight)
+            }
+            .buttonStyle(.plain)
+          }
+        }
+        }
+
+        HStack(alignment: .center) {
+          if specEq(vm.hasItems, false) {
+            Text(verbatim: specString("No items"))
+              .font(.body.bold())
+              .foregroundStyle(ThemeManager.shared.color("text-tertiary"))
+          }
+        }
+        .padding(ThemeManager.shared.size("spacing-3"))
+      }
+
+    }
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
+    .fontDesign(ThemeManager.shared.fontDesign())
+    .onAppear { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.searchPlaceholder, searchPlaceholder) { vm.searchPlaceholder = searchPlaceholder }; if !specEq(vm.height, height) { vm.height = height } }
+    .task(id: specPropsKey([items, selection, selected, searchable, searchPlaceholder, height])) { if !specEq(vm.items, items) { vm.items = items }; if !specEq(vm.selection, selection) { vm.selection = selection }; if !specEq(vm.selected, selected) { vm.selected = selected }; if !specEq(vm.searchable, searchable) { vm.searchable = searchable }; if !specEq(vm.searchPlaceholder, searchPlaceholder) { vm.searchPlaceholder = searchPlaceholder }; if !specEq(vm.height, height) { vm.height = height } }
+  }
+}

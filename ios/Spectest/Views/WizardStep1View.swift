@@ -1,0 +1,89 @@
+import SwiftUI
+import SpecRuntime
+
+@Observable
+final class WizardStep1ViewModel {
+  var title: Any = ""
+  var assignee: Any = ""
+  var titleTouched: Any = false
+  var titleFilled: Any { specNeq(title, "") }
+  var showTitleError: Any { ((titleTouched) as? Bool ?? false && specEq(title, "")) }
+  func setTitle(_ v: Any) {
+    title = v
+  }
+  func setAssignee(_ v: Any) {
+    assignee = v
+  }
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
+}
+
+struct WizardStep1View: View {
+  @State private var vm = WizardStep1ViewModel()
+  var body: some View {
+    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
+      Text(verbatim: specString("Step 1: Basic Info"))
+        .font(.title3.bold())
+      Text(verbatim: specString("Provide the core details for this task."))
+        .font(.callout.bold())
+        .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+      VStack(alignment: .leading) {
+        VStack(spacing: ThemeManager.shared.size("spacing-4")) {
+          VStack(spacing: ThemeManager.shared.size("spacing-1")) {
+            VStack(alignment: .leading, spacing: 4) {
+              Text(specString("Title")).font(.subheadline).foregroundStyle(.secondary)
+              TextField(specString("Task title"), text: Binding(get: { vm.title as? String ?? "" }, set: { vm.title = $0 }))
+              .textFieldStyle(.roundedBorder)
+            }
+            VStack() {
+              if (vm.showTitleError) as? Bool ?? false {
+                Text(verbatim: specString("Title is required"))
+                  .font(.callout.bold())
+                  .foregroundStyle(Color(hex: "#db2424"))
+              }
+            }
+
+          }
+
+          VStack(alignment: .leading, spacing: 4) {
+            Text(specString("Assignee")).font(.subheadline).foregroundStyle(.secondary)
+            Menu {
+              Picker(specString("Assignee"), selection: Binding(get: { specString(vm.assignee) }, set: { vm.assignee = $0 })) {
+                ForEach(Array(specArr([["value": "alice" as Any, "label": "Alice" as Any] as [String: Any], ["value": "bob" as Any, "label": "Bob" as Any] as [String: Any], ["value": "carol" as Any, "label": "Carol" as Any] as [String: Any]] as [Any]).enumerated()), id: \.offset) { _, opt in
+                  Text(specString(specGet(opt, "label"))).tag(specString(specGet(opt, "value")))
+                }
+              }
+            } label: {
+              HStack {
+                Text(verbatim: specString(vm.assignee)).foregroundStyle(.primary)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").foregroundStyle(.secondary).font(.caption)
+              }
+              .padding(.horizontal, 12).padding(.vertical, 8)
+              .background(Color(.systemBackground))
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+              .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
+            }
+          }
+        }
+        .padding(ThemeManager.shared.size("spacing-4"))
+      }
+      .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+        Button(action: { Task { @MainActor in await vm.dispatch("next", nil) } }) {
+          Text(specString("Next"))
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(.blue, in: RoundedRectangle(cornerRadius: 8))
+        }
+        .disabled((!((vm.titleFilled) as? Bool ?? false)) as? Bool ?? false)
+      }
+
+    }
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
+    .fontDesign(ThemeManager.shared.fontDesign())
+  }
+}

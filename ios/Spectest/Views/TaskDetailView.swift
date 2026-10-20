@@ -1,0 +1,163 @@
+import SwiftUI
+import SpecRuntime
+
+@Observable
+final class TaskDetailViewModel {
+  var task: Any? = nil
+  var view: Any? = nil
+  var confirmingDelete: Any = false
+  var hasTask: Any { task != nil }
+  var taskTitle: Any { (task != nil ? specGet(task, "title") : "") }
+  var taskStatus: Any { (task != nil ? specGet(task, "status") : "") }
+  var taskAssignee: Any { (task != nil ? specGet(task, "assignee") : "") }
+  var taskPriority: Any { (task != nil ? specGet(task, "priority") : "") }
+  var taskDate: Any { (task != nil ? specGet(task, "createdAt") : "") }
+  var taskId: Any { (task != nil ? specGet(task, "id") : "") }
+  var detailHeading: Any { "Task: \(specString(taskTitle))" }
+  func goBack() {
+    task = nil
+    view = "dashboard"
+  }
+  func showDeleteConfirm() {
+    confirmingDelete = true
+  }
+  func cancelDelete() {
+    confirmingDelete = false
+  }
+  func confirmDelete() async {
+    await fetch(specAdd("http://localhost:4000/api/tasks/", taskId), ["method": "DELETE" as Any] as [String: Any])
+    confirmingDelete = false
+    task = nil
+    view = "dashboard"
+  }
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
+}
+
+struct TaskDetailView: View {
+  @State private var vm = TaskDetailViewModel()
+  var task: Any? = nil
+  var view: Any? = nil
+  init(task: Any? = nil, view: Any? = nil) { self._vm = State(initialValue: TaskDetailViewModel()); self.task = task; self.view = view }
+  var body: some View {
+    VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+        Image(systemName: specIconName(specString("eye")))
+          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .foregroundStyle(ThemeManager.shared.color("interactive"))
+        Text(verbatim: specString("Task Detail"))
+          .font(.title2.bold())
+          .foregroundStyle(ThemeManager.shared.color("text-primary"))
+        Spacer(minLength: 0)
+      }
+      .frame(maxWidth: .infinity)
+
+      VStack() {
+        if ((!((vm.hasTask) as? Bool ?? false))) as? Bool ?? false {
+          ContentUnavailableView(specString("No Task Selected"), systemImage: "tray", description: Text(specString("Select a task from the Dashboard to view its details here.")))
+            .frame(height: 200)
+        }
+      }
+
+      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+        if (vm.hasTask) as? Bool ?? false {
+          VStack() {
+            Text(verbatim: specString(vm.detailHeading))
+              .font(.title3.bold())
+              .foregroundStyle(ThemeManager.shared.color("text-primary"))
+          }
+          .padding(ThemeManager.shared.size("spacing-4"))
+          .background(ThemeManager.shared.color("surface"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
+          AsyncImage(url: URL(string: specString("https://via.placeholder.com/64"))) { image in
+            image.resizable().aspectRatio(contentMode: .fit)
+          } placeholder: {
+            ProgressView()
+          }
+          .accessibilityLabel(specString("Task thumbnail"))
+          LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: ThemeManager.shared.size("spacing-3")) {
+            VStack(alignment: .leading) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                Text(verbatim: specString("Status"))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+                SpecStatusPill(status: specString(vm.taskStatus))
+              }
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .hoverEffect(.highlight)
+            }
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+            VStack(alignment: .leading) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                Text(verbatim: specString("Priority"))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+                SpecPriorityPill(priority: specString(vm.taskPriority))
+              }
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .hoverEffect(.highlight)
+            }
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+            VStack(alignment: .leading) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                Text(verbatim: specString("Assignee"))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+                Text(verbatim: specString(vm.taskAssignee))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
+              }
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .hoverEffect(.highlight)
+            }
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+            VStack(alignment: .leading) {
+              VStack(spacing: ThemeManager.shared.size("spacing-2")) {
+                Text(verbatim: specString("Created"))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+                Text(verbatim: specString(vm.taskDate))
+                  .font(.body.bold())
+                  .foregroundStyle(ThemeManager.shared.color("text-primary"))
+              }
+              .padding(ThemeManager.shared.size("spacing-3"))
+              .hoverEffect(.highlight)
+            }
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+          }
+
+          HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+            Button(action: { Task { @MainActor in await vm.goBack() } }) {
+              Text(specString("Back to Dashboard"))
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.blue)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 8))
+            }
+            Button(action: { Task { @MainActor in await vm.showDeleteConfirm() } }) {
+              Text(specString("Delete Task"))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(specString("destructive") == "primary" ? .white : .blue)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(specString("destructive") == "primary" ? AnyShapeStyle(.blue) : AnyShapeStyle(Color(.tertiarySystemFill)), in: RoundedRectangle(cornerRadius: 8))
+            }
+          }
+
+          EmptyView().confirmationDialog(specString("Delete Task"), isPresented: Binding(get: { vm.confirmingDelete as? Bool ?? false }, set: { vm.confirmingDelete = $0 })) {
+            Button("Confirm") { Task { @MainActor in await vm.confirmDelete() } }
+            Button("Cancel", role: .cancel) {}
+          } message: {
+            Text(specString("Are you sure you want to delete this task? This action cannot be undone."))
+          }
+        }
+      }
+
+    }
+    .foregroundStyle(ThemeManager.shared.color("text-primary"))
+    .environment(\.font, ThemeManager.shared.themeFont())
+    .fontDesign(ThemeManager.shared.fontDesign())
+    .onAppear { if !specEq(vm.task, task) { vm.task = task }; if !specEq(vm.view, view) { vm.view = view } }
+    .task(id: specPropsKey([task, view])) { if !specEq(vm.task, task) { vm.task = task }; if !specEq(vm.view, view) { vm.view = view } }
+  }
+}
