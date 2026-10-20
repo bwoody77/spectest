@@ -216,8 +216,9 @@ surface PerfGrid() {
       height: "500px",
       selection: "single"
     ) {
-      on sort(e): {
-        sortTime = e.elapsed
+      // DataGridNative calls onSort(sortState, elapsedMs): the time is the 2nd argument
+      on sort(sortState, elapsed): {
+        sortTime = elapsed
       }
     }
   }
