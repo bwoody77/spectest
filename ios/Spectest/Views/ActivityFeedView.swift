@@ -13,7 +13,7 @@ case specString("task_completed"): return "completed"
 case specString("deploy"): return "completed"
 default: return "active"
 } })() as Any] as [String: Any] }) }
-  let activityItemsSource = DataSource(endpoint: "http://localhost:4000/api/activity", method: "GET")
+  let activityItemsSource = DataSource(endpoint: "http://localhost:4500/api/activity", method: "GET")
   var activityItems: Any? { activityItemsSource.data }
   var activityItemsLoading: Bool { activityItemsSource.loading }
   var activityItemsError: String? { activityItemsSource.error }

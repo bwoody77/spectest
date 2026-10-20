@@ -10,7 +10,7 @@ final class TaskTableViewModel {
   var filteredTasks: Any { (specEq(filter, "all") ? taskList : specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "status"), filter) })) }
   var taskCount: Any { "\(specString(specLength(filteredTasks))) tasks" }
   var hasNoResults: Any { specEq(specLength(filteredTasks), 0) }
-  let tasksSource = DataSource(endpoint: "http://localhost:4000/api/tasks", method: "GET")
+  let tasksSource = DataSource(endpoint: "http://localhost:4500/api/tasks", method: "GET")
   var tasks: Any? { tasksSource.data }
   var tasksLoading: Bool { tasksSource.loading }
   var tasksError: String? { tasksSource.error }

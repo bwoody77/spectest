@@ -19,7 +19,7 @@ final class DataGridDemoViewModel {
   var selectedSku: Any { (selectedProduct != nil ? specGet(selectedProduct, "sku") : "") }
   var selectedStatus: Any { (selectedProduct != nil ? specGet(selectedProduct, "status") : "") }
   var stockWarning: Any { (selectedProduct != nil ? (specDouble(specGet(selectedProduct, "stock")) < specDouble(10)) : false) }
-  let productsSource = DataSource(endpoint: "http://localhost:4000/api/products", method: "GET")
+  let productsSource = DataSource(endpoint: "http://localhost:4500/api/products", method: "GET")
   var products: Any? { productsSource.data }
   var productsLoading: Bool { productsSource.loading }
   var productsError: String? { productsSource.error }

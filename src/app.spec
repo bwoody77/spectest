@@ -123,45 +123,45 @@
 // Data sources
 
 source TasksAPI {
-  endpoint: "http://localhost:4000/api/tasks"
+  endpoint: "http://localhost:4500/api/tasks"
   method: GET
   cache: 1
   retry: 3
 }
 
 source StatsAPI {
-  endpoint: "http://localhost:4000/api/stats"
+  endpoint: "http://localhost:4500/api/stats"
   method: GET
   cache: 1
 }
 
 source UsersAPI {
-  endpoint: "http://localhost:4000/api/users"
+  endpoint: "http://localhost:4500/api/users"
   method: GET
   cache: 5
 }
 
 source ActivityAPI {
-  endpoint: "http://localhost:4000/api/activity"
+  endpoint: "http://localhost:4500/api/activity"
   method: GET
   cache: 2
 }
 
 source NotificationsAPI {
-  endpoint: "http://localhost:4000/api/notifications"
+  endpoint: "http://localhost:4500/api/notifications"
   method: GET
   cache: 2
   retry: 2
 }
 
 source ProductsAPI {
-  endpoint: "http://localhost:4000/api/products"
+  endpoint: "http://localhost:4500/api/products"
   method: GET
   cache: 5
 }
 
 source CategoriesAPI {
-  endpoint: "http://localhost:4000/api/categories"
+  endpoint: "http://localhost:4500/api/categories"
   method: GET
   cache: 10
 }

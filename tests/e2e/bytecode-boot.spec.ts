@@ -21,7 +21,7 @@ test.describe('Bytecode boot', () => {
   });
 
   test('API server is running', async ({ request }) => {
-    const res = await request.get('http://localhost:4000/api/stats');
+    const res = await request.get('http://localhost:4500/api/stats');
     expect(res.status()).toBe(200);
     const data = await res.json();
     expect(data).toHaveProperty('total');

@@ -4,8 +4,8 @@ import SpecRuntime
 // MARK: - Dashboard Screen (hand-crafted native iOS)
 
 struct DashboardScreen: View {
-  @State private var stats = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
-  @State private var tasks = DataSource(endpoint: "http://localhost:4000/api/tasks", method: "GET")
+  @State private var stats = DataSource(endpoint: "http://localhost:4500/api/stats", method: "GET")
+  @State private var tasks = DataSource(endpoint: "http://localhost:4500/api/tasks", method: "GET")
   @State private var filter: TaskFilter = .all
 
   enum TaskFilter: String, CaseIterable {

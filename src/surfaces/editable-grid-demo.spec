@@ -26,7 +26,7 @@ surface EditableGridDemo() {
     saveChanges() {
       saving = true
       saveProgress = 50
-      await fetch("http://localhost:4000/api/products/1", {method: "PUT", body: JSON.stringify({})})
+      await fetch("http://localhost:4500/api/products/1", {method: "PUT", body: JSON.stringify({})})
       saveProgress = 100
       saving = false
       hasChanges = false

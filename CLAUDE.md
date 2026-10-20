@@ -19,7 +19,7 @@ Read the relevant reference docs from the main repo:
 ## This project
 
 - Admin dashboard demo with sidebar nav, dark mode, multiple theme presets
-- `node dev.mjs` starts API server (port 4000) + dev server (port 3000)
+- `node dev.mjs` starts API server (port 4500) + dev server (port 3000). Override with `--api-port=` / `SPECTEST_API_PORT` and `--port=` / `SPECTEST_PORT`. It never kills a process it did not start: a busy port is refused and left alone (port 4000 is Vector's dev slot 0, which an older dev.mjs used to kill)
 - `server.mjs` provides mock REST APIs for tasks, stats, users, activity, notifications, products, categories
 
 ## Package manager

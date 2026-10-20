@@ -5,22 +5,29 @@
  * Starts the mock API server and the spec dev server for local development.
  *
  * Steps:
- *  1. Check/free server port (4000) and client port (3000)
+ *  1. Check the API port (4500) and client port (3000) are free. A busy port
+ *     is refused, never freed: see scripts/dev-ports.mjs. (This used to kill
+ *     whatever held port 4000, which is Vector's dev slot 0.)
  *  2. Ensure spec compiler is built
  *  3. Start the API server (server.mjs)
  *  4. Start the spec dev server (spec dev)
+ *
+ * Ports: --api-port=<n> / SPECTEST_API_PORT (legacy PORT), and
+ * --port=<n> / SPECTEST_PORT (legacy VITE_PORT).
  */
 import { spawn, execSync } from 'child_process';
 import net from 'net';
 import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { DEFAULT_API_PORT, DEFAULT_CLIENT_PORT, resolvePort, busyPortMessages } from './dev-ports.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const SERVER_PORT = parseInt(process.env.PORT || '4000');
-const CLIENT_PORT = parseInt(process.env.VITE_PORT || '3000');
+const ARGS = process.argv.slice(2);
+const SERVER_PORT = resolvePort(ARGS, 'api-port', 'SPECTEST_API_PORT', process.env.PORT || DEFAULT_API_PORT);
+const CLIENT_PORT = resolvePort(ARGS, 'port', 'SPECTEST_PORT', process.env.VITE_PORT || DEFAULT_CLIENT_PORT);
 const SPEC_DIR = process.env.SPEC_DIR || path.resolve(ROOT, '../../spec');
 
 const isWindows = process.platform === 'win32';
@@ -47,15 +54,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function isPortAvailable(port) {
-  return new Promise(resolve => {
-    const server = net.createServer();
-    server.once('error', () => resolve(false));
-    server.once('listening', () => { server.close(); resolve(true); });
-    server.listen(port, '0.0.0.0');
-  });
-}
-
 function tcpConnect(host, port, timeout = 3000) {
   return new Promise(resolve => {
     const socket = new net.Socket();
@@ -69,36 +67,6 @@ function tcpConnect(host, port, timeout = 3000) {
     socket.on('error', () => finish(false));
     socket.connect(port, host);
   });
-}
-
-function killProcessOnPort(port) {
-  try {
-    if (isWindows) {
-      const output = execSync(`netstat -ano`, { encoding: 'utf-8' });
-      const pids = new Set();
-      for (const line of output.trim().split('\n')) {
-        if (line.includes('LISTENING') && line.match(new RegExp(`:${port}\\s`))) {
-          const parts = line.trim().split(/\s+/);
-          const pid = parts[parts.length - 1];
-          if (pid && pid !== '0') pids.add(pid);
-        }
-      }
-      for (const pid of pids) {
-        logWarn(`Killing PID ${pid} (and children) on port ${port}`);
-        try { execSync(`taskkill /PID ${pid} /T /F`, { stdio: 'ignore' }); } catch {}
-      }
-    } else {
-      const output = execSync(`lsof -ti :${port}`, { encoding: 'utf-8' }).trim();
-      if (output) {
-        for (const pid of output.split('\n')) {
-          logWarn(`Killing PID ${pid} on port ${port}`);
-          try { execSync(`kill -9 ${pid}`, { stdio: 'ignore' }); } catch {}
-        }
-      }
-    }
-  } catch {
-    // No process found — port is already free
-  }
 }
 
 function spawnProcess(command, args, name, options = {}) {
@@ -123,24 +91,15 @@ function spawnProcess(command, args, name, options = {}) {
 async function ensurePortsFree() {
   log(`Checking ports ${SERVER_PORT} (API) and ${CLIENT_PORT} (client)...`);
 
-  for (const port of [SERVER_PORT, CLIENT_PORT]) {
-    killProcessOnPort(port);
-    const available = await isPortAvailable(port);
-    if (available) {
-      logOk(`Port ${port} is available`);
-    } else {
-      logWarn(`Port ${port} still in use — retrying...`);
-      await sleep(1500);
-      killProcessOnPort(port);
-      await sleep(1000);
-      if (await isPortAvailable(port)) {
-        logOk(`Port ${port} freed`);
-      } else {
-        logErr(`Could not free port ${port}. Please stop the process manually.`);
-        process.exit(1);
-      }
-    }
+  const busy = await busyPortMessages([
+    { port: SERVER_PORT, role: 'API server', override: '--api-port=<n> or SPECTEST_API_PORT=<n>' },
+    { port: CLIENT_PORT, role: 'dev server', override: '--port=<n> or SPECTEST_PORT=<n>' },
+  ]);
+  if (busy.length > 0) {
+    for (const msg of busy) logErr(msg);
+    process.exit(1);
   }
+  logOk(`Ports ${SERVER_PORT} and ${CLIENT_PORT} are available`);
 }
 
 async function ensureSpecCompiler() {

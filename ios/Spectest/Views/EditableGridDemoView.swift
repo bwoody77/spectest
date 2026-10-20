@@ -12,7 +12,7 @@ final class EditableGridDemoViewModel {
   var productCount: Any { "\(specString(specLength(productList))) products" }
   var canSave: Any { ((hasChanges) as? Bool ?? false && ((!((saving) as? Bool ?? false))) as? Bool ?? false) }
   var showSaved: Any { saved }
-  let productsSource = DataSource(endpoint: "http://localhost:4000/api/products", method: "GET")
+  let productsSource = DataSource(endpoint: "http://localhost:4500/api/products", method: "GET")
   var products: Any? { productsSource.data }
   var productsLoading: Bool { productsSource.loading }
   var productsError: String? { productsSource.error }
@@ -22,7 +22,7 @@ final class EditableGridDemoViewModel {
   func saveChanges() async {
     saving = true
     saveProgress = 50
-    await fetch("http://localhost:4000/api/products/1", ["method": "PUT" as Any, "body": JSON.stringify([String: Any]()) as Any] as [String: Any])
+    await fetch("http://localhost:4500/api/products/1", ["method": "PUT" as Any, "body": JSON.stringify([String: Any]()) as Any] as [String: Any])
     saveProgress = 100
     saving = false
     hasChanges = false

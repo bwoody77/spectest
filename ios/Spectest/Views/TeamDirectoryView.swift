@@ -10,7 +10,7 @@ final class TeamDirectoryViewModel {
   var searchResults: Any { (specEq(search, "") ? filteredUsers : specFilter(filteredUsers, { (u: Any) -> Bool in return specIncludes((specGet(u, "name") as? String ?? "").lowercased(), (search as? String ?? "").lowercased()) })) }
   var userCount: Any { "\(specString(specLength(searchResults))) members" }
   var hasNoUsers: Any { specEq(specLength(searchResults), 0) }
-  let usersSource = DataSource(endpoint: "http://localhost:4000/api/users", method: "GET")
+  let usersSource = DataSource(endpoint: "http://localhost:4500/api/users", method: "GET")
   var users: Any? { usersSource.data }
   var usersLoading: Bool { usersSource.loading }
   var usersError: String? { usersSource.error }

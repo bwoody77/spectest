@@ -25,7 +25,7 @@ final class TaskDetailViewModel {
     confirmingDelete = false
   }
   func confirmDelete() async {
-    await fetch(specAdd("http://localhost:4000/api/tasks/", taskId), ["method": "DELETE" as Any] as [String: Any])
+    await fetch(specAdd("http://localhost:4500/api/tasks/", taskId), ["method": "DELETE" as Any] as [String: Any])
     confirmingDelete = false
     task = nil
     view = "dashboard"

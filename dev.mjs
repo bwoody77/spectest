@@ -5,47 +5,63 @@
  *   pnpm dev        — dev server with hot reload
  *   pnpm dev --prod — production standalone JS bundle
  *
- * Kills stale processes on the ports first, then starts both.
+ * Ports (flag, else env var, else default):
+ *   API server   --api-port=<n>  SPECTEST_API_PORT  default 4500
+ *   app server   --port=<n>      SPECTEST_PORT      default 3000
+ *
+ * The app's `source` endpoints are absolute URLs naming localhost:4500, so a
+ * different API port also needs those `endpoint:` lines changed.
+ *
+ * This script never stops a process it did not start. A busy port is refused
+ * with the name of the process holding it, which is left running. The only
+ * thing it stops is a server an earlier dev.mjs run started, recorded in
+ * .dev-pids.json (see scripts/dev-ports.mjs for the rule). It used to
+ * force-kill whatever held its ports, and its API port was 4000, which is
+ * Vector's dev slot 0, so running it killed a Vector dev stack.
  */
 
-import { spawn, execSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { createConnection } from 'node:net';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { existsSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gzip } from 'node:zlib';
 import { promisify } from 'node:util';
+import {
+  DEFAULT_API_PORT,
+  DEFAULT_CLIENT_PORT,
+  resolvePort,
+  busyPortMessages,
+  stopOwnLeftovers,
+  writePidFile,
+  removePidFile,
+} from './scripts/dev-ports.mjs';
 
 const gzipAsync = promisify(gzip);
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const PID_FILE = process.env.SPECTEST_DEV_PIDFILE || join(ROOT, '.dev-pids.json');
+const SPEC_BIN = join(ROOT, 'node_modules', '@spec', 'cli', 'bin', 'spec.js');
 
 // --- Parse CLI args ---
 const args = process.argv.slice(2);
 
-const API_PORT = parseInt(args.find(a => a.startsWith('--api-port='))?.split('=')[1] ?? '4000');
-const CLIENT_PORT = parseInt(args.find(a => a.startsWith('--port='))?.split('=')[1] ?? '3000');
+let API_PORT, CLIENT_PORT;
+try {
+  API_PORT = resolvePort(args, 'api-port', 'SPECTEST_API_PORT', DEFAULT_API_PORT);
+  CLIENT_PORT = resolvePort(args, 'port', 'SPECTEST_PORT', DEFAULT_CLIENT_PORT);
+} catch (err) {
+  console.error(err.message);
+  process.exit(1);
+}
+if (API_PORT === CLIENT_PORT) {
+  console.error(`The API server and the app server cannot share port ${API_PORT}.`);
+  process.exit(1);
+}
 const MODE = args.includes('--prod') ? 'prod' : 'dev';
 const REGISTRY = args.find(a => a.startsWith('--registry'))?.split('=')[1]
   ?? (args.includes('--registry') ? args[args.indexOf('--registry') + 1] : undefined);
-
-function killPort(port) {
-  try {
-    const out = execSync(`netstat -ano`, { encoding: 'utf8' });
-    const pids = new Set();
-    for (const line of out.split('\n')) {
-      if (line.includes(`:${port} `) && line.includes('LISTENING')) {
-        const pid = line.trim().split(/\s+/).pop();
-        if (pid && pid !== '0') pids.add(pid);
-      }
-    }
-    for (const pid of pids) {
-      console.log(`  Killing PID ${pid} on port ${port}`);
-      try { execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' }); } catch {}
-    }
-    return pids.size > 0;
-  } catch {
-    return false;
-  }
-}
 
 function waitForPort(port, timeoutMs = 15000) {
   const start = Date.now();
@@ -65,31 +81,82 @@ function waitForPort(port, timeoutMs = 15000) {
   });
 }
 
-// --- Kill stale processes ---
-console.log('Checking for stale processes...');
-if (killPort(API_PORT)) {
-  console.log(`  Cleared port ${API_PORT}`);
-} else {
-  console.log(`  Port ${API_PORT} is free`);
+// --- What this run started: recorded so a later run can stop it, and only it ---
+const servers = [];
+const children = [];
+let stopping = false;
+
+function record(role, pid, port) {
+  servers.push({ role, pid, port });
+  writePidFile(PID_FILE, { launcher: process.pid, mode: MODE, servers });
 }
-if (killPort(CLIENT_PORT)) {
-  console.log(`  Cleared port ${CLIENT_PORT}`);
-} else {
-  console.log(`  Port ${CLIENT_PORT} is free`);
+
+function own(child, role) {
+  children.push(child);
+  child.on('error', (err) => {
+    if (stopping) return;
+    console.error(`${role} failed to start: ${err.message}`);
+    stop(1);
+  });
+  child.on('exit', (code, signal) => {
+    if (stopping) return;
+    console.error(`\n${role} exited (${signal ?? `code ${code}`}); stopping.`);
+    stop(1);
+  });
+  return child;
+}
+
+function stop(code = 0) {
+  if (stopping) return;
+  stopping = true;
+  for (const child of children) {
+    try { child.kill(); } catch {}
+  }
+  removePidFile(PID_FILE);
+  process.exit(code);
+}
+
+process.on('SIGINT', () => { console.log('\nShutting down...'); stop(0); });
+process.on('SIGTERM', () => stop(0));
+
+// --- Stop what an earlier dev.mjs run started, then refuse any port still busy ---
+console.log('Checking ports...');
+const { stopped } = await stopOwnLeftovers(PID_FILE);
+for (const s of stopped) {
+  console.log(`  Stopped the ${s.role} server an earlier dev.mjs run started (PID ${s.pid}, port ${s.port})`);
+}
+
+const busy = await busyPortMessages([
+  { port: API_PORT, role: 'API server', override: '--api-port=<n> or SPECTEST_API_PORT=<n>' },
+  { port: CLIENT_PORT, role: MODE === 'dev' ? 'dev server' : 'app server', override: '--port=<n> or SPECTEST_PORT=<n>' },
+]);
+if (busy.length > 0) {
+  for (const msg of busy) console.error(`\n${msg}`);
+  console.error('');
+  process.exit(1);
+}
+console.log(`  Ports ${API_PORT} and ${CLIENT_PORT} are free`);
+
+if (!existsSync(SPEC_BIN)) {
+  console.error(`Spec CLI not found at ${SPEC_BIN}. Install dependencies first.`);
+  process.exit(1);
 }
 
 // --- Start API server ---
 console.log('\nStarting API server...');
-const api = spawn('node', ['server.mjs'], { stdio: 'inherit' });
-api.on('error', (err) => { console.error('API server failed:', err.message); process.exit(1); });
+const api = own(spawn(process.execPath, [join(ROOT, 'server.mjs')], {
+  cwd: ROOT,
+  stdio: 'inherit',
+  env: { ...process.env, PORT: String(API_PORT) },
+}), 'API server');
+record('api', api.pid, API_PORT);
 
 try {
   await waitForPort(API_PORT);
   console.log(`  API server ready on http://localhost:${API_PORT}`);
 } catch {
   console.error('  ERROR: API server did not start in time');
-  api.kill();
-  process.exit(1);
+  stop(1);
 }
 
 // ---------------------------------------------------------------------------
@@ -97,19 +164,20 @@ try {
 // ---------------------------------------------------------------------------
 if (MODE === 'dev') {
   console.log('Starting spec dev server...');
-  const devArgs = ['spec', 'dev'];
+  // Node runs the CLI directly (no shell, no pnpm wrapper), so the pid recorded
+  // is the process that listens on the port.
+  const devArgs = [SPEC_BIN, 'dev', '--port', String(CLIENT_PORT)];
   if (REGISTRY) devArgs.push('--registry', REGISTRY);
-  const client = spawn('pnpm', ['exec', ...devArgs], { stdio: 'inherit', shell: true });
-  client.on('error', (err) => { console.error('Dev server failed:', err.message); process.exit(1); });
+  const client = own(spawn(process.execPath, devArgs, { cwd: ROOT, stdio: 'inherit' }), 'Dev server');
+  record('client', client.pid, CLIENT_PORT);
 
   try {
-    await waitForPort(CLIENT_PORT);
+    // `spec dev` builds the whole app before it listens.
+    await waitForPort(CLIENT_PORT, 120_000);
     console.log(`  Dev server ready on http://localhost:${CLIENT_PORT}`);
   } catch {
     console.error('  ERROR: Dev server did not start in time');
-    api.kill();
-    client.kill();
-    process.exit(1);
+    stop(1);
   }
 
   console.log('\n=========================================');
@@ -118,15 +186,6 @@ if (MODE === 'dev') {
   console.log(`  Dev server:  http://localhost:${CLIENT_PORT}`);
   console.log('=========================================');
   console.log('\nPress Ctrl+C to stop both.\n');
-
-  function shutdown() {
-    console.log('\nShutting down...');
-    api.kill();
-    client.kill();
-    process.exit(0);
-  }
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
 }
 
 // ---------------------------------------------------------------------------
@@ -135,7 +194,7 @@ if (MODE === 'dev') {
 else {
   // --- Compile ---
   console.log('\nCompiling (production)...');
-  const compile = spawn('pnpm', ['exec', 'spec', 'compile', '--mode', 'prod', '--standalone'], { stdio: 'inherit', shell: true });
+  const compile = spawn(process.execPath, [SPEC_BIN, 'compile', '--mode', 'prod', '--standalone'], { cwd: ROOT, stdio: 'inherit' });
 
   const compileOk = await new Promise((resolve) => {
     compile.on('close', (code) => resolve(code === 0));
@@ -144,12 +203,11 @@ else {
 
   if (!compileOk) {
     console.error('  ERROR: production compilation failed');
-    api.kill();
-    process.exit(1);
+    stop(1);
   }
 
   // --- Resolve paths for the static server ---
-  const distDir = join(process.cwd(), 'dist');
+  const distDir = join(ROOT, 'dist');
 
   // --- HTML shell ---
   const PROD_HTML = `<!DOCTYPE html>
@@ -231,7 +289,14 @@ else {
     res.end(PROD_HTML);
   });
 
+  server.on('error', (err) => {
+    console.error(`  ERROR: app server could not listen on port ${CLIENT_PORT}: ${err.message}`);
+    stop(1);
+  });
+
   server.listen(CLIENT_PORT, '127.0.0.1', () => {
+    // This process is the app server in prod mode.
+    record('client', process.pid, CLIENT_PORT);
     console.log(`\n=========================================`);
     console.log(`  Mode:        production`);
     console.log(`  API server:  http://localhost:${API_PORT}`);
@@ -239,13 +304,4 @@ else {
     console.log('=========================================');
     console.log('\nPress Ctrl+C to stop both.\n');
   });
-
-  function shutdown() {
-    console.log('\nShutting down...');
-    api.kill();
-    server.close();
-    process.exit(0);
-  }
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
 }

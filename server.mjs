@@ -402,7 +402,7 @@ const server = createServer(async (req, res) => {
   json(res, { error: 'Not found' }, 404);
 });
 
-const PORT = parseInt(process.env.PORT || '4000', 10);
+const PORT = parseInt(process.env.PORT || '4500', 10);
 const HOST = process.env.HOST || '127.0.0.1';
 server.listen(PORT, HOST, () => {
   console.log(`Mock API server running at http://${HOST}:${PORT}`);

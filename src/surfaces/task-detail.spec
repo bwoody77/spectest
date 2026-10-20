@@ -31,7 +31,7 @@ surface TaskDetail(task, view) {
       confirmingDelete = false
     }
     confirmDelete() {
-      await fetch("http://localhost:4000/api/tasks/" + taskId, {method: "DELETE"})
+      await fetch("http://localhost:4500/api/tasks/" + taskId, {method: "DELETE"})
       confirmingDelete = false
       task = null
       view = "dashboard"

@@ -47,7 +47,7 @@ surface TaskForm() {
       touched = true
       if isValid {
         submitting = true
-        await fetch("http://localhost:4000/api/tasks", {method: "POST", body: JSON.stringify({title: title, assignee: assignee, priority: priority, status: status})})
+        await fetch("http://localhost:4500/api/tasks", {method: "POST", body: JSON.stringify({title: title, assignee: assignee, priority: priority, status: status})})
         submitted = true
         submitting = false
         error = ""

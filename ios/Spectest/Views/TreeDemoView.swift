@@ -11,7 +11,7 @@ final class TreeDemoViewModel {
   var selectedId: Any { (selectedNode != nil ? specGet(selectedNode, "id") : "") }
   var treeMinHeight: Any { "400px" }
   var treeCols: Any { "280px 1fr" }
-  let categoriesSource = DataSource(endpoint: "http://localhost:4000/api/categories", method: "GET")
+  let categoriesSource = DataSource(endpoint: "http://localhost:4500/api/categories", method: "GET")
   var categories: Any? { categoriesSource.data }
   var categoriesLoading: Bool { categoriesSource.loading }
   var categoriesError: String? { categoriesSource.error }

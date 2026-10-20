@@ -12,7 +12,7 @@ final class NotificationsPanelViewModel {
   var hasUnread: Any { (specDouble(unreadCount) > specDouble(0)) }
   var unreadLabel: Any { "\(specString(unreadCount)) unread" }
   var hasNoNotifications: Any { specEq(specLength(filteredNotifications), 0) }
-  let notificationsSource = DataSource(endpoint: "http://localhost:4000/api/notifications", method: "GET")
+  let notificationsSource = DataSource(endpoint: "http://localhost:4500/api/notifications", method: "GET")
   var notifications: Any? { notificationsSource.data }
   var notificationsLoading: Bool { notificationsSource.loading }
   var notificationsError: String? { notificationsSource.error }

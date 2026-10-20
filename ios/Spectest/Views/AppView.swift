@@ -96,7 +96,7 @@ default: return "Overview"
   var appColorScheme: Any { ((((((((((((((((specEq(themePreset, "dark") || specEq(themePreset, "geek")) || specEq(themePreset, "glass")) || specEq(themePreset, "nord")) || specEq(themePreset, "cyberpunk")) || specEq(themePreset, "dracula")) || specEq(themePreset, "ocean")) || specEq(themePreset, "monokai")) || specEq(themePreset, "retro")) || specEq(themePreset, "gruvbox")) || specEq(themePreset, "catppuccin")) || specEq(themePreset, "synthwave")) || specEq(themePreset, "rose-pine")) || specEq(themePreset, "cobalt")) || specEq(themePreset, "stranger-things")) || specEq(themePreset, "mtg")) ? "dark" : "light") }
   var fullHeight: Any { "100vh" }
   var fullWidth: Any { "100%" }
-  let statsSource = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
+  let statsSource = DataSource(endpoint: "http://localhost:4500/api/stats", method: "GET")
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
   var statsError: String? { statsSource.error }

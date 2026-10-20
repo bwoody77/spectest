@@ -17,11 +17,11 @@ final class AnalyticsViewViewModel {
   var aliceCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Alice") })) }
   var bobCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Bob") })) }
   var carolCount: Any { specLength(specFilter(taskList, { (t: Any) -> Bool in return specEq(specGet(t, "assignee"), "Carol") })) }
-  let statsSource = DataSource(endpoint: "http://localhost:4000/api/stats", method: "GET")
+  let statsSource = DataSource(endpoint: "http://localhost:4500/api/stats", method: "GET")
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
   var statsError: String? { statsSource.error }
-  let tasksSource = DataSource(endpoint: "http://localhost:4000/api/tasks", method: "GET")
+  let tasksSource = DataSource(endpoint: "http://localhost:4500/api/tasks", method: "GET")
   var tasks: Any? { tasksSource.data }
   var tasksLoading: Bool { tasksSource.loading }
   var tasksError: String? { tasksSource.error }

@@ -2,7 +2,7 @@
 // Tests: virtual scrolling, sort timing, server-loaded data, FPS measurement
 
 source BulkProductsAPI {
-  endpoint: "http://localhost:4000/api/products/bulk?count=10000"
+  endpoint: "http://localhost:4500/api/products/bulk?count=10000"
   method: GET
   cache: 0
 }
@@ -38,7 +38,7 @@ surface PerfGrid() {
   @actions {
     loadFromServer(count) {
       let t0 = performance.now()
-      await fetch("http://localhost:4000/api/products/bulk?count=" + count + "&delay=0")
+      await fetch("http://localhost:4500/api/products/bulk?count=" + count + "&delay=0")
         .then(r => r.json())
         .then(data => {
           rows = data
