@@ -9,10 +9,9 @@ import { defineConfig } from '@playwright/test';
  * run a single test until that build succeeds. The standalone tests never touch
  * it: they stage a fixture outside both repos, compile it with the CLI under
  * test, and drive `about:blank`. Coupling them to the app build means an
- * unrelated defect in the app takes the component tests down with it — which is
- * exactly what happened on 2026-08-11, when `dev.mjs --prod` could not resolve
- * `theme-effects.js` / `theme-builder.js` and BOTH grid-drag suites became
- * unrunnable despite having nothing to do with either file.
+ * unrelated defect in the app takes the component tests down with it: on
+ * 2026-08-11 an app build failure (fixed in spec, Vector #1278) made BOTH
+ * grid-drag suites unrunnable despite their having nothing to do with it.
  *
  * Run with:
  *
