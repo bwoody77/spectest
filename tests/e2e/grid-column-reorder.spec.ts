@@ -58,15 +58,21 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const FIXTURE = join(HERE, '..', '..', 'fixtures', 'column-reorder', 'host.spec');
 const SPEC_REPO = (process.env.SPEC_REPO ?? 'C:/projects/spec').replace(/\\/g, '/');
 
-/** Component sources the fixture needs, compiled from source alongside it. */
-const COMPONENT_SPECS = ['data-grid-spec.spec', 'checkbox.spec'];
+/**
+ * Component sources copied in beside the fixture. DataGrid is not one: the
+ * CLI resolves it, and the fns declared beside it, from SPEC_REPO's
+ * packages/components/spec like any registry component (spec f8c2a28,
+ * Vector #1278), so a copy would only compile the same file a second way.
+ */
+const COMPONENT_SPECS = ['checkbox.spec'];
 
 let bundleSrc = '';
 let stageDir = '';
 
 test.beforeAll(() => {
-  // Stage outside both repos: the fixture surface plus the component sources
-  // it uses, compiled as one project. Nothing is resolved from a cache.
+  // Stage outside both repos: the fixture surface plus COMPONENT_SPECS,
+  // compiled as one project; every other component comes from SPEC_REPO's
+  // sources. Nothing is resolved from a cache.
   stageDir = mkdtempSync(join(tmpdir(), 'spec-column-reorder-'));
   const src = join(stageDir, 'src');
   const out = join(stageDir, 'dist');
