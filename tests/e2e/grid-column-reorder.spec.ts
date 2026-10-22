@@ -31,9 +31,10 @@
  * this fixture does not.
  *
  * ── Why it does NOT go through `spectest/src/app.spec` ──────────────────────
- * That path resolves components from `.spec-packages/`, a cache that has
- * silently tested a version four minor releases old. The fixture is compiled
- * from the component's REAL source on every run.
+ * Under `spec dev` that path compiled components from `.spec-packages/`, a
+ * cache that silently tested a version four minor releases old (the cache is
+ * gone and `spec dev` no longer reads one unasked, Vector #1527). The fixture
+ * is compiled from the component's REAL source in SPEC_REPO on every run.
  *
  * ── SPEC_REPO ──────────────────────────────────────────────────────────────
  * Defaults to `C:/projects/spec`. Point it at a worktree to test unmerged
