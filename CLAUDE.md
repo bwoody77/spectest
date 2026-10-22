@@ -19,7 +19,7 @@ Read the relevant reference docs from the main repo:
 ## This project
 
 - Admin dashboard demo with sidebar nav, dark mode, multiple theme presets
-- `node dev.mjs` starts API server (port 4500) + dev server (port 3000). Override with `--api-port=` / `SPECTEST_API_PORT` and `--port=` / `SPECTEST_PORT`. It never kills a process it did not start: a busy port is refused and left alone (port 4000 is Vector's dev slot 0, which an older dev.mjs used to kill)
+- `node dev.mjs` starts API server (port 4500) + dev server (port 3000). Override with `--api-port=<n>` (or `--api-port <n>`) / `SPECTEST_API_PORT` and `--port=<n>` / `SPECTEST_PORT`. The `.spec` sources keep naming `localhost:4500`; on another API port the web page reroutes those calls before it mounts (`src/api-origin.mjs`, installed by `src/boot.mjs` in dev and by dev.mjs's prod shell), so never change the `endpoint:` lines for a port. The iOS views still call 4500. It never kills a process it did not start: a busy port is refused and left alone (port 4000 is Vector's dev slot 0, which an older dev.mjs used to kill)
 - `server.mjs` provides mock REST APIs for tasks, stats, users, activity, notifications, products, categories
 
 ## Package manager

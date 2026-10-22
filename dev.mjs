@@ -8,9 +8,13 @@
  * Ports (flag, else env var, else default):
  *   API server   --api-port=<n>  SPECTEST_API_PORT  default 4500
  *   app server   --port=<n>      SPECTEST_PORT      default 3000
+ * (`--api-port <n>` and `--port <n>` work too.)
  *
- * The app's `source` endpoints are absolute URLs naming localhost:4500, so a
- * different API port also needs those `endpoint:` lines changed.
+ * The app's `source` endpoints are absolute URLs naming localhost:4500 (the
+ * iOS views are emitted from them). On another API port the page reroutes
+ * those calls before it mounts (src/api-origin.mjs): in dev mode src/boot.mjs
+ * reads the port from the module this script writes (API_PORT_MODULE), and in
+ * prod mode the HTML shell below names it.
  *
  * This script never stops a process it did not start. A busy port is refused
  * with the name of the process holding it, which is left running. The only
@@ -24,7 +28,7 @@ import { spawn } from 'node:child_process';
 import { createConnection } from 'node:net';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzip } from 'node:zlib';
@@ -37,12 +41,16 @@ import {
   stopOwnLeftovers,
   writePidFile,
   removePidFile,
+  API_PORT_MODULE,
+  apiPortModuleSource,
+  writeApiPortModule,
 } from './scripts/dev-ports.mjs';
 
 const gzipAsync = promisify(gzip);
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const PID_FILE = process.env.SPECTEST_DEV_PIDFILE || join(ROOT, '.dev-pids.json');
 const SPEC_BIN = join(ROOT, 'node_modules', '@spec', 'cli', 'bin', 'spec.js');
+const API_PORT_FILE = join(ROOT, API_PORT_MODULE);
 
 // --- Parse CLI args ---
 const args = process.argv.slice(2);
@@ -113,7 +121,15 @@ function stop(code = 0) {
     try { child.kill(); } catch {}
   }
   removePidFile(PID_FILE);
+  removeOwnApiPortModule();
   process.exit(code);
+}
+
+/** Remove the API port module, unless a later run has written its own port there. */
+function removeOwnApiPortModule() {
+  try {
+    if (readFileSync(API_PORT_FILE, 'utf8') === apiPortModuleSource(API_PORT)) rmSync(API_PORT_FILE, { force: true });
+  } catch {}
 }
 
 process.on('SIGINT', () => { console.log('\nShutting down...'); stop(0); });
@@ -163,6 +179,9 @@ try {
 // Mode: dev (default) — hot-reload dev server
 // ---------------------------------------------------------------------------
 if (MODE === 'dev') {
+  // src/boot.mjs reads it: the dev page's API calls go to API_PORT.
+  writeApiPortModule(API_PORT_FILE, API_PORT);
+
   console.log('Starting spec dev server...');
   // Node runs the CLI directly (no shell, no pnpm wrapper), so the pid recorded
   // is the process that listens on the port.
@@ -225,6 +244,10 @@ else {
 <body>
 <div id="app"></div>
 <script type="module">
+  // Route the app's API calls to this run's API server before anything fetches.
+  const { installApiPort } = await import('/src/api-origin.mjs');
+  installApiPort(${API_PORT});
+
   // Load bundle first (sets up __specRegisterThemes global).
   const mod = await import('/bundle.js');
 
@@ -264,6 +287,18 @@ else {
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
           res.end(content);
         }
+      } catch {
+        res.writeHead(404);
+        res.end('Not found');
+      }
+      return;
+    }
+
+    if (url === '/src/api-origin.mjs') {
+      try {
+        const content = await readFile(join(ROOT, 'src', 'api-origin.mjs'));
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(content);
       } catch {
         res.writeHead(404);
         res.end('Not found');

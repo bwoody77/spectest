@@ -13,14 +13,17 @@
  *  4. Start the spec dev server (spec dev)
  *
  * Ports: --api-port=<n> / SPECTEST_API_PORT (legacy PORT), and
- * --port=<n> / SPECTEST_PORT (legacy VITE_PORT).
+ * --port=<n> / SPECTEST_PORT (legacy VITE_PORT). The API port reaches the
+ * page the way dev.mjs hands it over: see API_PORT_MODULE in dev-ports.mjs.
  */
 import { spawn, execSync } from 'child_process';
 import net from 'net';
 import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { DEFAULT_API_PORT, DEFAULT_CLIENT_PORT, resolvePort, busyPortMessages } from './dev-ports.mjs';
+import {
+  DEFAULT_API_PORT, DEFAULT_CLIENT_PORT, resolvePort, busyPortMessages, API_PORT_MODULE, writeApiPortModule,
+} from './dev-ports.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -152,6 +155,7 @@ async function startServers() {
   }
   logOk(`API server running on http://localhost:${SERVER_PORT}`);
 
+  writeApiPortModule(path.join(ROOT, API_PORT_MODULE), SERVER_PORT);
   log(`Starting spec dev server on port ${CLIENT_PORT}...`);
   const client = spawnProcess('npx', ['spec', 'dev', '--port', String(CLIENT_PORT)], 'client');
 

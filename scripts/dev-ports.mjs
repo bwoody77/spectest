@@ -214,15 +214,36 @@ export async function stopOwnLeftovers(file) {
 }
 
 // ---------------------------------------------------------------------------
+// Handing the API port to the dev page
+// ---------------------------------------------------------------------------
+
+/**
+ * The module dev.mjs writes at the project root before it starts `spec dev`,
+ * which serves it at `/<API_PORT_MODULE>`. src/boot.mjs imports it and routes
+ * the app's API calls to that port (src/api-origin.mjs). Gitignored.
+ */
+export const API_PORT_MODULE = '.dev-api-port.mjs';
+
+export function apiPortModuleSource(port) {
+  return `// Written by dev.mjs: the port its API server listens on.\nexport const API_PORT = ${port};\n`;
+}
+
+export function writeApiPortModule(file, port) {
+  writeFileSync(file, apiPortModuleSource(port));
+}
+
+// ---------------------------------------------------------------------------
 // Parsing a port setting
 // ---------------------------------------------------------------------------
 
 /**
- * Port from `--<flag>=<n>`, else env `envName`, else `fallback`.
- * Throws with a readable message when the value is not a port.
+ * Port from `--<flag>=<n>` or `--<flag> <n>`, else env `envName`, else
+ * `fallback`. Throws with a readable message when the value is not a port.
  */
 export function resolvePort(args, flag, envName, fallback) {
+  const at = args.indexOf(`--${flag}`);
   const raw = args.find((a) => a.startsWith(`--${flag}=`))?.split('=')[1]
+    ?? (at >= 0 ? args[at + 1] ?? '' : undefined)
     ?? process.env[envName]
     ?? String(fallback);
   const port = Number(raw);

@@ -20,6 +20,7 @@ import {
   parseLsofPids,
   summarizeCommandLine,
   stopOwnLeftovers,
+  resolvePort,
 } from '../../scripts/dev-ports.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -254,5 +255,32 @@ describe('stopOwnLeftovers: only what an earlier run recorded, and only while it
   it('does nothing without a pid file', async () => {
     const result = await stopOwnLeftovers(join(tmpdir(), 'spectest-no-such-pidfile.json'));
     expect(result.stopped).toEqual([]);
+  });
+});
+
+describe('resolvePort', () => {
+  it('reads --flag=<n> and --flag <n>', () => {
+    expect(resolvePort(['--api-port=4600'], 'api-port', 'SPECTEST_NO_SUCH_ENV', 4500)).toBe(4600);
+    expect(resolvePort(['--prod', '--api-port', '4600'], 'api-port', 'SPECTEST_NO_SUCH_ENV', 4500)).toBe(4600);
+  });
+
+  it('does not take one flag for another that ends the same way', () => {
+    expect(resolvePort(['--api-port', '4600'], 'port', 'SPECTEST_NO_SUCH_ENV', 3000)).toBe(3000);
+    expect(resolvePort(['--api-port=4600'], 'port', 'SPECTEST_NO_SUCH_ENV', 3000)).toBe(3000);
+  });
+
+  it('falls back to the env var, then the default', () => {
+    process.env.SPECTEST_TEST_PORT_ENV = '4700';
+    try {
+      expect(resolvePort([], 'api-port', 'SPECTEST_TEST_PORT_ENV', 4500)).toBe(4700);
+    } finally {
+      delete process.env.SPECTEST_TEST_PORT_ENV;
+    }
+    expect(resolvePort([], 'api-port', 'SPECTEST_NO_SUCH_ENV', 4500)).toBe(4500);
+  });
+
+  it('refuses a missing or non-numeric value', () => {
+    expect(() => resolvePort(['--api-port'], 'api-port', 'SPECTEST_NO_SUCH_ENV', 4500)).toThrow(/Not a port/);
+    expect(() => resolvePort(['--api-port', 'x'], 'api-port', 'SPECTEST_NO_SUCH_ENV', 4500)).toThrow(/Not a port/);
   });
 });
