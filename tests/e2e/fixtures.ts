@@ -46,11 +46,24 @@ export const API_VIEWS = new Set<string>([
  */
 export const KNOWN_ERRORS = [
   'semantic is not defined', // mobiledemo surface — bytecode codegen bug
+  // themepreview's Image "Fallback" demo points src at a host that never
+  // resolves, on purpose, to show fallbackSrc taking over. Matched by URL
+  // (see resourceError below), so a DNS failure anywhere else still fails.
+  'net::ERR_NAME_NOT_RESOLVED (https://invalid.example.com/x.jpg)',
 ];
 
 /** Returns true if the error message matches a known pre-existing issue. */
 export function isKnownError(msg: string): boolean {
   return KNOWN_ERRORS.some((known) => msg.includes(known));
+}
+
+/**
+ * Chrome's "Failed to load resource: net::…" text never names the resource;
+ * the console message's location does. Append it, so an allow-list entry
+ * can name one URL instead of a whole class of network error.
+ */
+function resourceError(text: string, url: string): string {
+  return text.startsWith('Failed to load resource') && url ? `${text} (${url})` : text;
 }
 
 type ConsoleCollector = { errors: string[]; warnings: string[] };
@@ -67,7 +80,7 @@ export const test = base.extend<{
 
     page.on('console', (msg) => {
       if (msg.type() === 'error') {
-        collector.errors.push(msg.text());
+        collector.errors.push(resourceError(msg.text(), msg.location().url));
       }
     });
 
