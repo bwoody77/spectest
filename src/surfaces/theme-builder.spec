@@ -110,7 +110,7 @@ surface ThemeBuilder {
         padding-x: spacing.3
         padding-y: 6px
         border-radius: radius.sm
-        cursor: pointer
+        cursor: 'pointer'
         background: activeSection == sec.id ? semantic.interactive : 'transparent'
         on click: setSection(sec.id)
 
@@ -526,7 +526,7 @@ surface ThemeBuilder {
             border-radius: radius.md
             background: radiusPreset == p.id ? semantic.info-bg : semantic.surface-raised
             border: radiusPreset == p.id ? borders.accent-interactive : borders.default
-            cursor: pointer
+            cursor: 'pointer'
             on click: setRadius(p.id)
             layout: vertical, gap: spacing.2, align: center
 
@@ -590,7 +590,7 @@ surface ThemeBuilder {
             border-radius: radius.md
             background: fontPreset == f.id ? semantic.info-bg : semantic.surface-raised
             border: fontPreset == f.id ? borders.accent-interactive : borders.default
-            cursor: pointer
+            cursor: 'pointer'
             on click: setFont(f.id)
             layout: horizontal, gap: spacing.3, align: center
 
@@ -642,7 +642,7 @@ surface ThemeBuilder {
             border-radius: radius.md
             background: shadowPreset == p.id ? semantic.info-bg : semantic.surface-raised
             border: shadowPreset == p.id ? borders.accent-interactive : borders.default
-            cursor: pointer
+            cursor: 'pointer'
             on click: setShadow(p.id)
             layout: vertical, gap: spacing.2, align: center
 
@@ -700,7 +700,7 @@ surface ThemeBuilder {
             border-radius: radius.md
             background: motionPreset == p.id ? semantic.info-bg : semantic.surface-raised
             border: motionPreset == p.id ? borders.accent-interactive : borders.default
-            cursor: pointer
+            cursor: 'pointer'
             on click: setMotion(p.id)
             layout: horizontal, gap: spacing.3, align: center
 

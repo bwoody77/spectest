@@ -47,7 +47,7 @@ surface Landing2(view) {
         padding-y: responsive(10px, md: 14px)
         background: "#818cf8"
         border-radius: radius.full
-        cursor: pointer
+        cursor: 'pointer'
         transition: "background 150ms ease, transform 150ms ease"
         on click: goToDashboard()
         on hover {
@@ -67,7 +67,7 @@ surface Landing2(view) {
         background: "transparent"
         border: "1px solid #475569"
         border-radius: radius.full
-        cursor: pointer
+        cursor: 'pointer'
         transition: "border-color 150ms ease, transform 150ms ease"
         on hover {
           border: "1px solid #818cf8"
@@ -1119,7 +1119,7 @@ surface Landing2(view) {
       padding-y: responsive(12px, md: 16px)
       background: "#ffffff"
       border-radius: radius.full
-      cursor: pointer
+      cursor: 'pointer'
       transition: "transform 150ms ease, box-shadow 150ms ease"
       on click: goToDashboard()
       on hover {
@@ -1148,15 +1148,15 @@ surface Landing2(view) {
       layout: horizontal, gap: spacing.6, align: center
 
       block {
-        cursor: pointer
+        cursor: 'pointer'
         text('Documentation') { color: "#818cf8", weight: 500, style: type.body-md }
       }
       block {
-        cursor: pointer
+        cursor: 'pointer'
         text('GitHub') { color: "#818cf8", weight: 500, style: type.body-md }
       }
       block {
-        cursor: pointer
+        cursor: 'pointer'
         on click: goToDashboard()
         text('Dashboard Demo') { color: "#818cf8", weight: 500, style: type.body-md }
       }

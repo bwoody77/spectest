@@ -489,7 +489,7 @@ surface App {
           border-radius: radius.md
           background: theme.bg
           border: themePreset == theme.value ? "2px solid " + theme.accent : "2px solid " + theme.bdr
-          cursor: pointer
+          cursor: 'pointer'
           on click: setThemePreset(theme.value)
           layout: vertical, gap: spacing.1
 
