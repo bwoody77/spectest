@@ -12,7 +12,6 @@ enum NavDestination: String, CaseIterable, Identifiable {
   case team
   case activity, notifications
   case perfgrid, perfsignals, reactivityperf
-  case landing2
   case themepreview
   case charts, drag, formdemo, routing, mobiledemo
   case featuretest
@@ -36,7 +35,6 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .perfgrid: return "Grid 10K"
     case .perfsignals: return "Signal Test"
     case .reactivityperf: return "Reactivity Perf"
-    case .landing2: return "Landing Page"
     case .themepreview: return "Theme Preview"
     case .charts: return "Charts"
     case .drag: return "Drag & Drop"
@@ -64,7 +62,6 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .perfgrid: return "bolt.fill"
     case .perfsignals: return "waveform.path.ecg"
     case .reactivityperf: return "bolt.fill"
-    case .landing2: return "arrow.triangle.branch"
     case .themepreview: return "paintpalette.fill"
     case .charts: return "chart.bar.fill"
     case .drag: return "tablecells.fill"
@@ -84,7 +81,6 @@ enum NavDestination: String, CaseIterable, Identifiable {
       ("People", [.team]),
       ("Monitoring", [.activity, .notifications]),
       ("Performance", [.perfgrid, .perfsignals, .reactivityperf]),
-      ("Marketing", [.landing2]),
       ("Design", [.themepreview]),
       ("Components", [.charts, .drag, .formdemo, .routing, .mobiledemo]),
       ("Testing", [.featuretest]),
@@ -154,7 +150,6 @@ struct ContentDestinationView: View {
     case .perfgrid: DataGridDemoView()
     case .perfsignals: FeatureTestView()
     case .reactivityperf: PerfGridView()
-    case .landing2: ThemePreviewView() // placeholder
     case .themepreview: ThemeBuilderView()
     case .charts: ChartDemoView()
     case .drag: DragDemoView()
@@ -235,7 +230,6 @@ private let moreDestinations: [NavDestination] = [
   .perfgrid,
   .perfsignals,
   .reactivityperf,
-  .landing2,
   .themepreview,
   .charts,
   .drag,

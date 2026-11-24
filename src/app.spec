@@ -52,7 +52,6 @@
 @import { FeatureTest } from "./surfaces/feature-test.spec"
 @import { MobileDemo } from "./surfaces/mobile-demo.spec"
 @import { LayoutsDemo } from "./surfaces/layouts-demo.spec"
-// @import { Landing2 } from "./surfaces/landing2.spec"
 // @import { PerfGrid } from "./surfaces/perf-grid.spec"
 // @import { PerfSignals } from "./surfaces/perf-signals.spec"
 
@@ -94,9 +93,6 @@
       {id: "perfgrid", label: "Grid 10K", icon: "zap"},
       {id: "perfsignals", label: "Signal Test", icon: "activity"},
       {id: "reactivityperf", label: "Reactivity Perf", icon: "zap", surface: ReactivityPerf}
-    ]},
-    {heading: "Marketing", items: [
-      {id: "landing2", label: "Landing Page", icon: "globe"}
     ]},
     {heading: "Design", items: [
       {id: "themepreview", label: "Theme Preview", icon: "palette", surface: ThemePreview}
@@ -205,7 +201,6 @@ surface App {
     showPerfSignals: view == "perfsignals"
     showReactivityPerf: view == "reactivityperf"
     showThemePreview: view == "themepreview"
-    showLanding2: view == "landing2"
     showCharts: view == "charts"
     showDrag: view == "drag"
     showFormDemo: view == "formdemo"
@@ -213,7 +208,6 @@ surface App {
     showFeatureTest: view == "featuretest"
     showMobileDemo: view == "mobiledemo"
     showLayouts: view == "layouts"
-    isLandingPage: view == "landing2"
 
     viewTitle: match view {
       "dashboard" -> "Dashboard",
@@ -232,7 +226,6 @@ surface App {
       "perfsignals" -> "Signal Performance",
       "reactivityperf" -> "Reactivity Perf",
       "themepreview" -> "Theme Preview",
-      "landing2" -> "Landing Page",
       "charts" -> "Charts",
       "drag" -> "Drag & Drop",
       "formdemo" -> "Form Validation",
@@ -261,7 +254,6 @@ surface App {
       "perfsignals" -> "Performance",
       "reactivityperf" -> "Performance",
       "themepreview" -> "Design",
-      "landing2" -> "Marketing",
       "charts" -> "Components",
       "drag" -> "Components",
       "formdemo" -> "Components",
@@ -333,20 +325,8 @@ surface App {
 
   layout: vertical
 
-  // Landing page — full viewport, no admin shell
-  // Landing page placeholder (landing2.spec.wip not yet compiled)
-  // block {
-  //   visibility: isLandingPage
-  //   colorScheme: appColorScheme
-  //   height: fullHeight
-  //   overflow: auto
-  //   background: "#0f172a"
-  //   Landing2(view)
-  // }
-
   // Root wrapper with dark mode (Issue #59) and full-height layout
   block {
-    visibility: !isLandingPage
     colorScheme: appColorScheme
     height: fullHeight
     overflow: hidden
