@@ -2,18 +2,23 @@ import SwiftUI
 import SpecRuntime
 
 @Observable
+@MainActor
 final class SeverityBadgeViewModel {
   var severity: Any? = nil
-  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  @ObservationIgnored var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
   func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
+  func _specTakeDispatch(_ f: ((_ event: Any, _ payload: Any?) -> Void)?) { onDispatch = f }
 }
 
 struct SeverityBadgeView: View {
   @State private var vm = SeverityBadgeViewModel()
   var severity: Any? = nil
-  init(severity: Any? = nil) { self._vm = State(initialValue: SeverityBadgeViewModel()); self.severity = severity }
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)? = nil
+  init(severity: Any? = nil, onDispatch: ((_ event: Any, _ payload: Any?) -> Void)? = nil) { let _m = SeverityBadgeViewModel(); _m.severity = severity; _m.onDispatch = onDispatch; self._vm = State(initialValue: _m); self.severity = severity; self.onDispatch = onDispatch }
+  private var _specParamKey: String { specChangeKey(severity) }
   var body: some View {
-    VStack() {
+    let _ = vm._specTakeDispatch(onDispatch)
+    VStack(alignment: .leading, spacing: 0) {
       Text(specString(({ () -> Any in switch specString(vm.severity) {
 case specString("info"): return "Info"
 case specString("success"): return "Success"
@@ -40,9 +45,14 @@ default: return "neutral"
 } })())), in: Capsule())
     }
     .foregroundStyle(ThemeManager.shared.color("text-primary"))
+    .onChange(of: _specParamKey) { _, _ in
+      vm.onDispatch = onDispatch
+      vm.severity = severity
+    }
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
-    .onAppear { if !specEq(vm.severity, severity) { vm.severity = severity } }
-    .task(id: specPropsKey([severity])) { if !specEq(vm.severity, severity) { vm.severity = severity } }
+    .onAppear { vm.onDispatch = onDispatch }
+    .onAppear { if !specSame(vm.severity, severity) { vm.severity = severity } }
+    .task(id: specPropsKey([severity])) { if !specSame(vm.severity, severity) { vm.severity = severity } }
   }
 }

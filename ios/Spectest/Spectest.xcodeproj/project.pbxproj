@@ -10,283 +10,361 @@
 		008D836CC0B49FAD255C1001 /* CommandPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00D767AED5F7AD1A8007CB2 /* CommandPaletteView.swift */; };
 		0125014855EC30A4E1299380 /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8925C415B436BACC192B306F /* DMSans-Regular.ttf */; };
 		02A58327C3AF20B86A58406D /* TaskWizardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A80B535F8F0F864C33E8BB /* TaskWizardView.swift */; };
-		070D7332754073414D7C9423 /* RadioGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711C006FB0AF0685C0B76AA5 /* RadioGroupView.swift */; };
 		0C637155718A023E9092F095 /* _parseTSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BB487C5486E3F800A96595 /* _parseTSV.swift */; };
-		12EB286C64B0ED32291EC1CB /* AccordionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7736BAAC2393BBD906D50 /* AccordionView.swift */; };
-		1461C3DE21D7C795B67F4E31 /* package.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 2F612DB499FEF77DBC59D4B9 /* package.xcworkspace */; };
-		1473E060D17AB34E1E2079DC /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E373032014FE3691FE7EF23A /* ImageView.swift */; };
+		0D87291108EABD2AD6294359 /* gridSizedCols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7291C57FE352E3020D9960C /* gridSizedCols.swift */; };
+		15484245064DD021620A9125 /* gridHasStructuralRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = F120D2DE3790ECA921C7FD0F /* gridHasStructuralRows.swift */; };
 		175E821E996E80B5D714CCE3 /* _splitCellKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D480A18EEA15FDE2BE62A811 /* _splitCellKey.swift */; };
+		1892D01C2536D6929954DB79 /* gridLenPct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F4B0BA2868FDF24EF47E0 /* gridLenPct.swift */; };
 		1B506B6D1098B29DA33F1B40 /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3442473B62CF7891FB4CC73B /* JetBrainsMono-Regular.ttf */; };
+		1BB58B862D0931133AEF14E3 /* gridIsDerivedGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5561BD1FDF516615BEB009B /* gridIsDerivedGroup.swift */; };
 		1C4E5EB8BF42C1920866A2D4 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005BEACD33A069C8F25750DB /* ActionSheetView.swift */; };
+		1C785A6A5C0A397EAF02B19A /* gridRowBgOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = C599E7BC984A933EA586E870 /* gridRowBgOf.swift */; };
+		1D800B231B07CFDEED5903E1 /* _stepMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC926B93021D297EA6A665 /* _stepMark.swift */; };
+		1EEDE7585A71C662AB2ECF63 /* gridColWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C971204EE3304ED1B9E9C8 /* gridColWeight.swift */; };
+		1FE96BE97B4F34D6B81FD970 /* gridRowOpacity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C02DE4C802A47D8F0B9264 /* gridRowOpacity.swift */; };
+		21207F683600F6F4B4DC329B /* gridWithMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B89501F750F152A994C63A /* gridWithMin.swift */; };
 		2231DB1D4D6650D67B9A0BFF /* NotificationsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727C34350CA1E0A13D92041F /* NotificationsPanelView.swift */; };
-		246CF78E1034242FAB07B633 /* PaginationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F538673DD379B6892E68F54 /* PaginationView.swift */; };
+		247FBF889D164E9EBA0C6ED7 /* _stepName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59261A95DC4DA2C08559FF7B /* _stepName.swift */; };
 		24DEAE9ADEFADCEF07FA66FA /* RouterNotFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8917AE5A641931BBB392F242 /* RouterNotFoundView.swift */; };
+		25909A69D9AF8CE75F59C93E /* gridSegSizedCols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD84A998686F2C458BE8222 /* gridSegSizedCols.swift */; };
 		2830622D9C0D3C01D55D477B /* RouterUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C7203A6B8D9261B9748115 /* RouterUserView.swift */; };
-		2EE27F3A56A1CA3961F4DBE7 /* BreadcrumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56431631D20C82EAD02BF1D /* BreadcrumbView.swift */; };
+		29191BACF9E3B954855496BB /* gridRowBg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F38ED1DF596BD9BEBCD2EF /* gridRowBg.swift */; };
+		2ADA0B5D4375005FC157608B /* gridToggleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0AD51FE09482475A8EBD5 /* gridToggleGroup.swift */; };
+		2B471F2863F19B08DA6D104E /* gridSegRunIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D31CED1119DC09197F8697 /* gridSegRunIds.swift */; };
+		2B5E7519B8CA2BEAE8211A30 /* gridLenIsKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06C9FB3CD1EF5EFE026C6C8 /* gridLenIsKeyword.swift */; };
+		2C0937B6F53BDBF0698B4951 /* gridSegWeighCols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8274CF78DB4B311879B2D6A /* gridSegWeighCols.swift */; };
+		2C7F598A3571BF07FB548C87 /* gridToggleExpanded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D9859E15155EED70A5EB6A /* gridToggleExpanded.swift */; };
 		3106A01651183E2BB7CC9084 /* MobileDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F6FC3BB7D8E35BA1491EAC /* MobileDemoView.swift */; };
 		313880E9DA18C21B98982D2D /* ChartDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F11BF68B4DB73CA3790A63 /* ChartDemoView.swift */; };
 		313A4512A8948BB3C70B0189 /* PalatinoLinotype-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B041C67B653CC0226FBCA643 /* PalatinoLinotype-Regular.ttf */; };
-		37A771426E77CD7363ACD3CE /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8209895C04E12E54DAEDD311 /* TextInputView.swift */; };
 		37B05C3DEAE652B9ACB599A7 /* FiraCode-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC18569710C390D18978C3F8 /* FiraCode-Regular.ttf */; };
+		38286176FB9FE1B380EE6379 /* gridBodyRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F2D8168F5064A7BF971615 /* gridBodyRows.swift */; };
 		386CDEFC02F71765B89E7C28 /* _defaultColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4159F9A7235F2E8E3AF640 /* _defaultColor.swift */; };
-		387C6B1B60807C3A35FFA38F /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D236876AC4312195FDFFB321 /* DatePickerView.swift */; };
+		3B7D279D614FF7A453213CF7 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D57563DD79C03F930D48723 /* SkeletonCircleView.swift */; };
+		3D1AF6349400097747BEF6FD /* _stepState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6CD5E4DC9B0C34896EFE50 /* _stepState.swift */; };
 		3E265E8A225687255F19B882 /* TaskFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D674A30DAAC4D79FFDF8DC /* TaskFormView.swift */; };
 		3EF2363C685CA9F1ED82211E /* validateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED28F04FF5D4713548FDD1 /* validateCell.swift */; };
+		3EF6758FFA4BE66A07677639 /* gridUnionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FD638FEA88C8FC40089B89 /* gridUnionKeys.swift */; };
+		3F76D9D960A0B0C024EDF9B5 /* gridGroupIsOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F719C16D9310984540A51F /* gridGroupIsOpen.swift */; };
 		3F790FD05FC6C755DCEBC54B /* RoutingDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ADF901F9B14EFA96F79549 /* RoutingDemoView.swift */; };
+		41B8DAD663F2E366DAB84259 /* gridPctSized.swift in Sources */ = {isa = PBXBuildFile; fileRef = E701628FA3FB0D024ACBEE18 /* gridPctSized.swift */; };
 		44920D4E2357932375A177DE /* FABView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF155FE28E328532D9927F08 /* FABView.swift */; };
+		46A2B1390BAA458695E9CF78 /* gridRowIsExpanded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF9BA7EEA81CF7ED77C2F6D /* gridRowIsExpanded.swift */; };
 		47772DA75150DE09D56E3CB6 /* TreeNodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938D15309C84A063EA1C2DF0 /* TreeNodeView.swift */; };
+		47FD487C38E39D5FEEB8D31E /* gridSegMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D55FD3C706A237E6B92DA0 /* gridSegMin.swift */; };
+		488EDBE35CC7089F817AF207 /* egSizedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC100A16871D39902CD747B /* egSizedColumn.swift */; };
 		489FAB7C30F860C4F659406F /* WizardStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC214FCF1668396DE7B9A28 /* WizardStepperView.swift */; };
 		495CB000EC8DAEE825791964 /* resolveSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85AD9D1A6369AB81663221A /* resolveSeries.swift */; };
-		4AB344851431E0FA4FD73867 /* Breakpoints_v2.xcbkptlist in Resources */ = {isa = PBXBuildFile; fileRef = 2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */; };
 		4B7246D019CE4FAE72CDB9AB /* UserAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D824F5819BD1E4F50F176A5 /* UserAvatarView.swift */; };
-		5098611809F661976E9BD3D5 /* DashboardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9934BA35FAE4FE7183CBCD78 /* DashboardScreen.swift */; };
-		517852B2E870B488A452A261 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D5068E76AF218EB4302F3 /* TextView.swift */; };
-		51B4AE2D04C594D1057C4DF0 /* DataGridSpecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1C69182F83D8612ED8B39D /* DataGridSpecView.swift */; };
+		5098D508B51360C07F3E7C84 /* gridAnyFailed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E678D268E6D6F284138B0E4 /* gridAnyFailed.swift */; };
+		5304D4C8227417DC66672304 /* TabsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA8FDC88D6B40EF2983EAB6 /* TabsItemView.swift */; };
 		54DE089FFBE183BBAC78F9BA /* SourceSans3-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B52CD8AFFF62E48B0655EE5D /* SourceSans3-Regular.ttf */; };
 		5580D192E3C51BE8130E74B1 /* KanbanBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D13B2EF3ACD24B71CEDB6B /* KanbanBoardView.swift */; };
-		5696233916EB364E4EA6F11B /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF02BA764A000F703E1C8023 /* SliderView.swift */; };
+		56D48A6EE5CA87C6E461C5A4 /* gridColMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC2EBC15A4C62BA1FDC282 /* gridColMax.swift */; };
 		57D4C095DCB0E9611D49D67A /* SpecRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 582599383C7312BDB9AFDA95 /* SpecRuntime */; };
+		58086A441A96E94CD7BE1279 /* gridRulePx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC6B445D939EE6938183C3A /* gridRulePx.swift */; };
+		58C88375B7AE04363BE5089A /* gridLenPx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320FA6B508FC5148D858ED3C /* gridLenPx.swift */; };
 		5934940D7C8375B751EC7BE6 /* wrapIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A13B748A1094DE1E3D857D /* wrapIndex.swift */; };
-		5A189FB77185BF6F815A6E8E /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2558AEFDFDF623CD97A230 /* TimelineView.swift */; };
+		5995F48ABEA699E6AD274FA5 /* _sliceColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F98A1A5D2020D6F3715312 /* _sliceColor.swift */; };
+		59A9E67B075109F509148C5F /* gridKeyFromField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D72458E4BE6BE43802110F /* gridKeyFromField.swift */; };
 		5B15076DC78B5CEA353A9E04 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678508CFA86F8E3ACBD74646 /* TaskDetailView.swift */; };
-		5CD02FAE2A73506160583878 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A58FCC72C96968B9717219 /* AlertView.swift */; };
 		5D862DED911B1977AFF9B108 /* computeFillDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81265506CBCCFDF37BF15B7A /* computeFillDown.swift */; };
 		5F1DEFDF461E0047DDA41BD4 /* applySortAndFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A00B41C00C46AD9907A7AB1 /* applySortAndFilter.swift */; };
 		5F592F03EA4BFB08B5F0C001 /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF548277BB96FE7F70D3F09 /* TimePickerView.swift */; };
 		629909E05E574BEA5590146E /* TeamDirectoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D402DF2C58846A88CAD0686B /* TeamDirectoryView.swift */; };
 		62FB853ABEA1F6EF24B77FF3 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0D19CA2BBB33A39EE2C13CC /* SourceCodePro-Regular.ttf */; };
-		63084669EE80898490343679 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C669B9EC5BF1A021F26F191 /* BadgeView.swift */; };
+		632CC595CD2F779236A32CDB /* gridDerivedIsOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C83DA927293F57332FD7ED /* gridDerivedIsOpen.swift */; };
+		635C22E8D87F7895330E53CD /* gridSegmentsOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAFC6C6D3CB79634AC42C92 /* gridSegmentsOf.swift */; };
 		6BE35913A39D557A7BDAEC6D /* Orbitron-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29BA77BEC27A4538C853DAE0 /* Orbitron-Regular.ttf */; };
 		6C0EF08652A1353E31DA7791 /* FormDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE6DDF00A3587204A70B696 /* FormDemoView.swift */; };
 		6C81E68178B70BBAAEE7D51F /* toggleSortState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C31C4324B802ECBC3C1E84 /* toggleSortState.swift */; };
-		6D22C06F458BD920AF3438B6 /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B84A19FF39C49DA3C24B64 /* DrawerView.swift */; };
 		6D451EFC0313A413B4143922 /* ThemePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DD04BEA2DFBF2789311CFC /* ThemePreviewView.swift */; };
 		6DB3BDAB1C8318BFC85FCCA5 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B1B28C813C33390C8EB5AD /* TableView.swift */; };
+		7136CD4E882056A8541DDE7B /* _tabCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A666FA94F6CC935CF77C01 /* _tabCells.swift */; };
 		71969F0A0C43631A42AB55C4 /* ListTSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28E29F3205F51DFD044BC07 /* ListTSView.swift */; };
 		7287B83B5FD5E889FA9C93E8 /* computePaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821F05708C9DB9B60D8F5D8B /* computePaste.swift */; };
 		73EFF0B628F8BE0E1D105626 /* WizardDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B7292E06A3695F9B8404B /* WizardDoneView.swift */; };
+		758D8A8BC429BE6FE4B96FB6 /* gridBlockOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA927D3B56BCB5CA622899 /* gridBlockOf.swift */; };
 		75EE049533BA8499860CA5E7 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443F61BF8997AE73DE218918 /* Inter-Regular.ttf */; };
+		7724EC78DE0D1A63742D858A /* gridFirstFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A760852647CAA2CB270A85 /* gridFirstFocus.swift */; };
 		7A18C0C3F79767186ADA6277 /* TreeDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57053C1E08D1234314A42CF /* TreeDemoView.swift */; };
 		7D7E11AB5D47EB0E86425AA6 /* PerfGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E110491B686335042D491 /* PerfGridView.swift */; };
-		7DACEF28255F056FE34BDDF0 /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493372DA9EB574763086E09 /* TabsView.swift */; };
-		7DEBC6745573283B441D11D8 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE958C3EB20E83EFEC4F4561 /* ToastView.swift */; };
+		7E57DF6CCF36C86240E660EF /* gridVisibleRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB82F8832CAB9DB0703DE36 /* gridVisibleRows.swift */; };
+		7E5A3B73FCEF51146A516E10 /* LayoutsDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4074E5A4DB1CB95FEEC773 /* LayoutsDemoView.swift */; };
 		7ED8301A2CAFD995ECA6466F /* DataGridDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25B7BAF195E14CF85B966F2 /* DataGridDemoView.swift */; };
 		80EC1B2EC4482836B6380580 /* RouterHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C05085312C20B11E8DEFA02 /* RouterHomeView.swift */; };
 		836E50D2933530DD427153B9 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AD8FF5D97F5EFE23B00945 /* ListView.swift */; };
 		85677E03595DFF7FA2938F3E /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7834E1555BDAB43A068EC2 /* AppView.swift */; };
+		8A9CDB8B628F6EC8B6881817 /* gridApplyColumnOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F38F11AB6AEC6B9BD37520 /* gridApplyColumnOrder.swift */; };
+		8AB9432299B5C32000CC92A7 /* gridSegWeighMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D0235D28BDFD33CB29F8CB /* gridSegWeighMin.swift */; };
 		8C20B4CFFA9B6E21C64B8CCB /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1805A1459F0DF7F4A89447B6 /* PlayfairDisplay-Regular.ttf */; };
 		8CA7C6FF3E1DBA93A69C3789 /* SeverityBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9D526A0ED8BB934E809DDF /* SeverityBadgeView.swift */; };
 		8CC5F498F266B200CA72359A /* BookAntiqua-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B648153632621C94ECB3263 /* BookAntiqua-Regular.ttf */; };
 		916BB7D71C408947E7F2BFBB /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E87593B1D1EE4F69B421D3A /* SidebarView.swift */; };
-		92D34E8D2E607187D144BF27 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0834C0586696A39ACCA8A96 /* StatView.swift */; };
+		92B745CA9C5960611694273B /* gridIsWeighted.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85115DA646DFD8A8892E0FF /* gridIsWeighted.swift */; };
 		938AA72591CB1A61F7AD5228 /* WizardStep1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF1335D724A400C0A6E5E86 /* WizardStep1View.swift */; };
 		93D71E3A073F1BA9C2E9B0E3 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94E45EE66943F4CC8D023CD3 /* Roboto-Regular.ttf */; };
+		956CB33AB7B35CCC733DE31D /* gridPadX.swift in Sources */ = {isa = PBXBuildFile; fileRef = D822B63BBB6A77F57608F64C /* gridPadX.swift */; };
+		960FEF9DFDB46F67A9AAF3E7 /* gridVisibleDerivedRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EE987CE23741B80CC0E9F9 /* gridVisibleDerivedRows.swift */; };
 		963A0F2189BB76E2B3B4119B /* ReactivityPerfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F67C47D6E8887EB3121920 /* ReactivityPerfView.swift */; };
 		97BAF442383994C2355B9451 /* FeatureTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857934A97783D04BDE7B62FB /* FeatureTestView.swift */; };
 		9987BEE3D217FD582928815E /* SpectestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615EA63365DF0EACB0E4C949 /* SpectestApp.swift */; };
-		9BA8A3653A83FB85FEDE0D7D /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0217F6101763C61BBEA5B219 /* ModalView.swift */; };
+		9AA012181163912C967A3359 /* SkeletonBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC728A1B9D9DBBB8591689F0 /* SkeletonBlockView.swift */; };
 		9C534E62944214D497FE8849 /* CountDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8538473086CD943D3E3B37 /* CountDisplayView.swift */; };
-		9EC0B40A11D3F94024A50D72 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F697010070AFB285002C2043 /* ChartView.swift */; };
+		9C606429A6C3E3867D1AA088 /* gridColMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC80CE63C57B42420AC59E7E /* gridColMin.swift */; };
+		9D317D5BD500EBE3227F50FD /* gridKeysUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E097CB2FBDDDDFFD0F17573 /* gridKeysUsable.swift */; };
+		9EF1CCF090492861A898AEAA /* gridGroupSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65F19D868A7318B4396CB9 /* gridGroupSize.swift */; };
 		A0B15A68F14647F5DADB0E88 /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B226F2F40D94C747339D0B67 /* NotoSans-Regular.ttf */; };
-		A1A4A8F29D61AC2DB80FCD0F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615EEEDAD5C7899A73AEB42 /* ButtonView.swift */; };
+		A369335D528AED2C4A7AD29D /* gridBlockMsgSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A480E994B906F273C6FBBB8 /* gridBlockMsgSlot.swift */; };
 		A408085C3D2C075EB6326F35 /* StatsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0321D50872FE313EA94D4F2 /* StatsBarView.swift */; };
 		A4913DDCC9477C5D106D32BD /* DragDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5367646945A2F2B59052C037 /* DragDemoView.swift */; };
-		A5E53D06F0D1E7C50C842480 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121042450A390E20943F9CD2 /* StackView.swift */; };
+		A5A93944E350C26986E40B8D /* gridTrackMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7517649622F1B2173E04597 /* gridTrackMin.swift */; };
 		A6E7749E3B74E95D133DAD85 /* BottomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAB46EB339633E80DF1D3B4 /* BottomTabBarView.swift */; };
+		A7B5557BA788297DE132D59D /* gridNonPct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846C8EE3DF997906CDC4BCD /* gridNonPct.swift */; };
+		A8D774F74A20B60E7D917DB7 /* gridBodyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE2FA3858D3E9F61B99EE46 /* gridBodyKey.swift */; };
+		A9C2F58CE5D8D9F2CDA437A3 /* egColHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EECEE13CA050FFB422F7B2 /* egColHeading.swift */; };
 		AA2E71C2C35F36066EBF0C25 /* EditableGridTSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2535E5FAEFB4AC1532ACA719 /* EditableGridTSView.swift */; };
 		AAD091FCE00378F5D7F0A6BF /* MerriweatherSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB9DBF88C8190C1BF6C82E4 /* MerriweatherSans-Regular.ttf */; };
 		ADB594581BFBC043D37E5D2F /* PerfSignalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C9189EFBEC59DF78475CB0 /* PerfSignalsView.swift */; };
 		AF3E7EFE9BD9A2BCDE365B32 /* Rajdhani-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77FB5009FF07C57FD8EF8303 /* Rajdhani-Regular.ttf */; };
+		B13A25F3333D68C5A9E37873 /* gridSegMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C55BCF3253DE009DD4A6C /* gridSegMax.swift */; };
+		B26476BCAE3E39C3F3AE78EA /* gridRowKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328B6E085103C415C9E70225 /* gridRowKind.swift */; };
 		B30F7BDBF76EA0237737961E /* getCellDisplayValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCF763CF9C0255693F52632 /* getCellDisplayValue.swift */; };
 		B34311AEBAC112FE7253A4AE /* getRowChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = A816AD995EE0500D45B6662B /* getRowChanges.swift */; };
 		B3E455E6D857B0A432DEDB97 /* EditableGridDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D39A20F1C5A3E40767063B0 /* EditableGridDemoView.swift */; };
+		B4D5E2602103CC3A41E14E25 /* SkeletonLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289AF64585DD75AC6131E54D /* SkeletonLineView.swift */; };
 		B5AE4B8B0688EF6AB8B59E52 /* ProductStatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1312EA859FF24B338652123 /* ProductStatusBadgeView.swift */; };
-		B6C7D8B9857C7D573505EE91 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF56F7C526EB55D6B20F56B7 /* BottomSheetView.swift */; };
+		B6064A2ECC05B7692F8A22B5 /* gridWeighExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4021F5665BB99C7E0D47C857 /* gridWeighExtra.swift */; };
+		B7A12D5CE5C4B0E287901E15 /* PackedTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AD84E045C85E6B8751E72E /* PackedTabsView.swift */; };
 		B831F688733A3A16FA58E01D /* _applyFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B701B98053DD2F9D8A69EC38 /* _applyFilters.swift */; };
 		B896D98F579F57003A5CEA68 /* AnalyticsViewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FE6652C830B0145702A45A /* AnalyticsViewView.swift */; };
+		B9D18EC1ADA399825073381B /* gridAbsIdx.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7703A2CC543DD5B848A6C8 /* gridAbsIdx.swift */; };
 		BA8E45B54B07D5C2FA077AB5 /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DF2B1F621801C925FB686CE /* SourceSansPro-Regular.ttf */; };
-		BC0AEA91BB435A735B584B2B /* MultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC71F6BE03BF9CFAF35B308 /* MultiSelectView.swift */; };
-		BF59CC250AC49B2DDAC69FF8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792EDCEEC2F57DF05378B504 /* CardView.swift */; };
+		BF2654FD0F087073B411CD42 /* gridWinDisplayRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6618177330DA7BE0848C6903 /* gridWinDisplayRows.swift */; };
+		BFAED755917601311B87BCA2 /* gridBlockFailed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1748A6E06106A6ADB66C0D0 /* gridBlockFailed.swift */; };
 		BFD08313DC41FA1DB6070F93 /* TaskTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB679E4C708CBD637D143F8D /* TaskTableView.swift */; };
-		C4122890EFCD9637BCA1CA55 /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34661C2030F4DAE7374A9090 /* ToggleView.swift */; };
+		C26DBC2CCCBFC79766E5A1EA /* SKELETON_ROW_HEIGHT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A719D441F944DEEF5C3BD31A /* SKELETON_ROW_HEIGHT.swift */; };
 		C478BF79BB0F8018E1B173E9 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 969797C44B056994E5567DFB /* Nunito-Regular.ttf */; };
 		C49177CBA124D29DADF44B24 /* StatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5082C45F5026A58854E179 /* StatusBadgeView.swift */; };
 		C54FDBA8E170D9F344F029A2 /* FnHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E939D519579340F45406A91 /* FnHelpers.swift */; };
 		C635367606DF4F5F147B3EB4 /* InfoBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA34F344FA06EB64241A86C /* InfoBoxView.swift */; };
 		C7938779B81CB63EC8A9802C /* _buildCellKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DC658D8BFFBD6DA2BB22F /* _buildCellKey.swift */; };
-		C8AECA471070FC5DDC67F33B /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F191B66E0BAF813E8DFA299 /* PopoverView.swift */; };
+		C8442019AA84BB5AE373E21E /* _tabIndexOfId.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA4D013DDBBAA959078A881 /* _tabIndexOfId.swift */; };
 		C95FEB9F0BDB4865713871E5 /* buildChangesetFromEdits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F8724F9FF85FE3ADF56193 /* buildChangesetFromEdits.swift */; };
+		CC4A7471A5195DDB76678BD9 /* gridLengthSum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA929B0782E0614C83BAEF /* gridLengthSum.swift */; };
 		CE39DE986F29B72CDE3CA23A /* ActivityIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DBCDD9C6F488520D3D0379 /* ActivityIconView.swift */; };
-		D08E4D24DCFE6FEE11595AA8 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5E64880AC0BCF706D66B48 /* CheckboxView.swift */; };
-		D186B7C3ED9C27B8FC6B6B1A /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88186175FC32A3E2A7E2378C /* RadioView.swift */; };
-		D1F6C786D333A18592FE798E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA6DCF59EA52F11FF9316A /* EmptyStateView.swift */; };
+		CECA944C126C5336C176AC3C /* gridRowChecked.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF148B15C91E36F360A10B68 /* gridRowChecked.swift */; };
+		D54C1B159BDF1DE2F8D00112 /* gridPctTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BCC820BDBE154CE8864188 /* gridPctTotal.swift */; };
 		D56C5D4EF1A0DF13B877266D /* RouterAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A02C8C10C0A34A87FB4DC3 /* RouterAboutView.swift */; };
-		D5C18014F6BF3102F9392848 /* xcschememanagement.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4BC2DFB0B3C98A1E1ABF23E /* xcschememanagement.plist */; };
 		D6BBE72AA4ED386C59C2070C /* Courier-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9344930FC0BBBCA5F41C3F3F /* Courier-Regular.ttf */; };
-		D84D19198F2E90EBD4DC043D /* SnackbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2780A5E8A6CA0AD4E0E77F95 /* SnackbarView.swift */; };
 		DA2A301798F898EBC1860E99 /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53794B47B2EC86591060A72D /* TreeView.swift */; };
-		DFB433867373ADE9AD788FF8 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E424544693C5D148A83A4AB /* SkeletonView.swift */; };
+		DB2CB6822B880687E3372DCF /* gridWeightedMin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E3EE74D12F69D145E3EC43 /* gridWeightedMin.swift */; };
+		DFAD062A37AABB79D2D7B057 /* gridRowRail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148500A69C6A3A1DBF2B79DC /* gridRowRail.swift */; };
+		E043A674628A257CF18607FC /* _stepDone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029D5F9E60401EB20BDD9754 /* _stepDone.swift */; };
 		E1B3C8EFD9C78B08F1B96F2F /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477541C9E40FC6DCF8DA041B /* StepperView.swift */; };
+		E1B9FDAA6286543639622050 /* gridCssLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77480B05294498CF0F7527B /* gridCssLength.swift */; };
+		E1F4BBE734C507DB4CB75A6B /* _tabWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C640FF2CB72E9B85245C2200 /* _tabWrap.swift */; };
+		E345CEE142A4BD05A39CB8FA /* egSizedColumns.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5821184902E1E11AD6BAC97 /* egSizedColumns.swift */; };
 		E4BB5011523742F9CE46ACA9 /* SplitRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86A54B2161E4433F3CC75EC /* SplitRowView.swift */; };
 		E53A02155CBE3696B8C584BB /* WizardStep2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE6593ED29164CDB7BA320C /* WizardStep2View.swift */; };
+		E5AD531748C3DD7373CFA337 /* gridWeighCols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A9A85D93EE6A61B91FB275 /* gridWeighCols.swift */; };
 		E65140DF5C269466DDE66F9E /* SettingsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5577A9CAC975E018E3AC1F /* SettingsPanelView.swift */; };
 		E6C53779CC3B7B7D5079436B /* ThemeRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8172052D53DEC66FF154B144 /* ThemeRegistry.swift */; };
-		E79F862D2D6743E767E2BBA5 /* ConfirmDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE0B5CA6B448CC0DF034B7 /* ConfirmDialogView.swift */; };
+		E7824FCEAAB4E0035A163BBD /* gridPctShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3956A8ABC4DA43B69F4D57A8 /* gridPctShare.swift */; };
 		EA62EEA21C454EA29F28642F /* applyUndoChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8A12BF2225875208A48BE7 /* applyUndoChanges.swift */; };
-		EC5AC5347D56973FC410B718 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C0949505DE86B99BA7568 /* TooltipView.swift */; };
 		ECA6DA3686A0D3880E8A376C /* SortableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8414B206F44B82091C8556 /* SortableView.swift */; };
-		ED801AC44DE38F69EC8EC484 /* SelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACCF7DA5FCACC3BCB56C77 /* SelectView.swift */; };
-		EE922625ED2C471D864941C0 /* EditableGridSpecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A20942E39EDB52ACBABB48E /* EditableGridSpecView.swift */; };
+		EE76B82D409750E97447F8E0 /* skeletonTextLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8616A2EDAF87938F02EE2D7A /* skeletonTextLines.swift */; };
 		EEB80A7EB569A2658D8663DF /* _applySortToRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8B6255341CBBF270733992 /* _applySortToRows.swift */; };
 		EF1544D5E3D97F3130F68EAA /* WizardStep3View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B72A9CF1660528A2766478 /* WizardStep3View.swift */; };
 		F00670B9DE6426E295938B73 /* PriorityBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624248CDB2EC1A81C091F39A /* PriorityBadgeView.swift */; };
+		F1872D81B95DA215093E1D4C /* gridFocusedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138D0BB94E43D4FB48CCFE13 /* gridFocusedRow.swift */; };
 		F5B289E6BE1443604DF879BF /* resolveSegmentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421977113C02238D90B4BFE /* resolveSegmentMeta.swift */; };
 		F5C717BBC40B09648562FE67 /* pushUndoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF879A821174A495817EE8E /* pushUndoEntry.swift */; };
+		F61E432BC376398F3D68430D /* gridBracketPx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C9843DC1F587BDD6DCF967 /* gridBracketPx.swift */; };
 		F6B4F6FBC5BA4A52034FCBB1 /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC1E39140943CCFD7BC061 /* ActivityFeedView.swift */; };
 		F7EF5E664DA4938E8E715DDA /* ThemeBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA88EE158A4E36BF6A5A1D /* ThemeBuilderView.swift */; };
-		FBAA079506E2D02BB074EFB6 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C3FC432E419EE723EC9AB6 /* ProgressView.swift */; };
+		F8076BF12A487107DA214CAD /* egCssLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B48971B23569F1EFAF456F /* egCssLength.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		005BEACD33A069C8F25750DB /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
-		0217F6101763C61BBEA5B219 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
-		03A58FCC72C96968B9717219 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		029D5F9E60401EB20BDD9754 /* _stepDone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _stepDone.swift; sourceTree = "<group>"; };
+		08F38F11AB6AEC6B9BD37520 /* gridApplyColumnOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridApplyColumnOrder.swift; sourceTree = "<group>"; };
 		08F67C47D6E8887EB3121920 /* ReactivityPerfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactivityPerfView.swift; sourceTree = "<group>"; };
-		0A5E64880AC0BCF706D66B48 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
+		09AC926B93021D297EA6A665 /* _stepMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _stepMark.swift; sourceTree = "<group>"; };
+		09AD84E045C85E6B8751E72E /* PackedTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackedTabsView.swift; sourceTree = "<group>"; };
 		0B4159F9A7235F2E8E3AF640 /* _defaultColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _defaultColor.swift; sourceTree = "<group>"; };
+		0CAFC6C6D3CB79634AC42C92 /* gridSegmentsOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegmentsOf.swift; sourceTree = "<group>"; };
+		0CB82F8832CAB9DB0703DE36 /* gridVisibleRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridVisibleRows.swift; sourceTree = "<group>"; };
 		0CE6593ED29164CDB7BA320C /* WizardStep2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardStep2View.swift; sourceTree = "<group>"; };
-		0F538673DD379B6892E68F54 /* PaginationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationView.swift; sourceTree = "<group>"; };
-		100D5068E76AF218EB4302F3 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
-		121042450A390E20943F9CD2 /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
+		0D6CD5E4DC9B0C34896EFE50 /* _stepState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _stepState.swift; sourceTree = "<group>"; };
+		11C971204EE3304ED1B9E9C8 /* gridColWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridColWeight.swift; sourceTree = "<group>"; };
+		138D0BB94E43D4FB48CCFE13 /* gridFocusedRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridFocusedRow.swift; sourceTree = "<group>"; };
+		148500A69C6A3A1DBF2B79DC /* gridRowRail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowRail.swift; sourceTree = "<group>"; };
 		14BC1E39140943CCFD7BC061 /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
 		15DD04BEA2DFBF2789311CFC /* ThemePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreviewView.swift; sourceTree = "<group>"; };
 		1805A1459F0DF7F4A89447B6 /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		1A480E994B906F273C6FBBB8 /* gridBlockMsgSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBlockMsgSlot.swift; sourceTree = "<group>"; };
 		1C8A12BF2225875208A48BE7 /* applyUndoChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applyUndoChanges.swift; sourceTree = "<group>"; };
 		1CB9DBF88C8190C1BF6C82E4 /* MerriweatherSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MerriweatherSans-Regular.ttf"; sourceTree = "<group>"; };
-		1CE5FE31FCFAC693064BC3A2 /* Spectest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spectest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CC100A16871D39902CD747B /* egSizedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = egSizedColumn.swift; sourceTree = "<group>"; };
+		1CE5FE31FCFAC693064BC3A2 /* Spectest.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Spectest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24BB487C5486E3F800A96595 /* _parseTSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _parseTSV.swift; sourceTree = "<group>"; };
 		2535E5FAEFB4AC1532ACA719 /* EditableGridTSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableGridTSView.swift; sourceTree = "<group>"; };
 		26FE6652C830B0145702A45A /* AnalyticsViewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewView.swift; sourceTree = "<group>"; };
-		2780A5E8A6CA0AD4E0E77F95 /* SnackbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackbarView.swift; sourceTree = "<group>"; };
+		289AF64585DD75AC6131E54D /* SkeletonLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLineView.swift; sourceTree = "<group>"; };
 		29BA77BEC27A4538C853DAE0 /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Regular.ttf"; sourceTree = "<group>"; };
 		29F8724F9FF85FE3ADF56193 /* buildChangesetFromEdits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildChangesetFromEdits.swift; sourceTree = "<group>"; };
-		2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Breakpoints_v2.xcbkptlist; sourceTree = "<group>"; };
+		2DA8FDC88D6B40EF2983EAB6 /* TabsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsItemView.swift; sourceTree = "<group>"; };
 		2E939D519579340F45406A91 /* FnHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FnHelpers.swift; sourceTree = "<group>"; };
 		2F5082C45F5026A58854E179 /* StatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadgeView.swift; sourceTree = "<group>"; };
-		2F612DB499FEF77DBC59D4B9 /* package.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = package.xcworkspace; sourceTree = "<group>"; };
-		326C0949505DE86B99BA7568 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		320FA6B508FC5148D858ED3C /* gridLenPx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridLenPx.swift; sourceTree = "<group>"; };
+		328B6E085103C415C9E70225 /* gridRowKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowKind.swift; sourceTree = "<group>"; };
+		32C83DA927293F57332FD7ED /* gridDerivedIsOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridDerivedIsOpen.swift; sourceTree = "<group>"; };
+		32EE987CE23741B80CC0E9F9 /* gridVisibleDerivedRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridVisibleDerivedRows.swift; sourceTree = "<group>"; };
 		3442473B62CF7891FB4CC73B /* JetBrainsMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMono-Regular.ttf"; sourceTree = "<group>"; };
-		34661C2030F4DAE7374A9090 /* ToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleView.swift; sourceTree = "<group>"; };
-		3C669B9EC5BF1A021F26F191 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		3956A8ABC4DA43B69F4D57A8 /* gridPctShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridPctShare.swift; sourceTree = "<group>"; };
+		3D57563DD79C03F930D48723 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
 		3D8538473086CD943D3E3B37 /* CountDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDisplayView.swift; sourceTree = "<group>"; };
+		3DC6B445D939EE6938183C3A /* gridRulePx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRulePx.swift; sourceTree = "<group>"; };
 		3DF2B1F621801C925FB686CE /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
 		3EA34F344FA06EB64241A86C /* InfoBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBoxView.swift; sourceTree = "<group>"; };
+		4021F5665BB99C7E0D47C857 /* gridWeighExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridWeighExtra.swift; sourceTree = "<group>"; };
 		41ADF901F9B14EFA96F79549 /* RoutingDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingDemoView.swift; sourceTree = "<group>"; };
 		42C9189EFBEC59DF78475CB0 /* PerfSignalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfSignalsView.swift; sourceTree = "<group>"; };
 		443F61BF8997AE73DE218918 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		45F38ED1DF596BD9BEBCD2EF /* gridRowBg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowBg.swift; sourceTree = "<group>"; };
 		477541C9E40FC6DCF8DA041B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
+		47DA927D3B56BCB5CA622899 /* gridBlockOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBlockOf.swift; sourceTree = "<group>"; };
 		49DBCDD9C6F488520D3D0379 /* ActivityIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIconView.swift; sourceTree = "<group>"; };
 		4AF548277BB96FE7F70D3F09 /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
+		4BAC2EBC15A4C62BA1FDC282 /* gridColMax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridColMax.swift; sourceTree = "<group>"; };
 		4C05085312C20B11E8DEFA02 /* RouterHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterHomeView.swift; sourceTree = "<group>"; };
 		4CF879A821174A495817EE8E /* pushUndoEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pushUndoEntry.swift; sourceTree = "<group>"; };
-		4E424544693C5D148A83A4AB /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		5367646945A2F2B59052C037 /* DragDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDemoView.swift; sourceTree = "<group>"; };
 		53794B47B2EC86591060A72D /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
+		55B89501F750F152A994C63A /* gridWithMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridWithMin.swift; sourceTree = "<group>"; };
+		59261A95DC4DA2C08559FF7B /* _stepName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _stepName.swift; sourceTree = "<group>"; };
 		59AD8FF5D97F5EFE23B00945 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
-		5A20942E39EDB52ACBABB48E /* EditableGridSpecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableGridSpecView.swift; sourceTree = "<group>"; };
-		5D1C69182F83D8612ED8B39D /* DataGridSpecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGridSpecView.swift; sourceTree = "<group>"; };
 		5D7834E1555BDAB43A068EC2 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		5DE6DDF00A3587204A70B696 /* FormDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDemoView.swift; sourceTree = "<group>"; };
 		5E87593B1D1EE4F69B421D3A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		615EA63365DF0EACB0E4C949 /* SpectestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectestApp.swift; sourceTree = "<group>"; };
 		624248CDB2EC1A81C091F39A /* PriorityBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityBadgeView.swift; sourceTree = "<group>"; };
+		62F2D8168F5064A7BF971615 /* gridBodyRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBodyRows.swift; sourceTree = "<group>"; };
+		62F719C16D9310984540A51F /* gridGroupIsOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridGroupIsOpen.swift; sourceTree = "<group>"; };
 		6421977113C02238D90B4BFE /* resolveSegmentMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resolveSegmentMeta.swift; sourceTree = "<group>"; };
-		6615EEEDAD5C7899A73AEB42 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		64D31CED1119DC09197F8697 /* gridSegRunIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegRunIds.swift; sourceTree = "<group>"; };
+		64F98A1A5D2020D6F3715312 /* _sliceColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _sliceColor.swift; sourceTree = "<group>"; };
+		6618177330DA7BE0848C6903 /* gridWinDisplayRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridWinDisplayRows.swift; sourceTree = "<group>"; };
 		678508CFA86F8E3ACBD74646 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
+		67C02DE4C802A47D8F0B9264 /* gridRowOpacity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowOpacity.swift; sourceTree = "<group>"; };
 		6A00B41C00C46AD9907A7AB1 /* applySortAndFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applySortAndFilter.swift; sourceTree = "<group>"; };
-		6CBE0B5CA6B448CC0DF034B7 /* ConfirmDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogView.swift; sourceTree = "<group>"; };
+		6CF9BA7EEA81CF7ED77C2F6D /* gridRowIsExpanded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowIsExpanded.swift; sourceTree = "<group>"; };
 		6D824F5819BD1E4F50F176A5 /* UserAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatarView.swift; sourceTree = "<group>"; };
-		6F191B66E0BAF813E8DFA299 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
-		711C006FB0AF0685C0B76AA5 /* RadioGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroupView.swift; sourceTree = "<group>"; };
+		6E678D268E6D6F284138B0E4 /* gridAnyFailed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridAnyFailed.swift; sourceTree = "<group>"; };
 		727C34350CA1E0A13D92041F /* NotificationsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPanelView.swift; sourceTree = "<group>"; };
+		75B48971B23569F1EFAF456F /* egCssLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = egCssLength.swift; sourceTree = "<group>"; };
 		77FB5009FF07C57FD8EF8303 /* Rajdhani-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rajdhani-Regular.ttf"; sourceTree = "<group>"; };
-		792EDCEEC2F57DF05378B504 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		7846C8EE3DF997906CDC4BCD /* gridNonPct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridNonPct.swift; sourceTree = "<group>"; };
+		78EECEE13CA050FFB422F7B2 /* egColHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = egColHeading.swift; sourceTree = "<group>"; };
+		79D72458E4BE6BE43802110F /* gridKeyFromField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridKeyFromField.swift; sourceTree = "<group>"; };
 		7C5577A9CAC975E018E3AC1F /* SettingsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelView.swift; sourceTree = "<group>"; };
 		7D39A20F1C5A3E40767063B0 /* EditableGridDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableGridDemoView.swift; sourceTree = "<group>"; };
-		7DE7736BAAC2393BBD906D50 /* AccordionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccordionView.swift; sourceTree = "<group>"; };
-		7FC71F6BE03BF9CFAF35B308 /* MultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectView.swift; sourceTree = "<group>"; };
+		7D4074E5A4DB1CB95FEEC773 /* LayoutsDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutsDemoView.swift; sourceTree = "<group>"; };
 		81265506CBCCFDF37BF15B7A /* computeFillDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = computeFillDown.swift; sourceTree = "<group>"; };
 		8172052D53DEC66FF154B144 /* ThemeRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeRegistry.swift; sourceTree = "<group>"; };
 		81F11BF68B4DB73CA3790A63 /* ChartDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDemoView.swift; sourceTree = "<group>"; };
-		8209895C04E12E54DAEDD311 /* TextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
 		821F05708C9DB9B60D8F5D8B /* computePaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = computePaste.swift; sourceTree = "<group>"; };
-		8493372DA9EB574763086E09 /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+		83C9843DC1F587BDD6DCF967 /* gridBracketPx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBracketPx.swift; sourceTree = "<group>"; };
 		857934A97783D04BDE7B62FB /* FeatureTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTestView.swift; sourceTree = "<group>"; };
-		88186175FC32A3E2A7E2378C /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioView.swift; sourceTree = "<group>"; };
+		8616A2EDAF87938F02EE2D7A /* skeletonTextLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = skeletonTextLines.swift; sourceTree = "<group>"; };
 		8917AE5A641931BBB392F242 /* RouterNotFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterNotFoundView.swift; sourceTree = "<group>"; };
 		8925C415B436BACC192B306F /* DMSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Regular.ttf"; sourceTree = "<group>"; };
+		8E097CB2FBDDDDFFD0F17573 /* gridKeysUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridKeysUsable.swift; sourceTree = "<group>"; };
+		90A760852647CAA2CB270A85 /* gridFirstFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridFirstFocus.swift; sourceTree = "<group>"; };
 		90B72A9CF1660528A2766478 /* WizardStep3View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardStep3View.swift; sourceTree = "<group>"; };
+		90E3EE74D12F69D145E3EC43 /* gridWeightedMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridWeightedMin.swift; sourceTree = "<group>"; };
+		92D0235D28BDFD33CB29F8CB /* gridSegWeighMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegWeighMin.swift; sourceTree = "<group>"; };
 		92D13B2EF3ACD24B71CEDB6B /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
 		9344930FC0BBBCA5F41C3F3F /* Courier-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Courier-Regular.ttf"; sourceTree = "<group>"; };
 		938D15309C84A063EA1C2DF0 /* TreeNodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeNodeView.swift; sourceTree = "<group>"; };
 		94E45EE66943F4CC8D023CD3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		969797C44B056994E5567DFB /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
-		96DA6DCF59EA52F11FF9316A /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
-		9934BA35FAE4FE7183CBCD78 /* DashboardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreen.swift; sourceTree = "<group>"; };
+		970F4B0BA2868FDF24EF47E0 /* gridLenPct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridLenPct.swift; sourceTree = "<group>"; };
 		9B648153632621C94ECB3263 /* BookAntiqua-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookAntiqua-Regular.ttf"; sourceTree = "<group>"; };
 		A0321D50872FE313EA94D4F2 /* StatsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsBarView.swift; sourceTree = "<group>"; };
 		A0C31C4324B802ECBC3C1E84 /* toggleSortState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toggleSortState.swift; sourceTree = "<group>"; };
 		A1C7203A6B8D9261B9748115 /* RouterUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterUserView.swift; sourceTree = "<group>"; };
 		A28E29F3205F51DFD044BC07 /* ListTSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTSView.swift; sourceTree = "<group>"; };
 		A4A80B535F8F0F864C33E8BB /* TaskWizardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskWizardView.swift; sourceTree = "<group>"; };
-		A4BC2DFB0B3C98A1E1ABF23E /* xcschememanagement.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = xcschememanagement.plist; sourceTree = "<group>"; };
+		A5561BD1FDF516615BEB009B /* gridIsDerivedGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridIsDerivedGroup.swift; sourceTree = "<group>"; };
 		A60B7292E06A3695F9B8404B /* WizardDoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardDoneView.swift; sourceTree = "<group>"; };
+		A719D441F944DEEF5C3BD31A /* SKELETON_ROW_HEIGHT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKELETON_ROW_HEIGHT.swift; sourceTree = "<group>"; };
+		A7FD638FEA88C8FC40089B89 /* gridUnionKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridUnionKeys.swift; sourceTree = "<group>"; };
 		A816AD995EE0500D45B6662B /* getRowChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getRowChanges.swift; sourceTree = "<group>"; };
+		A8BCC820BDBE154CE8864188 /* gridPctTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridPctTotal.swift; sourceTree = "<group>"; };
+		A8D9859E15155EED70A5EB6A /* gridToggleExpanded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridToggleExpanded.swift; sourceTree = "<group>"; };
 		ABCF763CF9C0255693F52632 /* getCellDisplayValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCellDisplayValue.swift; sourceTree = "<group>"; };
 		AEAB46EB339633E80DF1D3B4 /* BottomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabBarView.swift; sourceTree = "<group>"; };
+		AFD84A998686F2C458BE8222 /* gridSegSizedCols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegSizedCols.swift; sourceTree = "<group>"; };
 		B041C67B653CC0226FBCA643 /* PalatinoLinotype-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PalatinoLinotype-Regular.ttf"; sourceTree = "<group>"; };
 		B226F2F40D94C747339D0B67 /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		B3A13B748A1094DE1E3D857D /* wrapIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wrapIndex.swift; sourceTree = "<group>"; };
 		B52CD8AFFF62E48B0655EE5D /* SourceSans3-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSans3-Regular.ttf"; sourceTree = "<group>"; };
 		B701B98053DD2F9D8A69EC38 /* _applyFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _applyFilters.swift; sourceTree = "<group>"; };
+		B7291C57FE352E3020D9960C /* gridSizedCols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSizedCols.swift; sourceTree = "<group>"; };
 		B85AD9D1A6369AB81663221A /* resolveSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resolveSeries.swift; sourceTree = "<group>"; };
 		B86A54B2161E4433F3CC75EC /* SplitRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitRowView.swift; sourceTree = "<group>"; };
 		BB679E4C708CBD637D143F8D /* TaskTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableView.swift; sourceTree = "<group>"; };
+		BCA4D013DDBBAA959078A881 /* _tabIndexOfId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _tabIndexOfId.swift; sourceTree = "<group>"; };
 		BD9D526A0ED8BB934E809DDF /* SeverityBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverityBadgeView.swift; sourceTree = "<group>"; };
-		BE958C3EB20E83EFEC4F4561 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		C06C9FB3CD1EF5EFE026C6C8 /* gridLenIsKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridLenIsKeyword.swift; sourceTree = "<group>"; };
 		C1312EA859FF24B338652123 /* ProductStatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductStatusBadgeView.swift; sourceTree = "<group>"; };
+		C1DA929B0782E0614C83BAEF /* gridLengthSum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridLengthSum.swift; sourceTree = "<group>"; };
 		C25B7BAF195E14CF85B966F2 /* DataGridDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGridDemoView.swift; sourceTree = "<group>"; };
-		C5B84A19FF39C49DA3C24B64 /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
-		C5C3FC432E419EE723EC9AB6 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		C4D55FD3C706A237E6B92DA0 /* gridSegMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegMin.swift; sourceTree = "<group>"; };
+		C599E7BC984A933EA586E870 /* gridRowBgOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowBgOf.swift; sourceTree = "<group>"; };
 		C5EBA7CD8A281F12ED826530 /* SpecRuntime */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SpecRuntime; path = ../SpecRuntime; sourceTree = SOURCE_ROOT; };
+		C640FF2CB72E9B85245C2200 /* _tabWrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _tabWrap.swift; sourceTree = "<group>"; };
 		C6D674A30DAAC4D79FFDF8DC /* TaskFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFormView.swift; sourceTree = "<group>"; };
 		C7F6FC3BB7D8E35BA1491EAC /* MobileDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDemoView.swift; sourceTree = "<group>"; };
-		CA2558AEFDFDF623CD97A230 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		CC8414B206F44B82091C8556 /* SortableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortableView.swift; sourceTree = "<group>"; };
-		D236876AC4312195FDFFB321 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 		D402DF2C58846A88CAD0686B /* TeamDirectoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDirectoryView.swift; sourceTree = "<group>"; };
 		D480A18EEA15FDE2BE62A811 /* _splitCellKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _splitCellKey.swift; sourceTree = "<group>"; };
 		D4A02C8C10C0A34A87FB4DC3 /* RouterAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterAboutView.swift; sourceTree = "<group>"; };
-		D56431631D20C82EAD02BF1D /* BreadcrumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadcrumbView.swift; sourceTree = "<group>"; };
+		D7517649622F1B2173E04597 /* gridTrackMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridTrackMin.swift; sourceTree = "<group>"; };
 		D76DC658D8BFFBD6DA2BB22F /* _buildCellKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _buildCellKey.swift; sourceTree = "<group>"; };
+		D822B63BBB6A77F57608F64C /* gridPadX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridPadX.swift; sourceTree = "<group>"; };
+		D85115DA646DFD8A8892E0FF /* gridIsWeighted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridIsWeighted.swift; sourceTree = "<group>"; };
 		DC18569710C390D18978C3F8 /* FiraCode-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Regular.ttf"; sourceTree = "<group>"; };
+		DC728A1B9D9DBBB8591689F0 /* SkeletonBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonBlockView.swift; sourceTree = "<group>"; };
+		DCE2FA3858D3E9F61B99EE46 /* gridBodyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBodyKey.swift; sourceTree = "<group>"; };
 		DEC214FCF1668396DE7B9A28 /* WizardStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardStepperView.swift; sourceTree = "<group>"; };
-		DF56F7C526EB55D6B20F56B7 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
-		E0834C0586696A39ACCA8A96 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
 		E0D19CA2BBB33A39EE2C13CC /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
-		E373032014FE3691FE7EF23A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		E1748A6E06106A6ADB66C0D0 /* gridBlockFailed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridBlockFailed.swift; sourceTree = "<group>"; };
 		E5ED28F04FF5D4713548FDD1 /* validateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = validateCell.swift; sourceTree = "<group>"; };
+		E701628FA3FB0D024ACBEE18 /* gridPctSized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridPctSized.swift; sourceTree = "<group>"; };
+		E77480B05294498CF0F7527B /* gridCssLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridCssLength.swift; sourceTree = "<group>"; };
+		E8274CF78DB4B311879B2D6A /* gridSegWeighCols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegWeighCols.swift; sourceTree = "<group>"; };
 		E96E110491B686335042D491 /* PerfGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfGridView.swift; sourceTree = "<group>"; };
+		EC65F19D868A7318B4396CB9 /* gridGroupSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridGroupSize.swift; sourceTree = "<group>"; };
 		ECFA88EE158A4E36BF6A5A1D /* ThemeBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeBuilderView.swift; sourceTree = "<group>"; };
+		EE7703A2CC543DD5B848A6C8 /* gridAbsIdx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridAbsIdx.swift; sourceTree = "<group>"; };
+		EF148B15C91E36F360A10B68 /* gridRowChecked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridRowChecked.swift; sourceTree = "<group>"; };
 		EF155FE28E328532D9927F08 /* FABView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FABView.swift; sourceTree = "<group>"; };
 		F00D767AED5F7AD1A8007CB2 /* CommandPaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPaletteView.swift; sourceTree = "<group>"; };
+		F0A9A85D93EE6A61B91FB275 /* gridWeighCols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridWeighCols.swift; sourceTree = "<group>"; };
+		F120D2DE3790ECA921C7FD0F /* gridHasStructuralRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridHasStructuralRows.swift; sourceTree = "<group>"; };
+		F1A666FA94F6CC935CF77C01 /* _tabCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _tabCells.swift; sourceTree = "<group>"; };
 		F1B1B28C813C33390C8EB5AD /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		F4F0AD51FE09482475A8EBD5 /* gridToggleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridToggleGroup.swift; sourceTree = "<group>"; };
 		F57053C1E08D1234314A42CF /* TreeDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeDemoView.swift; sourceTree = "<group>"; };
-		F697010070AFB285002C2043 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		F5821184902E1E11AD6BAC97 /* egSizedColumns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = egSizedColumns.swift; sourceTree = "<group>"; };
 		FA8B6255341CBBF270733992 /* _applySortToRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _applySortToRows.swift; sourceTree = "<group>"; };
 		FAF1335D724A400C0A6E5E86 /* WizardStep1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizardStep1View.swift; sourceTree = "<group>"; };
-		FDACCF7DA5FCACC3BCB56C77 /* SelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectView.swift; sourceTree = "<group>"; };
-		FF02BA764A000F703E1C8023 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
+		FC80CE63C57B42420AC59E7E /* gridColMin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridColMin.swift; sourceTree = "<group>"; };
+		FE6C55BCF3253DE009DD4A6C /* gridSegMax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gridSegMax.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,18 +387,91 @@
 				D76DC658D8BFFBD6DA2BB22F /* _buildCellKey.swift */,
 				0B4159F9A7235F2E8E3AF640 /* _defaultColor.swift */,
 				24BB487C5486E3F800A96595 /* _parseTSV.swift */,
+				64F98A1A5D2020D6F3715312 /* _sliceColor.swift */,
 				D480A18EEA15FDE2BE62A811 /* _splitCellKey.swift */,
+				029D5F9E60401EB20BDD9754 /* _stepDone.swift */,
+				09AC926B93021D297EA6A665 /* _stepMark.swift */,
+				59261A95DC4DA2C08559FF7B /* _stepName.swift */,
+				0D6CD5E4DC9B0C34896EFE50 /* _stepState.swift */,
+				F1A666FA94F6CC935CF77C01 /* _tabCells.swift */,
+				BCA4D013DDBBAA959078A881 /* _tabIndexOfId.swift */,
+				C640FF2CB72E9B85245C2200 /* _tabWrap.swift */,
 				6A00B41C00C46AD9907A7AB1 /* applySortAndFilter.swift */,
 				1C8A12BF2225875208A48BE7 /* applyUndoChanges.swift */,
 				29F8724F9FF85FE3ADF56193 /* buildChangesetFromEdits.swift */,
 				81265506CBCCFDF37BF15B7A /* computeFillDown.swift */,
 				821F05708C9DB9B60D8F5D8B /* computePaste.swift */,
+				78EECEE13CA050FFB422F7B2 /* egColHeading.swift */,
+				75B48971B23569F1EFAF456F /* egCssLength.swift */,
+				1CC100A16871D39902CD747B /* egSizedColumn.swift */,
+				F5821184902E1E11AD6BAC97 /* egSizedColumns.swift */,
 				2E939D519579340F45406A91 /* FnHelpers.swift */,
 				ABCF763CF9C0255693F52632 /* getCellDisplayValue.swift */,
 				A816AD995EE0500D45B6662B /* getRowChanges.swift */,
+				EE7703A2CC543DD5B848A6C8 /* gridAbsIdx.swift */,
+				6E678D268E6D6F284138B0E4 /* gridAnyFailed.swift */,
+				08F38F11AB6AEC6B9BD37520 /* gridApplyColumnOrder.swift */,
+				E1748A6E06106A6ADB66C0D0 /* gridBlockFailed.swift */,
+				1A480E994B906F273C6FBBB8 /* gridBlockMsgSlot.swift */,
+				47DA927D3B56BCB5CA622899 /* gridBlockOf.swift */,
+				DCE2FA3858D3E9F61B99EE46 /* gridBodyKey.swift */,
+				62F2D8168F5064A7BF971615 /* gridBodyRows.swift */,
+				83C9843DC1F587BDD6DCF967 /* gridBracketPx.swift */,
+				4BAC2EBC15A4C62BA1FDC282 /* gridColMax.swift */,
+				FC80CE63C57B42420AC59E7E /* gridColMin.swift */,
+				11C971204EE3304ED1B9E9C8 /* gridColWeight.swift */,
+				E77480B05294498CF0F7527B /* gridCssLength.swift */,
+				32C83DA927293F57332FD7ED /* gridDerivedIsOpen.swift */,
+				90A760852647CAA2CB270A85 /* gridFirstFocus.swift */,
+				138D0BB94E43D4FB48CCFE13 /* gridFocusedRow.swift */,
+				62F719C16D9310984540A51F /* gridGroupIsOpen.swift */,
+				EC65F19D868A7318B4396CB9 /* gridGroupSize.swift */,
+				F120D2DE3790ECA921C7FD0F /* gridHasStructuralRows.swift */,
+				A5561BD1FDF516615BEB009B /* gridIsDerivedGroup.swift */,
+				D85115DA646DFD8A8892E0FF /* gridIsWeighted.swift */,
+				79D72458E4BE6BE43802110F /* gridKeyFromField.swift */,
+				8E097CB2FBDDDDFFD0F17573 /* gridKeysUsable.swift */,
+				C1DA929B0782E0614C83BAEF /* gridLengthSum.swift */,
+				C06C9FB3CD1EF5EFE026C6C8 /* gridLenIsKeyword.swift */,
+				970F4B0BA2868FDF24EF47E0 /* gridLenPct.swift */,
+				320FA6B508FC5148D858ED3C /* gridLenPx.swift */,
+				7846C8EE3DF997906CDC4BCD /* gridNonPct.swift */,
+				D822B63BBB6A77F57608F64C /* gridPadX.swift */,
+				3956A8ABC4DA43B69F4D57A8 /* gridPctShare.swift */,
+				E701628FA3FB0D024ACBEE18 /* gridPctSized.swift */,
+				A8BCC820BDBE154CE8864188 /* gridPctTotal.swift */,
+				45F38ED1DF596BD9BEBCD2EF /* gridRowBg.swift */,
+				C599E7BC984A933EA586E870 /* gridRowBgOf.swift */,
+				EF148B15C91E36F360A10B68 /* gridRowChecked.swift */,
+				6CF9BA7EEA81CF7ED77C2F6D /* gridRowIsExpanded.swift */,
+				328B6E085103C415C9E70225 /* gridRowKind.swift */,
+				67C02DE4C802A47D8F0B9264 /* gridRowOpacity.swift */,
+				148500A69C6A3A1DBF2B79DC /* gridRowRail.swift */,
+				3DC6B445D939EE6938183C3A /* gridRulePx.swift */,
+				FE6C55BCF3253DE009DD4A6C /* gridSegMax.swift */,
+				0CAFC6C6D3CB79634AC42C92 /* gridSegmentsOf.swift */,
+				C4D55FD3C706A237E6B92DA0 /* gridSegMin.swift */,
+				64D31CED1119DC09197F8697 /* gridSegRunIds.swift */,
+				AFD84A998686F2C458BE8222 /* gridSegSizedCols.swift */,
+				E8274CF78DB4B311879B2D6A /* gridSegWeighCols.swift */,
+				92D0235D28BDFD33CB29F8CB /* gridSegWeighMin.swift */,
+				B7291C57FE352E3020D9960C /* gridSizedCols.swift */,
+				A8D9859E15155EED70A5EB6A /* gridToggleExpanded.swift */,
+				F4F0AD51FE09482475A8EBD5 /* gridToggleGroup.swift */,
+				D7517649622F1B2173E04597 /* gridTrackMin.swift */,
+				A7FD638FEA88C8FC40089B89 /* gridUnionKeys.swift */,
+				32EE987CE23741B80CC0E9F9 /* gridVisibleDerivedRows.swift */,
+				0CB82F8832CAB9DB0703DE36 /* gridVisibleRows.swift */,
+				F0A9A85D93EE6A61B91FB275 /* gridWeighCols.swift */,
+				4021F5665BB99C7E0D47C857 /* gridWeighExtra.swift */,
+				90E3EE74D12F69D145E3EC43 /* gridWeightedMin.swift */,
+				6618177330DA7BE0848C6903 /* gridWinDisplayRows.swift */,
+				55B89501F750F152A994C63A /* gridWithMin.swift */,
 				4CF879A821174A495817EE8E /* pushUndoEntry.swift */,
 				6421977113C02238D90B4BFE /* resolveSegmentMeta.swift */,
 				B85AD9D1A6369AB81663221A /* resolveSeries.swift */,
+				A719D441F944DEEF5C3BD31A /* SKELETON_ROW_HEIGHT.swift */,
+				8616A2EDAF87938F02EE2D7A /* skeletonTextLines.swift */,
 				A0C31C4324B802ECBC3C1E84 /* toggleSortState.swift */,
 				E5ED28F04FF5D4713548FDD1 /* validateCell.swift */,
 				B3A13B748A1094DE1E3D857D /* wrapIndex.swift */,
@@ -355,148 +506,71 @@
 		2805DDEE1486BF7E9DA8A4EF = {
 			isa = PBXGroup;
 			children = (
-				C1A3EE08BC25D6FDB34DB73F /* .swiftpm */,
-				1E5C6603183991B4712D2F55 /* Fonts */,
-				1189E35DD86C8BE3F3C5D9C7 /* Functions */,
 				E6D8B69EA56EA33171016E9E /* Packages */,
 				B299E332A7B98744FF0F329A /* Spectest */,
-				AF09627877CCC3C4E53DB982 /* Views */,
 				EDF6D3C46477A7C622A33FF9 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		315238BB4FF2F9C898C3695B /* bryan.xcuserdatad */ = {
-			isa = PBXGroup;
-			children = (
-				4C5BDF6CA03B3065502639C4 /* xcdebugger */,
-				8461B7FB32A406E67E969CC1 /* xcschemes */,
-			);
-			path = bryan.xcuserdatad;
-			sourceTree = "<group>";
-		};
-		47767A9479B4C480316DCA33 /* xcode */ = {
-			isa = PBXGroup;
-			children = (
-				2F612DB499FEF77DBC59D4B9 /* package.xcworkspace */,
-				4B2E025B374135512A33C99F /* xcuserdata */,
-			);
-			path = xcode;
-			sourceTree = "<group>";
-		};
-		4B2E025B374135512A33C99F /* xcuserdata */ = {
-			isa = PBXGroup;
-			children = (
-				315238BB4FF2F9C898C3695B /* bryan.xcuserdatad */,
-			);
-			path = xcuserdata;
-			sourceTree = "<group>";
-		};
-		4C5BDF6CA03B3065502639C4 /* xcdebugger */ = {
-			isa = PBXGroup;
-			children = (
-				2C86185552A0796A24C30F8B /* Breakpoints_v2.xcbkptlist */,
-			);
-			path = xcdebugger;
-			sourceTree = "<group>";
-		};
-		8461B7FB32A406E67E969CC1 /* xcschemes */ = {
-			isa = PBXGroup;
-			children = (
-				A4BC2DFB0B3C98A1E1ABF23E /* xcschememanagement.plist */,
-			);
-			path = xcschemes;
 			sourceTree = "<group>";
 		};
 		AF09627877CCC3C4E53DB982 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7DE7736BAAC2393BBD906D50 /* AccordionView.swift */,
 				005BEACD33A069C8F25750DB /* ActionSheetView.swift */,
 				14BC1E39140943CCFD7BC061 /* ActivityFeedView.swift */,
 				49DBCDD9C6F488520D3D0379 /* ActivityIconView.swift */,
-				03A58FCC72C96968B9717219 /* AlertView.swift */,
 				26FE6652C830B0145702A45A /* AnalyticsViewView.swift */,
 				5D7834E1555BDAB43A068EC2 /* AppView.swift */,
-				3C669B9EC5BF1A021F26F191 /* BadgeView.swift */,
-				DF56F7C526EB55D6B20F56B7 /* BottomSheetView.swift */,
 				AEAB46EB339633E80DF1D3B4 /* BottomTabBarView.swift */,
-				D56431631D20C82EAD02BF1D /* BreadcrumbView.swift */,
-				6615EEEDAD5C7899A73AEB42 /* ButtonView.swift */,
-				792EDCEEC2F57DF05378B504 /* CardView.swift */,
 				81F11BF68B4DB73CA3790A63 /* ChartDemoView.swift */,
-				F697010070AFB285002C2043 /* ChartView.swift */,
-				0A5E64880AC0BCF706D66B48 /* CheckboxView.swift */,
 				F00D767AED5F7AD1A8007CB2 /* CommandPaletteView.swift */,
-				6CBE0B5CA6B448CC0DF034B7 /* ConfirmDialogView.swift */,
 				3D8538473086CD943D3E3B37 /* CountDisplayView.swift */,
-				9934BA35FAE4FE7183CBCD78 /* DashboardScreen.swift */,
 				C25B7BAF195E14CF85B966F2 /* DataGridDemoView.swift */,
-				5D1C69182F83D8612ED8B39D /* DataGridSpecView.swift */,
-				D236876AC4312195FDFFB321 /* DatePickerView.swift */,
 				5367646945A2F2B59052C037 /* DragDemoView.swift */,
-				C5B84A19FF39C49DA3C24B64 /* DrawerView.swift */,
 				7D39A20F1C5A3E40767063B0 /* EditableGridDemoView.swift */,
-				5A20942E39EDB52ACBABB48E /* EditableGridSpecView.swift */,
 				2535E5FAEFB4AC1532ACA719 /* EditableGridTSView.swift */,
-				96DA6DCF59EA52F11FF9316A /* EmptyStateView.swift */,
 				EF155FE28E328532D9927F08 /* FABView.swift */,
 				857934A97783D04BDE7B62FB /* FeatureTestView.swift */,
 				5DE6DDF00A3587204A70B696 /* FormDemoView.swift */,
-				E373032014FE3691FE7EF23A /* ImageView.swift */,
 				3EA34F344FA06EB64241A86C /* InfoBoxView.swift */,
 				92D13B2EF3ACD24B71CEDB6B /* KanbanBoardView.swift */,
+				7D4074E5A4DB1CB95FEEC773 /* LayoutsDemoView.swift */,
 				A28E29F3205F51DFD044BC07 /* ListTSView.swift */,
 				59AD8FF5D97F5EFE23B00945 /* ListView.swift */,
 				C7F6FC3BB7D8E35BA1491EAC /* MobileDemoView.swift */,
-				0217F6101763C61BBEA5B219 /* ModalView.swift */,
-				7FC71F6BE03BF9CFAF35B308 /* MultiSelectView.swift */,
 				727C34350CA1E0A13D92041F /* NotificationsPanelView.swift */,
-				0F538673DD379B6892E68F54 /* PaginationView.swift */,
+				09AD84E045C85E6B8751E72E /* PackedTabsView.swift */,
 				E96E110491B686335042D491 /* PerfGridView.swift */,
 				42C9189EFBEC59DF78475CB0 /* PerfSignalsView.swift */,
-				6F191B66E0BAF813E8DFA299 /* PopoverView.swift */,
 				624248CDB2EC1A81C091F39A /* PriorityBadgeView.swift */,
 				C1312EA859FF24B338652123 /* ProductStatusBadgeView.swift */,
-				C5C3FC432E419EE723EC9AB6 /* ProgressView.swift */,
-				711C006FB0AF0685C0B76AA5 /* RadioGroupView.swift */,
-				88186175FC32A3E2A7E2378C /* RadioView.swift */,
 				08F67C47D6E8887EB3121920 /* ReactivityPerfView.swift */,
 				D4A02C8C10C0A34A87FB4DC3 /* RouterAboutView.swift */,
 				4C05085312C20B11E8DEFA02 /* RouterHomeView.swift */,
 				8917AE5A641931BBB392F242 /* RouterNotFoundView.swift */,
 				A1C7203A6B8D9261B9748115 /* RouterUserView.swift */,
 				41ADF901F9B14EFA96F79549 /* RoutingDemoView.swift */,
-				FDACCF7DA5FCACC3BCB56C77 /* SelectView.swift */,
 				7C5577A9CAC975E018E3AC1F /* SettingsPanelView.swift */,
 				BD9D526A0ED8BB934E809DDF /* SeverityBadgeView.swift */,
 				5E87593B1D1EE4F69B421D3A /* SidebarView.swift */,
-				4E424544693C5D148A83A4AB /* SkeletonView.swift */,
-				FF02BA764A000F703E1C8023 /* SliderView.swift */,
-				2780A5E8A6CA0AD4E0E77F95 /* SnackbarView.swift */,
+				DC728A1B9D9DBBB8591689F0 /* SkeletonBlockView.swift */,
+				3D57563DD79C03F930D48723 /* SkeletonCircleView.swift */,
+				289AF64585DD75AC6131E54D /* SkeletonLineView.swift */,
 				CC8414B206F44B82091C8556 /* SortableView.swift */,
 				B86A54B2161E4433F3CC75EC /* SplitRowView.swift */,
-				121042450A390E20943F9CD2 /* StackView.swift */,
 				A0321D50872FE313EA94D4F2 /* StatsBarView.swift */,
 				2F5082C45F5026A58854E179 /* StatusBadgeView.swift */,
-				E0834C0586696A39ACCA8A96 /* StatView.swift */,
 				477541C9E40FC6DCF8DA041B /* StepperView.swift */,
 				F1B1B28C813C33390C8EB5AD /* TableView.swift */,
-				8493372DA9EB574763086E09 /* TabsView.swift */,
+				2DA8FDC88D6B40EF2983EAB6 /* TabsItemView.swift */,
 				678508CFA86F8E3ACBD74646 /* TaskDetailView.swift */,
 				C6D674A30DAAC4D79FFDF8DC /* TaskFormView.swift */,
 				BB679E4C708CBD637D143F8D /* TaskTableView.swift */,
 				A4A80B535F8F0F864C33E8BB /* TaskWizardView.swift */,
 				D402DF2C58846A88CAD0686B /* TeamDirectoryView.swift */,
-				8209895C04E12E54DAEDD311 /* TextInputView.swift */,
-				100D5068E76AF218EB4302F3 /* TextView.swift */,
 				ECFA88EE158A4E36BF6A5A1D /* ThemeBuilderView.swift */,
 				15DD04BEA2DFBF2789311CFC /* ThemePreviewView.swift */,
 				8172052D53DEC66FF154B144 /* ThemeRegistry.swift */,
-				CA2558AEFDFDF623CD97A230 /* TimelineView.swift */,
 				4AF548277BB96FE7F70D3F09 /* TimePickerView.swift */,
-				BE958C3EB20E83EFEC4F4561 /* ToastView.swift */,
-				34661C2030F4DAE7374A9090 /* ToggleView.swift */,
-				326C0949505DE86B99BA7568 /* TooltipView.swift */,
 				F57053C1E08D1234314A42CF /* TreeDemoView.swift */,
 				938D15309C84A063EA1C2DF0 /* TreeNodeView.swift */,
 				53794B47B2EC86591060A72D /* TreeView.swift */,
@@ -514,17 +588,12 @@
 			isa = PBXGroup;
 			children = (
 				615EA63365DF0EACB0E4C949 /* SpectestApp.swift */,
+				1E5C6603183991B4712D2F55 /* Fonts */,
+				1189E35DD86C8BE3F3C5D9C7 /* Functions */,
+				AF09627877CCC3C4E53DB982 /* Views */,
 			);
 			name = Spectest;
 			path = .;
-			sourceTree = "<group>";
-		};
-		C1A3EE08BC25D6FDB34DB73F /* .swiftpm */ = {
-			isa = PBXGroup;
-			children = (
-				47767A9479B4C480316DCA33 /* xcode */,
-			);
-			path = .swiftpm;
 			sourceTree = "<group>";
 		};
 		E6D8B69EA56EA33171016E9E /* Packages */ = {
@@ -574,6 +643,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					F0BBCD6997B40EF4FD4B4D46 = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = 8065207CF526C963FB85AFB1 /* Build configuration list for PBXProject "Spectest" */;
 			developmentRegion = en;
@@ -603,7 +677,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CC5F498F266B200CA72359A /* BookAntiqua-Regular.ttf in Resources */,
-				4AB344851431E0FA4FD73867 /* Breakpoints_v2.xcbkptlist in Resources */,
 				D6BBE72AA4ED386C59C2070C /* Courier-Regular.ttf in Resources */,
 				0125014855EC30A4E1299380 /* DMSans-Regular.ttf in Resources */,
 				37B05C3DEAE652B9ACB599A7 /* FiraCode-Regular.ttf in Resources */,
@@ -620,8 +693,6 @@
 				62FB853ABEA1F6EF24B77FF3 /* SourceCodePro-Regular.ttf in Resources */,
 				54DE089FFBE183BBAC78F9BA /* SourceSans3-Regular.ttf in Resources */,
 				BA8E45B54B07D5C2FA077AB5 /* SourceSansPro-Regular.ttf in Resources */,
-				1461C3DE21D7C795B67F4E31 /* package.xcworkspace in Resources */,
-				D5C18014F6BF3102F9392848 /* xcschememanagement.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,95 +703,65 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12EB286C64B0ED32291EC1CB /* AccordionView.swift in Sources */,
 				1C4E5EB8BF42C1920866A2D4 /* ActionSheetView.swift in Sources */,
 				F6B4F6FBC5BA4A52034FCBB1 /* ActivityFeedView.swift in Sources */,
 				CE39DE986F29B72CDE3CA23A /* ActivityIconView.swift in Sources */,
-				5CD02FAE2A73506160583878 /* AlertView.swift in Sources */,
 				B896D98F579F57003A5CEA68 /* AnalyticsViewView.swift in Sources */,
 				85677E03595DFF7FA2938F3E /* AppView.swift in Sources */,
-				63084669EE80898490343679 /* BadgeView.swift in Sources */,
-				B6C7D8B9857C7D573505EE91 /* BottomSheetView.swift in Sources */,
 				A6E7749E3B74E95D133DAD85 /* BottomTabBarView.swift in Sources */,
-				2EE27F3A56A1CA3961F4DBE7 /* BreadcrumbView.swift in Sources */,
-				A1A4A8F29D61AC2DB80FCD0F /* ButtonView.swift in Sources */,
-				BF59CC250AC49B2DDAC69FF8 /* CardView.swift in Sources */,
 				313880E9DA18C21B98982D2D /* ChartDemoView.swift in Sources */,
-				9EC0B40A11D3F94024A50D72 /* ChartView.swift in Sources */,
-				D08E4D24DCFE6FEE11595AA8 /* CheckboxView.swift in Sources */,
 				008D836CC0B49FAD255C1001 /* CommandPaletteView.swift in Sources */,
-				E79F862D2D6743E767E2BBA5 /* ConfirmDialogView.swift in Sources */,
 				9C534E62944214D497FE8849 /* CountDisplayView.swift in Sources */,
-				5098611809F661976E9BD3D5 /* DashboardScreen.swift in Sources */,
 				7ED8301A2CAFD995ECA6466F /* DataGridDemoView.swift in Sources */,
-				51B4AE2D04C594D1057C4DF0 /* DataGridSpecView.swift in Sources */,
-				387C6B1B60807C3A35FFA38F /* DatePickerView.swift in Sources */,
 				A4913DDCC9477C5D106D32BD /* DragDemoView.swift in Sources */,
-				6D22C06F458BD920AF3438B6 /* DrawerView.swift in Sources */,
 				B3E455E6D857B0A432DEDB97 /* EditableGridDemoView.swift in Sources */,
-				EE922625ED2C471D864941C0 /* EditableGridSpecView.swift in Sources */,
 				AA2E71C2C35F36066EBF0C25 /* EditableGridTSView.swift in Sources */,
-				D1F6C786D333A18592FE798E /* EmptyStateView.swift in Sources */,
 				44920D4E2357932375A177DE /* FABView.swift in Sources */,
 				97BAF442383994C2355B9451 /* FeatureTestView.swift in Sources */,
 				C54FDBA8E170D9F344F029A2 /* FnHelpers.swift in Sources */,
 				6C0EF08652A1353E31DA7791 /* FormDemoView.swift in Sources */,
-				1473E060D17AB34E1E2079DC /* ImageView.swift in Sources */,
 				C635367606DF4F5F147B3EB4 /* InfoBoxView.swift in Sources */,
 				5580D192E3C51BE8130E74B1 /* KanbanBoardView.swift in Sources */,
+				7E5A3B73FCEF51146A516E10 /* LayoutsDemoView.swift in Sources */,
 				71969F0A0C43631A42AB55C4 /* ListTSView.swift in Sources */,
 				836E50D2933530DD427153B9 /* ListView.swift in Sources */,
 				3106A01651183E2BB7CC9084 /* MobileDemoView.swift in Sources */,
-				9BA8A3653A83FB85FEDE0D7D /* ModalView.swift in Sources */,
-				BC0AEA91BB435A735B584B2B /* MultiSelectView.swift in Sources */,
 				2231DB1D4D6650D67B9A0BFF /* NotificationsPanelView.swift in Sources */,
-				246CF78E1034242FAB07B633 /* PaginationView.swift in Sources */,
+				B7A12D5CE5C4B0E287901E15 /* PackedTabsView.swift in Sources */,
 				7D7E11AB5D47EB0E86425AA6 /* PerfGridView.swift in Sources */,
 				ADB594581BFBC043D37E5D2F /* PerfSignalsView.swift in Sources */,
-				C8AECA471070FC5DDC67F33B /* PopoverView.swift in Sources */,
 				F00670B9DE6426E295938B73 /* PriorityBadgeView.swift in Sources */,
 				B5AE4B8B0688EF6AB8B59E52 /* ProductStatusBadgeView.swift in Sources */,
-				FBAA079506E2D02BB074EFB6 /* ProgressView.swift in Sources */,
-				070D7332754073414D7C9423 /* RadioGroupView.swift in Sources */,
-				D186B7C3ED9C27B8FC6B6B1A /* RadioView.swift in Sources */,
 				963A0F2189BB76E2B3B4119B /* ReactivityPerfView.swift in Sources */,
 				D56C5D4EF1A0DF13B877266D /* RouterAboutView.swift in Sources */,
 				80EC1B2EC4482836B6380580 /* RouterHomeView.swift in Sources */,
 				24DEAE9ADEFADCEF07FA66FA /* RouterNotFoundView.swift in Sources */,
 				2830622D9C0D3C01D55D477B /* RouterUserView.swift in Sources */,
 				3F790FD05FC6C755DCEBC54B /* RoutingDemoView.swift in Sources */,
-				ED801AC44DE38F69EC8EC484 /* SelectView.swift in Sources */,
+				C26DBC2CCCBFC79766E5A1EA /* SKELETON_ROW_HEIGHT.swift in Sources */,
 				E65140DF5C269466DDE66F9E /* SettingsPanelView.swift in Sources */,
 				8CA7C6FF3E1DBA93A69C3789 /* SeverityBadgeView.swift in Sources */,
 				916BB7D71C408947E7F2BFBB /* SidebarView.swift in Sources */,
-				DFB433867373ADE9AD788FF8 /* SkeletonView.swift in Sources */,
-				5696233916EB364E4EA6F11B /* SliderView.swift in Sources */,
-				D84D19198F2E90EBD4DC043D /* SnackbarView.swift in Sources */,
+				9AA012181163912C967A3359 /* SkeletonBlockView.swift in Sources */,
+				3B7D279D614FF7A453213CF7 /* SkeletonCircleView.swift in Sources */,
+				B4D5E2602103CC3A41E14E25 /* SkeletonLineView.swift in Sources */,
 				ECA6DA3686A0D3880E8A376C /* SortableView.swift in Sources */,
 				9987BEE3D217FD582928815E /* SpectestApp.swift in Sources */,
 				E4BB5011523742F9CE46ACA9 /* SplitRowView.swift in Sources */,
-				A5E53D06F0D1E7C50C842480 /* StackView.swift in Sources */,
-				92D34E8D2E607187D144BF27 /* StatView.swift in Sources */,
 				A408085C3D2C075EB6326F35 /* StatsBarView.swift in Sources */,
 				C49177CBA124D29DADF44B24 /* StatusBadgeView.swift in Sources */,
 				E1B3C8EFD9C78B08F1B96F2F /* StepperView.swift in Sources */,
 				6DB3BDAB1C8318BFC85FCCA5 /* TableView.swift in Sources */,
-				7DACEF28255F056FE34BDDF0 /* TabsView.swift in Sources */,
+				5304D4C8227417DC66672304 /* TabsItemView.swift in Sources */,
 				5B15076DC78B5CEA353A9E04 /* TaskDetailView.swift in Sources */,
 				3E265E8A225687255F19B882 /* TaskFormView.swift in Sources */,
 				BFD08313DC41FA1DB6070F93 /* TaskTableView.swift in Sources */,
 				02A58327C3AF20B86A58406D /* TaskWizardView.swift in Sources */,
 				629909E05E574BEA5590146E /* TeamDirectoryView.swift in Sources */,
-				37A771426E77CD7363ACD3CE /* TextInputView.swift in Sources */,
-				517852B2E870B488A452A261 /* TextView.swift in Sources */,
 				F7EF5E664DA4938E8E715DDA /* ThemeBuilderView.swift in Sources */,
 				6D451EFC0313A413B4143922 /* ThemePreviewView.swift in Sources */,
 				E6C53779CC3B7B7D5079436B /* ThemeRegistry.swift in Sources */,
 				5F592F03EA4BFB08B5F0C001 /* TimePickerView.swift in Sources */,
-				5A189FB77185BF6F815A6E8E /* TimelineView.swift in Sources */,
-				7DEBC6745573283B441D11D8 /* ToastView.swift in Sources */,
-				C4122890EFCD9637BCA1CA55 /* ToggleView.swift in Sources */,
-				EC5AC5347D56973FC410B718 /* TooltipView.swift in Sources */,
 				7A18C0C3F79767186ADA6277 /* TreeDemoView.swift in Sources */,
 				47772DA75150DE09D56E3CB6 /* TreeNodeView.swift in Sources */,
 				DA2A301798F898EBC1860E99 /* TreeView.swift in Sources */,
@@ -735,17 +776,89 @@
 				C7938779B81CB63EC8A9802C /* _buildCellKey.swift in Sources */,
 				386CDEFC02F71765B89E7C28 /* _defaultColor.swift in Sources */,
 				0C637155718A023E9092F095 /* _parseTSV.swift in Sources */,
+				5995F48ABEA699E6AD274FA5 /* _sliceColor.swift in Sources */,
 				175E821E996E80B5D714CCE3 /* _splitCellKey.swift in Sources */,
+				E043A674628A257CF18607FC /* _stepDone.swift in Sources */,
+				1D800B231B07CFDEED5903E1 /* _stepMark.swift in Sources */,
+				247FBF889D164E9EBA0C6ED7 /* _stepName.swift in Sources */,
+				3D1AF6349400097747BEF6FD /* _stepState.swift in Sources */,
+				7136CD4E882056A8541DDE7B /* _tabCells.swift in Sources */,
+				C8442019AA84BB5AE373E21E /* _tabIndexOfId.swift in Sources */,
+				E1F4BBE734C507DB4CB75A6B /* _tabWrap.swift in Sources */,
 				5F1DEFDF461E0047DDA41BD4 /* applySortAndFilter.swift in Sources */,
 				EA62EEA21C454EA29F28642F /* applyUndoChanges.swift in Sources */,
 				C95FEB9F0BDB4865713871E5 /* buildChangesetFromEdits.swift in Sources */,
 				5D862DED911B1977AFF9B108 /* computeFillDown.swift in Sources */,
 				7287B83B5FD5E889FA9C93E8 /* computePaste.swift in Sources */,
+				A9C2F58CE5D8D9F2CDA437A3 /* egColHeading.swift in Sources */,
+				F8076BF12A487107DA214CAD /* egCssLength.swift in Sources */,
+				488EDBE35CC7089F817AF207 /* egSizedColumn.swift in Sources */,
+				E345CEE142A4BD05A39CB8FA /* egSizedColumns.swift in Sources */,
 				B30F7BDBF76EA0237737961E /* getCellDisplayValue.swift in Sources */,
 				B34311AEBAC112FE7253A4AE /* getRowChanges.swift in Sources */,
+				B9D18EC1ADA399825073381B /* gridAbsIdx.swift in Sources */,
+				5098D508B51360C07F3E7C84 /* gridAnyFailed.swift in Sources */,
+				8A9CDB8B628F6EC8B6881817 /* gridApplyColumnOrder.swift in Sources */,
+				BFAED755917601311B87BCA2 /* gridBlockFailed.swift in Sources */,
+				A369335D528AED2C4A7AD29D /* gridBlockMsgSlot.swift in Sources */,
+				758D8A8BC429BE6FE4B96FB6 /* gridBlockOf.swift in Sources */,
+				A8D774F74A20B60E7D917DB7 /* gridBodyKey.swift in Sources */,
+				38286176FB9FE1B380EE6379 /* gridBodyRows.swift in Sources */,
+				F61E432BC376398F3D68430D /* gridBracketPx.swift in Sources */,
+				56D48A6EE5CA87C6E461C5A4 /* gridColMax.swift in Sources */,
+				9C606429A6C3E3867D1AA088 /* gridColMin.swift in Sources */,
+				1EEDE7585A71C662AB2ECF63 /* gridColWeight.swift in Sources */,
+				E1B9FDAA6286543639622050 /* gridCssLength.swift in Sources */,
+				632CC595CD2F779236A32CDB /* gridDerivedIsOpen.swift in Sources */,
+				7724EC78DE0D1A63742D858A /* gridFirstFocus.swift in Sources */,
+				F1872D81B95DA215093E1D4C /* gridFocusedRow.swift in Sources */,
+				3F76D9D960A0B0C024EDF9B5 /* gridGroupIsOpen.swift in Sources */,
+				9EF1CCF090492861A898AEAA /* gridGroupSize.swift in Sources */,
+				15484245064DD021620A9125 /* gridHasStructuralRows.swift in Sources */,
+				1BB58B862D0931133AEF14E3 /* gridIsDerivedGroup.swift in Sources */,
+				92B745CA9C5960611694273B /* gridIsWeighted.swift in Sources */,
+				59A9E67B075109F509148C5F /* gridKeyFromField.swift in Sources */,
+				9D317D5BD500EBE3227F50FD /* gridKeysUsable.swift in Sources */,
+				2B5E7519B8CA2BEAE8211A30 /* gridLenIsKeyword.swift in Sources */,
+				1892D01C2536D6929954DB79 /* gridLenPct.swift in Sources */,
+				58C88375B7AE04363BE5089A /* gridLenPx.swift in Sources */,
+				CC4A7471A5195DDB76678BD9 /* gridLengthSum.swift in Sources */,
+				A7B5557BA788297DE132D59D /* gridNonPct.swift in Sources */,
+				956CB33AB7B35CCC733DE31D /* gridPadX.swift in Sources */,
+				E7824FCEAAB4E0035A163BBD /* gridPctShare.swift in Sources */,
+				41B8DAD663F2E366DAB84259 /* gridPctSized.swift in Sources */,
+				D54C1B159BDF1DE2F8D00112 /* gridPctTotal.swift in Sources */,
+				29191BACF9E3B954855496BB /* gridRowBg.swift in Sources */,
+				1C785A6A5C0A397EAF02B19A /* gridRowBgOf.swift in Sources */,
+				CECA944C126C5336C176AC3C /* gridRowChecked.swift in Sources */,
+				46A2B1390BAA458695E9CF78 /* gridRowIsExpanded.swift in Sources */,
+				B26476BCAE3E39C3F3AE78EA /* gridRowKind.swift in Sources */,
+				1FE96BE97B4F34D6B81FD970 /* gridRowOpacity.swift in Sources */,
+				DFAD062A37AABB79D2D7B057 /* gridRowRail.swift in Sources */,
+				58086A441A96E94CD7BE1279 /* gridRulePx.swift in Sources */,
+				B13A25F3333D68C5A9E37873 /* gridSegMax.swift in Sources */,
+				47FD487C38E39D5FEEB8D31E /* gridSegMin.swift in Sources */,
+				2B471F2863F19B08DA6D104E /* gridSegRunIds.swift in Sources */,
+				25909A69D9AF8CE75F59C93E /* gridSegSizedCols.swift in Sources */,
+				2C0937B6F53BDBF0698B4951 /* gridSegWeighCols.swift in Sources */,
+				8AB9432299B5C32000CC92A7 /* gridSegWeighMin.swift in Sources */,
+				635C22E8D87F7895330E53CD /* gridSegmentsOf.swift in Sources */,
+				0D87291108EABD2AD6294359 /* gridSizedCols.swift in Sources */,
+				2C7F598A3571BF07FB548C87 /* gridToggleExpanded.swift in Sources */,
+				2ADA0B5D4375005FC157608B /* gridToggleGroup.swift in Sources */,
+				A5A93944E350C26986E40B8D /* gridTrackMin.swift in Sources */,
+				3EF6758FFA4BE66A07677639 /* gridUnionKeys.swift in Sources */,
+				960FEF9DFDB46F67A9AAF3E7 /* gridVisibleDerivedRows.swift in Sources */,
+				7E57DF6CCF36C86240E660EF /* gridVisibleRows.swift in Sources */,
+				E5AD531748C3DD7373CFA337 /* gridWeighCols.swift in Sources */,
+				B6064A2ECC05B7692F8A22B5 /* gridWeighExtra.swift in Sources */,
+				DB2CB6822B880687E3372DCF /* gridWeightedMin.swift in Sources */,
+				BF2654FD0F087073B411CD42 /* gridWinDisplayRows.swift in Sources */,
+				21207F683600F6F4B4DC329B /* gridWithMin.swift in Sources */,
 				F5C717BBC40B09648562FE67 /* pushUndoEntry.swift in Sources */,
 				F5B289E6BE1443604DF879BF /* resolveSegmentMeta.swift in Sources */,
 				495CB000EC8DAEE825791964 /* resolveSeries.swift in Sources */,
+				EE76B82D409750E97447F8E0 /* skeletonTextLines.swift in Sources */,
 				6C81E68178B70BBAAEE7D51F /* toggleSortState.swift in Sources */,
 				3EF2363C685CA9F1ED82211E /* validateCell.swift in Sources */,
 				5934940D7C8375B751EC7BE6 /* wrapIndex.swift in Sources */,

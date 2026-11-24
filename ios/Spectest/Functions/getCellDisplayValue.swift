@@ -1,4 +1,6 @@
-func getCellDisplayValue(_ rowIdx: Any, _ colIdx: Any, _ visibleColumns: Any, _ rows: Any, _ rowIdField: Any, _ editedValues: Any) -> Any? {
+import Foundation
+
+func getCellDisplayValue(_ rowIdx: Any = Optional<Any>.none as Any, _ colIdx: Any = Optional<Any>.none as Any, _ visibleColumns: Any = Optional<Any>.none as Any, _ rows: Any = Optional<Any>.none as Any, _ rowIdField: Any = Optional<Any>.none as Any, _ editedValues: Any = Optional<Any>.none as Any) -> Any? {
   let rowIdx = specDouble(rowIdx)
   let colIdx = specDouble(colIdx)
   let visibleColumns = specArr(visibleColumns)
@@ -14,12 +16,12 @@ func getCellDisplayValue(_ rowIdx: Any, _ colIdx: Any, _ visibleColumns: Any, _ 
   var row: Any = rows[Int(rowIdx)]
   var col: Any = visibleColumns[Int(colIdx)]
   var ck: Any = _buildCellKey(specGet(row, rowIdField), specGet(col, "key"))
-  var edited: Any = editedValues.first(where: { { e in (String(describing: specGet(e, "key")) == String(describing: ck)) }($0) as! Bool })
-  if edited != nil {
-    return String(describing: specGet(edited, "value"))
+  var edited: Any = editedValues.first(where: { specTruthy({ (e) in specEq(specGet(e, "key"), ck) }($0)) })
+  if !specIsNil(edited) {
+    return specString(specGet(edited, "value"))
   }
-  if specGet(row, specGet(col, "key")) != nil {
-    return String(describing: specGet(row, specGet(col, "key")))
+  if !specIsNil(specGet(row, specGet(col, "key"))) {
+    return specString(specGet(row, specGet(col, "key")))
   }
   return ""
 }

@@ -1,4 +1,6 @@
-func applyUndoChanges(_ direction: Any, _ changes: Any, _ editedValues: Any, _ dirtyCells: Any, _ rows: Any, _ rowIdField: Any) -> Any? {
+import Foundation
+
+func applyUndoChanges(_ direction: Any = Optional<Any>.none as Any, _ changes: Any = Optional<Any>.none as Any, _ editedValues: Any = Optional<Any>.none as Any, _ dirtyCells: Any = Optional<Any>.none as Any, _ rows: Any = Optional<Any>.none as Any, _ rowIdField: Any = Optional<Any>.none as Any) -> Any? {
   let direction = specString(direction)
   let changes = specArr(changes)
   let editedValues = specArr(editedValues)
@@ -12,18 +14,18 @@ func applyUndoChanges(_ direction: Any, _ changes: Any, _ editedValues: Any, _ d
     var parts: Any = _splitCellKey(specGet(change, "key"))
     var rowId: Any = specGet(parts, 0.0)
     var colKey: Any = specGet(parts, 1.0)
-    var row: Any = rows.first(where: { { r in (String(describing: String(describing: specGet(r, rowIdField))) == String(describing: rowId)) }($0) as! Bool })
+    var row: Any = rows.first(where: { specTruthy({ (r) in specEq(specString(specGet(r, rowIdField)), rowId) }($0)) })
     var originalStr: Any = ("" as Any)
-    if (row != nil && specGet(row, colKey) != nil) {
-      originalStr = (String(describing: specGet(row, colKey)) as Any)
+    if (!specIsNil(row) && !specIsNil(specGet(row, colKey))) {
+      originalStr = (specString(specGet(row, colKey)) as Any)
     }
-    if (String(describing: targetValue) == String(describing: originalStr)) {
-      ev = ((ev as! [Any]).filter { { e in (String(describing: specGet(e, "key")) != String(describing: specGet(change, "key"))) }($0) as! Bool } as Any)
-      dc = ((dc as! [Any]).filter { { k in (String(describing: k) != String(describing: specGet(change, "key"))) }($0) as! Bool } as Any)
+    if specEq(targetValue, originalStr) {
+      ev = (specArr(ev).filter { specTruthy({ (e) in specNeq(specGet(e, "key"), specGet(change, "key")) }($0)) } as Any)
+      dc = (specArr(dc).filter { specTruthy({ (k) in specNeq(k, specGet(change, "key")) }($0)) } as Any)
     } else {
-      ev = ((ev as! [Any]).filter { { e in (String(describing: specGet(e, "key")) != String(describing: specGet(change, "key"))) }($0) as! Bool } + [["key": specGet(change, "key"), "value": targetValue]] as [Any] as Any)
-      if !specIncludes(dc, specGet(change, "key")) {
-        dc = ((dc as! [Any]) + [specGet(change, "key")] as [Any] as Any)
+      ev = (specConcat(specArr(ev).filter { specTruthy({ (e) in specNeq(specGet(e, "key"), specGet(change, "key")) }($0)) }, ([["key": specGet(change, "key"), "value": targetValue] as Any] as [Any])) as Any)
+      if !(specIncludes(dc, specGet(change, "key"))) {
+        dc = specConcatValue(dc, ([specGet(change, "key")] as [Any]))
       }
     }
   }

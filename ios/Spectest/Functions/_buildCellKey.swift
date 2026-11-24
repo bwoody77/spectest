@@ -1,4 +1,6 @@
-func _buildCellKey(_ rowId: Any, _ colKey: Any) -> Any? {
+import Foundation
+
+func _buildCellKey(_ rowId: Any = Optional<Any>.none as Any, _ colKey: Any = Optional<Any>.none as Any) -> Any? {
   let colKey = specString(colKey)
-  return ((String(describing: rowId) + "::") + colKey)
+  return ((specString(rowId) + "::") + colKey)
 }

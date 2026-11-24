@@ -17,6 +17,7 @@ targets:
           - project.yml
           - Info.plist
           - "*.xcodeproj"
+          - ".swiftpm"
     dependencies:
       - package: SpecRuntime
     info:

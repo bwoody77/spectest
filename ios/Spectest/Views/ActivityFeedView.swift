@@ -2,9 +2,10 @@ import SwiftUI
 import SpecRuntime
 
 @Observable
+@MainActor
 final class ActivityFeedViewModel {
   var typeFilter: Any = "all"
-  var allActivity: Any { (activityItems != nil ? activityItems : [] as [Any]) }
+  var allActivity: Any { (!specIsNil(activityItems) ? activityItems : [] as [Any]) }
   var filteredActivity: Any { (specEq(typeFilter, "all") ? allActivity : specFilter(allActivity, { (a: Any) -> Bool in return specEq(specGet(a, "type"), typeFilter) })) }
   var activityCount: Any { "\(specString(specLength(filteredActivity))) events" }
   var hasNoActivity: Any { specEq(specLength(filteredActivity), 0) }
@@ -17,11 +18,13 @@ default: return "active"
   var activityItems: Any? { activityItemsSource.data }
   var activityItemsLoading: Bool { activityItemsSource.loading }
   var activityItemsError: String? { activityItemsSource.error }
+  var activityItemsErrorBody: Any? { activityItemsSource.errorBody }
   func setTypeFilter(_ v: Any) {
     typeFilter = v
   }
-  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
+  @ObservationIgnored var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)?
   func dispatch(_ event: Any, _ payload: Any? = nil) { onDispatch?(event, payload) }
+  func _specTakeDispatch(_ f: ((_ event: Any, _ payload: Any?) -> Void)?) { onDispatch = f }
   func loadSources() async {
     await activityItemsSource.fetch()
   }
@@ -29,20 +32,22 @@ default: return "active"
 
 struct ActivityFeedView: View {
   @State private var vm = ActivityFeedViewModel()
+  var onDispatch: ((_ event: Any, _ payload: Any?) -> Void)? = nil
+  init(onDispatch: ((_ event: Any, _ payload: Any?) -> Void)? = nil) { let _m = ActivityFeedViewModel(); _m.onDispatch = onDispatch; self._vm = State(initialValue: _m); self.onDispatch = onDispatch }
   var body: some View {
-    VStack(spacing: ThemeManager.shared.size("spacing-5")) {
-      HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
+    let _ = vm._specTakeDispatch(onDispatch)
+    VStack(alignment: .leading, spacing: specPx(ThemeManager.shared.rawToken("spacing-5"))) {
+      HStack(alignment: .center, spacing: specPx(ThemeManager.shared.rawToken("spacing-3"))) {
         Image(systemName: specIconName(specString("clock")))
-          .font(.system(size: specPx(ThemeManager.shared.resolve("icon-md"))))
+          .font(.system(size: specPx(ThemeManager.shared.rawToken("icon-md"))))
           .foregroundStyle(ThemeManager.shared.color("interactive"))
         Text(verbatim: specString("Activity Feed"))
-          .font(.title2.bold())
-        Spacer(minLength: 0)
+          .font(.largeTitle)
+          .fontWeight(specFontWeight(ThemeManager.shared.resolve("type-heading-lg-fontWeight")))
       }
-      .frame(maxWidth: .infinity)
 
       VStack(alignment: .leading) {
-        HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
+        HStack(alignment: .center, spacing: specPx(ThemeManager.shared.rawToken("spacing-2"))) {
           Text(specString(vm.activityCount))
             .font(.caption.weight(.medium))
             .padding(.horizontal, 8)
@@ -57,10 +62,13 @@ struct ActivityFeedView: View {
           }
           .pickerStyle(.segmented)
         }
-        .padding(ThemeManager.shared.size("spacing-3"))
+        .padding(specPx(ThemeManager.shared.rawToken("spacing-3")))
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(specString("Activity filters"))
       }
       .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
+      if (vm.activityItemsLoading) as? Bool ?? false {
+      VStack(alignment: .leading, spacing: specPx(ThemeManager.shared.rawToken("spacing-3"))) {
         if (vm.activityItemsLoading) as? Bool ?? false {
           RoundedRectangle(cornerRadius: 8)
             .fill(Color(.tertiarySystemGroupedBackground))
@@ -81,7 +89,9 @@ struct ActivityFeedView: View {
         }
       }
 
-      VStack() {
+      }
+      if (vm.activityItemsError) as? Bool ?? false {
+      VStack(alignment: .leading, spacing: 0) {
         if (vm.activityItemsError) as? Bool ?? false {
           HStack(alignment: .top, spacing: 12) {
             Image(systemName: specAlertIcon(specString("error")))
@@ -97,14 +107,18 @@ struct ActivityFeedView: View {
         }
       }
 
-      VStack() {
+      }
+      if (vm.hasNoActivity) as? Bool ?? false {
+      VStack(alignment: .leading, spacing: 0) {
         if (vm.hasNoActivity) as? Bool ?? false {
           ContentUnavailableView(specString("No Activity"), systemImage: "tray", description: Text(specString("No activity events match your current filter.")))
             .frame(height: 200)
         }
       }
 
-      VStack() {
+      }
+      if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
+      VStack(alignment: .leading, spacing: 0) {
         if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
           VStack(alignment: .leading, spacing: 0) {
             ForEach(Array((vm.timelineItems as? [Any] ?? []).enumerated()), id: \.offset) { idx, item in
@@ -126,47 +140,50 @@ struct ActivityFeedView: View {
         }
       }
 
-      VStack(spacing: ThemeManager.shared.size("spacing-3")) {
-        if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
-          ForEach(Array(specArr(vm.filteredActivity).enumerated()), id: \.offset) { idx, item in
-            HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-3")) {
-              ActivityIconView(activityType: specGet(item, "type"))
-              VStack(spacing: ThemeManager.shared.size("spacing-1")) {
-                HStack(alignment: .center, spacing: ThemeManager.shared.size("spacing-2")) {
-                  Text(verbatim: specString(specGet(item, "user")))
-                    .font(.body.bold())
-                  Spacer(minLength: 0)
-                  Text(specString(specGet(item, "type")))
-                    .font(.caption.weight(.medium))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .foregroundStyle(specBadgeForeground(specString("neutral")))
-                    .background(specBadgeBackground(specString("neutral")), in: Capsule())
-                }
-                .frame(maxWidth: .infinity)
-
-                Text(verbatim: specString(specGet(item, "detail")))
-                  .font(.callout.bold())
-                Text(verbatim: specString(specGet(item, "timestamp")))
-                  .font(.body.bold())
-                  .foregroundStyle(ThemeManager.shared.color("text-secondary"))
+      }
+      if ((!((vm.activityItemsLoading) as? Bool ?? false))) as? Bool ?? false {
+      VStack(alignment: .leading, spacing: specPx(ThemeManager.shared.rawToken("spacing-3"))) {
+        ForEach(Array(specArr(vm.filteredActivity).enumerated()), id: \.offset) { idx, item in
+          HStack(alignment: .center, spacing: specPx(ThemeManager.shared.rawToken("spacing-3"))) {
+            ActivityIconView(activityType: specGet(item, "type"))
+            VStack(alignment: .leading, spacing: specPx(ThemeManager.shared.rawToken("spacing-1"))) {
+              HStack(alignment: .center, spacing: specPx(ThemeManager.shared.rawToken("spacing-2"))) {
+                Text(verbatim: specString(specGet(item, "user")))
+                  .font(.body.weight(.semibold))
+                Text(specString(specGet(item, "type")))
+                  .font(.caption.weight(.medium))
+                  .padding(.horizontal, 8)
+                  .padding(.vertical, 4)
+                  .foregroundStyle(specBadgeForeground(specString("neutral")))
+                  .background(specBadgeBackground(specString("neutral")), in: Capsule())
               }
 
-              Spacer(minLength: 0)
+              Text(verbatim: specString(specGet(item, "detail")))
+                .font(.footnote)
+                .fontWeight(specFontWeight(ThemeManager.shared.resolve("type-body-sm-fontWeight")))
+              Text(verbatim: specString(specGet(item, "timestamp")))
+                .font(.footnote)
+                .fontWeight(specFontWeight(ThemeManager.shared.resolve("type-mono-sm-fontWeight")))
+                .monospacedDigit()
+                .foregroundStyle(ThemeManager.shared.color("text-secondary"))
             }
-            .frame(maxWidth: .infinity)
-            .padding(ThemeManager.shared.size("spacing-3"))
-            .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: ThemeManager.shared.size("radius-md")))
-            .hoverEffect(.highlight)
+
           }
+          .padding(specPx(ThemeManager.shared.rawToken("spacing-3")))
+          .frame(maxWidth: .infinity, alignment: .center)
+          .background(ThemeManager.shared.color("surface-raised"), in: RoundedRectangle(cornerRadius: specPx(ThemeManager.shared.rawToken("radius-md"))))
+          .clipShape(RoundedRectangle(cornerRadius: specPx(ThemeManager.shared.rawToken("radius-md"))))
+          .specBoxShadow(ThemeManager.shared.rawToken("elevation-raised"), radius: specPx(ThemeManager.shared.rawToken("radius-md")))
+          .hoverEffect(.highlight)
         }
       }
 
+      }
     }
     .foregroundStyle(ThemeManager.shared.color("text-primary"))
     .environment(\.font, ThemeManager.shared.themeFont())
     .fontDesign(ThemeManager.shared.fontDesign())
     .task { await vm.loadSources() }
-    .refreshable { await vm.loadSources() }
+    .onAppear { vm.onDispatch = onDispatch }
   }
 }

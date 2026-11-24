@@ -13,7 +13,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
   case activity, notifications
   case perfgrid, perfsignals, reactivityperf
   case themepreview
-  case charts, drag, formdemo, routing, mobiledemo
+  case charts, drag, formdemo, routing, mobiledemo, layouts
   case featuretest
   case settings
 
@@ -41,6 +41,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .formdemo: return "Form Validation"
     case .routing: return "Routing"
     case .mobiledemo: return "Mobile Demo"
+    case .layouts: return "Layout Packages"
     case .featuretest: return "Feature Test (P1-P8)"
     case .settings: return "Settings"
     }
@@ -68,6 +69,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
     case .formdemo: return "pencil.and.list.clipboard"
     case .routing: return "arrow.triangle.branch"
     case .mobiledemo: return "iphone"
+    case .layouts: return "tablecells.fill"
     case .featuretest: return "checkmark.seal.fill"
     case .settings: return "gearshape.fill"
     }
@@ -82,7 +84,7 @@ enum NavDestination: String, CaseIterable, Identifiable {
       ("Monitoring", [.activity, .notifications]),
       ("Performance", [.perfgrid, .perfsignals, .reactivityperf]),
       ("Design", [.themepreview]),
-      ("Components", [.charts, .drag, .formdemo, .routing, .mobiledemo]),
+      ("Components", [.charts, .drag, .formdemo, .routing, .mobiledemo, .layouts]),
       ("Testing", [.featuretest]),
       ("System", [.settings]),
     ]
@@ -156,6 +158,7 @@ struct ContentDestinationView: View {
     case .formdemo: FormDemoView()
     case .routing: RoutingDemoView()
     case .mobiledemo: MobileDemoView()
+    case .layouts: LayoutsDemoView()
     case .featuretest: FeatureTestView()
     case .settings: SettingsPanelView()
     }
@@ -236,6 +239,7 @@ private let moreDestinations: [NavDestination] = [
   .formdemo,
   .routing,
   .mobiledemo,
+  .layouts,
   .featuretest,
   .settings,
 ]
