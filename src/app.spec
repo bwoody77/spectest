@@ -52,8 +52,8 @@
 @import { FeatureTest } from "./surfaces/feature-test.spec"
 @import { MobileDemo } from "./surfaces/mobile-demo.spec"
 @import { LayoutsDemo } from "./surfaces/layouts-demo.spec"
-// @import { PerfGrid } from "./surfaces/perf-grid.spec"
-// @import { PerfSignals } from "./surfaces/perf-signals.spec"
+@import { PerfGrid } from "./surfaces/perf-grid.spec"
+@import { PerfSignals } from "./surfaces/perf-signals.spec"
 
 // Internationalization
 @i18n {
@@ -90,8 +90,8 @@
       {id: "notifications", label: "Notifications", icon: "bell", surface: NotificationsPanel}
     ]},
     {heading: "Performance", items: [
-      {id: "perfgrid", label: "Grid 10K", icon: "zap"},
-      {id: "perfsignals", label: "Signal Test", icon: "activity"},
+      {id: "perfgrid", label: "Grid 10K", icon: "zap", surface: PerfGrid},
+      {id: "perfsignals", label: "Signal Test", icon: "activity", surface: PerfSignals},
       {id: "reactivityperf", label: "Reactivity Perf", icon: "zap", surface: ReactivityPerf}
     ]},
     {heading: "Design", items: [
