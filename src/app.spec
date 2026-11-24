@@ -565,7 +565,7 @@ surface App {
         layout: horizontal, gap: spacing.2
         textInput(builderSaveName) {
           placeholder: 'Theme name to save as...'
-          on change(value): { setBuilderSaveName(value) }
+          on change(value): { setBuilderSaveName(value.target.value) }
         }
         Button(label: 'Save', variant: 'primary', disabled: builderSaveName == '') {
           on click: saveBuilderTheme()

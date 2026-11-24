@@ -109,7 +109,7 @@ default: return "Overview"
   var showFormValidation: Any { specEq(view, "formdemo") }
   var showLayoutPackages: Any { specEq(view, "layouts") }
   var showFeatureTestP1P8: Any { specEq(view, "featuretest") }
-  let statsSource = DataSource(endpoint: "http://localhost:4500/api/stats", method: "GET")
+  let statsSource = DataSource(endpoint: "http://localhost:4500/api/stats", method: "GET", cacheTtl: 60)
   var stats: Any? { statsSource.data }
   var statsLoading: Bool { statsSource.loading }
   var statsError: String? { statsSource.error }
